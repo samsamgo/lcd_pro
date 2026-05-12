@@ -475,8 +475,7 @@ set
   file_size_limit = 20971520,
   allowed_mime_types = array['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/heif'];
 
--- Storage objects RLS 활성화 (기본값이지만 명시)
-alter table storage.objects enable row level security;
+-- storage.objects RLS는 Supabase가 기본 활성화 — 별도 alter 불필요
 
 -- 기존 정책 제거 후 재생성
 drop policy if exists "quote_photos_server_only" on storage.objects;
