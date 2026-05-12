@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body { @apply antialiased; }
+  ::selection { @apply bg-blue-600/30; }
+}
+
+@layer utilities {
+  .glass { @apply bg-white/[0.03] border border-white/[0.08]; }
+  .badge { @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium; }
+}
