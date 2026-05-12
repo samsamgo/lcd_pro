@@ -1,6 +1,4 @@
 {
   "buildCommand": "turbo run build --filter=@lcd-pro/web",
-  "outputDirectory": "apps/web/.next",
-  "framework": "nextjs",
   "installCommand": "pnpm install"
 }
