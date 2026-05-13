@@ -5,7 +5,7 @@
 
 ---
 
-## 마지막 업데이트: 2026-05-12
+## 마지막 업데이트: 2026-05-13
 
 ---
 
@@ -30,32 +30,39 @@ Vercel: 배포 완료 (CI/CD: GitHub Actions → Vercel)
   - `packages/ui`, `packages/config`
 - [x] GitHub Actions → Vercel CI/CD 자동 배포
 - [x] `turbo.json` v2 형식 (tasks 필드)
-- [x] `vercel.json` 최소화 (buildCommand + installCommand만)
 
 ### DB (Supabase)
 - [x] `supabase/migrations/001_initial_schema.sql` — 11개 테이블, RLS, 시드 데이터
 - [x] `supabase/migrations/002_storage_setup.sql` — quote-photos 버킷 (private, 20MB)
-- [x] `supabase/setup_all.sql` — 위 두 파일 합본 (SQL Editor용)
 - [x] TypeScript 타입 스텁 (`packages/db/src/types.gen.ts`)
-  - 주의: `Relationships: []` 필드 필수 (없으면 `never` 타입 추론됨)
+  - 주의: `Relationships: []` 비어 있어 `.select('a, customers (*)')` join 결과가 SelectQueryError로 추론됨 → 페이지에서 `as any` 캐스팅 후 클라이언트 컴포넌트에 명시 타입 부여
 
-### 앱/기능
+### 앱/기능 (web)
 - [x] 랜딩 페이지 9개 섹션
-- [x] 4단계 견적 마법사 (QuoteWizard + 3개 Step 컴포넌트)
+- [x] 4단계 견적 마법사
 - [x] 견적 API (`/api/quotes` POST) — 고객 upsert + 견적 저장 + 사진 업로드
-- [x] 관리자 견적 목록/상태 관리
-- [x] SKU 추천 로직 + 마진 계산기 (30% 미달 차단)
 - [x] 카카오 BizTalk + 알리고 SMS 이중 알림
 - [x] sitemap, robots.txt, 개인정보처리방침
 
+### 앱/기능 (admin) — MVP2 진행분 (2026-05-13)
+- [x] 대시보드 (통계 카드 + 최근 견적 5건)
+- [x] 견적 관리 (`/quotes`) — 목록 + 상세 + 상태 변경 + 마진 30% 차단
+- [x] **견적 상세 사진 미리보기** — service_role로 quote-photos signed URL(1h) 발급 → 썸네일 그리드 + 라이트박스(좌우/Esc 키, 원본 다운로드)
+- [x] **파트너(인스톨러) 관리** (`/installers`) — 목록/필터/모달 추가·수정/삭제, 진행 프로젝트 카운트, 진행 중 프로젝트 있으면 삭제 409 차단
+- [x] **설치 프로젝트 관리** (`/projects`) — 인라인 일정/인스톨러/상태 편집, 월별 캘린더 뷰, 지연 일정 자동 강조
+- [x] **견적 contracted → 프로젝트 자동 생성** — `/api/quotes/[id]` PATCH에서 멱등 insert (quote_id unique), AS 예비비 = estimate_max × 5%
+- [x] **API 화이트리스트** — `/api/projects/[id]`, `/api/installers/*` 허용 키만 수용
+
+### 결제 인프라 (Toss) — 2026-05-13
+- [x] `supabase/migrations/003_billing_history.sql` — payment_key UNIQUE 멱등 보장, RLS 차단(service_role only), raw_payload 보존
+- [x] `apps/web/src/lib/toss.ts` — issueBillingKey / executePayment / cancelPayment + 키 prefix로 환경 자동 분기
+- [x] `apps/web/src/app/api/billing/webhook/route.ts` — PAYMENT_STATUS_CHANGED 수신, 옵셔널 서명 검증(HMAC-SHA256), payment_key UPSERT 멱등, subscription 상태 자동 동기화
+- [x] orderId 컨벤션: `sub_<subscriptionId>_<yyyymm>` — 정기결제 시 발급
+
+> 미구현: 카드 등록 UI(Task #7), Cron(Task #8). 운영 전 라이브 정기결제 MID 별도 계약 승인 필요.
+
 ### 에이전트 시스템
-- [x] `agents/README.md` — 시스템 개요
-- [x] `agents/prompts/claude.md` — Claude 역할 정의
-- [x] `agents/prompts/gpt.md` — GPT Agent 역할 정의
-- [x] `agents/prompts/orchestrator.md` — 사용자 운영 가이드
-- [x] `agents/protocol/handoff.md` — 에이전트 간 인계 포맷
-- [x] `agents/protocol/task_types.md` — 작업 라우팅 테이블
-- [x] `agents/protocol/escalation.md` — 막혔을 때 처리 규칙
+- [x] `agents/README.md`, `prompts/*`, `protocol/*`, `context/CURRENT.md`
 
 ---
 
@@ -65,27 +72,24 @@ Vercel: 배포 완료 (CI/CD: GitHub Actions → Vercel)
 - **할 것**: `supabase/setup_all.sql` 내용을 SQL Editor에서 실행
 - **URL**: https://supabase.com/dashboard/project/ktctppxsjtezzgzzywbz/sql/new
 - **확인**: `node scripts/run-migration.mjs` 실행 시 테이블 목록 출력되면 성공
-- **참고**: 42501 에러 원인이었던 `alter table storage.objects` 줄은 이미 제거됨
+- DB 미실행 상태에서도 admin UI는 빌드되고 동작은 됨 (런타임에 빈 결과 반환)
+
+### GPT 결과 도착 ✓
+- `[CLAUDE_RESULT id=T-TOSS-001]` — `agents/context/gpt_results/2026-05-13.md` 에 보존, Toss 인프라(클라이언트+웹훅) 반영 완료
+- `[CLAUDE_RESULT id=T-KAKAO-001]` — 동일 파일에 보존, 코드 변경 없음 (운영 문서)
 
 ---
 
-## 다음 개발 우선순위 (MVP 2)
+## 다음 개발 우선순위 (MVP 2 잔여)
 
-1. **Admin 견적 상세 — 사진 미리보기** (Supabase Storage signed URL)
-   - `apps/admin/src/app/quotes/[id]/QuoteDetailClient.tsx` 수정
-   - `/api/admin/photos/[path]` route 추가 (service_role signed URL 발급)
-
-2. **파트너(인스톨러) 관리 페이지**
-   - `partners` 테이블 이미 스키마에 있음
-   - `apps/admin/src/app/partners/` 페이지 생성
-
-3. **프로젝트 설치 일정 관리**
-   - `installation_schedules` 테이블 추가 마이그레이션 필요
-
-4. **Toss Payments 구독 결제 연동**
-   - 빌링키 발급 → 월간 자동 결제 (CMS 9만원/월)
-
-5. **CMS 디바이스 모니터링** (MVP 3)
+1. **Toss 카드 등록 UI + 빌링키 발급 흐름** (Task #7)
+   - Toss SDK 위젯으로 authKey 토큰화 → `/api/billing/issue` → subscriptions 저장 + 첫 결제
+   - apps/web에 고객용 `/subscribe/[projectId]` 페이지 신설
+2. **정기결제 Cron** (Task #8) — Vercel Cron, 매일 00시 next_billing_at 도래 청구
+3. **알림톡 템플릿 등록** — 운영 절차(코드 변경 없음): `agents/context/gpt_results/2026-05-13.md` 참조
+4. **types.gen.ts 재생성** — billing_history 테이블 반영 + Relationships 채워 `as any` 제거
+5. **고객 관리 페이지** (`/customers`)
+6. **디바이스 모니터링** (`/devices`) — MVP3 영역
 
 ---
 
@@ -93,11 +97,17 @@ Vercel: 배포 완료 (CI/CD: GitHub Actions → Vercel)
 
 | 항목 | 결정 |
 |------|------|
-| Supabase client in apps/web | packages/db 거치지 않고 `apps/web/src/lib/supabase.ts`에서 직접 생성 (workspace 타입 해석 문제 우회) |
-| service_role key | 절대 클라이언트 노출 금지, API route에서만 `serverClient()` 사용 |
-| 마진 최소값 | `MIN_MARGIN_PCT = 30` — 하드코딩, 설정값으로 옮기지 않음 |
+| Supabase types.gen.ts join 타입 | `Relationships: []` 때문에 join select 결과가 SelectQueryError. 서버 컴포넌트에서 `as any`로 클라이언트에 넘기고 클라이언트에서 명시 타입 사용 |
+| `.update(Record<string, unknown>)` 타입 에러 | `Database['public']['Tables']['X']['Update']` 명시. 빈 객체에서 시작해 키 채우는 패턴 유지 |
+| Supabase client in apps/web | `apps/web/src/lib/supabase.ts`에서 직접 생성 (workspace 타입 해석 우회) |
+| service_role key | 클라이언트 노출 금지, API route에서만 `adminDb` 사용. signed URL도 서버에서 발급 후 전달 |
+| 마진 최소값 | `MIN_MARGIN_PCT = 30` 하드코딩 |
 | 계약금 | 50% 정책 — 견적 확정 시 자동 계산 |
+| AS 예비비 | 최종 견적 × 5% (projects.as_reserve_krw에 자동 채움, 정산 시 정밀화) |
 | 알림 실패 | `Promise.allSettled` — 알림 실패가 견적 저장을 막지 않음 |
+| installation_schedules 별도 테이블 | **만들지 않음**. projects.scheduled_date로 충분. 다중 방문 필요해지면 그때 추가 |
+| 견적 → 프로젝트 자동 생성 | `quote_id unique` 활용해 멱등. 이미 있으면 무시 |
+| 파트너 삭제 | 진행 중 프로젝트 있으면 409. 비활성 전환만 가능 (정산 이력 보존) |
 
 ---
 
@@ -108,3 +118,15 @@ pnpm --filter @lcd-pro/web dev    # localhost:3000
 pnpm --filter @lcd-pro/admin dev  # localhost:3001
 pnpm build                        # 전체 빌드 (CI 동일)
 ```
+
+---
+
+## 마지막 상태 (2026-05-13)
+
+- **완료**: 견적 사진 미리보기, 파트너 CRUD, 프로젝트 일정 관리, contracted → project 자동 생성, **Toss 인프라(클라이언트+웹훅+멱등 DB)**
+- **진행 중**: 없음
+- **다음 할 것**: Toss 카드 등록 UI (Task #7) → 정기결제 Cron (Task #8) → 고객 관리 페이지
+- **주의**: 
+  - types.gen.ts Relationships 비어 있어서 join 타입 추론 깨짐 — `as any` 패턴 일관성 유지
+  - billing_history도 아직 types.gen.ts에 없음 (`'billing_history' as any` 캐스팅 중) — supabase gen types로 재생성 필요
+  - 환경변수 추가 필요: `TOSS_SECRET_KEY`, `TOSS_WEBHOOK_SECRET`(옵셔널)
