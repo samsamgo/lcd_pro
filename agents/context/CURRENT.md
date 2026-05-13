@@ -55,11 +55,18 @@ Vercel: 배포 완료 (CI/CD: GitHub Actions → Vercel)
 
 ### 결제 인프라 (Toss) — 2026-05-13
 - [x] `supabase/migrations/003_billing_history.sql` — payment_key UNIQUE 멱등 보장, RLS 차단(service_role only), raw_payload 보존
+- [x] `supabase/migrations/004_subscriptions_toss_customer_key.sql` — `subscriptions.toss_customer_key` 컬럼 추가 (정기결제 시 billingKey와 페어로 필수)
 - [x] `apps/web/src/lib/toss.ts` — issueBillingKey / executePayment / cancelPayment + 키 prefix로 환경 자동 분기
 - [x] `apps/web/src/app/api/billing/webhook/route.ts` — PAYMENT_STATUS_CHANGED 수신, 옵셔널 서명 검증(HMAC-SHA256), payment_key UPSERT 멱등, subscription 상태 자동 동기화
-- [x] orderId 컨벤션: `sub_<subscriptionId>_<yyyymm>` — 정기결제 시 발급
+- [x] **카드 등록 UI** (`/subscribe/[projectId]`) — Toss v2 SDK(`https://js.tosspayments.com/v2/standard`) script 로드, requestBillingAuth 호출 → success/fail 라우트 처리. 첫 결제까지 자동 수행
+- [x] **정기결제 Cron** (`/api/cron/billing`) — Vercel Cron 매일 00:00 UTC, `next_billing_at <= now` 청구, 실패 3회 누적 시 paused, billing_history에 결과 누적
+- [x] `vercel.json` crons 설정 + `CRON_SECRET` Bearer 인증
+- [x] orderId 컨벤션: `sub_<subscriptionId>_<yyyymm>` — 첫 결제와 cron 모두 동일
 
-> 미구현: 카드 등록 UI(Task #7), Cron(Task #8). 운영 전 라이브 정기결제 MID 별도 계약 승인 필요.
+> 운영 전 체크:
+> - 라이브 정기결제는 Toss MID 별도 계약 승인 필요
+> - 환경변수: `TOSS_SECRET_KEY`, `NEXT_PUBLIC_TOSS_CLIENT_KEY`, `CRON_SECRET`, (옵셔널) `TOSS_WEBHOOK_SECRET`
+> - 003/004 마이그레이션 SQL Editor 실행 필수
 
 ### 에이전트 시스템
 - [x] `agents/README.md`, `prompts/*`, `protocol/*`, `context/CURRENT.md`
@@ -80,16 +87,14 @@ Vercel: 배포 완료 (CI/CD: GitHub Actions → Vercel)
 
 ---
 
-## 다음 개발 우선순위 (MVP 2 잔여)
+## 다음 개발 우선순위 (MVP 2 잔여 + MVP 3 입구)
 
-1. **Toss 카드 등록 UI + 빌링키 발급 흐름** (Task #7)
-   - Toss SDK 위젯으로 authKey 토큰화 → `/api/billing/issue` → subscriptions 저장 + 첫 결제
-   - apps/web에 고객용 `/subscribe/[projectId]` 페이지 신설
-2. **정기결제 Cron** (Task #8) — Vercel Cron, 매일 00시 next_billing_at 도래 청구
-3. **알림톡 템플릿 등록** — 운영 절차(코드 변경 없음): `agents/context/gpt_results/2026-05-13.md` 참조
-4. **types.gen.ts 재생성** — billing_history 테이블 반영 + Relationships 채워 `as any` 제거
-5. **고객 관리 페이지** (`/customers`)
-6. **디바이스 모니터링** (`/devices`) — MVP3 영역
+1. **알림톡 템플릿 등록** — 운영 절차(코드 변경 없음): `agents/context/gpt_results/2026-05-13.md` 참조
+2. **types.gen.ts 재생성** — billing_history + subscriptions.toss_customer_key 반영, Relationships 채워 `as any` 제거
+3. **고객 관리 페이지** (`/customers`)
+4. **결제 이력 화면** — admin에서 subscription별 billing_history 조회 (실패 retry 카운트 표시)
+5. **디바이스 모니터링** (`/devices`) — MVP3 영역
+6. **구독 해지 UI** — `/api/billing/cancel` + 고객/관리자 양쪽 진입점
 
 ---
 
@@ -123,10 +128,11 @@ pnpm build                        # 전체 빌드 (CI 동일)
 
 ## 마지막 상태 (2026-05-13)
 
-- **완료**: 견적 사진 미리보기, 파트너 CRUD, 프로젝트 일정 관리, contracted → project 자동 생성, **Toss 인프라(클라이언트+웹훅+멱등 DB)**
+- **완료**: 견적 사진 미리보기, 파트너 CRUD, 프로젝트 일정 관리, contracted → project 자동 생성, **Toss 풀스택(클라이언트+UI+success/fail 처리+웹훅+Cron+멱등 DB)**
 - **진행 중**: 없음
-- **다음 할 것**: Toss 카드 등록 UI (Task #7) → 정기결제 Cron (Task #8) → 고객 관리 페이지
+- **다음 할 것**: 알림톡 템플릿 등록(운영) → types.gen.ts 재생성 → 고객 관리 페이지 → 결제 이력 화면
 - **주의**: 
   - types.gen.ts Relationships 비어 있어서 join 타입 추론 깨짐 — `as any` 패턴 일관성 유지
-  - billing_history도 아직 types.gen.ts에 없음 (`'billing_history' as any` 캐스팅 중) — supabase gen types로 재생성 필요
-  - 환경변수 추가 필요: `TOSS_SECRET_KEY`, `TOSS_WEBHOOK_SECRET`(옵셔널)
+  - billing_history + toss_customer_key 아직 types.gen.ts에 없음 (`as any` 캐스팅 중) — supabase gen types 재생성 필요
+  - 환경변수 추가 필요: `TOSS_SECRET_KEY`, `NEXT_PUBLIC_TOSS_CLIENT_KEY`, `CRON_SECRET`, (옵셔널)`TOSS_WEBHOOK_SECRET`
+  - Toss v2 SDK는 script tag로 로드 (npm 의존성 없음). `requestBillingAuth` 정확한 시그니처는 운영 환경에서 검증 필요
