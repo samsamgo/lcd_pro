@@ -3,6 +3,9 @@ import { notFound } from 'next/navigation'
 import { QuoteDetailClient } from './QuoteDetailClient'
 import { MarginCalculator } from './MarginCalculator'
 
+// 사진 미리보기 signed URL 유효 시간 (초). 페이지 새로고침으로 갱신.
+const PHOTO_SIGNED_URL_TTL = 60 * 60
+
 async function getQuoteDetail(id: string) {
   const { data: quote } = await adminDb
     .from('quotes')
@@ -31,13 +34,36 @@ async function getProducts() {
   return data ?? []
 }
 
+async function signQuotePhotos(quote: any) {
+  const photos: Array<{ id: string; storage_path: string; file_name: string; sort_order: number }> =
+    quote?.quote_photos ?? []
+  if (photos.length === 0) return quote
+
+  const paths = photos.map((p) => p.storage_path)
+  const { data: signed } = await adminDb.storage
+    .from('quote-photos')
+    .createSignedUrls(paths, PHOTO_SIGNED_URL_TTL)
+
+  const urlByPath = new Map<string, string>()
+  signed?.forEach((entry) => {
+    if (entry.path && entry.signedUrl) urlByPath.set(entry.path, entry.signedUrl)
+  })
+
+  return {
+    ...quote,
+    quote_photos: photos.map((p) => ({ ...p, signed_url: urlByPath.get(p.storage_path) ?? null })),
+  }
+}
+
 export default async function QuoteDetailPage({ params }: { params: { id: string } }) {
-  const [quote, products] = await Promise.all([
+  const [rawQuote, products] = await Promise.all([
     getQuoteDetail(params.id),
     getProducts(),
   ])
 
-  if (!quote) notFound()
+  if (!rawQuote) notFound()
+
+  const quote = await signQuotePhotos(rawQuote)
 
   return (
     <div>

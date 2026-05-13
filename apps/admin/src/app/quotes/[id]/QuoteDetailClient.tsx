@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { Check, AlertTriangle, ChevronLeft } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Check, AlertTriangle, ChevronLeft, Download, X, ImageOff } from 'lucide-react'
 import Link from 'next/link'
 
 const STATUS_MAP: Record<string, { label: string; color: string; next: string[] }> = {
@@ -58,6 +58,22 @@ export function QuoteDetailClient({ quote, products }: Props) {
   const [estimateMin, setEstimateMin] = useState(quote.estimate_min_krw ?? '')
   const [estimateMax, setEstimateMax] = useState(quote.estimate_max_krw ?? '')
   const [saved, setSaved] = useState(false)
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+
+  const sortedPhotos: any[] = (quote.quote_photos ?? [])
+    .slice()
+    .sort((a: any, b: any) => a.sort_order - b.sort_order)
+
+  useEffect(() => {
+    if (lightboxIndex === null) return
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') setLightboxIndex(null)
+      if (e.key === 'ArrowRight') setLightboxIndex((i) => (i === null ? null : Math.min(i + 1, sortedPhotos.length - 1)))
+      if (e.key === 'ArrowLeft') setLightboxIndex((i) => (i === null ? null : Math.max(i - 1, 0)))
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [lightboxIndex, sortedPhotos.length])
 
   const statusInfo = STATUS_MAP[status]
   const recommendation = recommendSKU(quote)
@@ -251,18 +267,73 @@ export function QuoteDetailClient({ quote, products }: Props) {
       </div>
 
       {/* 업로드 사진 */}
-      {quote.quote_photos?.length > 0 && (
+      {sortedPhotos.length > 0 && (
         <div className="mt-5 glass rounded-xl p-5">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-zinc-500">첨부 사진 ({quote.quote_photos.length}장)</p>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-zinc-500">
+            첨부 사진 ({sortedPhotos.length}장)
+          </p>
           <div className="grid grid-cols-3 gap-2 sm:grid-cols-5">
-            {quote.quote_photos
-              .sort((a: any, b: any) => a.sort_order - b.sort_order)
-              .map((photo: any) => (
-                <div key={photo.id} className="aspect-square overflow-hidden rounded-lg bg-zinc-800">
-                  <p className="flex h-full items-center justify-center text-xs text-zinc-600">{photo.file_name}</p>
-                </div>
-              ))}
+            {sortedPhotos.map((photo: any, idx: number) => (
+              <button
+                key={photo.id}
+                type="button"
+                onClick={() => photo.signed_url && setLightboxIndex(idx)}
+                title={photo.file_name}
+                className="group relative aspect-square overflow-hidden rounded-lg bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                {photo.signed_url ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={photo.signed_url}
+                    alt={photo.file_name}
+                    loading="lazy"
+                    className="h-full w-full object-cover transition-transform group-hover:scale-105"
+                  />
+                ) : (
+                  <div className="flex h-full w-full flex-col items-center justify-center gap-1 text-zinc-600">
+                    <ImageOff size={18} />
+                    <span className="px-1 text-center text-[10px] leading-tight">{photo.file_name}</span>
+                  </div>
+                )}
+              </button>
+            ))}
           </div>
+        </div>
+      )}
+
+      {lightboxIndex !== null && sortedPhotos[lightboxIndex]?.signed_url && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
+          onClick={() => setLightboxIndex(null)}
+        >
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); setLightboxIndex(null) }}
+            aria-label="닫기"
+            className="absolute right-4 top-4 rounded-full bg-zinc-900/80 p-2 text-white hover:bg-zinc-800"
+          >
+            <X size={18} />
+          </button>
+          <a
+            href={sortedPhotos[lightboxIndex].signed_url}
+            download={sortedPhotos[lightboxIndex].file_name}
+            onClick={(e) => e.stopPropagation()}
+            className="absolute right-16 top-4 flex items-center gap-1.5 rounded-full bg-zinc-900/80 px-3 py-2 text-xs text-white hover:bg-zinc-800"
+          >
+            <Download size={14} /> 원본
+          </a>
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-zinc-900/80 px-3 py-1 text-xs text-zinc-300">
+            {lightboxIndex + 1} / {sortedPhotos.length} · {sortedPhotos[lightboxIndex].file_name}
+          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={sortedPhotos[lightboxIndex].signed_url}
+            alt={sortedPhotos[lightboxIndex].file_name}
+            onClick={(e) => e.stopPropagation()}
+            className="max-h-[90vh] max-w-[95vw] rounded-lg object-contain shadow-2xl"
+          />
         </div>
       )}
     </div>

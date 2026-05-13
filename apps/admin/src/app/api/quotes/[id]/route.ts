@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
+import type { Database } from '@lcd-pro/db'
 import { adminDb } from '@/lib/supabase'
+
+type QuoteUpdate = Database['public']['Tables']['quotes']['Update']
 
 // 30% 마진 미달 견적 발송 차단
 const MIN_MARGIN_PCT = 30
@@ -33,7 +36,7 @@ export async function PATCH(
     }
   }
 
-  const updateData: Record<string, unknown> = { updated_at: new Date().toISOString() }
+  const updateData: QuoteUpdate = { updated_at: new Date().toISOString() }
   if (status !== undefined) updateData.status = status
   if (admin_notes !== undefined) updateData.admin_notes = admin_notes
   if (estimate_min_krw !== undefined) updateData.estimate_min_krw = estimate_min_krw
