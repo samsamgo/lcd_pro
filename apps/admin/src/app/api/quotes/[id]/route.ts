@@ -42,6 +42,7 @@ export async function PATCH(
   if (estimate_min_krw !== undefined) updateData.estimate_min_krw = estimate_min_krw
   if (estimate_max_krw !== undefined) updateData.estimate_max_krw = estimate_max_krw
   if (recommended_sku !== undefined) updateData.recommended_sku = recommended_sku
+  if (status === 'contracted') updateData.contracted_at = new Date().toISOString()
 
   const { error } = await adminDb
     .from('quotes')
@@ -50,6 +51,44 @@ export async function PATCH(
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 })
+  }
+
+  // contracted 전환 시 projects 행 자동 생성 (멱등 — quote_id unique)
+  if (status === 'contracted') {
+    const { data: existing } = await adminDb
+      .from('projects')
+      .select('id')
+      .eq('quote_id', params.id)
+      .maybeSingle()
+
+    if (!existing) {
+      const { data: quote } = await adminDb
+        .from('quotes')
+        .select('customer_id, estimate_max_krw, customers (address, region)')
+        .eq('id', params.id)
+        .single()
+
+      const customer = (quote as any)?.customers as { address: string | null; region: string } | null
+      const siteAddress = customer?.address || customer?.region || ''
+      // AS 예비비: 최종 견적의 5% (보수적 추정, 추후 정산 시 정밀화)
+      const asReserve = quote?.estimate_max_krw ? Math.round(quote.estimate_max_krw * 0.05) : null
+
+      if (quote?.customer_id) {
+        const { error: projectError } = await adminDb.from('projects').insert({
+          quote_id: params.id,
+          customer_id: quote.customer_id,
+          site_address: siteAddress,
+          status: 'deposit_pending',
+          as_reserve_krw: asReserve,
+        })
+        if (projectError) {
+          return NextResponse.json(
+            { warning: `견적 상태는 변경됐지만 프로젝트 생성 실패: ${projectError.message}` },
+            { status: 207 },
+          )
+        }
+      }
+    }
   }
 
   return NextResponse.json({ success: true })
