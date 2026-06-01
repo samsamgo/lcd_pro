@@ -12,7 +12,8 @@
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
     "db:migrate": "supabase db push",
-    "db:types": "supabase gen types typescript --local > packages/db/src/types.gen.ts"
+    "db:types": "supabase gen types typescript --local > packages/db/src/types.gen.ts",
+    "test:standard-block": "node scripts/verify-standard-block-20260519.mjs"
   },
   "devDependencies": {
     "turbo": "^2.0.0",

@@ -33,7 +33,8 @@ export async function PATCH(
 
   const update: ProjectUpdate = { updated_at: new Date().toISOString() }
   for (const key of ALLOWED_KEYS) {
-    if (key in body) (update as Record<string, unknown>)[key] = body[key]
+    const k = String(key)
+    if (k in body) (update as Record<string, unknown>)[k] = body[k]
   }
 
   // status가 'completed'로 변경되면 completed_date 자동 기록

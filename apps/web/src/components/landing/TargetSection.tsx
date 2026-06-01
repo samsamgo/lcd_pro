@@ -96,7 +96,7 @@ export function TargetSection() {
             </div>
             <div>
               <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-blue-400">
-                LCD PRO 솔루션
+                우강테크 솔루션
               </p>
               <p className="text-zinc-300">{current.solution}</p>
             </div>

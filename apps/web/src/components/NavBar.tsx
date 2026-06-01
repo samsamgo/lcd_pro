@@ -3,12 +3,14 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
+import { SITE } from '@/lib/seo/site'
 
 const NAV_LINKS = [
-  { href: '#how-it-works', label: '진행 방식' },
-  { href: '#products', label: '제품' },
-  { href: '#packages', label: '패키지' },
-  { href: '#cases', label: '시공 사례' },
+  { href: '/services', label: '서비스' },
+  { href: '/#how-it-works', label: '진행 방식' },
+  { href: '/#products', label: '제품' },
+  { href: '/blog', label: '블로그' },
+  { href: '/faq', label: 'FAQ' },
 ]
 
 export function NavBar() {
@@ -17,13 +19,18 @@ export function NavBar() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/[0.06] bg-[#080808]/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="text-xl font-bold tracking-tight text-gradient">
-            LCD<span className="text-white">PRO</span>
+        <Link
+          href="/"
+          className="flex items-center gap-2"
+          aria-label={`${SITE.nameKo} 홈`}
+        >
+          <span className="text-xl font-bold tracking-tight">
+            <span className="text-gradient">우강테크</span>
+            <span className="ml-1.5 text-sm font-medium text-zinc-500">WK Tech</span>
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav aria-label="주요 메뉴" className="hidden items-center gap-8 md:flex">
           {NAV_LINKS.map((l) => (
             <Link
               key={l.href}
@@ -48,6 +55,7 @@ export function NavBar() {
           className="p-2 text-zinc-400 md:hidden"
           onClick={() => setOpen(!open)}
           aria-label="메뉴"
+          aria-expanded={open}
         >
           {open ? <X size={20} /> : <Menu size={20} />}
         </button>

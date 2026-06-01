@@ -1,7 +1,9 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { ArrowRight, Clock, Shield, Zap } from 'lucide-react'
+import { SITE } from '@/lib/seo/site'
 
 const BADGES = [
   { icon: Clock, text: '30분 내 견적' },
@@ -12,11 +14,16 @@ const BADGES = [
 export function HeroSection() {
   return (
     <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-4 pt-16">
-      {/* 배경 그라디언트 */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        aria-hidden="true"
-      >
+      {/* 배경 이미지 */}
+      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+        <Image
+          src="/curated/hero-home.jpg"
+          alt=""
+          fill
+          priority
+          className="object-cover opacity-30"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#080808]/70 via-[#080808]/80 to-[#080808]" />
         <div className="absolute left-1/2 top-1/3 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-600/10 blur-[120px]" />
         <div className="absolute right-0 top-0 h-[400px] w-[400px] rounded-full bg-cyan-600/5 blur-[100px]" />
       </div>
@@ -25,7 +32,7 @@ export function HeroSection() {
         {/* 배지 */}
         <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/10 px-4 py-1.5 text-sm text-blue-400">
           <span className="h-1.5 w-1.5 rounded-full bg-blue-400 animate-pulse" />
-          LED 전광판 전문 플랫폼 — 설치부터 운영까지
+          {SITE.nameKo} · {SITE.nameEn} — LED 사이니지 B2B 플랫폼
         </div>
 
         {/* 헤드라인 */}
@@ -35,10 +42,13 @@ export function HeroSection() {
           <span className="text-gradient">30분 내 견적</span>
         </h1>
 
-        <p className="mx-auto mb-10 max-w-2xl text-lg text-zinc-400 sm:text-xl">
+        <p className="mx-auto mb-4 max-w-2xl text-lg text-zinc-400 sm:text-xl">
           전기·구조·허가 걱정 없이. 표준화된 설치, 원격 콘텐츠 관리,
           <br className="hidden sm:block" />
-          정기 점검까지 — 기술을 몰라도 누구나 LED 전광판을 운영합니다.
+          정기 점검까지 — 기술을 몰라도 누구나 LED 사이니지를 운영합니다.
+        </p>
+        <p className="mx-auto mb-10 max-w-2xl text-sm italic text-zinc-500">
+          {SITE.sloganKo}
         </p>
 
         {/* CTA 버튼 */}

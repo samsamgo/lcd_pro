@@ -5,7 +5,7 @@
 
 ---
 
-## 마지막 업데이트: 2026-05-13
+## 마지막 업데이트: 2026-05-14
 
 ---
 
@@ -136,3 +136,27 @@ pnpm build                        # 전체 빌드 (CI 동일)
   - billing_history + toss_customer_key 아직 types.gen.ts에 없음 (`as any` 캐스팅 중) — supabase gen types 재생성 필요
   - 환경변수 추가 필요: `TOSS_SECRET_KEY`, `NEXT_PUBLIC_TOSS_CLIENT_KEY`, `CRON_SECRET`, (옵셔널)`TOSS_WEBHOOK_SECRET`
   - Toss v2 SDK는 script tag로 로드 (npm 의존성 없음). `requestBillingAuth` 정확한 시그니처는 운영 환경에서 검증 필요
+
+---
+
+## 마지막 상태 (2026-05-14)
+
+- **신규 완료 (COO 사이클 자동 진행)**:
+  - `apps/web/src/lib/pricing.ts` — 견적 산출 모듈 (04-finance 의사코드 구현, MIN_MARGIN_PCT=30 가드, AS 5%)
+  - `apps/admin/src/app/devices/` — MVP3 진입 v0 (online/offline 표시, 빈 상태에서도 안전)
+  - `apps/admin/src/app/settings/` — env 상태 + 비즈니스 규칙 표시
+  - `apps/admin/src/app/billing/` — billing_history 뷰어 (실패 누적 카운트, raw payload 모달)
+  - `apps/web/src/app/api/billing/cancel/route.ts` — 구독 해지 API (소유권 검증, status=canceled, next_billing_at=null)
+  - `apps/web/src/app/account/subscription/[id]/cancel/` — 고객측 해지 UI (7일 환불 안내 + 사유 선택)
+  - `apps/admin/src/components/Sidebar.tsx` — `/billing` 링크 추가
+- **상위 사이클**: `../00-COO/ceo-reports/CEO-REPORT-20260514-002.md` 참조 (10개 부서 첫 보고 완료, CEO 결재 7건 대기)
+- **다음 할 것**:
+  - Supabase `setup_all.sql` 운영 DB 실행 (CEO/매니저 SQL Editor)
+  - 알림톡 BizTalk 템플릿 등록 (운영, 외부)
+  - 005_devices.sql 마이그레이션 신규 작성 (devices·heartbeat·firmware_version)
+  - types.gen.ts 재생성 (Supabase 실행 후)
+- **주의**:
+  - 새로 추가된 라우트는 Supabase 운영 미적용 상태에서도 빈 상태 표시로 안전 (devices·billing은 try/catch)
+  - settings 페이지에서 import 경로가 monorepo 상대경로 (`../../../../web/src/lib/pricing`) — 빌드 시 검증 필요. 문제 시 `packages/config` 또는 `packages/db`로 이동
+  - cancel API는 customer_id 검증을 옵셔널로 처리 — 향후 인증 도입 시 강제화 필요
+  - billing 페이지의 `failureCounts`는 fetch 범위(최근 300건) 내 카운트 — 운영 데이터 누적 시 정확한 누적 카운트는 별도 view·rpc로

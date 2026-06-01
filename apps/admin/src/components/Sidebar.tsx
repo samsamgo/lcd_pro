@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { FileText, Briefcase, Users, Package, BarChart3, Settings, Monitor } from 'lucide-react'
+import { FileText, Briefcase, Users, Package, BarChart3, Settings, Monitor, CreditCard } from 'lucide-react'
 
 const NAV = [
   { href: '/', icon: BarChart3, label: '대시보드' },
@@ -7,6 +7,7 @@ const NAV = [
   { href: '/projects', icon: Briefcase, label: '설치 프로젝트' },
   { href: '/customers', icon: Users, label: '고객 관리' },
   { href: '/installers', icon: Package, label: '파트너 관리' },
+  { href: '/billing', icon: CreditCard, label: '결제 이력' },
   { href: '/devices', icon: Monitor, label: '디바이스 모니터' },
   { href: '/settings', icon: Settings, label: '설정' },
 ]

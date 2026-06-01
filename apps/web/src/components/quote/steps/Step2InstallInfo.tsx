@@ -15,6 +15,9 @@ export function Step2InstallInfo() {
   const { register, watch, setValue, formState: { errors } } = useFormContext<QuoteFormData>()
   const env = watch('environment')
   const urgency = watch('urgency')
+  const highRes = watch('highRes')
+  const needsLiveInput = watch('needsLiveInput')
+  const exactSizeRequired = watch('exactSizeRequired')
 
   return (
     <div className="space-y-5">
@@ -66,6 +69,38 @@ export function Step2InstallInfo() {
           />
         </div>
       </div>
+
+      {/* 표준 적용 안내 */}
+      <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-4 text-xs text-zinc-400">
+        <p className="mb-1 font-semibold text-zinc-200">표준 사이즈 안내</p>
+        <p>요청 크기에 가장 가까운 표준 캐비닛 사이즈로 제안드립니다. 납기 단축, 가격 안정,
+          유지보수·예비부품 호환성이 좋아집니다.</p>
+      </div>
+
+      {/* 옵션: 고해상도 / 라이브 입력 / 정확치수 (실내만 노출) */}
+      {env === 'indoor' && (
+        <div className="space-y-2">
+          <label className="flex items-center gap-2 text-sm text-zinc-300">
+            <input type="checkbox" {...register('highRes')} className="h-4 w-4" />
+            근거리 고해상도 (P2.5) 권장 — 회의실·바·로비
+          </label>
+          <label className="flex items-center gap-2 text-sm text-zinc-300">
+            <input type="checkbox" {...register('needsLiveInput')} className="h-4 w-4" />
+            HDMI 라이브 입력 필요 (방송/실시간 미러링)
+          </label>
+        </div>
+      )}
+      <label className="flex items-center gap-2 text-sm text-zinc-300">
+        <input type="checkbox" {...register('exactSizeRequired')} className="h-4 w-4" />
+        반드시 정확한 치수로 제작 필요 (표준 사이즈 적용 불가)
+      </label>
+      {(highRes || needsLiveInput || exactSizeRequired) && (
+        <p className="text-xs text-amber-400">
+          {exactSizeRequired
+            ? '정확치수 요구 시 엔지니어링 설계비가 별도 발생합니다.'
+            : '선택하신 옵션은 컨트롤러/패키지에 반영됩니다.'}
+        </p>
+      )}
 
       {/* 시청 거리 */}
       <FormField label="주 시청 거리" error={undefined}>

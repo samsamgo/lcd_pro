@@ -8,7 +8,7 @@ import { Step1BusinessInfo } from './steps/Step1BusinessInfo'
 import { Step2InstallInfo } from './steps/Step2InstallInfo'
 import { Step3PhotoUpload } from './steps/Step3PhotoUpload'
 import { Step4Budget } from './steps/Step4Budget'
-import { QuoteSuccess } from './QuoteSuccess'
+import { QuoteSuccess, type EstimateSummary } from './QuoteSuccess'
 import { ProgressBar } from './ProgressBar'
 
 const quoteSchema = z.object({
@@ -29,6 +29,11 @@ const quoteSchema = z.object({
   viewingDistance: z.string().optional(),
   purpose: z.string().min(5, '사용 목적을 간략히 입력해주세요.'),
   urgency: z.enum(['low', 'normal', 'high', 'urgent']).default('normal'),
+  // 표준 블록 (선택값)
+  familyCode: z.enum(['F-IN-P3', 'F-IN-P2.5', 'F-OUT-P5']).optional(),
+  highRes: z.boolean().default(false),
+  needsLiveInput: z.boolean().default(false),
+  exactSizeRequired: z.boolean().default(false),
 
   // Step 3
   photos: z.array(z.instanceof(File)).min(1, '사진을 최소 1장 업로드해주세요.').max(10),
@@ -47,6 +52,7 @@ export function QuoteWizard() {
   const [step, setStep] = useState(0)
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const [estimate, setEstimate] = useState<EstimateSummary | null>(null)
 
   const methods = useForm<QuoteFormData>({
     resolver: zodResolver(quoteSchema),
@@ -54,6 +60,9 @@ export function QuoteWizard() {
       urgency: 'normal',
       photos: [],
       agreePrivacy: false,
+      highRes: false,
+      needsLiveInput: false,
+      exactSizeRequired: false,
     },
     mode: 'onBlur',
   })
@@ -77,6 +86,8 @@ export function QuoteWizard() {
       })
       const res = await fetch('/api/quotes', { method: 'POST', body: formData })
       if (!res.ok) throw new Error('제출 실패')
+      const json = (await res.json()) as { estimate?: EstimateSummary | null }
+      setEstimate(json.estimate ?? null)
       setSubmitted(true)
     } catch {
       alert('제출 중 오류가 발생했습니다. 다시 시도해주세요.')
@@ -85,7 +96,7 @@ export function QuoteWizard() {
     }
   })
 
-  if (submitted) return <QuoteSuccess />
+  if (submitted) return <QuoteSuccess estimate={estimate} />
 
   return (
     <FormProvider {...methods}>

@@ -50,7 +50,7 @@ export function ProblemSection() {
 
         <div className="mt-10 rounded-2xl border border-blue-500/20 bg-blue-500/5 p-8 text-center">
           <p className="text-xl font-semibold text-white">
-            LCD PRO는 이 모든 문제를{' '}
+            우강테크는 이 모든 문제를{' '}
             <span className="text-gradient">하나의 플랫폼</span>으로 해결합니다.
           </p>
         </div>

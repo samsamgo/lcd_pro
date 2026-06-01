@@ -52,7 +52,7 @@ export function DifferentiatorSection() {
                 <span className="text-xs font-bold text-zinc-700">VS</span>
               </div>
 
-              {/* LCD PRO */}
+              {/* 우강테크 */}
               <div className="flex items-start gap-3 rounded-xl border border-blue-500/20 bg-blue-600/5 p-4">
                 <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-blue-600/20">
                   <c.icon2 size={14} className="text-blue-400" />
