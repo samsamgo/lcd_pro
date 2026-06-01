@@ -49,7 +49,7 @@ export const SERVICES: ServiceCard[] = [
     title: '실내 LED 시공 (P2.5)',
     summary: '근거리·고선명 실내 환경에 최적화.',
     bullets: ['F-IN-P2.5 표준 캐비닛', '320×160 · 128×64 px 모듈', '병원·학원·전시 적합'],
-    image: IMG('svc-indoor-p25.png'),
+    image: IMG('svc-indoor-p25.jpg'),
     details: [
       {
         heading: '표준 사양',
@@ -475,7 +475,7 @@ export const CAPABILITY_AREAS: CapabilityArea[] = [
     id: 'cap-premium-exhibit',
     env: '고급 매장·전시·고해상도',
     detail: '카지노·전시·고급 호텔 등 실내 P1.86 Flexible 시공 가능. 560+ cd/m² 실내 광량.',
-    image: IMG('svc-indoor-p25.png'),
+    image: IMG('svc-indoor-p25.jpg'),
     details: [
       { heading: '실증', items: ['세븐럭카지노 P1.86 Flexible (2025-04 입고)'] },
       { heading: '실측', items: ['휘도 564 cd/m²', '소비전력 17.5 W/모듈', 'Driver IC DP3365S', 'Receiver MRV412'] },
