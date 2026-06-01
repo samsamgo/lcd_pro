@@ -1,6 +1,23 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": ["**/.env.*local"],
+  "globalEnv": [
+    "NODE_ENV",
+    "VERCEL_URL",
+    "VERCEL_ENV",
+    "NEXT_PUBLIC_SITE_URL",
+    "NEXT_PUBLIC_SUPABASE_URL",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+    "SUPABASE_URL",
+    "SUPABASE_SERVICE_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY",
+    "TOSS_SECRET_KEY",
+    "TOSS_CLIENT_KEY",
+    "TOSS_WEBHOOK_SECRET",
+    "CRON_SECRET",
+    "NEXT_PUBLIC_PLAUSIBLE_DOMAIN",
+    "NEXT_PUBLIC_KAKAO_CHANNEL"
+  ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
