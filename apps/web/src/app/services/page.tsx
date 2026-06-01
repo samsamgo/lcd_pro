@@ -43,21 +43,31 @@ export default function ServicesPage() {
             <div className="absolute inset-0 bg-gradient-to-r from-[#080808] via-[#080808]/85 to-[#080808]/40" />
           </div>
           <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28">
-            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
+            <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-blue-300">
+              <span className="h-1.5 w-1.5 rounded-full bg-blue-400 animate-pulse" />
+              LED Signage · DOOH · Digital Media
+            </div>
+            <h1 className="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">
               <span className="text-gradient">LED 전광판, 시공부터 운영까지</span>
               <br />
-              <span className="text-white">우강테크가 다 합니다.</span>
+              <span className="text-white">한 파트너로 끝냅니다.</span>
             </h1>
             <p className="mt-6 max-w-2xl text-lg text-zinc-300">
-              실내·실외 시공, NovaStar 컨트롤러 표준, CMS 콘텐츠 운영, 원격 모니터링, AS, 조달 납품, 인증 대응까지.
-              한 파트너로 LED 사이니지의 전 영역을 해결합니다.
+              옥외 안전전광판 · 실내 미디어월 · 사이니지 운영 (CMS) · 원격 관제 · AS · 공공조달 납품 · KC/EMC 인증까지.
+              NovaStar Taurus 글로벌 표준 + 표준화 캐비닛으로 견적·시공·AS 속도를 보장합니다.
             </p>
+            <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm text-zinc-300">
+              <span>· 옥외 P5 SMD <strong className="text-white">6,000 cd/m²</strong> 실측</span>
+              <span>· KC 적합등록필증 <strong className="text-white">4 모델</strong> 보유</span>
+              <span>· ISO45001 + EMC 표준성적서</span>
+              <span>· 견적 <strong className="text-white">30분</strong> · AS 모듈 단위 교체</span>
+            </div>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 href="/quote"
                 className="rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-500 active:scale-95 glow"
               >
-                견적 요청하기
+                견적 요청하기 (사진 3장 · 30분)
               </Link>
               <Link
                 href="/#how-it-works"

@@ -140,7 +140,7 @@ export const SERVICES: ServiceCard[] = [
     title: 'CMS 콘텐츠 운영',
     summary: '콘텐츠 업로드 · 일정 · 플레이리스트를 원격으로.',
     bullets: ['이미지·동영상 업로드', '시간·요일·디바이스 그룹 스케줄링', '고객 포털에서 직접 운영'],
-    image: IMG('svc-cms.png'),
+    image: IMG('svc-cms.jpg'),
     details: [
       {
         heading: '기능',
