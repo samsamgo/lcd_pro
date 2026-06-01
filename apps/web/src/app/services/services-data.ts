@@ -336,7 +336,7 @@ export const FIELD_CASES: CaseCard[] = [
     location: '경기 남양주',
     spec: 'W4,480 × H2,560 mm · P5 SMD · 11.47 m²',
     detail: 'UNIT CASE 4개 + 단독기초·구조물. 옥외 환경 P5 6,000 cd/m² 실측치 적용.',
-    image: IMG('svc-outdoor-p5.jpg'),
+    image: IMG('case-namyangju.jpg'),
     details: [
       {
         heading: '디스플레이 사양',
@@ -393,7 +393,7 @@ export const FIELD_CASES: CaseCard[] = [
     location: '서울 구로 아담치킨',
     spec: 'F-OUT-P5 SMD 실내 보정 · 683 cd/m² 실측',
     detail: '소상공인 외식업 · 메뉴·이벤트 즉시 송출. CNP 모듈 + DH7508 Receiver.',
-    image: IMG('svc-indoor-p3.jpg'),
+    image: IMG('case-adamchicken.jpg'),
     details: [
       {
         heading: '디스플레이 사양',
@@ -419,7 +419,7 @@ export const FIELD_CASES: CaseCard[] = [
     location: '서울 고덕 이케아 납품 대비',
     spec: 'KS C9832/9835 · Margin 3 dB 설계 · GCL 챔버',
     detail: 'P4mm·P8mm KC 적합등록필증 보유. 신규 모델은 동일 트랙으로 인증 진행.',
-    image: IMG('svc-certification.jpg'),
+    image: IMG('case-godeok-emc.jpg'),
     details: [
       {
         heading: '인증 결과',
@@ -454,7 +454,7 @@ export const CAPABILITY_AREAS: CapabilityArea[] = [
     id: 'cap-outdoor-safety',
     env: '대형 옥외 안전전광판',
     detail: '건설현장·공공시설 옥외 P5 안전전광판 시공 가능. W4m 이상 대형 + 단독기초·구조물·EMC 통과 설계.',
-    image: IMG('svc-outdoor-p5.jpg'),
+    image: IMG('cap-outdoor-safety.jpg'),
     details: [
       { heading: '표준 family', items: ['F-OUT-P5 (H640 캐비닛)'] },
       { heading: '실측', items: ['옥외 휘도 6,000 cd/m²', '부자재 m² 568,963원 ✓ (남양주)'] },
@@ -475,7 +475,7 @@ export const CAPABILITY_AREAS: CapabilityArea[] = [
     id: 'cap-premium-exhibit',
     env: '고급 매장·전시·고해상도',
     detail: '카지노·전시·고급 호텔 등 실내 P1.86 Flexible 시공 가능. 560+ cd/m² 실내 광량.',
-    image: IMG('svc-indoor-p25.jpg'),
+    image: IMG('cap-premium-exhibit.jpg'),
     details: [
       { heading: '실증', items: ['세븐럭카지노 P1.86 Flexible (2025-04 입고)'] },
       { heading: '실측', items: ['휘도 564 cd/m²', '소비전력 17.5 W/모듈', 'Driver IC DP3365S', 'Receiver MRV412'] },
@@ -485,7 +485,7 @@ export const CAPABILITY_AREAS: CapabilityArea[] = [
     id: 'cap-restaurant',
     env: '외식업·소상공인 실내',
     detail: '카페·식당·바 실내 P5 SMD 시공 가능. 680 cd/m² 실내 보정 + 메뉴 변경·이벤트 즉시 송출.',
-    image: IMG('svc-indoor-p3.jpg'),
+    image: IMG('cap-restaurant.jpg'),
     details: [
       { heading: '실증', items: ['구로 아담치킨 (2026-04 입고)'] },
       { heading: '실측', items: ['실내 휘도 683 cd/m²', '소비전력 21.5 W/모듈'] },
@@ -496,7 +496,7 @@ export const CAPABILITY_AREAS: CapabilityArea[] = [
     id: 'cap-clinic',
     env: '병원·미용·헬스장',
     detail: '의료·미용·체육 시설 실내 LED + AS 사이클 SOP 보유. 안내·시간표·대기실 송출.',
-    image: IMG('svc-as.jpg'),
+    image: IMG('cap-clinic-display.jpg'),
     details: [
       { heading: '시나리오', items: ['진료·예약 안내', '대기실 콘텐츠', '시간표·이벤트'] },
       { heading: 'AS', items: ['1년 AS 보증', '국내 재고 즉시 교체', '모듈 단위 교체 SOP'] },
