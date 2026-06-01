@@ -6,7 +6,8 @@ import { Footer } from '@/components/Footer'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { serviceLd } from '@/lib/seo/jsonld'
 import { SITE, absoluteUrl, buildMetadata } from '@/lib/seo/site'
-import { SERVICES, TRUST_MARKS, CAPABILITY_AREAS, FIELD_CASES } from './services-data'
+import { TRUST_MARKS } from './services-data'
+import { ServicesGrid, FieldCasesGrid, CapabilityGrid } from './ServicesInteractive'
 
 export const metadata: Metadata = buildMetadata({
   title: `서비스 | ${SITE.nameKo} — LED 사이니지 시공부터 운영까지`,
@@ -72,38 +73,9 @@ export default function ServicesPage() {
           <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">제공 영역</h2>
             <p className="mt-3 max-w-2xl text-zinc-400">
-              LED 사이니지에 필요한 12개 영역을 표준화된 방법으로 제공합니다.
+              LED 사이니지에 필요한 12개 영역을 표준화된 방법으로 제공합니다. 카드를 클릭하면 상세 사양·실측 데이터를 볼 수 있습니다.
             </p>
-
-            <ul className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {SERVICES.map((s) => (
-                <li
-                  key={s.id}
-                  className="overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] transition-colors hover:bg-white/[0.04]"
-                >
-                  <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-800">
-                    <Image
-                      src={s.image}
-                      alt={s.title}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-lg font-semibold text-white">{s.title}</h3>
-                    <p className="mt-2 text-sm text-zinc-400">{s.summary}</p>
-                    <ul className="mt-4 space-y-1.5">
-                      {s.bullets.map((b) => (
-                        <li key={b} className="text-sm text-zinc-300">
-                          · {b}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </li>
-              ))}
-            </ul>
+            <ServicesGrid />
           </div>
         </section>
 
@@ -132,31 +104,9 @@ export default function ServicesPage() {
           <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">시공 가능 영역</h2>
             <p className="mt-3 max-w-3xl text-zinc-400">
-              실내·옥외·공공·소상공인 — 환경별 시공 역량과 실측 데이터를 갖추고 있습니다.
-              어떤 매장·시설이든 사진 3장으로 견적을 받아보세요.
+              실내·옥외·공공·소상공인 — 환경별 시공 역량과 실측 데이터를 갖추고 있습니다. 카드를 클릭하면 실증 케이스를 볼 수 있습니다.
             </p>
-            <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {CAPABILITY_AREAS.map((c) => (
-                <div
-                  key={c.env}
-                  className="overflow-hidden rounded-xl border border-white/[0.06] bg-white/[0.02]"
-                >
-                  <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-800">
-                    <Image
-                      src={c.image}
-                      alt={c.env}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="p-5">
-                    <div className="text-sm font-semibold text-white">{c.env}</div>
-                    <div className="mt-1 text-sm text-zinc-400">{c.detail}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <CapabilityGrid />
           </div>
         </section>
 
@@ -164,32 +114,9 @@ export default function ServicesPage() {
           <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">실증 시공 케이스</h2>
             <p className="mt-3 max-w-3xl text-zinc-400">
-              실측 데이터와 함께 검증된 시공 사례입니다. 견적·설계의 기준선이 됩니다.
+              실측 데이터와 함께 검증된 시공 사례입니다. 견적·설계의 기준선이 됩니다. 카드를 클릭하면 사양·실측·인증 상세를 볼 수 있습니다.
             </p>
-            <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2">
-              {FIELD_CASES.map((c) => (
-                <div
-                  key={c.title}
-                  className="overflow-hidden rounded-xl border border-white/[0.06] bg-white/[0.02]"
-                >
-                  <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-800">
-                    <Image
-                      src={c.image}
-                      alt={c.title}
-                      fill
-                      sizes="(max-width: 640px) 100vw, 50vw"
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="p-6">
-                    <div className="text-xs uppercase tracking-wide text-blue-400">{c.location}</div>
-                    <div className="mt-1 text-lg font-semibold text-white">{c.title}</div>
-                    <div className="mt-2 text-sm text-zinc-300">{c.spec}</div>
-                    <p className="mt-3 text-sm text-zinc-400">{c.detail}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <FieldCasesGrid />
           </div>
         </section>
 
