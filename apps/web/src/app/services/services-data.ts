@@ -494,8 +494,8 @@ export const CAPABILITY_AREAS: CapabilityArea[] = [
   },
   {
     id: 'cap-clinic',
-    env: '병원·미용·헬스장',
-    detail: '의료·미용·체육 시설 실내 LED + AS 사이클 SOP 보유. 안내·시간표·대기실 송출.',
+    env: '병원·진료·공공 안내',
+    detail: '병원·미용·헬스장·공공시설 등 실내 안내 LED. 호출·시간표·대기실 콘텐츠 자동 송출 + AS SOP.',
     image: IMG('cap-clinic-display.jpg'),
     details: [
       { heading: '시나리오', items: ['진료·예약 안내', '대기실 콘텐츠', '시간표·이벤트'] },
@@ -504,8 +504,8 @@ export const CAPABILITY_AREAS: CapabilityArea[] = [
   },
   {
     id: 'cap-school-public',
-    env: '교육·종교·공공',
-    detail: '학교·교회·도서관·시장 등 공공 환경 옥외 P2.5·P5 시공 가능. 조달·KC·EMC 자산 활용.',
+    env: '스포츠·교육·공공',
+    detail: '경기장·학교·교회·도서관·시장 등 옥외 P2.5·P5 LED 시공. 조달·KC·EMC 자산 활용.',
     image: IMG('cap-school-public.jpg'),
     details: [
       { heading: '실증 (TRL 인계 케이스)', items: ['남부대학교 (P2.5 320×160)', '대구평현교회 (P2.5 250×250)'] },

@@ -10,3 +10,4 @@ Thumbs.db
 .claude/
 *.tsbuildinfo
 next-env.d.ts
+apps/web/public/curated/.candidates/
