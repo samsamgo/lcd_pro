@@ -3,6 +3,14 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    /* 고정 헤더(h-16 = 4rem) 보정 — 앵커 스크롤 시 헤더에 가려지지 않게 */
+    scroll-padding-top: 5rem;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
   :root {
     /* 라이트 테마 (MVP 다운그레이드 — 흰색/근백색 배경, 진한 텍스트) */
     --background: 0 0% 100%;
@@ -26,6 +34,18 @@
     font-feature-settings: 'kern' 1, 'liga' 1;
   }
   ::selection { @apply bg-blue-600/20 text-zinc-900; }
+
+  /* 접근성: 모든 인터랙티브 요소에 키보드 포커스 링 (WCAG 2.4.7) */
+  a,
+  button,
+  [role='button'],
+  summary,
+  input,
+  select,
+  textarea {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600
+      focus-visible:ring-offset-2 focus-visible:ring-offset-white;
+  }
 }
 
 @layer utilities {

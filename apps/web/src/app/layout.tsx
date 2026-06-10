@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     template: `%s | ${SITE.nameKo}`,
   },
   description:
-    '우강테크(WK Tech)는 카페·식당·헬스장 등 소상공인을 위한 LED 사이니지 표준화 시공 + CMS 구독 플랫폼입니다. 사진 3장으로 30분 내 범위 견적을 받아보세요.',
+    '우강테크(WK Tech)는 카페·식당·헬스장 등 소상공인을 위한 LED 사이니지 표준화 시공 플랫폼입니다. 사진 3장으로 즉석 범위 견적을 화면에서 바로 확인하세요.',
   applicationName: SITE.nameKo,
   authors: [{ name: SITE.nameKo }],
   generator: 'Next.js',

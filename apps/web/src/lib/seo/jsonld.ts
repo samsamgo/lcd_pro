@@ -7,6 +7,7 @@
  */
 
 import { SITE, absoluteUrl } from './site'
+import { PRICE_RANGE_SCHEMA } from '../pricing'
 
 /* ───────────────────────── Organization ────────────────────────── */
 export function organizationLd() {
@@ -31,10 +32,10 @@ export function organizationLd() {
       {
         '@type': 'ContactPoint',
         contactType: 'sales',
-        telephone: SITE.phone,
+        ...(SITE.phone ? { telephone: SITE.phone } : {}),
         email: SITE.email,
         areaServed: 'KR',
-        availableLanguage: ['Korean', 'English'],
+        availableLanguage: ['Korean'],
       },
     ],
     sameAs: [
@@ -53,10 +54,10 @@ export function localBusinessLd() {
     alternateName: SITE.nameEn,
     image: absoluteUrl('/opengraph-image'),
     url: SITE.url,
-    telephone: SITE.phone,
+    ...(SITE.phone ? { telephone: SITE.phone } : {}),
     email: SITE.email,
     description: SITE.taglineKo,
-    priceRange: '₩1,600,000 ~ ₩30,000,000',
+    priceRange: PRICE_RANGE_SCHEMA,
     address: {
       '@type': 'PostalAddress',
       addressCountry: SITE.countryCode,

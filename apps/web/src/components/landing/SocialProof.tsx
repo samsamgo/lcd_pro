@@ -1,6 +1,6 @@
 const STATS = [
-  { value: '30분', label: '평균 견적 응답 시간' },
-  { value: '98%', label: '설치 완료율' },
+  { value: '즉시', label: '사진 3장 범위 견적' },
+  { value: '1~3일', label: '표준 시공 기간' },
   { value: '6종', label: '표준화 SKU' },
   { value: '24h', label: '프리미엄 긴급 AS' },
 ]
@@ -44,7 +44,7 @@ export function SocialProof() {
               className="flex flex-col items-center justify-center bg-zinc-50 p-8 text-center"
             >
               <span className="text-4xl font-extrabold text-gradient">{s.value}</span>
-              <span className="mt-2 text-sm text-zinc-500">{s.label}</span>
+              <span className="mt-2 text-sm text-zinc-600">{s.label}</span>
             </div>
           ))}
         </div>
@@ -66,13 +66,13 @@ export function SocialProof() {
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-zinc-900">{c.type}</p>
-                  <p className="text-xs text-zinc-500">{c.location} · {c.sku}</p>
+                  <p className="text-xs text-zinc-600">{c.location} · {c.sku}</p>
                 </div>
               </div>
-              <p className="mb-4 text-sm leading-relaxed text-zinc-600">
+              <p className="mb-4 text-sm leading-relaxed text-zinc-700">
                 &ldquo;{c.review}&rdquo;
               </p>
-              <p className="text-xs font-medium text-zinc-500">— {c.name}</p>
+              <p className="text-xs font-medium text-zinc-600">— {c.name}</p>
             </div>
           ))}
         </div>

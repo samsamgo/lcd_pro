@@ -18,8 +18,8 @@ export function CtaSection() {
             <h2 className="mb-4 text-4xl font-extrabold sm:text-5xl">
               지금 바로 시작하세요
             </h2>
-            <p className="mb-10 text-lg text-zinc-600">
-              매장 사진 3장으로 30분 내 견적.
+            <p className="mb-10 text-lg text-zinc-700">
+              매장 사진 3장으로 즉석 범위 견적.
               <br />
               기술 지식 없이도 누구나 LED 전광판을 운영합니다.
             </p>
@@ -35,12 +35,14 @@ export function CtaSection() {
                   className="transition-transform group-hover:translate-x-1"
                 />
               </Link>
-              <a
-                href={`tel:${SITE.phone.replace(/[^+\d]/g, '')}`}
-                className="rounded-xl border border-zinc-300 px-8 py-4 text-base font-semibold text-zinc-700 transition-all hover:bg-zinc-100"
-              >
-                전화 문의
-              </a>
+              {SITE.phone && (
+                <a
+                  href={`tel:${SITE.phone.replace(/[^+\d]/g, '')}`}
+                  className="rounded-xl border border-zinc-300 px-8 py-4 text-base font-semibold text-zinc-700 transition-all hover:bg-zinc-100"
+                >
+                  전화 문의
+                </a>
+              )}
             </div>
           </div>
         </div>

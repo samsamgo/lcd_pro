@@ -6,9 +6,9 @@ import { ArrowRight, Clock, Shield, Zap } from 'lucide-react'
 import { SITE } from '@/lib/seo/site'
 
 const BADGES = [
-  { icon: Clock, text: '30분 내 견적' },
+  { icon: Clock, text: '사진 3장 즉석 견적' },
   { icon: Zap, text: '표준화 설치' },
-  { icon: Shield, text: '원격 CMS 관리' },
+  { icon: Shield, text: '원격 콘텐츠 관리 (준비중)' },
 ]
 
 export function HeroSection() {
@@ -39,15 +39,15 @@ export function HeroSection() {
         <h1 className="mb-6 text-5xl font-extrabold tracking-tight sm:text-6xl lg:text-7xl">
           매장 사진 3장으로
           <br />
-          <span className="text-gradient">30분 내 견적</span>
+          <span className="text-gradient">즉석 범위 견적</span>
         </h1>
 
-        <p className="mx-auto mb-4 max-w-2xl text-lg text-zinc-600 sm:text-xl">
-          전기·구조·허가 걱정 없이. 표준화된 설치, 원격 콘텐츠 관리,
+        <p className="mx-auto mb-4 max-w-2xl text-lg text-zinc-700 sm:text-xl">
+          전기·구조·허가 걱정 없이. 표준화된 설치와 빠른 AS,
           <br className="hidden sm:block" />
-          정기 점검까지 — 기술을 몰라도 누구나 LED 사이니지를 운영합니다.
+          그리고 화면에서 바로 확인하는 예상 범위 견적까지.
         </p>
-        <p className="mx-auto mb-10 max-w-2xl text-sm italic text-zinc-500">
+        <p className="mx-auto mb-10 max-w-2xl text-sm italic text-zinc-600">
           {SITE.sloganKo}
         </p>
 
@@ -63,14 +63,12 @@ export function HeroSection() {
               className="transition-transform group-hover:translate-x-1"
             />
           </Link>
-          <a
-            href="http://pf.kakao.com/_lcdpro"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 rounded-xl border border-yellow-400/30 bg-yellow-400/10 px-8 py-4 text-base font-semibold text-yellow-600 transition-all hover:bg-yellow-400/20"
+          <Link
+            href="/#how"
+            className="flex items-center gap-2 rounded-xl border border-zinc-300 px-8 py-4 text-base font-semibold text-zinc-700 transition-all hover:bg-zinc-100"
           >
-            카카오로 문의하기
-          </a>
+            진행 방식 보기
+          </Link>
         </div>
 
         {/* 소셜 증거 미니 배지 */}
@@ -88,7 +86,8 @@ export function HeroSection() {
       </div>
 
       {/* 스크롤 힌트 */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-zinc-500">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-zinc-600">
+        <span className="sr-only">아래로 스크롤</span>
         <span className="text-xs">스크롤</span>
         <div className="h-6 w-px bg-gradient-to-b from-zinc-300 to-transparent" />
       </div>

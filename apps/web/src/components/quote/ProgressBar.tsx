@@ -7,9 +7,11 @@ interface ProgressBarProps {
 export function ProgressBar({ current, total, labels }: ProgressBarProps) {
   return (
     <div>
-      <div className="mb-3 flex items-center justify-between text-xs text-zinc-500">
-        <span>{labels[current]}</span>
-        <span>{current + 1} / {total}</span>
+      <div className="mb-3 flex items-center justify-between text-xs text-zinc-600">
+        <span className="font-medium text-zinc-800">{labels[current]}</span>
+        <span aria-label={`전체 ${total}단계 중 ${current + 1}단계`}>
+          {current + 1} / {total}
+        </span>
       </div>
       <div className="flex gap-1">
         {Array.from({ length: total }).map((_, i) => (

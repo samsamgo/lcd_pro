@@ -43,7 +43,7 @@ export function ProblemSection() {
                 </div>
                 <h3 className="font-semibold text-zinc-900">{p.title}</h3>
               </div>
-              <p className="text-sm leading-relaxed text-zinc-500">{p.desc}</p>
+              <p className="text-sm leading-relaxed text-zinc-600">{p.desc}</p>
             </div>
           ))}
         </div>

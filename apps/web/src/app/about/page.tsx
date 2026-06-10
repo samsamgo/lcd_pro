@@ -63,12 +63,12 @@ export default function AboutPage() {
             한 가지 운영 도구(VNNOX/ViPlex)로 모든 고객을 관리.
           </li>
           <li>
-            <strong className="text-zinc-900">사진 3장 → 30분 견적</strong> — 현장
-            실측 전 의미 있는 범위 가격을 받아볼 수 있도록 절차를 압축.
+            <strong className="text-zinc-900">사진 3장 → 즉석 범위 견적</strong> — 현장
+            실측 전 의미 있는 범위 가격을 화면에서 바로 확인하도록 절차를 압축.
           </li>
           <li>
-            <strong className="text-zinc-900">CMS 구독 + 원격 운영</strong> —
-            설치는 1회, 운영은 매일. 사장님이 기술을 몰라도 안정적으로 운영.
+            <strong className="text-zinc-900">원격 콘텐츠 관리 (준비중)</strong> —
+            설치는 1회, 운영은 매일. 사장님이 기술을 몰라도 안정적으로 운영하도록 준비 중.
           </li>
         </ul>
 

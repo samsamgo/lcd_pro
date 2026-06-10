@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
+import { SEGMENT_PRICE_LABEL } from '@/lib/pricing'
 
 const TARGETS = [
   {
@@ -9,36 +10,36 @@ const TARGETS = [
     label: '카페·음식점·바',
     icon: '☕',
     pain: '메뉴 바꿀 때마다 현수막 인쇄비 + 디자인 비용',
-    solution: '스마트폰으로 즉시 메뉴 교체. 이벤트·계절 메뉴도 클릭 한 번.',
+    solution: '화면에서 즉시 메뉴 교체. 이벤트·계절 메뉴도 손쉽게 반영.',
     sku: 'IN-S / IN-M 스탠다드',
-    priceRange: '₩160만 ~ ₩280만 + CMS 월 29,000원~',
+    priceRange: SEGMENT_PRICE_LABEL.food,
   },
   {
     id: 'health',
     label: '병원·학원·헬스장',
     icon: '🏥',
     pain: '공지사항·시간표를 매번 출력 — 대기실 안내가 비효율적',
-    solution: '대기 화면에 실시간 공지·스케줄 표출. 원격 수정 가능.',
+    solution: '대기 화면에 공지·스케줄 표출. 콘텐츠 수정이 간편합니다.',
     sku: 'IN-M 스탠다드',
-    priceRange: '₩280만~ + CMS 월 49,000원',
+    priceRange: SEGMENT_PRICE_LABEL.health,
   },
   {
     id: 'franchise',
     label: '프랜차이즈·체인',
     icon: '🏪',
     pain: '전국 매장 광고 통일 관리가 불가능. 본사→지점 콘텐츠 전달 지연.',
-    solution: '본사 CMS에서 전국 매장 동시 업데이트. 캠페인 시작과 동시에 일괄 적용.',
+    solution: '표준화된 구성으로 다점포를 일관되게 운영. 수량에 따라 단가가 조정됩니다.',
     sku: 'IN-M × N개 프리미엄',
-    priceRange: '수량 협의 (10개+ 할인)',
+    priceRange: SEGMENT_PRICE_LABEL.franchise,
   },
   {
     id: 'outdoor',
     label: '로드사이드·빌딩',
     icon: '🏙',
     pain: '기존 간판은 교체 비용이 수천만원. 콘텐츠 변경 불가.',
-    solution: 'LED로 교체 후 계절·시간대별 콘텐츠 자동 스케줄. 원거리 가시성 확보.',
+    solution: 'LED로 교체 후 계절·시간대별 콘텐츠를 유연하게 운영. 원거리 가시성 확보.',
     sku: 'OUT-M / OUT-L 스탠다드',
-    priceRange: '₩470만 ~ ₩850만+',
+    priceRange: SEGMENT_PRICE_LABEL.outdoor,
   },
   {
     id: 'event',
@@ -47,7 +48,7 @@ const TARGETS = [
     pain: '임시 설치인데 일반 업체는 최소 발주량·기간 요구',
     solution: '렌탈 플랜으로 설치부터 철거까지. 기간·규모 맞춤 협의.',
     sku: '렌탈 플랜',
-    priceRange: '기간·규모별 협의',
+    priceRange: SEGMENT_PRICE_LABEL.event,
   },
 ]
 
@@ -104,9 +105,9 @@ export function TargetSection() {
 
           <div className="mt-6 flex flex-col items-start gap-4 border-t border-zinc-200 pt-6 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="text-xs text-zinc-500">추천 구성</p>
+              <p className="text-xs text-zinc-600">추천 구성</p>
               <p className="font-semibold text-zinc-800">{current.sku}</p>
-              <p className="text-sm text-blue-600">{current.priceRange}</p>
+              <p className="text-sm font-medium text-blue-600">{current.priceRange}</p>
             </div>
             <Link
               href={`/quote?type=${current.id}`}

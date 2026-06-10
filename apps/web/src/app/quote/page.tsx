@@ -3,11 +3,17 @@ import { NavBar } from '@/components/NavBar'
 import { Footer } from '@/components/Footer'
 
 export const metadata = {
-  title: '견적 요청 — LCD PRO',
-  description: '사진 3장으로 30분 내 LED 전광판 견적을 받으세요.',
+  title: '견적 요청 — 우강테크',
+  description: '사진 3장으로 즉석 범위 견적을 화면에서 바로 확인하세요.',
 }
 
-export default function QuotePage() {
+export default function QuotePage({
+  searchParams,
+}: {
+  searchParams: { type?: string }
+}) {
+  const type = searchParams?.type
+
   return (
     <>
       <NavBar />
@@ -17,11 +23,11 @@ export default function QuotePage() {
             <h1 className="text-3xl font-extrabold text-zinc-900 sm:text-4xl">
               견적 요청
             </h1>
-            <p className="mt-3 text-zinc-500">
-              5분 입력 → 30분 내 범위 견적 발송
+            <p className="mt-3 text-zinc-600">
+              사진 3장 입력 → 즉석 범위 견적을 화면에서 바로 확인
             </p>
           </div>
-          <QuoteWizard />
+          <QuoteWizard defaultType={type} />
         </div>
       </main>
       <Footer />

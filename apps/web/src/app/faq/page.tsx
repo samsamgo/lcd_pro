@@ -13,7 +13,7 @@ const FAQS = [
   {
     question: 'LED 사이니지 견적은 얼마나 걸리나요?',
     answer:
-      '우강테크는 매장 사진 3장과 기본 정보(상호·연락처·지역)만 있으면 30분 내로 범위 견적을 제공합니다. 확정 견적은 현장 실측 후 1~3일 이내 발송합니다.',
+      '우강테크는 매장 사진 3장과 기본 정보(상호·연락처·지역)만 있으면 즉석 범위 견적을 화면에서 바로 확인할 수 있습니다. 확정 견적은 현장 실측 후 1~3일 이내 안내합니다.',
   },
   {
     question: '왜 확정 가격이 아닌 범위 가격인가요?',
@@ -28,12 +28,12 @@ const FAQS = [
   {
     question: '설치 후 콘텐츠는 어떻게 바꾸나요?',
     answer:
-      '우강테크 CMS 구독은 NovaStar VNNOX 클라우드 기반으로, 스마트폰·웹 어디서나 콘텐츠를 업로드하고 스케줄링할 수 있습니다. 메뉴·이벤트·시간대별 자동 노출이 가능하며, 월 29,000원부터 시작합니다.',
+      '설치 시점에는 콘텐츠 초기 설정을 지원합니다. 스마트폰·웹에서 콘텐츠를 업로드·스케줄링하는 원격 콘텐츠 관리(CMS) 구독 기능은 현재 준비 중이며, 정식 출시 일정은 별도 안내드립니다.',
   },
   {
     question: 'AS는 어떻게 받나요?',
     answer:
-      '구독 플랜에 24시간 원격 모니터링과 정기 점검이 포함됩니다. 디바이스 상태가 실시간으로 우강테크 운영 센터에 보고되며, 장애 발생 시 원격 진단 → 출동 수리 순으로 처리됩니다.',
+      'LED는 모듈 단위 교체가 가능해 부분 고장 시 빠르게 대응합니다. 패키지에 따라 하드웨어 보증, 정기 점검, 예비부품, 긴급 AS 우선 처리 범위가 달라집니다.',
   },
   {
     question: '시공 기간은 얼마나 걸리나요?',
@@ -118,7 +118,7 @@ export default function FaqPage() {
           <div className="mt-12 flex flex-wrap gap-3">
             <Link
               href="/quote"
-              className="inline-flex items-center gap-2 rounded-xl bg-blue-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-400"
+              className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-500"
             >
               사진 3장으로 견적 받기 →
             </Link>

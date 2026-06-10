@@ -55,7 +55,7 @@ export default async function OG() {
           LED 사이니지 B2B 플랫폼
         </div>
         <div style={{ fontSize: '28px', color: '#a1a1aa', maxWidth: '900px', lineHeight: 1.4 }}>
-          사진 3장 → 30분 견적 → 표준화 시공 → CMS 구독
+          사진 3장 → 즉석 범위 견적 → 표준화 시공 → 운영·AS
         </div>
         <div
           style={{

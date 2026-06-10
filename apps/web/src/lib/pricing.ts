@@ -7,6 +7,51 @@
 export type Sku = 'IN-S' | 'IN-M' | 'P2.5' | 'OUT-S' | 'OUT-M' | 'OUT-L'
 export type PackageTier = 'BASIC' | 'STANDARD' | 'PREMIUM' | 'RENTAL'
 
+// ─────────────────────────────────────────────────────────────────────────
+// 표시용 가격 단일 원천 (DISPLAY ONLY)
+// 모든 UI 섹션은 여기 한 곳만 참조한다. 가격 상충/불일치 방지.
+// - 모든 금액은 "설치비 기준가(예상 범위)" · VAT 별도 · 현장 변수에 따라 변동.
+// - CMS 월 구독가는 표기하지 않는다 (서비스 준비중). CMS_STATUS 참고.
+// ─────────────────────────────────────────────────────────────────────────
+
+/** 전체 견적 범위 (홈/차별화/SEO 공통) */
+export const PRICE_RANGE_KRW = {
+  min: 2_000_000,
+  max: 30_000_000,
+} as const
+
+/** 사람이 읽는 전체 범위 표기 */
+export const PRICE_RANGE_LABEL = '₩200만 ~ ₩3,000만'
+/** Schema.org priceRange (원 단위 풀표기) */
+export const PRICE_RANGE_SCHEMA = '₩2,000,000 ~ ₩30,000,000'
+
+/** SKU별 설치비 기준가(부터) — 표시용 단일 소스 */
+export const SKU_PRICE_FROM: Record<Sku, string> = {
+  'IN-S': '200만원~',
+  'IN-M': '350만원~',
+  'P2.5': '500만원~',
+  'OUT-S': '300만원~',
+  'OUT-M': '560만원~',
+  'OUT-L': '1,050만원~',
+}
+
+/** 업종별 추천 구성 가격대 (표시용) */
+export const SEGMENT_PRICE_LABEL: Record<string, string> = {
+  food: '₩200만 ~ ₩280만',
+  health: '₩280만 ~ ₩470만',
+  franchise: '수량 협의 (10개+ 할인)',
+  outdoor: '₩470만 ~ ₩850만+',
+  event: '기간·규모별 협의',
+}
+
+/** CMS 구독 서비스 상태 — 준비중 (월 구독가 미표기) */
+export const CMS_STATUS = '준비중' as const
+export const CMS_LABEL = '원격 콘텐츠 관리 (준비중)' as const
+
+/** 공통 가격 면책 문구 */
+export const PRICE_DISCLAIMER =
+  '표시 금액은 설치비 기준 예상 범위입니다. VAT 별도, 최종 금액은 현장 실측 후 확정됩니다.'
+
 // 1m² 기준 원가 (KRW, VAT 별도) — 02-product-hardware v1 추정
 export const COST_PER_M2: Record<Sku, number> = {
   'IN-S': 825_000,
@@ -122,7 +167,7 @@ export function recommendPackage(input: {
   return 'STANDARD'
 }
 
-// 한 번에: 사진 3장 → 30분 견적 자동 산출
+// 한 번에: 사진 3장 → 즉석 범위 견적 자동 산출
 export function autoEstimate(input: {
   environment: 'indoor' | 'outdoor'
   widthMm?: number | null

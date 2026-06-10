@@ -6,13 +6,13 @@ const PACKAGES = [
     tier: 'basic',
     name: '베이직',
     tagline: '하드웨어 + 설치만',
-    monthlyNote: null,
+    note: null as string | null,
     features: [
       'LED 패널 + 컨트롤러 + 전원',
       '프레임 + 설치 노무',
       '초기 설정 지원',
     ],
-    missing: ['CMS 원격 관리', '콘텐츠 설정', '보증 기간', '정기 점검'],
+    missing: ['콘텐츠 설정', '보증 기간', '정기 점검'],
     recommended: false,
     cta: '베이직으로 시작',
   },
@@ -20,16 +20,14 @@ const PACKAGES = [
     tier: 'standard',
     name: '스탠다드',
     tagline: '가장 많이 선택하는 플랜',
-    monthlyNote: 'CMS 월 구독 별도',
+    note: '원격 콘텐츠 관리(CMS) 준비중',
     features: [
       'LED 패널 + 컨트롤러 + 전원',
       '프레임 + 설치 노무',
       '콘텐츠 초기 설정',
-      '원격 CMS 관리',
       '1년 하드웨어 보증',
-      '원격 모니터링',
     ],
-    missing: ['예비 부품 제공', '월별 현장 점검', '긴급 AS 우선 처리'],
+    missing: ['예비 부품 제공', '정기 현장 점검', '긴급 AS 우선 처리'],
     recommended: true,
     cta: '스탠다드 견적 받기',
   },
@@ -37,14 +35,14 @@ const PACKAGES = [
     tier: 'premium',
     name: '프리미엄',
     tagline: '무중단 운영이 필요한 매장',
-    monthlyNote: 'CMS + 점검 구독 포함',
+    note: '원격 콘텐츠 관리(CMS) 준비중',
     features: [
       '스탠다드 전체 포함',
       '예비 부품 제공',
-      '월 1회 현장 점검',
+      '정기 현장 점검',
       '긴급 AS 우선 처리 (24h)',
       '2년 하드웨어 보증',
-      '콘텐츠 제작 지원 (월 2회)',
+      '콘텐츠 제작 지원',
     ],
     missing: [],
     recommended: false,
@@ -54,7 +52,7 @@ const PACKAGES = [
 
 export function PackagesSection() {
   return (
-    <section id="packages" className="py-24 px-4">
+    <section id="packages" className="scroll-mt-20 py-24 px-4">
       <div className="mx-auto max-w-5xl">
         <div className="mb-14 text-center">
           <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-blue-600">
@@ -85,9 +83,9 @@ export function PackagesSection() {
 
               <div className="mb-6">
                 <h3 className="text-xl font-bold text-zinc-900">{pkg.name}</h3>
-                <p className="mt-1 text-sm text-zinc-500">{pkg.tagline}</p>
-                {pkg.monthlyNote && (
-                  <p className="mt-2 text-xs text-blue-600">{pkg.monthlyNote}</p>
+                <p className="mt-1 text-sm text-zinc-600">{pkg.tagline}</p>
+                {pkg.note && (
+                  <p className="mt-2 text-xs font-medium text-blue-600">{pkg.note}</p>
                 )}
               </div>
 
@@ -99,7 +97,7 @@ export function PackagesSection() {
                   </li>
                 ))}
                 {pkg.missing.map((f) => (
-                  <li key={f} className="flex items-start gap-2.5 text-sm text-zinc-500 line-through">
+                  <li key={f} className="flex items-start gap-2.5 text-sm text-zinc-500 line-through decoration-zinc-400">
                     <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-zinc-100" />
                     {f}
                   </li>
@@ -124,7 +122,7 @@ export function PackagesSection() {
         <div className="mt-5 glass rounded-2xl p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <h3 className="font-bold text-zinc-900">렌탈 플랜</h3>
-            <p className="mt-1 text-sm text-zinc-500">
+            <p className="mt-1 text-sm text-zinc-600">
               이벤트·팝업·전시용 임시 설치. 설치 + 철거 포함. 기간 협의.
             </p>
           </div>

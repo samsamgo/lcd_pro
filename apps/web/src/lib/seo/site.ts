@@ -23,9 +23,10 @@ export const SITE = {
   url: RAW_URL,
   locale: 'ko_KR',
   defaultLanguage: 'ko',
-  kakaoChannel: 'http://pf.kakao.com/_lcdpro', // 인프라 식별자 — 별도 마이그레이션 ORDER 대상
   email: 'contact@wktech.co.kr',
-  phone: '+82-2-0000-0000',
+  // 실제 대표번호 미확정 — 가짜 번호 노출 금지. CEO가 실제 번호 제공 시 채운다.
+  // 빈 값이면 UI는 전화 링크/번호를 omit하고 견적 폼만 노출한다.
+  phone: '' as string,
 
   // 비즈니스
   industry: 'LED 사이니지 / 디지털 사이니지 / 전광판',

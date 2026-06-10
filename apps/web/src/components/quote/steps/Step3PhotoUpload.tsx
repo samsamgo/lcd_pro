@@ -45,7 +45,7 @@ export function Step3PhotoUpload() {
         <p className="mb-1 text-sm font-semibold text-zinc-800">
           현장 사진 업로드 <span className="text-blue-600">*</span>
         </p>
-        <p className="text-xs text-zinc-500">최소 1장, 최대 10장. JPG/PNG/HEIC, 장당 20MB 이하.</p>
+        <p className="text-xs text-zinc-600">최소 3장, 최대 10장. JPG/PNG/HEIC, 장당 20MB 이하.</p>
       </div>
 
       {/* 권장 사진 가이드 */}
@@ -55,7 +55,7 @@ export function Step3PhotoUpload() {
             <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-600/20 text-[10px] font-bold text-blue-600">
               {i + 1}
             </span>
-            <span className="text-[11px] text-zinc-500">{g}</span>
+            <span className="text-[11px] text-zinc-600">{g}</span>
           </div>
         ))}
       </div>
@@ -67,9 +67,9 @@ export function Step3PhotoUpload() {
         onClick={() => inputRef.current?.click()}
         className="cursor-pointer rounded-2xl border-2 border-dashed border-zinc-300 p-8 text-center transition-all hover:border-blue-500/50 hover:bg-blue-500/5"
       >
-        <Upload size={28} className="mx-auto mb-3 text-zinc-500" />
-        <p className="text-sm text-zinc-600">클릭하거나 사진을 여기에 드래그하세요</p>
-        <p className="mt-1 text-xs text-zinc-500">스마트폰 사진도 바로 업로드 가능합니다</p>
+        <Upload size={28} className="mx-auto mb-3 text-zinc-600" />
+        <p className="text-sm text-zinc-700">클릭하거나 사진을 여기에 드래그하세요</p>
+        <p className="mt-1 text-xs text-zinc-600">스마트폰 사진도 바로 업로드 가능합니다</p>
         <input
           ref={inputRef}
           type="file"
@@ -107,6 +107,10 @@ export function Step3PhotoUpload() {
           )}
         </div>
       )}
+
+      <p className={`text-xs ${photos.length >= 3 ? 'text-green-700' : 'text-zinc-600'}`}>
+        {photos.length}/3장 업로드됨{photos.length >= 3 ? ' — 충분합니다' : ' (최소 3장)'}
+      </p>
 
       {errors.photos && (
         <p className="text-xs text-red-600">{errors.photos.message as string}</p>

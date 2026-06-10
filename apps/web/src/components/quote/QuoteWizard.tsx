@@ -35,8 +35,8 @@ const quoteSchema = z.object({
   needsLiveInput: z.boolean().default(false),
   exactSizeRequired: z.boolean().default(false),
 
-  // Step 3
-  photos: z.array(z.instanceof(File)).min(1, '사진을 최소 1장 업로드해주세요.').max(10),
+  // Step 3 — 정확한 범위 견적을 위해 최소 3장 (카피와 일치)
+  photos: z.array(z.instanceof(File)).min(3, '사진을 최소 3장 업로드해주세요.').max(10),
 
   // Step 4
   budgetRange: z.string().optional(),
@@ -48,11 +48,33 @@ export type QuoteFormData = z.infer<typeof quoteSchema>
 
 const STEPS = ['업체 정보', '설치 정보', '현장 사진', '예산 & 제출']
 
-export function QuoteWizard() {
+// /quote?type=... 업종 CTA 개인화 — 업종 기본값 + 설치환경/SKU 추천 prefill
+const PREFILL: Record<string, Partial<QuoteFormData>> = {
+  food: { businessType: 'cafe', environment: 'indoor' },
+  health: { businessType: 'gym', environment: 'indoor' },
+  franchise: { businessType: 'franchise', environment: 'indoor' },
+  outdoor: { businessType: 'other', environment: 'outdoor' },
+  event: { businessType: 'other', environment: 'outdoor' },
+  rental: { businessType: 'other', environment: 'outdoor' },
+  // 업종값 직접 전달도 허용
+  cafe: { businessType: 'cafe', environment: 'indoor' },
+  restaurant: { businessType: 'restaurant', environment: 'indoor' },
+  bar: { businessType: 'bar', environment: 'indoor' },
+  hospital: { businessType: 'hospital', environment: 'indoor' },
+  academy: { businessType: 'academy', environment: 'indoor' },
+  gym: { businessType: 'gym', environment: 'indoor' },
+  school: { businessType: 'school', environment: 'indoor' },
+  government: { businessType: 'government', environment: 'outdoor' },
+  factory: { businessType: 'factory', environment: 'outdoor' },
+}
+
+export function QuoteWizard({ defaultType }: { defaultType?: string }) {
   const [step, setStep] = useState(0)
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [estimate, setEstimate] = useState<EstimateSummary | null>(null)
+
+  const prefill = defaultType ? PREFILL[defaultType] : undefined
 
   const methods = useForm<QuoteFormData>({
     resolver: zodResolver(quoteSchema),
@@ -63,8 +85,10 @@ export function QuoteWizard() {
       highRes: false,
       needsLiveInput: false,
       exactSizeRequired: false,
+      ...prefill,
     },
-    mode: 'onBlur',
+    mode: 'onTouched',
+    reValidateMode: 'onChange',
   })
 
   const handleNext = async () => {

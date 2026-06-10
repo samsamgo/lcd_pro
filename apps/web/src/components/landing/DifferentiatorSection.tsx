@@ -1,23 +1,24 @@
 import { EyeOff, Eye, Phone, Smartphone, Wrench, Wifi } from 'lucide-react'
+import { PRICE_RANGE_LABEL } from '@/lib/pricing'
 
 const COMPARISONS = [
   {
     icon: EyeOff,
     them: '가격 비공개\n"전화해야 알 수 있어요"',
     icon2: Eye,
-    us: '범위 견적 즉시 공개\n₩200만 ~ ₩3,000만 기준표',
+    us: `범위 견적 즉시 공개\n${PRICE_RANGE_LABEL} 기준표`,
   },
   {
     icon: Phone,
     them: '전화 → 방문 → 1~2주 견적',
     icon2: Smartphone,
-    us: '사진 3장 → 30분 내 견적',
+    us: '사진 3장 → 즉석 범위 견적',
   },
   {
     icon: Wrench,
     them: 'AS는 "연락해봐야 앎"\n파트너사가 폐업하면 끝',
     icon2: Wifi,
-    us: '원격 모니터링\n24h 긴급 AS 구독 플랜',
+    us: '모듈 단위 교체\n24h 긴급 AS 우선 플랜',
   },
 ]
 
@@ -42,7 +43,7 @@ export function DifferentiatorSection() {
                 <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-zinc-100">
                   <c.icon size={14} className="text-zinc-500" />
                 </div>
-                <p className="whitespace-pre-line text-sm leading-relaxed text-zinc-500">
+                <p className="whitespace-pre-line text-sm leading-relaxed text-zinc-600">
                   {c.them}
                 </p>
               </div>
@@ -67,8 +68,8 @@ export function DifferentiatorSection() {
 
         {/* 시장 데이터 */}
         <div className="mt-8 rounded-2xl border border-zinc-200 bg-white/30 p-6">
-          <p className="text-center text-xs text-zinc-500">
-            한국 디지털 옥외광고 시장 <strong className="text-zinc-600">1조 6,634억원</strong> (2024, +10.4% YoY) —
+          <p className="text-center text-xs text-zinc-600">
+            한국 디지털 옥외광고 시장 <strong className="text-zinc-800">1조 6,634억원</strong> (2024, +10.4% YoY) —
             성장하는 시장에서 가장 빠른 견적 플랫폼이 먼저 점유합니다.
           </p>
         </div>

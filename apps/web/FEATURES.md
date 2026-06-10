@@ -7,9 +7,25 @@
 - env 문서: [`.env.example`](.env.example)
 - 기본값(아무 env 없음) = MVP 모드. `pnpm --filter web typecheck` + `pnpm --filter web build` 가 env 0으로 통과.
 
+## 단일 페이지 통합 (2026-06-10, CEO 지시 #2)
+
+- `서비스`/`진행 방식`/`제품`/`패키지`/`FAQ`는 홈(`/`) 한 페이지의 섹션으로 통합됨
+  (`#services`/`#how`/`#products`/`#packages`/`#faq`). NavBar는 앵커 스무스 스크롤.
+- `/services` 라우트는 `/#services`로 redirect (파일 보존). 과거 상세 UI 컴포넌트
+  (`ServicesInteractive`, `DetailModal`, `services-data`)는 복원 여지로 파일만 잔존(미렌더).
+- `/blog`(글 목록·상세), `/quote`(폼), `/faq`(전체 FAQ), `/about`, `/privacy`는 라우트 유지.
+- 카카오 채널/문의 전부 제거. 연락수단 = 전화(실제 번호 확정 시) + 견적 폼.
+- 원격 콘텐츠 관리(CMS) 구독은 "준비중"으로 표기 — 월 구독가 미표기.
+
+## 보류(향후) 항목 — 기록만, 미구현
+
+- **다국어(영문)**: 영문 페이지/라우팅. 현재 ko 단일. 추후 i18n 도입 시 구현.
+- **간이 견적 계산기**: 폼 제출 전 화면에서 슬라이더/입력으로 즉석 추정. 현재는 제출 후
+  `/api/quotes`의 로컬 견적엔진 결과만 표시. 추후 클라이언트 사이드 계산기 추가 검토.
+
 ## MVP 모드에서 동작하는 것 (외부 의존 없음)
 
-- 페이지: `/` (랜딩), `/about`, `/services`, `/blog`, `/blog/[slug]`, `/faq`, `/privacy`
+- 페이지: `/` (랜딩, 단일 페이지 통합), `/about`, `/blog`, `/blog/[slug]`, `/faq`, `/privacy`, `/quote`
 - **견적 폼 → 즉석 화면 견적**: `/quote` 제출 시 순수 로컬 견적엔진(`src/lib/standardBlock.ts`의 `estimateProject`)만 실행 → 결과를 화면에 표시. DB·알림 없이 완전 동작 (`quoteId: null`).
 - SEO/메타: sitemap, robots, llms.txt, opengraph-image, JSON-LD
 

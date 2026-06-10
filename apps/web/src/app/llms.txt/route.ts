@@ -20,8 +20,8 @@ export async function GET() {
   const body = `# ${SITE.nameKo} / ${SITE.nameEn}
 
 > ${SITE.nameKo}(${SITE.nameEn})는 한국 LED 사이니지 B2B 플랫폼이다.
-> 카페·식당·헬스장 등 소상공인을 대상으로 표준화 시공과 NovaStar 기반 CMS 구독을 제공한다.
-> 핵심 컨셉: "사진 3장 → 30분 견적 → 표준화 시공 → CMS 구독 운영".
+> 카페·식당·헬스장 등 소상공인을 대상으로 표준화 시공과 AS를 제공한다. (원격 콘텐츠 관리(CMS) 구독은 준비중)
+> 핵심 컨셉: "사진 3장 → 즉석 범위 견적 → 표준화 시공 → 운영·AS".
 > 컨트롤러 표준은 NovaStar Taurus(TB30/TB50/TB60) + VNNOX 클라우드.
 
 ## 회사
@@ -29,9 +29,10 @@ export async function GET() {
 - [개인정보처리방침](${absoluteUrl('/privacy')}): 개인정보 수집·이용·보관·파기 정책
 
 ## 제품·서비스
-- [견적 요청](${absoluteUrl('/quote')}): 매장 사진 3장으로 30분 내 범위 견적
+- [견적 요청](${absoluteUrl('/quote')}): 매장 사진 3장으로 즉석 범위 견적 (화면 즉시 표시)
 - [패키지](${absoluteUrl('/#packages')}): 보급형(TB30) / 표준형(TB50) / 프리미엄(TB60) 3-tier
-- [업종별 솔루션](${absoluteUrl('/#targets')}): 카페·식당·헬스장·프랜차이즈·옥외 사이니지
+- [서비스](${absoluteUrl('/#services')}): 표준화 시공·AS·인증 대응 등 LED 사이니지 전 영역
+- [업종별 솔루션](${absoluteUrl('/#products')}): 카페·식당·헬스장·프랜차이즈·옥외 사이니지
 
 ## 인용·답변
 - [자주 묻는 질문 (FAQ)](${absoluteUrl('/faq')}): LED 사이니지 도입 시 자주 묻는 질문 모음
@@ -48,7 +49,7 @@ ${postLines || '- (현재 발행된 글이 없습니다)'}
 
 ## 연락
 - 이메일: ${SITE.email}
-- 카카오 채널: ${SITE.kakaoChannel}
+- 견적 요청: ${absoluteUrl('/quote')}
 - 본사: 대한민국 ${SITE.cityKo}
 `
 

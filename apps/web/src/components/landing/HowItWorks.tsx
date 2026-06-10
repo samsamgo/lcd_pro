@@ -11,9 +11,9 @@ const STEPS = [
   {
     icon: FileText,
     step: '02',
-    title: '30분 내 범위 견적 수신',
-    desc: '전기·구조·허가 조건에 따른 범위 견적. 카카오 또는 이메일로 발송.',
-    duration: '30분',
+    title: '즉석 범위 견적 확인',
+    desc: '전기·구조·허가 조건을 반영한 예상 범위 견적이 화면에 바로 표시됩니다.',
+    duration: '즉시',
   },
   {
     icon: Truck,
@@ -25,15 +25,15 @@ const STEPS = [
   {
     icon: Monitor,
     step: '04',
-    title: '설치 완료 → CMS 구독',
-    desc: '스마트폰으로 콘텐츠 업로드·스케줄 관리. 원격 모니터링 + 정기 점검 포함.',
-    duration: '월 구독',
+    title: '설치 완료 → 운영',
+    desc: '표준 시공으로 빠르게 설치. 콘텐츠 초기 설정 지원 + 원격 콘텐츠 관리(준비중).',
+    duration: '운영',
   },
 ]
 
 export function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-24 px-4">
+    <section id="how" className="scroll-mt-20 py-24 px-4">
       <div className="mx-auto max-w-5xl">
         <div className="mb-14 text-center">
           <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-blue-600">
@@ -56,8 +56,8 @@ export function HowItWorks() {
                   </span>
                 </div>
                 <h3 className="mb-2 font-semibold text-zinc-900">{title}</h3>
-                <p className="mb-3 text-sm leading-relaxed text-zinc-500">{desc}</p>
-                <span className="rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-600">
+                <p className="mb-3 text-sm leading-relaxed text-zinc-600">{desc}</p>
+                <span className="rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-700">
                   {duration}
                 </span>
               </div>
