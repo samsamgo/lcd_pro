@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { serverClient } from '@/lib/supabase'
+import { features } from '@/lib/features'
 
 // 구독 해지 API
 // 정책 (04-finance-accounting/workspace/deposit-refund-policy.md):
@@ -13,6 +14,11 @@ import { serverClient } from '@/lib/supabase'
 //   4. billingKey 자체는 정책상 보관 (재가입 편의) — 완전 폐기 옵션 별도
 
 export async function POST(req: NextRequest) {
+  // MVP: 결제 기능 잠금(features.billing OFF) — 비활성 (파일은 보존)
+  if (!features.billing) {
+    return NextResponse.json({ error: 'billing disabled' }, { status: 404 })
+  }
+
   let body: { subscriptionId?: string; customerId?: string; reason?: string }
   try {
     body = await req.json()

@@ -93,7 +93,7 @@ export const SERVICES: ServiceCard[] = [
           '옥외 휘도 6,000 cd/m² (P5 SMD 동승 2025-08-20 입고)',
           '소비전력 30 W/모듈',
           'Driver IC 16269',
-          '부자재 m² 단가 568,963원 (TRL 남양주 ✓)',
+          '부자재 m² 단가 568,963원 (남양주 실측 ✓)',
         ],
       },
       {
@@ -118,7 +118,7 @@ export const SERVICES: ServiceCard[] = [
         ],
       },
       {
-        heading: '인계 자산 (TRL)',
+        heading: '보유 자산',
         items: [
           'Processor: H2 ×3, H5 ×1, LVP515 ×2',
           'Controller: MCTRL600 ×1, MCTRL300 ×4, MSD300 ×2',
@@ -251,10 +251,10 @@ export const SERVICES: ServiceCard[] = [
       {
         heading: '인증 보유',
         items: [
-          'TRL-P4mm (R-R-trL-TRL-P4mm, 2024-08-29)',
-          'TRL-P8mm (R-R-trL-TRL-P8mm, 2024-08-21)',
-          'TRL-P1.56mm (등록증 보유, OCR 추출 진행 중)',
-          'TRL-P5mm (등록증 보유, OCR 추출 진행 중)',
+          'P4mm KC 적합등록 (2024-08-29)',
+          'P8mm KC 적합등록 (2024-08-21)',
+          'P1.56mm (등록증 보유, OCR 추출 진행 중)',
+          'P5mm (등록증 보유, OCR 추출 진행 중)',
         ],
       },
       {
@@ -424,14 +424,14 @@ export const FIELD_CASES: CaseCard[] = [
       {
         heading: '인증 결과',
         items: [
-          'TRL-P4mm: R-R-trL-TRL-P4mm · 2024-08-29',
-          'TRL-P8mm: R-R-trL-TRL-P8mm · 2024-08-21',
+          'P4mm: KC 적합등록필증 · 2024-08-29',
+          'P8mm: KC 적합등록필증 · 2024-08-21',
           '제조원: DALIAN YANGGUANG TECHNOLOGY (중국)',
         ],
       },
       {
         heading: '시험 비용 (참고)',
-        items: ['TRL-P4mm 전자파 시험비 1,500,000원', 'TRL-P8mm 전자파 시험비 1,500,000원', '접수비·면허세 각 100,000원'],
+        items: ['P4mm 전자파 시험비 1,500,000원', 'P8mm 전자파 시험비 1,500,000원', '접수비·면허세 각 100,000원'],
       },
       {
         heading: '설계 표준 (실증)',
@@ -508,7 +508,7 @@ export const CAPABILITY_AREAS: CapabilityArea[] = [
     detail: '경기장·학교·교회·도서관·시장 등 옥외 P2.5·P5 LED 시공. 조달·KC·EMC 자산 활용.',
     image: IMG('cap-school-public.jpg'),
     details: [
-      { heading: '실증 (TRL 인계 케이스)', items: ['남부대학교 (P2.5 320×160)', '대구평현교회 (P2.5 250×250)'] },
+      { heading: '실증 케이스', items: ['남부대학교 (P2.5 320×160)', '대구평현교회 (P2.5 250×250)'] },
       { heading: '활용 자산', items: ['KC 4 모델 + EMC 51 파일', 'ISO45001 + 공장등록 + 통합인증', '공공조달 입찰 패키지'] },
     ],
   },

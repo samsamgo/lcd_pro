@@ -115,7 +115,7 @@ export function QuoteWizard() {
             <button
               type="button"
               onClick={() => setStep((s) => s - 1)}
-              className="rounded-xl border border-zinc-700 px-6 py-3 text-sm font-semibold text-zinc-300 transition-all hover:bg-zinc-800"
+              className="rounded-xl border border-zinc-300 px-6 py-3 text-sm font-semibold text-zinc-700 transition-all hover:bg-zinc-100"
             >
               이전
             </button>

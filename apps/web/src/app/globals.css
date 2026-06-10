@@ -4,42 +4,44 @@
 
 @layer base {
   :root {
-    --background: 0 0% 3%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 6%;
-    --card-foreground: 0 0% 98%;
+    /* 라이트 테마 (MVP 다운그레이드 — 흰색/근백색 배경, 진한 텍스트) */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 9%;
     --primary: 220 90% 56%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 10%;
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 60%;
+    --secondary: 0 0% 96%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 40%;
     --accent: 220 90% 56%;
-    --border: 0 0% 14%;
+    --border: 0 0% 90%;
     --radius: 0.75rem;
   }
 }
 
 @layer base {
   body {
-    @apply bg-[#080808] text-zinc-100 antialiased;
+    @apply bg-white text-zinc-900 antialiased;
     font-feature-settings: 'kern' 1, 'liga' 1;
   }
-  ::selection { @apply bg-blue-600/30; }
+  ::selection { @apply bg-blue-600/20 text-zinc-900; }
 }
 
 @layer utilities {
   .text-gradient {
-    @apply bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent;
   }
+  /* 라이트 테마용 카드 표면 */
   .glass {
-    @apply bg-white/[0.03] border border-white/[0.08] backdrop-blur-sm;
+    @apply bg-white border border-zinc-200 shadow-sm;
   }
   .glow {
-    box-shadow: 0 0 40px -10px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 10px 30px -10px rgba(37, 99, 235, 0.35);
   }
   .input-base {
-    @apply w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-2.5 text-sm text-zinc-100
-      placeholder:text-zinc-600 transition-all
+    @apply w-full rounded-xl border border-zinc-300 bg-white px-4 py-2.5 text-sm text-zinc-900
+      placeholder:text-zinc-400 transition-all
       focus:border-blue-500/60 focus:outline-none focus:ring-2 focus:ring-blue-500/20;
   }
 }

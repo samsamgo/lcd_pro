@@ -1,6 +1,7 @@
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { randomUUID } from 'crypto'
 import { serverClient } from '@/lib/supabase'
+import { features } from '@/lib/features'
 import { SubscribeClient } from './SubscribeClient'
 
 export const dynamic = 'force-dynamic'
@@ -42,6 +43,9 @@ async function loadProjectBilling(projectId: string) {
 }
 
 export default async function SubscribePage({ params }: { params: { projectId: string } }) {
+  // MVP: 결제 기능 잠금(features.billing OFF) — 홈으로 redirect (파일은 보존)
+  if (!features.billing) redirect('/')
+
   const info = await loadProjectBilling(params.projectId)
   if (!info) notFound()
 

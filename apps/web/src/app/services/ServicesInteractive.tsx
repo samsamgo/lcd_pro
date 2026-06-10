@@ -34,10 +34,10 @@ export function ServicesGrid() {
             <button
               type="button"
               onClick={() => setPayload(toServicePayload(s))}
-              className="group block w-full overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] text-left transition-colors hover:bg-white/[0.05] focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="group block w-full overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50 text-left transition-colors hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
               aria-haspopup="dialog"
             >
-              <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-800">
+              <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-100">
                 <Image
                   src={s.image}
                   alt={s.title}
@@ -47,14 +47,14 @@ export function ServicesGrid() {
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-lg font-semibold text-white">{s.title}</h3>
-                <p className="mt-2 text-sm text-zinc-400">{s.summary}</p>
+                <h3 className="text-lg font-semibold text-zinc-900">{s.title}</h3>
+                <p className="mt-2 text-sm text-zinc-600">{s.summary}</p>
                 <ul className="mt-4 space-y-1.5">
                   {s.bullets.map((b) => (
-                    <li key={b} className="text-sm text-zinc-300">· {b}</li>
+                    <li key={b} className="text-sm text-zinc-700">· {b}</li>
                   ))}
                 </ul>
-                <div className="mt-4 text-xs font-medium text-blue-400">자세히 보기 →</div>
+                <div className="mt-4 text-xs font-medium text-blue-600">자세히 보기 →</div>
               </div>
             </button>
           </li>
@@ -94,10 +94,10 @@ export function FieldCasesGrid() {
             key={c.id}
             type="button"
             onClick={() => setPayload(toCasePayload(c))}
-            className="group block overflow-hidden rounded-xl border border-white/[0.06] bg-white/[0.02] text-left transition-colors hover:bg-white/[0.05] focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="group block overflow-hidden rounded-xl border border-zinc-200 bg-zinc-50 text-left transition-colors hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
             aria-haspopup="dialog"
           >
-            <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-800">
+            <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-100">
               <Image
                 src={c.image}
                 alt={c.title}
@@ -107,11 +107,11 @@ export function FieldCasesGrid() {
               />
             </div>
             <div className="p-6">
-              <div className="text-xs uppercase tracking-wide text-blue-400">{c.location}</div>
-              <div className="mt-1 text-lg font-semibold text-white">{c.title}</div>
-              <div className="mt-2 text-sm text-zinc-300">{c.spec}</div>
-              <p className="mt-3 text-sm text-zinc-400">{c.detail}</p>
-              <div className="mt-4 text-xs font-medium text-blue-400">자세히 보기 →</div>
+              <div className="text-xs uppercase tracking-wide text-blue-600">{c.location}</div>
+              <div className="mt-1 text-lg font-semibold text-zinc-900">{c.title}</div>
+              <div className="mt-2 text-sm text-zinc-700">{c.spec}</div>
+              <p className="mt-3 text-sm text-zinc-600">{c.detail}</p>
+              <div className="mt-4 text-xs font-medium text-blue-600">자세히 보기 →</div>
             </div>
           </button>
         ))}
@@ -148,10 +148,10 @@ export function CapabilityGrid() {
             key={a.id}
             type="button"
             onClick={() => setPayload(toCapPayload(a))}
-            className="group block overflow-hidden rounded-xl border border-white/[0.06] bg-white/[0.02] text-left transition-colors hover:bg-white/[0.05] focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="group block overflow-hidden rounded-xl border border-zinc-200 bg-zinc-50 text-left transition-colors hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
             aria-haspopup="dialog"
           >
-            <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-800">
+            <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-100">
               <Image
                 src={a.image}
                 alt={a.env}
@@ -161,9 +161,9 @@ export function CapabilityGrid() {
               />
             </div>
             <div className="p-5">
-              <div className="text-sm font-semibold text-white">{a.env}</div>
-              <div className="mt-1 text-sm text-zinc-400">{a.detail}</div>
-              <div className="mt-3 text-xs font-medium text-blue-400">자세히 보기 →</div>
+              <div className="text-sm font-semibold text-zinc-900">{a.env}</div>
+              <div className="mt-1 text-sm text-zinc-600">{a.detail}</div>
+              <div className="mt-3 text-xs font-medium text-blue-600">자세히 보기 →</div>
             </div>
           </button>
         ))}

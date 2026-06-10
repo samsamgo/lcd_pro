@@ -30,8 +30,8 @@ export function Step1BusinessInfo() {
   return (
     <div className="space-y-5">
       <div>
-        <label className="mb-2.5 block text-sm font-semibold text-zinc-200">
-          업종 선택 <span className="text-blue-400">*</span>
+        <label className="mb-2.5 block text-sm font-semibold text-zinc-800">
+          업종 선택 <span className="text-blue-600">*</span>
         </label>
         <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
           {BUSINESS_TYPES.map((t) => (
@@ -41,8 +41,8 @@ export function Step1BusinessInfo() {
               onClick={() => setValue('businessType', t.value as QuoteFormData['businessType'])}
               className={`rounded-xl border px-3 py-2.5 text-xs font-medium transition-all ${
                 selectedType === t.value
-                  ? 'border-blue-500 bg-blue-600/20 text-blue-300'
-                  : 'border-zinc-800 bg-zinc-900 text-zinc-400 hover:border-zinc-600'
+                  ? 'border-blue-500 bg-blue-600/20 text-blue-700'
+                  : 'border-zinc-200 bg-white text-zinc-600 hover:border-zinc-400'
               }`}
             >
               {t.label}
@@ -50,7 +50,7 @@ export function Step1BusinessInfo() {
           ))}
         </div>
         {errors.businessType && (
-          <p className="mt-1.5 text-xs text-red-400">{errors.businessType.message}</p>
+          <p className="mt-1.5 text-xs text-red-600">{errors.businessType.message}</p>
         )}
       </div>
 

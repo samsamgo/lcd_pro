@@ -40,14 +40,14 @@ function renderInline(text: string, keyPrefix = 'inline'): InlineNode[] {
         <a
           key={k}
           href={m[2]}
-          className="text-blue-400 underline-offset-4 hover:underline"
+          className="text-blue-600 underline-offset-4 hover:underline"
         >
           {m[1]}
         </a>,
       )
     } else if (m[3]) {
       nodes.push(
-        <strong key={k} className="text-white">
+        <strong key={k} className="text-zinc-900">
           {m[3]}
         </strong>,
       )
@@ -55,7 +55,7 @@ function renderInline(text: string, keyPrefix = 'inline'): InlineNode[] {
       nodes.push(<em key={k}>{m[4]}</em>)
     } else if (m[5]) {
       nodes.push(
-        <code key={k} className="rounded bg-zinc-800 px-1.5 py-0.5 text-sm">
+        <code key={k} className="rounded bg-zinc-100 px-1.5 py-0.5 text-sm">
           {m[5]}
         </code>,
       )
@@ -81,11 +81,11 @@ function renderTable(rows: string[], key: string): React.ReactNode {
     <div key={key} className="my-6 overflow-x-auto">
       <table className="w-full border-collapse text-sm">
         <thead>
-          <tr className="border-b border-zinc-700 bg-zinc-900/40">
+          <tr className="border-b border-zinc-300 bg-white/40">
             {head.map((h, i) => (
               <th
                 key={i}
-                className="px-3 py-2 text-left font-semibold text-zinc-200"
+                className="px-3 py-2 text-left font-semibold text-zinc-800"
               >
                 {renderInline(h, `${key}-h-${i}`)}
               </th>
@@ -94,11 +94,11 @@ function renderTable(rows: string[], key: string): React.ReactNode {
         </thead>
         <tbody>
           {bodyRows.map((row, ri) => (
-            <tr key={ri} className="border-b border-zinc-800/60">
+            <tr key={ri} className="border-b border-zinc-200/60">
               {row.map((c, ci) => (
                 <td
                   key={ci}
-                  className="px-3 py-2 align-top text-zinc-300"
+                  className="px-3 py-2 align-top text-zinc-700"
                 >
                   {renderInline(c, `${key}-${ri}-${ci}`)}
                 </td>
@@ -128,7 +128,7 @@ export function MarkdownBody({ source }: Props) {
   if (cur.length > 0) blocks.push(cur)
 
   return (
-    <div className="prose-wktech max-w-none text-zinc-300 leading-relaxed">
+    <div className="prose-wktech max-w-none text-zinc-700 leading-relaxed">
       {blocks.map((block, bi) => {
         const first = block[0]
         const key = `b-${bi}`
@@ -136,7 +136,7 @@ export function MarkdownBody({ source }: Props) {
           return (
             <h2
               key={key}
-              className="mt-12 mb-4 text-2xl font-bold tracking-tight text-white"
+              className="mt-12 mb-4 text-2xl font-bold tracking-tight text-zinc-900"
             >
               {renderInline(first.slice(3), key)}
             </h2>
@@ -146,7 +146,7 @@ export function MarkdownBody({ source }: Props) {
           return (
             <h3
               key={key}
-              className="mt-8 mb-3 text-xl font-semibold text-white"
+              className="mt-8 mb-3 text-xl font-semibold text-zinc-900"
             >
               {renderInline(first.slice(4), key)}
             </h3>
@@ -157,7 +157,7 @@ export function MarkdownBody({ source }: Props) {
           return (
             <blockquote
               key={key}
-              className="my-6 border-l-4 border-blue-500/40 bg-blue-500/[0.04] py-2 pl-4 italic text-zinc-300"
+              className="my-6 border-l-4 border-blue-500/40 bg-blue-500/[0.04] py-2 pl-4 italic text-zinc-700"
             >
               {renderInline(text, key)}
             </blockquote>
@@ -170,7 +170,7 @@ export function MarkdownBody({ source }: Props) {
           return (
             <ol
               key={key}
-              className="my-4 list-decimal space-y-1.5 pl-6 text-zinc-300"
+              className="my-4 list-decimal space-y-1.5 pl-6 text-zinc-700"
             >
               {block.map((l, i) => (
                 <li key={i}>
@@ -184,7 +184,7 @@ export function MarkdownBody({ source }: Props) {
           return (
             <ul
               key={key}
-              className="my-4 list-disc space-y-1.5 pl-6 text-zinc-300"
+              className="my-4 list-disc space-y-1.5 pl-6 text-zinc-700"
             >
               {block.map((l, i) => (
                 <li key={i}>

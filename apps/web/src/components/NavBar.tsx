@@ -17,7 +17,7 @@ export function NavBar() {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/[0.06] bg-[#080808]/80 backdrop-blur-md">
+    <header className="fixed top-0 left-0 right-0 z-50 border-b border-zinc-200 bg-white/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
         <Link
           href="/"
@@ -35,7 +35,7 @@ export function NavBar() {
             <Link
               key={l.href}
               href={l.href}
-              className="text-sm text-zinc-400 transition-colors hover:text-white"
+              className="text-sm text-zinc-600 transition-colors hover:text-zinc-900"
             >
               {l.label}
             </Link>
@@ -52,7 +52,7 @@ export function NavBar() {
         </div>
 
         <button
-          className="p-2 text-zinc-400 md:hidden"
+          className="p-2 text-zinc-600 md:hidden"
           onClick={() => setOpen(!open)}
           aria-label="메뉴"
           aria-expanded={open}
@@ -62,13 +62,13 @@ export function NavBar() {
       </div>
 
       {open && (
-        <div className="border-t border-white/[0.06] bg-[#080808] px-4 pb-4 pt-2 md:hidden">
+        <div className="border-t border-zinc-200 bg-white px-4 pb-4 pt-2 md:hidden">
           {NAV_LINKS.map((l) => (
             <Link
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className="block py-3 text-sm text-zinc-400 hover:text-white"
+              className="block py-3 text-sm text-zinc-600 hover:text-zinc-900"
             >
               {l.label}
             </Link>

@@ -59,7 +59,7 @@ export function TargetSection() {
     <section className="py-24 px-4">
       <div className="mx-auto max-w-5xl">
         <div className="mb-12 text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-blue-400">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-blue-600">
             업종별 솔루션
           </p>
           <h2 className="text-3xl font-bold sm:text-4xl">
@@ -76,7 +76,7 @@ export function TargetSection() {
               className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all ${
                 active === t.id
                   ? 'bg-blue-600 text-white'
-                  : 'border border-zinc-800 bg-zinc-900 text-zinc-400 hover:border-zinc-600'
+                  : 'border border-zinc-200 bg-white text-zinc-600 hover:border-zinc-400'
               }`}
             >
               <span>{t.icon}</span>
@@ -89,24 +89,24 @@ export function TargetSection() {
         <div className="glass rounded-2xl p-8">
           <div className="grid gap-8 md:grid-cols-2">
             <div>
-              <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-red-400">
+              <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-red-600">
                 현재 문제
               </p>
-              <p className="text-zinc-300">{current.pain}</p>
+              <p className="text-zinc-700">{current.pain}</p>
             </div>
             <div>
-              <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-blue-400">
+              <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-blue-600">
                 우강테크 솔루션
               </p>
-              <p className="text-zinc-300">{current.solution}</p>
+              <p className="text-zinc-700">{current.solution}</p>
             </div>
           </div>
 
-          <div className="mt-6 flex flex-col items-start gap-4 border-t border-white/[0.06] pt-6 sm:flex-row sm:items-center sm:justify-between">
+          <div className="mt-6 flex flex-col items-start gap-4 border-t border-zinc-200 pt-6 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="text-xs text-zinc-600">추천 구성</p>
-              <p className="font-semibold text-zinc-200">{current.sku}</p>
-              <p className="text-sm text-blue-400">{current.priceRange}</p>
+              <p className="text-xs text-zinc-500">추천 구성</p>
+              <p className="font-semibold text-zinc-800">{current.sku}</p>
+              <p className="text-sm text-blue-600">{current.priceRange}</p>
             </div>
             <Link
               href={`/quote?type=${current.id}`}

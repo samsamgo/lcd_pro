@@ -22,8 +22,8 @@ export function Step4Budget() {
     <div className="space-y-5">
       {/* 예산 */}
       <div>
-        <label className="mb-2.5 block text-sm font-semibold text-zinc-200">
-          예상 예산 범위 <span className="text-zinc-600 text-xs font-normal">(선택)</span>
+        <label className="mb-2.5 block text-sm font-semibold text-zinc-800">
+          예상 예산 범위 <span className="text-zinc-500 text-xs font-normal">(선택)</span>
         </label>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
           {BUDGET_OPTIONS.map((o) => (
@@ -33,8 +33,8 @@ export function Step4Budget() {
               onClick={() => setValue('budgetRange', o.value)}
               className={`rounded-xl border px-3 py-2.5 text-xs font-medium transition-all ${
                 budget === o.value
-                  ? 'border-blue-500 bg-blue-600/20 text-blue-300'
-                  : 'border-zinc-800 bg-zinc-900 text-zinc-400 hover:border-zinc-600'
+                  ? 'border-blue-500 bg-blue-600/20 text-blue-700'
+                  : 'border-zinc-200 bg-white text-zinc-600 hover:border-zinc-400'
               }`}
             >
               {o.label}
@@ -56,8 +56,8 @@ export function Step4Budget() {
       {/* 견적 면책 고지 */}
       <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-4">
         <div className="flex gap-2.5">
-          <AlertCircle size={16} className="mt-0.5 shrink-0 text-amber-400" />
-          <p className="text-xs leading-relaxed text-amber-300/80">
+          <AlertCircle size={16} className="mt-0.5 shrink-0 text-amber-600" />
+          <p className="text-xs leading-relaxed text-amber-700/80">
             제출하신 견적은 <strong>범위 견적(추정치)</strong>입니다. 최종 금액은 전기·구조·
             허가 조건 등 현장 실사 후 확정됩니다. 계약 전 어떠한 비용도 청구되지 않습니다.
           </p>
@@ -69,18 +69,18 @@ export function Step4Budget() {
         <input
           type="checkbox"
           {...register('agreePrivacy')}
-          className="mt-0.5 h-4 w-4 rounded border-zinc-700 bg-zinc-900 text-blue-600 accent-blue-600"
+          className="mt-0.5 h-4 w-4 rounded border-zinc-300 bg-white text-blue-600 accent-blue-600"
         />
-        <span className="text-sm text-zinc-400">
+        <span className="text-sm text-zinc-600">
           견적 발송을 위한{' '}
-          <a href="/privacy" target="_blank" className="underline text-blue-400 hover:text-blue-300">
+          <a href="/privacy" target="_blank" rel="noopener noreferrer" className="underline text-blue-600 hover:text-blue-700">
             개인정보 수집 및 이용
           </a>
           에 동의합니다. (필수)
         </span>
       </label>
       {errors.agreePrivacy && (
-        <p className="text-xs text-red-400">{errors.agreePrivacy.message}</p>
+        <p className="text-xs text-red-600">{errors.agreePrivacy.message}</p>
       )}
     </div>
   )

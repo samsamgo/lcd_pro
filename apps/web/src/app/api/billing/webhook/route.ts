@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import crypto from 'crypto'
 import { serverClient } from '@/lib/supabase'
+import { features } from '@/lib/features'
 
 // Toss 결제 상태 변경 웹훅 수신
 //
@@ -10,6 +11,11 @@ import { serverClient } from '@/lib/supabase'
 // - 서명 헤더가 오면 검증, 없어도 멱등으로 안전
 
 export async function POST(req: NextRequest) {
+  // MVP: 결제 기능 잠금(features.billing OFF) — 비활성 (파일은 보존)
+  if (!features.billing) {
+    return NextResponse.json({ error: 'billing disabled' }, { status: 404 })
+  }
+
   const raw = await req.text()
 
   // 옵셔널 서명 검증

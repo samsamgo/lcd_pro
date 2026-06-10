@@ -24,7 +24,7 @@ export function ProblemSection() {
     <section className="py-24 px-4">
       <div className="mx-auto max-w-5xl">
         <div className="mb-14 text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-blue-400">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-blue-600">
             문제 인식
           </p>
           <h2 className="text-4xl font-bold sm:text-5xl">
@@ -39,9 +39,9 @@ export function ProblemSection() {
             <div key={p.title} className="glass rounded-2xl p-6">
               <div className="mb-3 flex items-center gap-3">
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-500/10">
-                  <AlertTriangle size={16} className="text-red-400" />
+                  <AlertTriangle size={16} className="text-red-600" />
                 </div>
-                <h3 className="font-semibold text-white">{p.title}</h3>
+                <h3 className="font-semibold text-zinc-900">{p.title}</h3>
               </div>
               <p className="text-sm leading-relaxed text-zinc-500">{p.desc}</p>
             </div>
@@ -49,7 +49,7 @@ export function ProblemSection() {
         </div>
 
         <div className="mt-10 rounded-2xl border border-blue-500/20 bg-blue-500/5 p-8 text-center">
-          <p className="text-xl font-semibold text-white">
+          <p className="text-xl font-semibold text-zinc-900">
             우강테크는 이 모든 문제를{' '}
             <span className="text-gradient">하나의 플랫폼</span>으로 해결합니다.
           </p>

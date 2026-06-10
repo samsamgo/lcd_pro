@@ -21,6 +21,7 @@ export interface BlogPost {
   publishedAt: string
   updatedAt?: string
   author: string
+  coverImage?: string
   ogImage?: string
   faq?: FaqItem[]
   /** 첫 문단 정의문 (AEO) */

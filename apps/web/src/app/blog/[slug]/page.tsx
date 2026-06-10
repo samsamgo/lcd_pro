@@ -12,6 +12,8 @@ import { JsonLd } from '@/components/seo/JsonLd'
 import { AboutBox } from '@/components/seo/AboutBox'
 import { TLDR } from '@/components/seo/TLDR'
 import { MarkdownBody } from '@/components/blog/MarkdownBody'
+import { NavBar } from '@/components/NavBar'
+import { Footer } from '@/components/Footer'
 
 export const dynamic = 'force-static'
 export const revalidate = 3600
@@ -64,28 +66,30 @@ export default function BlogPostPage({ params }: PageProps) {
   const faqLd = post.faq && post.faq.length > 0 ? faqPageLd(post.faq) : null
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-16">
+    <>
+      <NavBar />
+      <main className="mx-auto max-w-3xl px-4 py-24">
       <JsonLd id="ld-breadcrumb" data={breadcrumb} />
       <JsonLd id="ld-blogposting" data={posting} />
       {faqLd && <JsonLd id="ld-faq" data={faqLd} />}
 
       <nav aria-label="breadcrumb" className="mb-6 text-xs text-zinc-500">
-        <Link href="/" className="hover:text-zinc-300">홈</Link>
+        <Link href="/" className="hover:text-zinc-700">홈</Link>
         <span className="mx-2">/</span>
-        <Link href="/blog" className="hover:text-zinc-300">블로그</Link>
+        <Link href="/blog" className="hover:text-zinc-700">블로그</Link>
         <span className="mx-2">/</span>
-        <span className="text-zinc-400">{post.category}</span>
+        <span className="text-zinc-600">{post.category}</span>
       </nav>
 
       <article>
-        <header className="mb-8 border-b border-white/[0.06] pb-8">
-          <p className="mb-3 text-xs font-bold uppercase tracking-widest text-blue-400">
+        <header className="mb-8 border-b border-zinc-200 pb-8">
+          <p className="mb-3 text-xs font-bold uppercase tracking-widest text-blue-600">
             {post.category}
           </p>
-          <h1 className="mb-4 text-3xl font-bold leading-tight tracking-tight text-white md:text-4xl">
+          <h1 className="mb-4 text-3xl font-bold leading-tight tracking-tight text-zinc-900 md:text-4xl">
             {post.title}
           </h1>
-          <p className="text-base leading-relaxed text-zinc-400">
+          <p className="text-base leading-relaxed text-zinc-600">
             {post.description}
           </p>
           <div className="mt-4 flex flex-wrap gap-2 text-xs text-zinc-500">
@@ -109,11 +113,11 @@ export default function BlogPostPage({ params }: PageProps) {
         {post.faq && post.faq.length > 0 && (
           <section
             aria-labelledby="faq-heading"
-            className="mt-16 border-t border-white/[0.06] pt-10"
+            className="mt-16 border-t border-zinc-200 pt-10"
           >
             <h2
               id="faq-heading"
-              className="mb-6 text-2xl font-bold tracking-tight text-white"
+              className="mb-6 text-2xl font-bold tracking-tight text-zinc-900"
             >
               자주 묻는 질문
             </h2>
@@ -121,12 +125,12 @@ export default function BlogPostPage({ params }: PageProps) {
               {post.faq.map((item) => (
                 <details
                   key={item.question}
-                  className="group rounded-2xl border border-white/[0.08] bg-zinc-900/40 p-5 open:border-blue-500/40"
+                  className="group rounded-2xl border border-zinc-200 bg-white/40 p-5 open:border-blue-500/40"
                 >
-                  <summary className="cursor-pointer list-none text-base font-semibold text-white">
+                  <summary className="cursor-pointer list-none text-base font-semibold text-zinc-900">
                     {item.question}
                   </summary>
-                  <div className="mt-3 text-sm leading-relaxed text-zinc-300">
+                  <div className="mt-3 text-sm leading-relaxed text-zinc-700">
                     {item.answer}
                   </div>
                 </details>
@@ -150,13 +154,15 @@ export default function BlogPostPage({ params }: PageProps) {
           {post.tags.map((t) => (
             <span
               key={t}
-              className="rounded-full border border-white/[0.08] px-2.5 py-1 text-xs text-zinc-500"
+              className="rounded-full border border-zinc-200 px-2.5 py-1 text-xs text-zinc-500"
             >
               #{t}
             </span>
           ))}
         </div>
       </article>
-    </main>
+      </main>
+      <Footer />
+    </>
   )
 }

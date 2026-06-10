@@ -30,7 +30,7 @@ export default async function BlogIndex() {
       <main className="pt-16">
         <JsonLd id="ld-breadcrumb" data={ld} />
 
-        <section className="relative border-b border-white/[0.06] bg-[#080808]">
+        <section className="relative border-b border-zinc-200 bg-white">
           <div className="absolute inset-0 opacity-30">
             <Image
               src="/curated/hero-blog.jpg"
@@ -39,16 +39,16 @@ export default async function BlogIndex() {
               className="object-cover"
               priority
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#080808] via-[#080808]/80 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-white via-white/60 to-transparent" />
           </div>
           <div className="relative mx-auto max-w-5xl px-4 py-20 sm:py-28">
-            <p className="mb-2 text-xs font-bold uppercase tracking-widest text-blue-400">
+            <p className="mb-2 text-xs font-bold uppercase tracking-widest text-blue-600">
               {SITE.nameKo} 블로그
             </p>
-            <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
+            <h1 className="text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl">
               LED 사이니지 견적·시공·운영 가이드
             </h1>
-            <p className="mt-4 max-w-2xl text-base leading-relaxed text-zinc-300">
+            <p className="mt-4 max-w-2xl text-base leading-relaxed text-zinc-700">
               {SITE.nameKo}({SITE.nameEn})가 소상공인을 위해 정리하는 실용 가이드.
               견적·시공·NovaStar 운영·업종별 활용·유지보수까지 — 광고 톤이 아닌
               사실·수치·사례 중심.
@@ -59,19 +59,19 @@ export default async function BlogIndex() {
         <section className="mx-auto max-w-5xl px-4 py-16">
           <ul className="grid grid-cols-1 gap-8 sm:grid-cols-2">
             {posts.length === 0 ? (
-              <li className="col-span-full rounded-2xl border border-white/[0.08] bg-zinc-900/40 p-6 text-sm text-zinc-400">
+              <li className="col-span-full rounded-2xl border border-zinc-200 bg-white/40 p-6 text-sm text-zinc-600">
                 아직 발행된 글이 없습니다. 첫 글이 곧 공개됩니다.
               </li>
             ) : (
               posts.map((p) => (
                 <li
                   key={p.slug}
-                  className="overflow-hidden rounded-2xl border border-white/[0.08] bg-zinc-900/40 transition hover:border-blue-500/40"
+                  className="overflow-hidden rounded-2xl border border-zinc-200 bg-white/40 transition hover:border-blue-500/40"
                 >
                   <Link href={`/blog/${p.slug}`} className="block">
-                    <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-800">
+                    <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-100">
                       <Image
-                        src={`https://picsum.photos/seed/${p.slug}/800/450`}
+                        src={p.coverImage ?? p.ogImage ?? '/curated/hero-blog.jpg'}
                         alt={p.title}
                         fill
                         sizes="(max-width: 768px) 100vw, 50vw"
@@ -79,20 +79,20 @@ export default async function BlogIndex() {
                       />
                     </div>
                     <div className="p-6">
-                      <p className="mb-2 text-xs font-bold uppercase tracking-widest text-blue-400">
+                      <p className="mb-2 text-xs font-bold uppercase tracking-widest text-blue-600">
                         {p.category}
                       </p>
-                      <h2 className="mb-2 text-xl font-semibold leading-snug text-white">
+                      <h2 className="mb-2 text-xl font-semibold leading-snug text-zinc-900">
                         {p.title}
                       </h2>
-                      <p className="line-clamp-2 text-sm leading-relaxed text-zinc-400">
+                      <p className="line-clamp-2 text-sm leading-relaxed text-zinc-600">
                         {p.description}
                       </p>
                       <div className="mt-3 flex flex-wrap gap-2">
                         {p.tags.slice(0, 4).map((t) => (
                           <span
                             key={t}
-                            className="rounded-full border border-white/[0.08] px-2 py-0.5 text-[11px] text-zinc-500"
+                            className="rounded-full border border-zinc-200 px-2 py-0.5 text-[11px] text-zinc-500"
                           >
                             #{t}
                           </span>

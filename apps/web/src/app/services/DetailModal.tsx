@@ -51,14 +51,14 @@ export function DetailModal({ open, payload, onClose }: Props) {
         >
           <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
           <motion.div
-            className="relative w-full max-w-3xl overflow-hidden rounded-t-2xl border border-white/[0.08] bg-[#0a0a0a] sm:rounded-2xl"
+            className="relative w-full max-w-3xl overflow-hidden rounded-t-2xl border border-zinc-200 bg-zinc-50 sm:rounded-2xl"
             initial={{ y: 40, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 40, opacity: 0 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-800">
+            <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-100">
               <Image
                 src={payload.image}
                 alt={payload.title}
@@ -77,24 +77,24 @@ export function DetailModal({ open, payload, onClose }: Props) {
             </div>
             <div className="max-h-[60vh] overflow-y-auto p-6 sm:p-8">
               {payload.subtitle && (
-                <div className="text-xs uppercase tracking-wide text-blue-400">{payload.subtitle}</div>
+                <div className="text-xs uppercase tracking-wide text-blue-600">{payload.subtitle}</div>
               )}
-              <h2 className="mt-1 text-2xl font-bold text-white sm:text-3xl">{payload.title}</h2>
-              {payload.summary && <p className="mt-3 text-zinc-300">{payload.summary}</p>}
+              <h2 className="mt-1 text-2xl font-bold text-zinc-900 sm:text-3xl">{payload.title}</h2>
+              {payload.summary && <p className="mt-3 text-zinc-700">{payload.summary}</p>}
               {payload.bullets && payload.bullets.length > 0 && (
                 <ul className="mt-4 space-y-1.5">
                   {payload.bullets.map((b) => (
-                    <li key={b} className="text-sm text-zinc-300">· {b}</li>
+                    <li key={b} className="text-sm text-zinc-700">· {b}</li>
                   ))}
                 </ul>
               )}
               <div className="mt-6 space-y-6">
                 {payload.details.map((block) => (
                   <div key={block.heading}>
-                    <div className="text-sm font-semibold uppercase tracking-wide text-zinc-400">{block.heading}</div>
+                    <div className="text-sm font-semibold uppercase tracking-wide text-zinc-600">{block.heading}</div>
                     <ul className="mt-2 space-y-1.5">
                       {block.items.map((it) => (
-                        <li key={it} className="text-sm text-zinc-200">· {it}</li>
+                        <li key={it} className="text-sm text-zinc-800">· {it}</li>
                       ))}
                     </ul>
                   </div>

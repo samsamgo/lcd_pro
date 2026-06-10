@@ -1,7 +1,7 @@
 'use client'
 
 import { useFormContext, useWatch } from 'react-hook-form'
-import { useCallback, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Camera, X, Upload } from 'lucide-react'
 import type { QuoteFormData } from '../QuoteWizard'
 
@@ -42,8 +42,8 @@ export function Step3PhotoUpload() {
   return (
     <div className="space-y-5">
       <div>
-        <p className="mb-1 text-sm font-semibold text-zinc-200">
-          현장 사진 업로드 <span className="text-blue-400">*</span>
+        <p className="mb-1 text-sm font-semibold text-zinc-800">
+          현장 사진 업로드 <span className="text-blue-600">*</span>
         </p>
         <p className="text-xs text-zinc-500">최소 1장, 최대 10장. JPG/PNG/HEIC, 장당 20MB 이하.</p>
       </div>
@@ -51,8 +51,8 @@ export function Step3PhotoUpload() {
       {/* 권장 사진 가이드 */}
       <div className="grid grid-cols-3 gap-2">
         {PHOTO_GUIDES.map((g, i) => (
-          <div key={g} className="flex items-center gap-2 rounded-lg border border-zinc-800 bg-zinc-900 p-2.5">
-            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-600/20 text-[10px] font-bold text-blue-400">
+          <div key={g} className="flex items-center gap-2 rounded-lg border border-zinc-200 bg-white p-2.5">
+            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-600/20 text-[10px] font-bold text-blue-600">
               {i + 1}
             </span>
             <span className="text-[11px] text-zinc-500">{g}</span>
@@ -65,11 +65,11 @@ export function Step3PhotoUpload() {
         onDrop={handleDrop}
         onDragOver={(e) => e.preventDefault()}
         onClick={() => inputRef.current?.click()}
-        className="cursor-pointer rounded-2xl border-2 border-dashed border-zinc-700 p-8 text-center transition-all hover:border-blue-500/50 hover:bg-blue-500/5"
+        className="cursor-pointer rounded-2xl border-2 border-dashed border-zinc-300 p-8 text-center transition-all hover:border-blue-500/50 hover:bg-blue-500/5"
       >
-        <Upload size={28} className="mx-auto mb-3 text-zinc-600" />
-        <p className="text-sm text-zinc-400">클릭하거나 사진을 여기에 드래그하세요</p>
-        <p className="mt-1 text-xs text-zinc-600">스마트폰 사진도 바로 업로드 가능합니다</p>
+        <Upload size={28} className="mx-auto mb-3 text-zinc-500" />
+        <p className="text-sm text-zinc-600">클릭하거나 사진을 여기에 드래그하세요</p>
+        <p className="mt-1 text-xs text-zinc-500">스마트폰 사진도 바로 업로드 가능합니다</p>
         <input
           ref={inputRef}
           type="file"
@@ -85,11 +85,7 @@ export function Step3PhotoUpload() {
         <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
           {photos.map((file, idx) => (
             <div key={idx} className="group relative aspect-square">
-              <img
-                src={URL.createObjectURL(file)}
-                alt={`사진 ${idx + 1}`}
-                className="h-full w-full rounded-xl object-cover"
-              />
+              <PhotoPreview file={file} alt={`사진 ${idx + 1}`} />
               <button
                 type="button"
                 onClick={() => removePhoto(idx)}
@@ -104,7 +100,7 @@ export function Step3PhotoUpload() {
             <button
               type="button"
               onClick={() => inputRef.current?.click()}
-              className="flex aspect-square items-center justify-center rounded-xl border-2 border-dashed border-zinc-800 text-zinc-600 hover:border-zinc-600"
+              className="flex aspect-square items-center justify-center rounded-xl border-2 border-dashed border-zinc-200 text-zinc-500 hover:border-zinc-400"
             >
               <Camera size={20} />
             </button>
@@ -113,8 +109,30 @@ export function Step3PhotoUpload() {
       )}
 
       {errors.photos && (
-        <p className="text-xs text-red-400">{errors.photos.message as string}</p>
+        <p className="text-xs text-red-600">{errors.photos.message as string}</p>
       )}
     </div>
+  )
+}
+
+function PhotoPreview({ file, alt }: { file: File; alt: string }) {
+  const [src, setSrc] = useState<string>()
+
+  useEffect(() => {
+    const objectUrl = URL.createObjectURL(file)
+    setSrc(objectUrl)
+    return () => URL.revokeObjectURL(objectUrl)
+  }, [file])
+
+  if (!src) {
+    return <div className="h-full w-full rounded-xl bg-zinc-100" />
+  }
+
+  return (
+    <img
+      src={src}
+      alt={alt}
+      className="h-full w-full rounded-xl object-cover"
+    />
   )
 }

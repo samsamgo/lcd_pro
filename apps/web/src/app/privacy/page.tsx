@@ -61,14 +61,14 @@ export default function PrivacyPage() {
       <NavBar />
       <main className="min-h-screen pt-24 pb-16 px-4">
         <div className="mx-auto max-w-3xl">
-          <h1 className="mb-2 text-3xl font-bold text-white">개인정보처리방침</h1>
+          <h1 className="mb-2 text-3xl font-bold text-zinc-900">개인정보처리방침</h1>
           <p className="mb-10 text-sm text-zinc-500">시행일: 2024년 1월 1일 · 최종 수정: 2024년 1월 1일</p>
 
           <div className="space-y-8">
             {SECTIONS.map((s) => (
               <div key={s.title}>
-                <h2 className="mb-3 text-lg font-semibold text-zinc-100">{s.title}</h2>
-                <p className="whitespace-pre-line text-sm leading-relaxed text-zinc-400">{s.content}</p>
+                <h2 className="mb-3 text-lg font-semibold text-zinc-900">{s.title}</h2>
+                <p className="whitespace-pre-line text-sm leading-relaxed text-zinc-600">{s.content}</p>
               </div>
             ))}
           </div>

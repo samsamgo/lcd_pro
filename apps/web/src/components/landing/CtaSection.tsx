@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
+import { SITE } from '@/lib/seo/site'
 
 export function CtaSection() {
   return (
@@ -17,7 +18,7 @@ export function CtaSection() {
             <h2 className="mb-4 text-4xl font-extrabold sm:text-5xl">
               지금 바로 시작하세요
             </h2>
-            <p className="mb-10 text-lg text-zinc-400">
+            <p className="mb-10 text-lg text-zinc-600">
               매장 사진 3장으로 30분 내 견적.
               <br />
               기술 지식 없이도 누구나 LED 전광판을 운영합니다.
@@ -35,8 +36,8 @@ export function CtaSection() {
                 />
               </Link>
               <a
-                href="tel:0000000000"
-                className="rounded-xl border border-zinc-700 px-8 py-4 text-base font-semibold text-zinc-300 transition-all hover:bg-zinc-800"
+                href={`tel:${SITE.phone.replace(/[^+\d]/g, '')}`}
+                className="rounded-xl border border-zinc-300 px-8 py-4 text-base font-semibold text-zinc-700 transition-all hover:bg-zinc-100"
               >
                 전화 문의
               </a>

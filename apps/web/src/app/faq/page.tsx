@@ -73,7 +73,7 @@ export default function FaqPage() {
           ])}
         />
 
-        <section className="relative border-b border-white/[0.06] bg-[#080808]">
+        <section className="relative border-b border-zinc-200 bg-white">
           <div className="absolute inset-0 opacity-25">
             <Image
               src="/curated/hero-faq.jpg"
@@ -82,18 +82,18 @@ export default function FaqPage() {
               className="object-cover"
               priority
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#080808] via-[#080808]/80 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-white via-white/60 to-transparent" />
           </div>
           <div className="relative mx-auto max-w-5xl px-4 py-20 sm:py-28">
-            <p className="mb-2 text-xs font-bold uppercase tracking-widest text-blue-400">
+            <p className="mb-2 text-xs font-bold uppercase tracking-widest text-blue-600">
               FAQ
             </p>
-            <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
+            <h1 className="text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl">
               자주 묻는 질문
             </h1>
-            <p className="mt-3 max-w-2xl text-base leading-relaxed text-zinc-300">
+            <p className="mt-3 max-w-2xl text-base leading-relaxed text-zinc-700">
               {SITE.nameKo}({SITE.nameEn})에 자주 들어오는 질문과 답변입니다.
-              더 자세한 가이드는 <Link href="/blog" className="text-blue-400 underline-offset-4 hover:underline">블로그</Link>를 확인하세요.
+              더 자세한 가이드는 <Link href="/blog" className="text-blue-600 underline-offset-4 hover:underline">블로그</Link>를 확인하세요.
             </p>
           </div>
         </section>
@@ -103,12 +103,12 @@ export default function FaqPage() {
             {FAQS.map((item) => (
               <details
                 key={item.question}
-                className="group rounded-2xl border border-white/[0.08] bg-zinc-900/40 p-5 open:border-blue-500/40"
+                className="group rounded-2xl border border-zinc-200 bg-white/40 p-5 open:border-blue-500/40"
               >
-                <summary className="cursor-pointer list-none text-base font-semibold text-white">
+                <summary className="cursor-pointer list-none text-base font-semibold text-zinc-900">
                   {item.question}
                 </summary>
-                <div className="mt-3 text-sm leading-relaxed text-zinc-300">
+                <div className="mt-3 text-sm leading-relaxed text-zinc-700">
                   {item.answer}
                 </div>
               </details>
@@ -124,7 +124,7 @@ export default function FaqPage() {
             </Link>
             <Link
               href="/blog"
-              className="inline-flex items-center gap-2 rounded-xl border border-white/[0.12] px-6 py-3 text-sm font-semibold text-zinc-200 hover:border-blue-500/40"
+              className="inline-flex items-center gap-2 rounded-xl border border-zinc-200 px-6 py-3 text-sm font-semibold text-zinc-800 hover:border-blue-500/40"
             >
               블로그 가이드 보기 →
             </Link>

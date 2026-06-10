@@ -19,15 +19,15 @@ export function TLDR({ definition, points }: Props) {
       aria-label="핵심 요약"
       className="my-8 rounded-2xl border border-blue-500/20 bg-blue-500/5 p-6"
     >
-      <p className="mb-2 text-xs font-bold uppercase tracking-widest text-blue-400">
+      <p className="mb-2 text-xs font-bold uppercase tracking-widest text-blue-600">
         핵심 요약 · TL;DR
       </p>
       {definition && (
-        <p className="mb-3 text-base font-semibold leading-relaxed text-zinc-100">
+        <p className="mb-3 text-base font-semibold leading-relaxed text-zinc-900">
           {definition}
         </p>
       )}
-      <ul className="list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-zinc-300">
+      <ul className="list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-zinc-700">
         {points.map((p, i) => (
           <li key={i}>{p}</li>
         ))}

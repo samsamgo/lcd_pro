@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { serverClient } from '@/lib/supabase'
 import { executePayment, TossError } from '@/lib/toss'
+import { features } from '@/lib/features'
 
 // Vercel Cron — 매일 00:00 UTC (= 09:00 KST)
 // next_billing_at <= now() AND status = 'active' 구독을 차례로 청구
@@ -12,6 +13,11 @@ import { executePayment, TossError } from '@/lib/toss'
 const MAX_RETRIES_BEFORE_PAUSE = 3
 
 export async function GET(req: NextRequest) {
+  // MVP: 결제 기능 잠금(features.billing OFF) — 비활성 (파일은 보존)
+  if (!features.billing) {
+    return NextResponse.json({ error: 'billing disabled' }, { status: 404 })
+  }
+
   // Vercel Cron 인증 검증
   const secret = process.env.CRON_SECRET
   if (secret) {

@@ -16,6 +16,7 @@ export const POSTS: BlogPost[] = [
     tags: ['LED 사이니지', '견적', '카페', '소상공인', 'NovaStar'],
     publishedAt: '2026-05-17T00:00:00+09:00',
     author: '우강테크',
+    coverImage: '/curated/gal-restaurant-menu.jpg',
     definition:
       'LED 사이니지 견적이란 설치 환경(실내/옥외), 화면 크기, 픽셀 피치, 컨트롤러 사양을 토대로 산출하는 예상 범위 가격이다.',
     tldr: [

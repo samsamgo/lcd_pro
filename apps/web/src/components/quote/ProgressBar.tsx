@@ -16,7 +16,7 @@ export function ProgressBar({ current, total, labels }: ProgressBarProps) {
           <div
             key={i}
             className={`h-1 flex-1 rounded-full transition-all duration-300 ${
-              i <= current ? 'bg-blue-500' : 'bg-zinc-800'
+              i <= current ? 'bg-blue-500' : 'bg-zinc-100'
             }`}
           />
         ))}

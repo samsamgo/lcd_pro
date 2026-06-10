@@ -34,14 +34,14 @@ const CASES = [
 
 export function SocialProof() {
   return (
-    <section id="cases" className="py-24 px-4 bg-[#050505]">
+    <section id="cases" className="py-24 px-4 bg-zinc-50">
       <div className="mx-auto max-w-5xl">
         {/* 숫자 */}
-        <div className="mb-20 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.04] sm:grid-cols-4">
+        <div className="mb-20 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50 sm:grid-cols-4">
           {STATS.map((s) => (
             <div
               key={s.label}
-              className="flex flex-col items-center justify-center bg-[#050505] p-8 text-center"
+              className="flex flex-col items-center justify-center bg-zinc-50 p-8 text-center"
             >
               <span className="text-4xl font-extrabold text-gradient">{s.value}</span>
               <span className="mt-2 text-sm text-zinc-500">{s.label}</span>
@@ -51,7 +51,7 @@ export function SocialProof() {
 
         {/* 후기 */}
         <div className="mb-12 text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-blue-400">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-blue-600">
             시공 사례
           </p>
           <h2 className="text-3xl font-bold sm:text-4xl">고객 후기</h2>
@@ -61,18 +61,18 @@ export function SocialProof() {
           {CASES.map((c) => (
             <div key={c.name} className="glass rounded-2xl p-6">
               <div className="mb-4 flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-600/10 text-sm font-bold text-blue-400">
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-600/10 text-sm font-bold text-blue-600">
                   {c.type[0]}
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-white">{c.type}</p>
+                  <p className="text-sm font-semibold text-zinc-900">{c.type}</p>
                   <p className="text-xs text-zinc-500">{c.location} · {c.sku}</p>
                 </div>
               </div>
-              <p className="mb-4 text-sm leading-relaxed text-zinc-400">
+              <p className="mb-4 text-sm leading-relaxed text-zinc-600">
                 &ldquo;{c.review}&rdquo;
               </p>
-              <p className="text-xs font-medium text-zinc-600">— {c.name}</p>
+              <p className="text-xs font-medium text-zinc-500">— {c.name}</p>
             </div>
           ))}
         </div>

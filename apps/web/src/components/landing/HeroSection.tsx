@@ -23,15 +23,15 @@ export function HeroSection() {
           priority
           className="object-cover opacity-30"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#080808]/70 via-[#080808]/80 to-[#080808]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/0 via-white/60 to-white" />
         <div className="absolute left-1/2 top-1/3 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-600/10 blur-[120px]" />
         <div className="absolute right-0 top-0 h-[400px] w-[400px] rounded-full bg-cyan-600/5 blur-[100px]" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-5xl text-center">
         {/* 배지 */}
-        <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/10 px-4 py-1.5 text-sm text-blue-400">
-          <span className="h-1.5 w-1.5 rounded-full bg-blue-400 animate-pulse" />
+        <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/10 px-4 py-1.5 text-sm text-blue-700">
+          <span className="h-1.5 w-1.5 rounded-full bg-blue-500 animate-pulse" />
           {SITE.nameKo} · {SITE.nameEn} — LED 사이니지 B2B 플랫폼
         </div>
 
@@ -42,7 +42,7 @@ export function HeroSection() {
           <span className="text-gradient">30분 내 견적</span>
         </h1>
 
-        <p className="mx-auto mb-4 max-w-2xl text-lg text-zinc-400 sm:text-xl">
+        <p className="mx-auto mb-4 max-w-2xl text-lg text-zinc-600 sm:text-xl">
           전기·구조·허가 걱정 없이. 표준화된 설치, 원격 콘텐츠 관리,
           <br className="hidden sm:block" />
           정기 점검까지 — 기술을 몰라도 누구나 LED 사이니지를 운영합니다.
@@ -67,7 +67,7 @@ export function HeroSection() {
             href="http://pf.kakao.com/_lcdpro"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 rounded-xl border border-yellow-400/30 bg-yellow-400/10 px-8 py-4 text-base font-semibold text-yellow-300 transition-all hover:bg-yellow-400/20"
+            className="flex items-center gap-2 rounded-xl border border-yellow-400/30 bg-yellow-400/10 px-8 py-4 text-base font-semibold text-yellow-600 transition-all hover:bg-yellow-400/20"
           >
             카카오로 문의하기
           </a>
@@ -78,9 +78,9 @@ export function HeroSection() {
           {BADGES.map(({ icon: Icon, text }) => (
             <div
               key={text}
-              className="flex items-center gap-2 rounded-full glass px-4 py-2 text-sm text-zinc-300"
+              className="flex items-center gap-2 rounded-full glass px-4 py-2 text-sm text-zinc-700"
             >
-              <Icon size={15} className="text-blue-400" />
+              <Icon size={15} className="text-blue-600" />
               {text}
             </div>
           ))}
@@ -88,9 +88,9 @@ export function HeroSection() {
       </div>
 
       {/* 스크롤 힌트 */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-zinc-600">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-zinc-500">
         <span className="text-xs">스크롤</span>
-        <div className="h-6 w-px bg-gradient-to-b from-zinc-600 to-transparent" />
+        <div className="h-6 w-px bg-gradient-to-b from-zinc-300 to-transparent" />
       </div>
     </section>
   )

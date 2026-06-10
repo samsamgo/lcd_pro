@@ -1,6 +1,8 @@
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 import { CheckCircle2, AlertTriangle } from 'lucide-react'
 import { serverClient } from '@/lib/supabase'
+import { features } from '@/lib/features'
 import { issueBillingKey, executePayment, TossError } from '@/lib/toss'
 
 export const dynamic = 'force-dynamic'
@@ -143,17 +145,20 @@ export default async function SubscribeSuccessPage({
   params: { projectId: string }
   searchParams: SearchParams
 }) {
+  // MVP: 결제 기능 잠금(features.billing OFF) — 홈으로 redirect (파일은 보존)
+  if (!features.billing) redirect('/')
+
   const result = await activate(params.projectId, searchParams)
 
   if (!result.ok) {
     return (
       <main className="mx-auto max-w-xl px-5 py-16 text-center">
-        <AlertTriangle size={48} className="mx-auto text-red-400" />
-        <h1 className="mt-5 text-xl font-bold text-zinc-100">결제 처리 중 문제가 발생했습니다</h1>
-        <p className="mt-2 text-sm text-zinc-400">{result.error}</p>
+        <AlertTriangle size={48} className="mx-auto text-red-600" />
+        <h1 className="mt-5 text-xl font-bold text-zinc-900">결제 처리 중 문제가 발생했습니다</h1>
+        <p className="mt-2 text-sm text-zinc-600">{result.error}</p>
         <Link
           href={`/subscribe/${params.projectId}`}
-          className="mt-6 inline-block rounded-lg border border-zinc-700 px-5 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800"
+          className="mt-6 inline-block rounded-lg border border-zinc-300 px-5 py-2.5 text-sm text-zinc-800 hover:bg-zinc-100"
         >
           다시 시도하기
         </Link>
@@ -163,12 +168,12 @@ export default async function SubscribeSuccessPage({
 
   return (
     <main className="mx-auto max-w-xl px-5 py-16 text-center">
-      <CheckCircle2 size={48} className="mx-auto text-green-400" />
-      <h1 className="mt-5 text-xl font-bold text-zinc-100">구독이 시작되었습니다</h1>
-      <p className="mt-2 text-sm text-zinc-400">
+      <CheckCircle2 size={48} className="mx-auto text-green-600" />
+      <h1 className="mt-5 text-xl font-bold text-zinc-900">구독이 시작되었습니다</h1>
+      <p className="mt-2 text-sm text-zinc-600">
         ₩{result.amount.toLocaleString('ko-KR')} 첫 결제 완료. 다음 결제는 한 달 뒤 자동 청구됩니다.
       </p>
-      <p className="mt-1 text-xs text-zinc-600">주문번호: {result.orderId}</p>
+      <p className="mt-1 text-xs text-zinc-500">주문번호: {result.orderId}</p>
     </main>
   )
 }

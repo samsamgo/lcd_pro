@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { serverClient } from '@/lib/supabase'
 import { notifyCustomerQuoteReceived, notifyAdminNewQuote } from '@/lib/notify'
+import { features } from '@/lib/features'
 import {
   estimateProject,
   recommendFamily,
@@ -39,7 +40,6 @@ function recommendPackageTier(env: Environment, areaM2: number): PackageTier {
 }
 
 export async function POST(req: NextRequest) {
-  const supabase = serverClient()
   const formData = await req.formData()
 
   const phone = formData.get('phone') as string
@@ -60,6 +60,58 @@ export async function POST(req: NextRequest) {
   const exactSizeRequired = formData.get('exactSizeRequired') === 'true'
   const isPublicProcurement = formData.get('isPublicProcurement') === 'true'
   const photos = formData.getAll('photos') as File[]
+
+  // ── 견적 계산 (순수 로컬 · 항상 실행, 외부 의존 없음) ───────────────
+  // 입력값(cm → mm 변환은 기존 폼 컨벤션 유지)
+  const widthMm = desiredWidth ? Math.round(parseFloat(desiredWidth) * 10) : null
+  const heightMm = desiredHeight ? Math.round(parseFloat(desiredHeight) * 10) : null
+
+  // 표준 블록 견적 산출 (치수 입력이 있을 때만)
+  let estimate: ReturnType<typeof estimateProject> | null = null
+  let familyCode: FamilyCode | null = null
+  let packageTier: PackageTier = 'STANDARD'
+  if (widthMm && heightMm && widthMm > 0 && heightMm > 0) {
+    familyCode = familyCodeInput ?? recommendFamily(environment, highResFlag)
+    // 면적 사전계산 → 패키지 추천 (estimate 후 area_m2 fix-up)
+    const provisionalArea = (widthMm / 1000) * (heightMm / 1000)
+    packageTier = recommendPackageTier(environment, provisionalArea)
+    estimate = estimateProject({
+      width_mm: widthMm,
+      height_mm: heightMm,
+      family_code: familyCode,
+      packageTier,
+      needs_live_input: needsLiveInput,
+      exact_size_required: exactSizeRequired,
+      is_public_procurement: isPublicProcurement,
+    })
+  }
+
+  // 견적 결과 페이지에서 표시할 요약 (DB 여부와 무관하게 항상 반환)
+  const estimateSummary = estimate
+    ? {
+        classification: estimate.classification,
+        classification_reasons: estimate.classification_reasons,
+        layout_code: estimate.layout_code,
+        requested: estimate.requested,
+        standard: estimate.standard,
+        bom: estimate.bom,
+        pricing_blocked: estimate.pricing_blocked,
+        action: estimate.action,
+      }
+    : null
+
+  // ── MVP 모드 (features.quotePersistence OFF): DB·사진·알림 전부 건너뜀 ──
+  // 즉석 화면 견적만 반환. 리드 유실 방지 CTA는 클라이언트(QuoteSuccess)에서 표시.
+  if (!features.quotePersistence) {
+    return NextResponse.json({
+      success: true,
+      quoteId: null,
+      estimate: estimateSummary,
+    })
+  }
+
+  // ── 이하: features.quotePersistence ON 일 때만 (Supabase 필요) ──────
+  const supabase = serverClient()
 
   // 고객 upsert (phone 기준)
   const { data: existingCustomer } = await supabase
@@ -83,30 +135,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: '고객 생성 실패' }, { status: 500 })
     }
     customerId = newCustomer.id
-  }
-
-  // 입력값(cm → mm 변환은 기존 폼 컨벤션 유지)
-  const widthMm = desiredWidth ? Math.round(parseFloat(desiredWidth) * 10) : null
-  const heightMm = desiredHeight ? Math.round(parseFloat(desiredHeight) * 10) : null
-
-  // 표준 블록 견적 산출 (치수 입력이 있을 때만)
-  let estimate: ReturnType<typeof estimateProject> | null = null
-  let familyCode: FamilyCode | null = null
-  let packageTier: PackageTier = 'STANDARD'
-  if (widthMm && heightMm && widthMm > 0 && heightMm > 0) {
-    familyCode = familyCodeInput ?? recommendFamily(environment, highResFlag)
-    // 면적 사전계산 → 패키지 추천 (estimate 후 area_m2 fix-up)
-    const provisionalArea = (widthMm / 1000) * (heightMm / 1000)
-    packageTier = recommendPackageTier(environment, provisionalArea)
-    estimate = estimateProject({
-      width_mm: widthMm,
-      height_mm: heightMm,
-      family_code: familyCode,
-      packageTier,
-      needs_live_input: needsLiveInput,
-      exact_size_required: exactSizeRequired,
-      is_public_procurement: isPublicProcurement,
-    })
   }
 
   // 견적 insert payload
@@ -190,36 +218,28 @@ export async function POST(req: NextRequest) {
     })
   }
 
-  // 고객 + 관리자 알림 (비동기 — 실패해도 견적 접수에 영향 없음)
-  const notifyData = {
-    businessName,
-    contactName,
-    phone,
-    region,
-    environment,
-    urgency,
-    quoteId: quote.id,
-  }
+  // 고객 + 관리자 알림 (features.notifications ON 일 때만 · 실패해도 접수에 영향 없음)
+  if (features.notifications) {
+    const notifyData = {
+      businessName,
+      contactName,
+      phone,
+      region,
+      environment,
+      urgency,
+      quoteId: quote.id,
+    }
 
-  void Promise.allSettled([
-    notifyCustomerQuoteReceived(notifyData),
-    notifyAdminNewQuote(notifyData),
-  ])
+    void Promise.allSettled([
+      notifyCustomerQuoteReceived(notifyData),
+      notifyAdminNewQuote(notifyData),
+    ])
+  }
 
   return NextResponse.json({
     success: true,
     quoteId: quote.id,
-    // 견적 결과 페이지에서 표시할 수 있도록 estimate 요약 반환
-    estimate: estimate ? {
-      classification: estimate.classification,
-      classification_reasons: estimate.classification_reasons,
-      layout_code: estimate.layout_code,
-      requested: estimate.requested,
-      standard: estimate.standard,
-      bom: estimate.bom,
-      pricing_blocked: estimate.pricing_blocked,
-      action: estimate.action,
-    } : null,
+    estimate: estimateSummary,
     ...(uploadErrors.length > 0 && { uploadErrors }),
   })
 }

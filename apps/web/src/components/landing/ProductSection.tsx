@@ -71,10 +71,10 @@ const PRODUCTS = [
 
 export function ProductSection() {
   return (
-    <section id="products" className="py-24 px-4 bg-[#050505]">
+    <section id="products" className="py-24 px-4 bg-zinc-50">
       <div className="mx-auto max-w-6xl">
         <div className="mb-14 text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-blue-400">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-blue-600">
             제품 라인업
           </p>
           <h2 className="text-4xl font-bold sm:text-5xl">
@@ -89,40 +89,40 @@ export function ProductSection() {
           {PRODUCTS.map((p) => (
             <div
               key={p.sku}
-              className="glass group rounded-2xl p-6 transition-all hover:border-blue-500/30 hover:bg-white/[0.05]"
+              className="glass group rounded-2xl p-6 transition-all hover:border-blue-500/30 hover:bg-zinc-50"
             >
               <div className="mb-4 flex items-start justify-between">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600/10">
                   {p.env === 'indoor' ? (
-                    <Building2 size={20} className="text-blue-400" />
+                    <Building2 size={20} className="text-blue-600" />
                   ) : (
                     <Sun size={20} className="text-orange-400" />
                   )}
                 </div>
-                <span className="rounded-full bg-zinc-800 px-2.5 py-1 text-xs font-mono text-zinc-400">
+                <span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-mono text-zinc-600">
                   {p.sku}
                 </span>
               </div>
 
-              <h3 className="mb-1 font-bold text-white">{p.name}</h3>
-              <p className="mb-4 text-xs text-blue-400">{p.tag}</p>
+              <h3 className="mb-1 font-bold text-zinc-900">{p.name}</h3>
+              <p className="mb-4 text-xs text-blue-600">{p.tag}</p>
 
               <div className="mb-4 grid grid-cols-2 gap-2 text-xs text-zinc-500">
                 <div>
-                  <span className="text-zinc-600">피치</span>
-                  <p className="font-medium text-zinc-300">{p.pitch}</p>
+                  <span className="text-zinc-500">피치</span>
+                  <p className="font-medium text-zinc-700">{p.pitch}</p>
                 </div>
                 <div>
-                  <span className="text-zinc-600">밝기</span>
-                  <p className="font-medium text-zinc-300">{p.brightness}</p>
+                  <span className="text-zinc-500">밝기</span>
+                  <p className="font-medium text-zinc-700">{p.brightness}</p>
                 </div>
                 <div>
-                  <span className="text-zinc-600">설치비 기준</span>
-                  <p className="font-semibold text-white">{p.priceFrom}</p>
+                  <span className="text-zinc-500">설치비 기준</span>
+                  <p className="font-semibold text-zinc-900">{p.priceFrom}</p>
                 </div>
                 <div>
-                  <span className="text-zinc-600">CMS 구독</span>
-                  <p className="font-medium text-blue-300">{p.cms}</p>
+                  <span className="text-zinc-500">CMS 구독</span>
+                  <p className="font-medium text-blue-700">{p.cms}</p>
                 </div>
               </div>
 
@@ -138,7 +138,7 @@ export function ProductSection() {
           ))}
         </div>
 
-        <p className="mt-6 text-center text-xs text-zinc-600">
+        <p className="mt-6 text-center text-xs text-zinc-500">
           * 표시 금액은 기준가이며, 최종 금액은 현장 실사 후 확정됩니다.
         </p>
       </div>

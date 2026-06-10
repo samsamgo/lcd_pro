@@ -36,7 +36,7 @@ export function HowItWorks() {
     <section id="how-it-works" className="py-24 px-4">
       <div className="mx-auto max-w-5xl">
         <div className="mb-14 text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-blue-400">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-blue-600">
             진행 방식
           </p>
           <h2 className="text-4xl font-bold sm:text-5xl">4단계로 끝납니다</h2>
@@ -50,14 +50,14 @@ export function HowItWorks() {
             {STEPS.map(({ icon: Icon, step, title, desc, duration }) => (
               <div key={step} className="relative flex flex-col items-center text-center">
                 <div className="relative mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-600/10 border border-blue-500/20">
-                  <Icon size={26} className="text-blue-400" />
+                  <Icon size={26} className="text-blue-600" />
                   <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-[10px] font-bold text-white">
                     {step}
                   </span>
                 </div>
-                <h3 className="mb-2 font-semibold text-white">{title}</h3>
+                <h3 className="mb-2 font-semibold text-zinc-900">{title}</h3>
                 <p className="mb-3 text-sm leading-relaxed text-zinc-500">{desc}</p>
-                <span className="rounded-full bg-zinc-800 px-3 py-1 text-xs font-medium text-zinc-400">
+                <span className="rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-600">
                   {duration}
                 </span>
               </div>

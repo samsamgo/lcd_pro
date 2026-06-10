@@ -31,7 +31,7 @@ export default function ServicesPage() {
       />
       <NavBar />
       <main id="main" className="pt-16">
-        <section className="relative border-b border-white/[0.06] bg-[#080808]">
+        <section className="relative border-b border-zinc-200 bg-white">
           <div className="absolute inset-0 opacity-35">
             <Image
               src="/curated/hero-services.jpg"
@@ -40,27 +40,27 @@ export default function ServicesPage() {
               className="object-cover"
               priority
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#080808] via-[#080808]/85 to-[#080808]/40" />
+            <div className="absolute inset-0 bg-gradient-to-r from-white via-white/60 to-white/40" />
           </div>
           <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28">
-            <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-blue-300">
+            <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-blue-700">
               <span className="h-1.5 w-1.5 rounded-full bg-blue-400 animate-pulse" />
               LED Signage · DOOH · Digital Media
             </div>
             <h1 className="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">
               <span className="text-gradient">LED 전광판, 시공부터 운영까지</span>
               <br />
-              <span className="text-white">한 파트너로 끝냅니다.</span>
+              <span className="text-zinc-900">한 파트너로 끝냅니다.</span>
             </h1>
-            <p className="mt-6 max-w-2xl text-lg text-zinc-300">
+            <p className="mt-6 max-w-2xl text-lg text-zinc-700">
               옥외 안전전광판 · 실내 미디어월 · 사이니지 운영 (CMS) · 원격 관제 · AS · 공공조달 납품 · KC/EMC 인증까지.
               NovaStar Taurus 글로벌 표준 + 표준화 캐비닛으로 견적·시공·AS 속도를 보장합니다.
             </p>
-            <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm text-zinc-300">
-              <span>· 옥외 P5 SMD <strong className="text-white">6,000 cd/m²</strong> 실측</span>
-              <span>· KC 적합등록필증 <strong className="text-white">4 모델</strong> 보유</span>
+            <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm text-zinc-700">
+              <span>· 옥외 P5 SMD <strong className="text-zinc-900">6,000 cd/m²</strong> 실측</span>
+              <span>· KC 적합등록필증 <strong className="text-zinc-900">4 모델</strong> 보유</span>
               <span>· ISO45001 + EMC 표준성적서</span>
-              <span>· 견적 <strong className="text-white">30분</strong> · AS 모듈 단위 교체</span>
+              <span>· 견적 <strong className="text-zinc-900">30분</strong> · AS 모듈 단위 교체</span>
             </div>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
@@ -71,7 +71,7 @@ export default function ServicesPage() {
               </Link>
               <Link
                 href="/#how-it-works"
-                className="rounded-lg border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300 transition-colors hover:bg-white/5"
+                className="rounded-lg border border-zinc-200 px-5 py-3 text-sm font-semibold text-zinc-700 transition-colors hover:bg-zinc-100"
               >
                 진행 방식 보기
               </Link>
@@ -79,20 +79,20 @@ export default function ServicesPage() {
           </div>
         </section>
 
-        <section className="bg-[#0a0a0a]">
+        <section className="bg-zinc-50">
           <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">제공 영역</h2>
-            <p className="mt-3 max-w-2xl text-zinc-400">
+            <p className="mt-3 max-w-2xl text-zinc-600">
               LED 사이니지에 필요한 12개 영역을 표준화된 방법으로 제공합니다. 카드를 클릭하면 상세 사양·실측 데이터를 볼 수 있습니다.
             </p>
             <ServicesGrid />
           </div>
         </section>
 
-        <section className="border-t border-white/[0.06] bg-[#080808]">
+        <section className="border-t border-zinc-200 bg-white">
           <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">표준화로 견적·시공 속도를 보장합니다</h2>
-            <p className="mt-3 max-w-3xl text-zinc-400">
+            <p className="mt-3 max-w-3xl text-zinc-600">
               3개 family (F-IN-P3 · F-IN-P2.5 · F-OUT-P5) × layout matrix (A-2x1 ~ A-10x5) × ZONE 단위 확장.
               표준 캐비닛은 견적을 빠르게, AS는 모듈 단위 교체로 신속하게 만듭니다.
             </p>
@@ -100,40 +100,40 @@ export default function ServicesPage() {
               {TRUST_MARKS.map((t) => (
                 <div
                   key={t.label}
-                  className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-5"
+                  className="rounded-xl border border-zinc-200 bg-zinc-50 p-5"
                 >
-                  <div className="text-sm font-semibold text-white">{t.label}</div>
-                  <div className="mt-1 text-sm text-zinc-400">{t.detail}</div>
+                  <div className="text-sm font-semibold text-zinc-900">{t.label}</div>
+                  <div className="mt-1 text-sm text-zinc-600">{t.detail}</div>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="border-t border-white/[0.06] bg-[#0a0a0a]">
+        <section className="border-t border-zinc-200 bg-zinc-50">
           <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">시공 가능 영역</h2>
-            <p className="mt-3 max-w-3xl text-zinc-400">
+            <p className="mt-3 max-w-3xl text-zinc-600">
               실내·옥외·공공·소상공인 — 환경별 시공 역량과 실측 데이터를 갖추고 있습니다. 카드를 클릭하면 실증 케이스를 볼 수 있습니다.
             </p>
             <CapabilityGrid />
           </div>
         </section>
 
-        <section className="border-t border-white/[0.06] bg-[#080808]">
+        <section className="border-t border-zinc-200 bg-white">
           <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">실증 시공 케이스</h2>
-            <p className="mt-3 max-w-3xl text-zinc-400">
+            <p className="mt-3 max-w-3xl text-zinc-600">
               실측 데이터와 함께 검증된 시공 사례입니다. 견적·설계의 기준선이 됩니다. 카드를 클릭하면 사양·실측·인증 상세를 볼 수 있습니다.
             </p>
             <FieldCasesGrid />
           </div>
         </section>
 
-        <section className="border-t border-white/[0.06] bg-[#0a0a0a]">
+        <section className="border-t border-zinc-200 bg-zinc-50">
           <div className="mx-auto max-w-7xl px-4 py-20 text-center sm:px-6">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">어떤 환경이든 먼저 검토해 드립니다</h2>
-            <p className="mt-3 text-zinc-400">사진 3장과 위치만 보내주시면 1차 견적을 드립니다.</p>
+            <p className="mt-3 text-zinc-600">사진 3장과 위치만 보내주시면 1차 견적을 드립니다.</p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <Link
                 href="/quote"
@@ -143,7 +143,7 @@ export default function ServicesPage() {
               </Link>
               <Link
                 href="/faq"
-                className="rounded-lg border border-white/10 px-6 py-3 text-sm font-semibold text-zinc-300 transition-colors hover:bg-white/5"
+                className="rounded-lg border border-zinc-200 px-6 py-3 text-sm font-semibold text-zinc-700 transition-colors hover:bg-zinc-100"
               >
                 자주 묻는 질문
               </Link>

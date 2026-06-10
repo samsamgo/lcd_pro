@@ -57,7 +57,7 @@ export function PackagesSection() {
     <section id="packages" className="py-24 px-4">
       <div className="mx-auto max-w-5xl">
         <div className="mb-14 text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-blue-400">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-blue-600">
             패키지
           </p>
           <h2 className="text-4xl font-bold sm:text-5xl">
@@ -84,23 +84,23 @@ export function PackagesSection() {
               )}
 
               <div className="mb-6">
-                <h3 className="text-xl font-bold text-white">{pkg.name}</h3>
+                <h3 className="text-xl font-bold text-zinc-900">{pkg.name}</h3>
                 <p className="mt-1 text-sm text-zinc-500">{pkg.tagline}</p>
                 {pkg.monthlyNote && (
-                  <p className="mt-2 text-xs text-blue-400">{pkg.monthlyNote}</p>
+                  <p className="mt-2 text-xs text-blue-600">{pkg.monthlyNote}</p>
                 )}
               </div>
 
               <ul className="mb-6 flex-1 space-y-2.5">
                 {pkg.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2.5 text-sm text-zinc-300">
-                    <Check size={15} className="mt-0.5 shrink-0 text-blue-400" />
+                  <li key={f} className="flex items-start gap-2.5 text-sm text-zinc-700">
+                    <Check size={15} className="mt-0.5 shrink-0 text-blue-600" />
                     {f}
                   </li>
                 ))}
                 {pkg.missing.map((f) => (
-                  <li key={f} className="flex items-start gap-2.5 text-sm text-zinc-600 line-through">
-                    <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-zinc-700" />
+                  <li key={f} className="flex items-start gap-2.5 text-sm text-zinc-500 line-through">
+                    <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-zinc-100" />
                     {f}
                   </li>
                 ))}
@@ -111,7 +111,7 @@ export function PackagesSection() {
                 className={`block rounded-xl py-3 text-center text-sm font-semibold transition-all active:scale-95 ${
                   pkg.recommended
                     ? 'bg-blue-600 text-white hover:bg-blue-500'
-                    : 'bg-zinc-800 text-zinc-200 hover:bg-zinc-700'
+                    : 'bg-zinc-100 text-zinc-800 hover:bg-zinc-100'
                 }`}
               >
                 {pkg.cta}
@@ -123,14 +123,14 @@ export function PackagesSection() {
         {/* 렌탈 카드 */}
         <div className="mt-5 glass rounded-2xl p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h3 className="font-bold text-white">렌탈 플랜</h3>
+            <h3 className="font-bold text-zinc-900">렌탈 플랜</h3>
             <p className="mt-1 text-sm text-zinc-500">
               이벤트·팝업·전시용 임시 설치. 설치 + 철거 포함. 기간 협의.
             </p>
           </div>
           <Link
             href="/quote?type=rental"
-            className="shrink-0 rounded-xl border border-zinc-700 px-6 py-3 text-sm font-semibold text-zinc-300 hover:bg-zinc-800 transition-all"
+            className="shrink-0 rounded-xl border border-zinc-300 px-6 py-3 text-sm font-semibold text-zinc-700 hover:bg-zinc-100 transition-all"
           >
             렌탈 문의
           </Link>
