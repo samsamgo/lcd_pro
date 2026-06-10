@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   keywords: [
     'LED 사이니지', 'LED 전광판', '우강테크', 'WK Tech',
     '전광판 설치', '전광판 견적', '디지털 사이니지',
-    'NovaStar', 'VNNOX', 'CMS 구독', '카페 LED', '식당 LED',
+    'NovaStar', '전광판 AS', '카페 LED', '식당 LED',
   ],
   alternates: {
     canonical: '/',

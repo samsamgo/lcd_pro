@@ -19,7 +19,7 @@ export function AboutBox() {
       <p className="text-sm leading-relaxed text-zinc-700">
         <strong className="text-zinc-900">{SITE.nameKo}({SITE.nameEn})</strong>는
         한국 LED 사이니지 B2B 플랫폼입니다. 카페·식당·헬스장 등 소상공인을 대상으로
-        표준화된 설치와 AS를 제공하며 (원격 콘텐츠 관리(CMS)는 준비중),
+        표준화된 설치와 AS를 제공하며,
         "사진 3장 → 즉석 범위 견적 → 표준화 시공 → 운영" 의 단순한 운영 체계를 통해
         기술을 몰라도 LED 디스플레이를 안정적으로 운영할 수 있도록 돕습니다.
         {' '}<em className="text-zinc-600">{SITE.sloganKo}</em>

@@ -46,7 +46,7 @@ export default function AboutPage() {
           <strong className="text-zinc-900">{SITE.nameKo}({SITE.nameEn})</strong>는
           한국 LED 사이니지(전광판) B2B 플랫폼입니다.
           카페·식당·헬스장 등 소상공인을 위해 NovaStar 기반의 표준화된 설치
-          절차와 AS를 한 곳에서 제공합니다. (원격 콘텐츠 관리(CMS) 구독은 준비중)
+          절차와 AS를 한 곳에서 제공합니다.
         </p>
 
         <h2 className="mt-10 text-2xl font-bold tracking-tight text-zinc-900">
@@ -67,8 +67,8 @@ export default function AboutPage() {
             실측 전 의미 있는 범위 가격을 화면에서 바로 확인하도록 절차를 압축.
           </li>
           <li>
-            <strong className="text-zinc-900">원격 콘텐츠 관리 (준비중)</strong> —
-            설치는 1회, 운영은 매일. 사장님이 기술을 몰라도 안정적으로 운영하도록 준비 중.
+            <strong className="text-zinc-900">설치 후 유지보수</strong> —
+            모듈 단위 교체와 정기 점검으로 설치 1회 이후의 운영까지 책임.
           </li>
         </ul>
 
