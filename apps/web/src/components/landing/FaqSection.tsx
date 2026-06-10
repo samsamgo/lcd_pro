@@ -67,10 +67,10 @@ export function FaqSection() {
         <p className="mt-8 text-center text-sm text-zinc-600">
           더 궁금한 점이 있으신가요?{' '}
           <Link
-            href="/faq"
+            href="/blog"
             className="font-semibold text-blue-600 underline-offset-4 hover:underline"
           >
-            전체 FAQ 보기 →
+            블로그 가이드 보기 →
           </Link>
         </p>
       </div>

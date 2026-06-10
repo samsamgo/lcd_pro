@@ -41,7 +41,7 @@ export async function notifyCustomerQuoteReceived(data: QuoteNotifyData) {
             recipientNo: data.phone.replace(/-/g, ''),
             templateParameter: {
               businessName: data.businessName,
-              estimateTime: '30분 이내',
+              estimateTime: '범위 견적을 안내드립니다.',
               contactUrl: `https://lcdpro.co.kr/quote/status/${data.quoteId}`,
             },
           },
@@ -73,7 +73,7 @@ async function notifyCustomerSMS(data: QuoteNotifyData) {
       user_id: aligoUserId,
       sender: senderNumber,
       receiver: data.phone.replace(/-/g, ''),
-      msg: `[LCD PRO] ${data.businessName} 견적 요청이 접수되었습니다.\n30분 내로 범위 견적을 연락드립니다.\n문의: lcdpro.co.kr`,
+      msg: `[LCD PRO] ${data.businessName} 견적 요청이 접수되었습니다.\n범위 견적을 안내드립니다.\n문의: lcdpro.co.kr`,
       testmode_yn: process.env.NODE_ENV === 'production' ? 'N' : 'Y',
     })
 

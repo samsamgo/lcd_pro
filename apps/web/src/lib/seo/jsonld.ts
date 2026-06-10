@@ -26,7 +26,7 @@ export function organizationLd() {
     foundingDate: SITE.founded,
     knowsAbout: [
       'LED 사이니지', '디지털 사이니지', '전광판', 'LED 디스플레이',
-      'NovaStar', 'VNNOX', 'CMS', '원격 콘텐츠 관리',
+      'NovaStar', 'VNNOX', 'LED 시공', 'AS·유지보수',
     ],
     contactPoint: [
       {
@@ -95,7 +95,7 @@ export function serviceLd(input: ServiceLdInput) {
     '@type': 'Service',
     name: input.name,
     description: input.description,
-    serviceType: input.serviceType ?? 'LED 사이니지 설치 및 CMS 구독',
+    serviceType: input.serviceType ?? 'LED 사이니지 표준 시공 및 AS',
     provider: { '@id': `${SITE.url}/#organization` },
     areaServed: { '@type': 'Country', name: 'South Korea' },
     ...(input.url ? { url: input.url } : {}),

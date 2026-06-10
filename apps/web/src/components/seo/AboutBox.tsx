@@ -31,7 +31,7 @@ export function AboutBox() {
         <Link href="/quote" className="text-blue-600 hover:text-blue-700">
           견적 받기 →
         </Link>
-        <Link href="/faq" className="text-blue-600 hover:text-blue-700">
+        <Link href="/#faq" className="text-blue-600 hover:text-blue-700">
           자주 묻는 질문 →
         </Link>
       </div>

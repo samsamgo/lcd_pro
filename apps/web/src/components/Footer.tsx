@@ -31,7 +31,7 @@ export function Footer() {
             <div className="space-y-3">
               <p className="font-semibold text-zinc-700">리소스</p>
               <Link href="/blog" className="block text-zinc-600 hover:text-zinc-900">블로그</Link>
-              <Link href="/faq" className="block text-zinc-600 hover:text-zinc-900">FAQ</Link>
+              <Link href="/#faq" className="block text-zinc-600 hover:text-zinc-900">FAQ</Link>
               <Link href="/about" className="block text-zinc-600 hover:text-zinc-900">회사 소개</Link>
             </div>
             <div className="space-y-3">

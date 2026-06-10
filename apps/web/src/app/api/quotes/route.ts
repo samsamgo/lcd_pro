@@ -60,6 +60,15 @@ export async function POST(req: NextRequest) {
   const exactSizeRequired = formData.get('exactSizeRequired') === 'true'
   const isPublicProcurement = formData.get('isPublicProcurement') === 'true'
   const photos = formData.getAll('photos') as File[]
+  const agreePrivacy = formData.get('agreePrivacy')
+
+  // ── 서버측 필수 입력 검증 (quotePersistence ON/OFF 무관하게 항상) ───
+  if (photos.length < 3) {
+    return NextResponse.json({ error: '사진을 3장 이상 첨부해주세요.' }, { status: 400 })
+  }
+  if (agreePrivacy !== 'true' && agreePrivacy !== '1' && agreePrivacy !== 'on') {
+    return NextResponse.json({ error: '개인정보 수집 동의가 필요합니다.' }, { status: 400 })
+  }
 
   // ── 견적 계산 (순수 로컬 · 항상 실행, 외부 의존 없음) ───────────────
   // 입력값(cm → mm 변환은 기존 폼 컨벤션 유지)

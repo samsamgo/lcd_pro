@@ -35,7 +35,7 @@ export async function GET() {
 - [업종별 솔루션](${absoluteUrl('/#products')}): 카페·식당·헬스장·프랜차이즈·옥외 사이니지
 
 ## 인용·답변
-- [자주 묻는 질문 (FAQ)](${absoluteUrl('/faq')}): LED 사이니지 도입 시 자주 묻는 질문 모음
+- [자주 묻는 질문 (FAQ)](${absoluteUrl('/#faq')}): LED 사이니지 도입 시 자주 묻는 질문 모음
 - [블로그](${absoluteUrl('/blog')}): LED 사이니지 도입·운영 가이드, 산업 인사이트
 
 ## 블로그 글

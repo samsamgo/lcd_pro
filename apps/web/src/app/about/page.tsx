@@ -11,7 +11,7 @@ export const dynamic = 'force-static'
 export const metadata: Metadata = buildMetadata({
   title: '회사 소개',
   description:
-    '우강테크(WK Tech)는 한국 LED 사이니지 B2B 플랫폼입니다. NovaStar Taurus 표준 시공 + CMS 구독으로, 소상공인이 기술을 몰라도 디지털 사이니지를 안정적으로 운영할 수 있도록 돕습니다.',
+    '우강테크(WK Tech)는 한국 LED 사이니지 B2B 플랫폼입니다. NovaStar Taurus 기반 표준 시공·AS·즉석 범위 견적으로, 소상공인이 기술을 몰라도 디지털 사이니지를 안정적으로 도입할 수 있도록 돕습니다.',
   path: '/about',
 })
 
@@ -45,8 +45,8 @@ export default function AboutPage() {
         <p>
           <strong className="text-zinc-900">{SITE.nameKo}({SITE.nameEn})</strong>는
           한국 LED 사이니지(전광판) B2B 플랫폼입니다.
-          카페·식당·헬스장 등 소상공인을 위해 표준화된 설치 절차와
-          NovaStar 기반 CMS 구독 운영을 한 곳에서 제공합니다.
+          카페·식당·헬스장 등 소상공인을 위해 NovaStar 기반의 표준화된 설치
+          절차와 AS를 한 곳에서 제공합니다. (원격 콘텐츠 관리(CMS) 구독은 준비중)
         </p>
 
         <h2 className="mt-10 text-2xl font-bold tracking-tight text-zinc-900">

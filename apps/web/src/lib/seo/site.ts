@@ -17,7 +17,7 @@ export const SITE = {
   shortName: 'WK Tech',
   sloganKo: '함께 가는 길, 더 나은 내일. 우강테크가 파트너가 되겠습니다.',
   sloganEn: 'A trusted partner for smarter signage operations.',
-  taglineKo: 'LED 사이니지 B2B 플랫폼 — 표준화 시공 + CMS 구독',
+  taglineKo: 'LED 사이니지 B2B 플랫폼 — 표준화 시공 · AS · 즉석 범위 견적',
 
   // URL·연락
   url: RAW_URL,
