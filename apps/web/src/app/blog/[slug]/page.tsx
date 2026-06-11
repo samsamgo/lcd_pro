@@ -83,19 +83,17 @@ export default function BlogPostPage({ params }: PageProps) {
       </nav>
 
       <article>
-        {post.coverImage && (
-          <div className="relative mb-8 aspect-[16/9] w-full overflow-hidden rounded-2xl bg-zinc-900 led-frame">
-            <Image
-              src={post.coverImage}
-              alt={post.title}
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, 768px"
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/40 to-transparent" />
-          </div>
-        )}
+        <div className="relative mb-8 aspect-[16/9] w-full overflow-hidden rounded-2xl bg-zinc-900 led-frame">
+          <Image
+            src={post.coverImage ?? post.ogImage ?? '/curated/hero-blog.jpg'}
+            alt={post.title}
+            fill
+            priority
+            sizes="(max-width: 768px) 100vw, 768px"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/40 to-transparent" />
+        </div>
         <header className="mb-8 border-b border-zinc-200 pb-8">
           <p className="mb-3 text-xs font-bold uppercase tracking-widest text-blue-600">
             {post.category}
