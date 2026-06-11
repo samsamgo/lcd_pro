@@ -60,60 +60,110 @@ export default async function BlogIndex() {
         </section>
 
         <section className="mx-auto max-w-5xl px-4 py-16">
-          <ul className="grid grid-cols-1 gap-8 sm:grid-cols-2">
-            {posts.length === 0 ? (
-              <li className="col-span-full rounded-2xl border border-zinc-200 bg-white/40 p-6 text-sm text-zinc-600">
-                아직 발행된 글이 없습니다. 첫 글이 곧 공개됩니다.
-              </li>
-            ) : (
-              posts.map((p) => (
-                <li
-                  key={p.slug}
-                  className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition-all hover:-translate-y-0.5 hover:led-frame"
-                >
-                  <Link href={`/blog/${p.slug}`} className="group block">
-                    <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-900">
-                      <Image
-                        src={p.coverImage ?? p.ogImage ?? '/curated/hero-blog.jpg'}
-                        alt={p.title}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                        className="object-cover img-zoom"
-                      />
-                    </div>
-                    <div className="p-6">
-                      <p className="mb-2 text-xs font-bold uppercase tracking-widest text-blue-600">
-                        {p.category}
-                      </p>
-                      <h2 className="mb-2 text-xl font-semibold leading-snug text-zinc-900">
-                        {p.title}
-                      </h2>
-                      <p className="line-clamp-2 text-sm leading-relaxed text-zinc-600">
-                        {p.description}
-                      </p>
-                      <div className="mt-3 flex flex-wrap gap-2">
-                        {p.tags.slice(0, 4).map((t) => (
-                          <span
-                            key={t}
-                            className="rounded-full border border-zinc-200 px-2 py-0.5 text-[11px] text-zinc-500"
-                          >
-                            #{t}
-                          </span>
-                        ))}
-                      </div>
-                      <p className="mt-3 text-xs text-zinc-500">
-                        <time dateTime={p.publishedAt}>
-                          {p.publishedAt.slice(0, 10)}
-                        </time>
-                        {' · '}
-                        {p.author}
-                      </p>
-                    </div>
-                  </Link>
-                </li>
-              ))
-            )}
-          </ul>
+          {posts.length === 0 ? (
+            <div className="rounded-2xl border border-zinc-200 bg-zinc-50 p-10 text-center text-sm text-zinc-600">
+              아직 발행된 글이 없습니다. 첫 글이 곧 공개됩니다.
+            </div>
+          ) : (
+            <>
+              {/* 대표 글 — 가로형 풀폭 (글이 1개여도 자연스럽게) */}
+              <Link
+                href={`/blog/${posts[0].slug}`}
+                className="group mb-10 grid overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition-all hover:-translate-y-0.5 hover:led-frame md:grid-cols-2"
+              >
+                <div className="relative aspect-[16/10] overflow-hidden bg-zinc-900 md:aspect-auto md:min-h-[300px]">
+                  <Image
+                    src={posts[0].coverImage ?? posts[0].ogImage ?? '/curated/hero-blog.jpg'}
+                    alt={posts[0].title}
+                    fill
+                    priority
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover img-zoom"
+                  />
+                </div>
+                <div className="flex flex-col justify-center p-8">
+                  <p className="mb-2 text-xs font-bold uppercase tracking-widest text-blue-600">
+                    대표 글 · {posts[0].category}
+                  </p>
+                  <h2 className="mb-3 text-2xl font-bold leading-snug text-zinc-900">
+                    {posts[0].title}
+                  </h2>
+                  <p className="line-clamp-3 text-sm leading-relaxed text-zinc-600">
+                    {posts[0].description}
+                  </p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {posts[0].tags.slice(0, 4).map((t) => (
+                      <span
+                        key={t}
+                        className="rounded-full border border-zinc-200 px-2 py-0.5 text-[11px] text-zinc-500"
+                      >
+                        #{t}
+                      </span>
+                    ))}
+                  </div>
+                  <p className="mt-4 text-xs text-zinc-500">
+                    <time dateTime={posts[0].publishedAt}>
+                      {posts[0].publishedAt.slice(0, 10)}
+                    </time>
+                    {' · '}
+                    {posts[0].author}
+                  </p>
+                </div>
+              </Link>
+
+              {/* 나머지 글 — 그리드 */}
+              {posts.length > 1 && (
+                <ul className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                  {posts.slice(1).map((p) => (
+                    <li
+                      key={p.slug}
+                      className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition-all hover:-translate-y-0.5 hover:led-frame"
+                    >
+                      <Link href={`/blog/${p.slug}`} className="group block">
+                        <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-900">
+                          <Image
+                            src={p.coverImage ?? p.ogImage ?? '/curated/hero-blog.jpg'}
+                            alt={p.title}
+                            fill
+                            sizes="(max-width: 768px) 100vw, 33vw"
+                            className="object-cover img-zoom"
+                          />
+                        </div>
+                        <div className="p-6">
+                          <p className="mb-2 text-xs font-bold uppercase tracking-widest text-blue-600">
+                            {p.category}
+                          </p>
+                          <h2 className="mb-2 text-xl font-semibold leading-snug text-zinc-900">
+                            {p.title}
+                          </h2>
+                          <p className="line-clamp-2 text-sm leading-relaxed text-zinc-600">
+                            {p.description}
+                          </p>
+                          <div className="mt-3 flex flex-wrap gap-2">
+                            {p.tags.slice(0, 4).map((t) => (
+                              <span
+                                key={t}
+                                className="rounded-full border border-zinc-200 px-2 py-0.5 text-[11px] text-zinc-500"
+                              >
+                                #{t}
+                              </span>
+                            ))}
+                          </div>
+                          <p className="mt-3 text-xs text-zinc-500">
+                            <time dateTime={p.publishedAt}>
+                              {p.publishedAt.slice(0, 10)}
+                            </time>
+                            {' · '}
+                            {p.author}
+                          </p>
+                        </div>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </>
+          )}
         </section>
       </main>
       <Footer />
