@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import { SITE } from '@/lib/seo/site'
@@ -19,6 +20,10 @@ const NAV_LINKS = [
 export function NavBar() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const pathname = usePathname()
+  // 다크 히어로가 상단에 깔린 페이지(홈·블로그 인덱스)에서만 상단 투명+밝은 텍스트.
+  // 그 외(블로그 글·about·faq 등 밝은 상단)에서는 진한 텍스트로 가독성 유지.
+  const hasDarkHero = pathname === '/' || pathname === '/blog'
 
   // 애플식 sticky 헤더 — 스크롤 시 배경/그림자 페이드 인
   useEffect(() => {
@@ -28,8 +33,8 @@ export function NavBar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // 상단(스크롤 전)에는 다크 히어로 위에 떠 있으므로 밝은 텍스트, 스크롤 후 흰 배경+진한 텍스트
-  const onDark = !scrolled && !open
+  // 상단(스크롤 전)에 다크 히어로가 있는 페이지에서만 밝은 텍스트, 스크롤 후엔 흰 배경+진한 텍스트
+  const onDark = hasDarkHero && !scrolled && !open
 
   return (
     <header

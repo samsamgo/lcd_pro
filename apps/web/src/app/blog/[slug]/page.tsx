@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { getAllPosts, getPostBySlug } from '@/lib/blog'
 import { absoluteUrl, buildMetadata, SITE } from '@/lib/seo/site'
@@ -82,6 +83,19 @@ export default function BlogPostPage({ params }: PageProps) {
       </nav>
 
       <article>
+        {post.coverImage && (
+          <div className="relative mb-8 aspect-[16/9] w-full overflow-hidden rounded-2xl bg-zinc-900 led-frame">
+            <Image
+              src={post.coverImage}
+              alt={post.title}
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, 768px"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/40 to-transparent" />
+          </div>
+        )}
         <header className="mb-8 border-b border-zinc-200 pb-8">
           <p className="mb-3 text-xs font-bold uppercase tracking-widest text-blue-600">
             {post.category}
@@ -142,7 +156,7 @@ export default function BlogPostPage({ params }: PageProps) {
         <div className="mt-12">
           <Link
             href="/quote"
-            className="inline-flex items-center gap-2 rounded-xl bg-blue-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-400"
+            className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-500 active:scale-95 glow"
           >
             사진 3장으로 견적 받기 →
           </Link>

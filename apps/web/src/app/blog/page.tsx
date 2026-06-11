@@ -30,25 +30,28 @@ export default async function BlogIndex() {
       <main className="pt-16">
         <JsonLd id="ld-breadcrumb" data={ld} />
 
-        <section className="relative border-b border-zinc-200 bg-white">
-          <div className="absolute inset-0 opacity-30">
+        <section className="surface-dark relative overflow-hidden border-b border-white/10">
+          <div className="pointer-events-none absolute inset-0" aria-hidden="true">
             <Image
               src="/curated/hero-blog.jpg"
               alt=""
               fill
-              className="object-cover"
               priority
+              sizes="100vw"
+              className="object-cover object-center"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-white via-white/60 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-zinc-950 via-zinc-950/80 to-zinc-950/40" />
+            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent" />
+            <div className="absolute right-10 top-1/2 h-[360px] w-[360px] -translate-y-1/2 rounded-full bg-cyan-500/10 blur-[120px]" />
           </div>
-          <div className="relative mx-auto max-w-5xl px-4 py-20 sm:py-28">
-            <p className="mb-2 text-xs font-bold uppercase tracking-widest text-blue-600">
+          <div className="relative mx-auto max-w-5xl px-4 py-24 sm:py-32">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-cyan-400">
               {SITE.nameKo} 블로그
             </p>
-            <h1 className="text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl">
+            <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
               LED 사이니지 견적·시공·운영 가이드
             </h1>
-            <p className="mt-4 max-w-2xl text-base leading-relaxed text-zinc-700">
+            <p className="mt-4 max-w-2xl text-base leading-relaxed text-zinc-300">
               {SITE.nameKo}({SITE.nameEn})가 소상공인을 위해 정리하는 실용 가이드.
               견적·시공·NovaStar 운영·업종별 활용·유지보수까지 — 광고 톤이 아닌
               사실·수치·사례 중심.
@@ -66,16 +69,16 @@ export default async function BlogIndex() {
               posts.map((p) => (
                 <li
                   key={p.slug}
-                  className="overflow-hidden rounded-2xl border border-zinc-200 bg-white/40 transition hover:border-blue-500/40"
+                  className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition-all hover:-translate-y-0.5 hover:led-frame"
                 >
-                  <Link href={`/blog/${p.slug}`} className="block">
-                    <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-100">
+                  <Link href={`/blog/${p.slug}`} className="group block">
+                    <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-900">
                       <Image
                         src={p.coverImage ?? p.ogImage ?? '/curated/hero-blog.jpg'}
                         alt={p.title}
                         fill
                         sizes="(max-width: 768px) 100vw, 50vw"
-                        className="object-cover transition group-hover:scale-105"
+                        className="object-cover img-zoom"
                       />
                     </div>
                     <div className="p-6">
