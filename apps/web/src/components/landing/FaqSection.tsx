@@ -33,7 +33,7 @@ export const HOME_FAQS = [
 
 export function FaqSection() {
   return (
-    <section id="faq" className="scroll-mt-20 bg-zinc-50 py-24 px-4">
+    <section id="faq" className="scroll-mt-20 bg-white py-24 px-4">
       <JsonLd id="ld-home-faq" data={faqPageLd(HOME_FAQS)} />
       <div className="mx-auto max-w-3xl">
         <div className="mb-12 text-center">

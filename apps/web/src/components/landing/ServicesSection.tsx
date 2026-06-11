@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import {
   Ruler,
   Cpu,
@@ -13,31 +14,37 @@ const SERVICES = [
   {
     icon: Ruler,
     title: '표준화 시공',
+    img: '/curated/svc-cabinet.jpg',
     desc: '실내·옥외 LED를 표준 캐비닛·layout matrix로 시공. 견적·납기·AS가 빨라집니다.',
   },
   {
     icon: Cpu,
     title: 'NovaStar 컨트롤러 표준',
+    img: '/curated/svc-controller.jpg',
     desc: 'NovaStar Taurus 글로벌 표준 컨트롤러로 안정적 송출과 원격 운영 기반을 제공합니다.',
   },
   {
     icon: MonitorSmartphone,
     title: CMS_LABEL,
+    img: '/curated/svc-cms.jpg',
     desc: '스마트폰·웹에서 콘텐츠를 올리고 스케줄링하는 원격 관리 기능을 준비하고 있습니다.',
   },
   {
     icon: Wrench,
     title: 'AS · 유지보수',
+    img: '/curated/svc-as.jpg',
     desc: '모듈 단위 교체로 빠른 AS. 패키지에 따라 정기 점검·예비부품·우선 처리를 지원합니다.',
   },
   {
     icon: ShieldCheck,
     title: '인증 · 인허가 대응',
+    img: '/curated/svc-certification.jpg',
     desc: 'KC 적합등록·EMC 등 인증 자산을 기반으로, 옥외 광고물 신고 절차를 함께 처리합니다.',
   },
   {
     icon: Building2,
     title: '공공조달 · 다점포',
+    img: '/curated/svc-procurement.jpg',
     desc: '학교·공공기관 조달과 프랜차이즈 다점포 운영까지 표준화된 방식으로 대응합니다.',
   },
 ]
@@ -58,14 +65,29 @@ export function ServicesSection() {
           </p>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {SERVICES.map(({ icon: Icon, title, desc }) => (
-            <div key={title} className="glass rounded-2xl p-6">
-              <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-blue-600/10">
-                <Icon size={22} className="text-blue-600" />
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {SERVICES.map(({ icon: Icon, title, desc, img }) => (
+            <div
+              key={title}
+              className="group overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition-all hover:-translate-y-0.5 hover:led-frame"
+            >
+              <div className="relative aspect-[16/9] overflow-hidden bg-zinc-900">
+                <Image
+                  src={img}
+                  alt={`${title} 이미지`}
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  className="object-cover img-zoom"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/45 to-transparent" />
+                <div className="absolute left-4 top-4 flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-950/70 backdrop-blur">
+                  <Icon size={20} className="text-cyan-400" />
+                </div>
               </div>
-              <h3 className="mb-2 font-bold text-zinc-900">{title}</h3>
-              <p className="text-sm leading-relaxed text-zinc-600">{desc}</p>
+              <div className="p-6">
+                <h3 className="mb-2 font-bold text-zinc-900">{title}</h3>
+                <p className="text-sm leading-relaxed text-zinc-600">{desc}</p>
+              </div>
             </div>
           ))}
         </div>

@@ -28,12 +28,15 @@ export function NavBar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  // 상단(스크롤 전)에는 다크 히어로 위에 떠 있으므로 밝은 텍스트, 스크롤 후 흰 배경+진한 텍스트
+  const onDark = !scrolled && !open
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
+        scrolled || open
           ? 'border-b border-zinc-200 bg-white/80 shadow-sm backdrop-blur-md'
-          : 'border-b border-transparent bg-white/0'
+          : 'border-b border-transparent bg-transparent'
       }`}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
@@ -43,8 +46,14 @@ export function NavBar() {
           aria-label={`${SITE.nameKo} 홈`}
         >
           <span className="text-xl font-bold tracking-tight">
-            <span className="text-gradient">우강테크</span>
-            <span className="ml-1.5 text-sm font-medium text-zinc-600">WK Tech</span>
+            <span className={onDark ? 'text-white' : 'text-gradient'}>우강테크</span>
+            <span
+              className={`ml-1.5 text-sm font-medium ${
+                onDark ? 'text-zinc-300' : 'text-zinc-600'
+              }`}
+            >
+              WK Tech
+            </span>
           </span>
         </Link>
 
@@ -53,7 +62,11 @@ export function NavBar() {
             <Link
               key={l.href}
               href={l.href}
-              className="rounded text-sm text-zinc-700 transition-colors hover:text-zinc-900"
+              className={`rounded text-sm transition-colors ${
+                onDark
+                  ? 'text-zinc-200 hover:text-white'
+                  : 'text-zinc-700 hover:text-zinc-900'
+              }`}
             >
               {l.label}
             </Link>
@@ -77,9 +90,9 @@ export function NavBar() {
             견적
           </Link>
           <button
-            className="rounded-lg p-2 text-zinc-700"
+            className={`rounded-lg p-2 ${onDark ? 'text-white' : 'text-zinc-700'}`}
             onClick={() => setOpen(!open)}
-            aria-label="메뉴 열기"
+            aria-label={open ? '메뉴 닫기' : '메뉴 열기'}
             aria-expanded={open}
             aria-controls="mobile-nav"
           >

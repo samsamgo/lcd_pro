@@ -41,6 +41,18 @@ interface Props {
 export function QuoteSuccess({ estimate }: Props) {
   const blocked = estimate?.pricing_blocked
   const cls = estimate?.classification
+  // 견적 산출 여부에 따라 정직하게 헤드라인 분기 (치수 미입력/엔지니어링 라우팅 시 "산출" 단언 금지)
+  const hasEstimate = !!estimate && !blocked
+  const heading = blocked
+    ? '엔지니어링 상담이 필요합니다'
+    : hasEstimate
+      ? '범위 견적이 산출되었습니다'
+      : '견적 요청이 접수되었습니다'
+  const subtext = blocked
+    ? '요청하신 사양은 표준 자동 견적 범위를 벗어나, 별도 설계 상담으로 정밀 견적을 안내드립니다.'
+    : hasEstimate
+      ? '아래에 예상 범위 견적이 표시됩니다. 정밀 견적은 현장 실측 상담으로 진행됩니다.'
+      : '담당자가 입력 정보를 검토한 뒤, 예상 범위 견적과 현장 실측 일정을 안내드립니다.'
 
   return (
     <div className="glass rounded-2xl p-8">
@@ -48,10 +60,8 @@ export function QuoteSuccess({ estimate }: Props) {
         <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-blue-600/10">
           <CheckCircle2 size={32} className="text-blue-600" />
         </div>
-        <h2 className="mb-2 text-2xl font-bold text-zinc-900">범위 견적이 산출되었습니다</h2>
-        <p className="text-zinc-700">
-          아래에 예상 범위 견적이 화면에 즉시 표시됩니다. 정밀 견적은 현장 실측 상담으로 진행됩니다.
-        </p>
+        <h2 className="mb-2 text-2xl font-bold text-zinc-900">{heading}</h2>
+        <p className="text-zinc-700">{subtext}</p>
       </div>
 
       {estimate && <EstimateBlock estimate={estimate} />}

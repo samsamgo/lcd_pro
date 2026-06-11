@@ -24,7 +24,7 @@ const COMPARISONS = [
 
 export function DifferentiatorSection() {
   return (
-    <section className="py-20 px-4 bg-zinc-50">
+    <section className="py-20 px-4 bg-white">
       <div className="mx-auto max-w-5xl">
         <div className="mb-12 text-center">
           <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-blue-600">

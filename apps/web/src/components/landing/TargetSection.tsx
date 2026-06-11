@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useState } from 'react'
 import { SEGMENT_PRICE_LABEL } from '@/lib/pricing'
 
@@ -9,6 +10,7 @@ const TARGETS = [
     id: 'food',
     label: '카페·음식점·바',
     icon: '☕',
+    img: '/curated/cap-restaurant.jpg',
     pain: '메뉴 바꿀 때마다 현수막 인쇄비 + 디자인 비용',
     solution: '화면에서 즉시 메뉴 교체. 이벤트·계절 메뉴도 손쉽게 반영.',
     sku: 'IN-S / IN-M 스탠다드',
@@ -18,6 +20,7 @@ const TARGETS = [
     id: 'health',
     label: '병원·학원·헬스장',
     icon: '🏥',
+    img: '/curated/cap-clinic-display.jpg',
     pain: '공지사항·시간표를 매번 출력 — 대기실 안내가 비효율적',
     solution: '대기 화면에 공지·스케줄 표출. 콘텐츠 수정이 간편합니다.',
     sku: 'IN-M 스탠다드',
@@ -27,6 +30,7 @@ const TARGETS = [
     id: 'franchise',
     label: '프랜차이즈·체인',
     icon: '🏪',
+    img: '/curated/cap-market-arcade.jpg',
     pain: '전국 매장 광고 통일 관리가 불가능. 본사→지점 콘텐츠 전달 지연.',
     solution: '표준화된 구성으로 다점포를 일관되게 운영. 수량에 따라 단가가 조정됩니다.',
     sku: 'IN-M × N개 프리미엄',
@@ -36,6 +40,7 @@ const TARGETS = [
     id: 'outdoor',
     label: '로드사이드·빌딩',
     icon: '🏙',
+    img: '/curated/cap-outdoor-safety.jpg',
     pain: '기존 간판은 교체 비용이 수천만원. 콘텐츠 변경 불가.',
     solution: 'LED로 교체 후 계절·시간대별 콘텐츠를 유연하게 운영. 원거리 가시성 확보.',
     sku: 'OUT-M / OUT-L 스탠다드',
@@ -45,6 +50,7 @@ const TARGETS = [
     id: 'event',
     label: '이벤트·팝업',
     icon: '🎪',
+    img: '/curated/cap-premium-exhibit.jpg',
     pain: '임시 설치인데 일반 업체는 최소 발주량·기간 요구',
     solution: '렌탈 플랜으로 설치부터 철거까지. 기간·규모 맞춤 협의.',
     sku: '렌탈 플랜',
@@ -74,6 +80,7 @@ export function TargetSection() {
             <button
               key={t.id}
               onClick={() => setActive(t.id)}
+              aria-pressed={active === t.id}
               className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all ${
                 active === t.id
                   ? 'bg-blue-600 text-white'
@@ -87,34 +94,54 @@ export function TargetSection() {
         </div>
 
         {/* 콘텐츠 */}
-        <div className="glass rounded-2xl p-8">
-          <div className="grid gap-8 md:grid-cols-2">
-            <div>
-              <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-red-600">
-                현재 문제
-              </p>
-              <p className="text-zinc-700">{current.pain}</p>
+        <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
+          <div className="grid md:grid-cols-2">
+            {/* 업종 실사 */}
+            <div className="relative min-h-[240px] overflow-hidden bg-zinc-900 md:min-h-full">
+              <Image
+                src={current.img}
+                alt={`${current.label} LED 사이니지 설치 예시`}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/40 to-transparent md:bg-gradient-to-r" />
+              <span className="absolute left-4 top-4 rounded-full bg-zinc-950/70 px-3 py-1 text-sm font-semibold text-white backdrop-blur">
+                {current.icon} {current.label}
+              </span>
             </div>
-            <div>
-              <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-blue-600">
-                우강테크 솔루션
-              </p>
-              <p className="text-zinc-700">{current.solution}</p>
-            </div>
-          </div>
 
-          <div className="mt-6 flex flex-col items-start gap-4 border-t border-zinc-200 pt-6 sm:flex-row sm:items-center sm:justify-between">
+            {/* 텍스트 */}
+            <div className="p-8">
+              <div className="grid gap-6">
+                <div>
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-red-600">
+                    현재 문제
+                  </p>
+                  <p className="text-zinc-700">{current.pain}</p>
+                </div>
+                <div>
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-blue-600">
+                    우강테크 솔루션
+                  </p>
+                  <p className="text-zinc-700">{current.solution}</p>
+                </div>
+              </div>
+
+              <div className="mt-6 flex flex-col items-start gap-4 border-t border-zinc-200 pt-6 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="text-xs text-zinc-600">추천 구성</p>
               <p className="font-semibold text-zinc-800">{current.sku}</p>
               <p className="text-sm font-medium text-blue-600">{current.priceRange}</p>
             </div>
-            <Link
-              href={`/quote?type=${current.id}`}
-              className="rounded-xl bg-blue-600 px-6 py-3 text-sm font-bold text-white transition-all hover:bg-blue-500 active:scale-95"
-            >
-              {current.label} 견적 받기
-            </Link>
+                <Link
+                  href={`/quote?type=${current.id}`}
+                  className="rounded-xl bg-blue-600 px-6 py-3 text-sm font-bold text-white transition-all hover:bg-blue-500 active:scale-95"
+                >
+                  {current.label} 견적 받기
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </div>
