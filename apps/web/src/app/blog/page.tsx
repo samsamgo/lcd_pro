@@ -40,18 +40,19 @@ export default async function BlogIndex() {
               sizes="100vw"
               className="object-cover object-center"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-zinc-950 via-zinc-950/80 to-zinc-950/40" />
-            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent" />
-            <div className="absolute right-10 top-1/2 h-[360px] w-[360px] -translate-y-1/2 rounded-full bg-cyan-500/10 blur-[120px]" />
+            {/* 균일 스크림 — 이미지가 밝은 구간이어도 텍스트 대비 항상 보장 */}
+            <div className="absolute inset-0 bg-zinc-950/60" />
+            <div className="absolute inset-0 bg-gradient-to-r from-zinc-950 via-zinc-950/85 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/30 to-transparent" />
           </div>
           <div className="relative mx-auto max-w-5xl px-4 py-24 sm:py-32">
             <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-cyan-400">
               {SITE.nameKo} 블로그
             </p>
-            <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
+            <h1 className="max-w-3xl text-4xl font-bold tracking-tight text-white drop-shadow-sm sm:text-5xl">
               LED 사이니지 견적·시공·운영 가이드
             </h1>
-            <p className="mt-4 max-w-2xl text-base leading-relaxed text-zinc-300">
+            <p className="mt-4 max-w-2xl text-base leading-relaxed text-zinc-200">
               {SITE.nameKo}({SITE.nameEn})가 소상공인을 위해 정리하는 실용 가이드.
               견적·시공·NovaStar 운영·업종별 활용·유지보수까지 — 광고 톤이 아닌
               사실·수치·사례 중심.
