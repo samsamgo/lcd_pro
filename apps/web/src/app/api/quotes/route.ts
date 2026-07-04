@@ -8,6 +8,7 @@ import {
   type FamilyCode,
   type PackageTier,
 } from '@/lib/standardBlock'
+import { priceFromBom } from '@/lib/bomPricing'
 import type { Database } from '@lcd-pro/db'
 
 type CustomerType = Database['public']['Enums']['customer_type']
@@ -106,6 +107,11 @@ export async function POST(req: NextRequest) {
         bom: estimate.bom,
         pricing_blocked: estimate.pricing_blocked,
         action: estimate.action,
+        // 판매가 범위 (표준 견적 + 치수 입력 시에만). 엔지니어링 라우팅·차단 시 null.
+        price:
+          estimate.bom && !estimate.pricing_blocked
+            ? priceFromBom(estimate.bom, environment)
+            : null,
       }
     : null
 

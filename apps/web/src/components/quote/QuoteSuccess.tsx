@@ -32,7 +32,10 @@ export interface EstimateSummary {
   } | null
   pricing_blocked: boolean
   action?: string
+  price?: { min: number; max: number; materialLow: number; materialHigh: number } | null
 }
+
+const fmtMan = (won: number) => `${(won / 10_000).toLocaleString()}만원`
 
 interface Props {
   estimate: EstimateSummary | null
@@ -96,7 +99,7 @@ export function QuoteSuccess({ estimate }: Props) {
 }
 
 function EstimateBlock({ estimate }: { estimate: EstimateSummary }) {
-  const { classification, classification_reasons, requested, standard, bom, pricing_blocked, layout_code } = estimate
+  const { classification, classification_reasons, requested, standard, bom, pricing_blocked, layout_code, price } = estimate
 
   if (pricing_blocked) {
     return (
@@ -129,6 +132,18 @@ function EstimateBlock({ estimate }: { estimate: EstimateSummary }) {
           {classification === 'STANDARD_LAYOUT' ? '표준 레이아웃 적용' : '표준 존 반복 적용 (기술검수 포함)'}
         </span>
       </div>
+
+      {price && (
+        <div className="mb-4 rounded-xl border border-blue-500/40 bg-blue-600/5 p-4 text-center">
+          <div className="text-[11px] uppercase tracking-wider text-zinc-500">예상 범위 견적 (설치비 포함)</div>
+          <div className="text-2xl font-bold text-blue-700">
+            약 {fmtMan(price.min)} ~ {fmtMan(price.max)}
+          </div>
+          <div className="mt-1 text-[11px] text-zinc-500">
+            VAT 별도 · 현장 실측 후 확정되는 예상치이며 확정가가 아닙니다.
+          </div>
+        </div>
+      )}
 
       <div className="mb-3 grid grid-cols-2 gap-2 text-xs">
         <SizeBox label="요청 크기" w={requested.width_mm} h={requested.height_mm} subtle />

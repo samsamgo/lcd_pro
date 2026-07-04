@@ -6,10 +6,11 @@ interface Props {
   products: any[]
 }
 
+// 패키지 배수 = 1 / (1 − 목표마진). 견적엔진 pricing.ts 정책과 통일 (최소 30% ~ 45%).
 const PACKAGE_MULTIPLIERS: Record<string, number> = {
-  basic: 1.0,
-  standard: 1.25,
-  premium: 1.55,
+  basic: 1.4286,    // 마진 30%
+  standard: 1.5385, // 마진 35%
+  premium: 1.8182,  // 마진 45%
 }
 
 export function MarginCalculator({ products }: Props) {
@@ -63,9 +64,9 @@ export function MarginCalculator({ products }: Props) {
             onChange={(e) => setSelectedPkg(e.target.value)}
             className="w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm text-zinc-100 focus:border-blue-500/60 focus:outline-none"
           >
-            <option value="basic">베이직 (×1.0)</option>
-            <option value="standard">스탠다드 (×1.25)</option>
-            <option value="premium">프리미엄 (×1.55)</option>
+            <option value="basic">베이직 (마진 30%)</option>
+            <option value="standard">스탠다드 (마진 35%)</option>
+            <option value="premium">프리미엄 (마진 45%)</option>
           </select>
         </div>
       </div>
