@@ -184,3 +184,50 @@ async function notifyAdminSMS(data: QuoteNotifyData) {
     return { success: false, channel: 'admin_sms' }
   }
 }
+
+// ─── 리드 웹훅 알림 (DB 저장과 독립) ─────────────────────────────
+// Supabase 없이도 사장이 견적 리드를 즉시 받게 하는 최소 경로.
+// ADMIN_LEAD_WEBHOOK 하나만 설정하면 동작한다 (Slack·Discord·카카오웍스 호환).
+// Slack은 `text`, Discord는 `content` 키를 사용하므로 둘 다 넣어 호환성 확보.
+export interface LeadWebhookData extends QuoteNotifyData {
+  priceMin?: number | null
+  priceMax?: number | null
+  purpose?: string
+}
+
+export async function notifyLeadWebhook(data: LeadWebhookData): Promise<{ success: boolean }> {
+  const webhook =
+    process.env.ADMIN_LEAD_WEBHOOK ||
+    process.env.ADMIN_SLACK_WEBHOOK ||
+    process.env.ADMIN_KAKAO_WEBHOOK
+  if (!webhook) return { success: false }
+
+  const urgencyLabel: Record<string, string> = {
+    low: '여유', normal: '보통', high: '빠름', urgent: '긴급',
+  }
+  const fmtMan = (won: number) => `${Math.round(won / 10_000).toLocaleString()}만원`
+  const priceLine =
+    data.priceMin && data.priceMax
+      ? `\n예상 범위: 약 ${fmtMan(data.priceMin)} ~ ${fmtMan(data.priceMax)} (VAT 별도)`
+      : ''
+
+  const message =
+    `📩 신규 견적 문의\n` +
+    `업체: ${data.businessName}\n` +
+    `담당자: ${data.contactName} · ${data.phone}\n` +
+    `지역: ${data.region} · ${data.environment === 'indoor' ? '실내' : '옥외'}\n` +
+    `긴급도: ${urgencyLabel[data.urgency] ?? data.urgency}` +
+    (data.purpose ? `\n용도: ${data.purpose}` : '') +
+    priceLine
+
+  try {
+    const res = await fetch(webhook, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: message, content: message }),
+    })
+    return { success: res.ok }
+  } catch {
+    return { success: false }
+  }
+}

@@ -20,7 +20,7 @@ export async function GET() {
   const body = `# ${SITE.nameKo} / ${SITE.nameEn}
 
 > ${SITE.nameKo}(${SITE.nameEn})는 한국 LED 사이니지 B2B 플랫폼이다.
-> 카페·식당·헬스장 등 소상공인을 대상으로 표준화 시공과 AS를 제공한다. (원격 콘텐츠 관리(CMS) 구독은 준비중)
+> 카페·식당·헬스장 등 소상공인을 대상으로 표준화 시공·AS·콘텐츠 운영 지원을 제공한다.
 > 핵심 컨셉: "사진 3장 → 즉석 범위 견적 → 표준화 시공 → 운영·AS".
 > 컨트롤러 표준은 NovaStar Taurus(TB30/TB50/TB60) + VNNOX 클라우드.
 

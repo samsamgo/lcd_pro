@@ -11,7 +11,7 @@ export type PackageTier = 'BASIC' | 'STANDARD' | 'PREMIUM' | 'RENTAL'
 // 표시용 가격 단일 원천 (DISPLAY ONLY)
 // 모든 UI 섹션은 여기 한 곳만 참조한다. 가격 상충/불일치 방지.
 // - 모든 금액은 "설치비 기준가(예상 범위)" · VAT 별도 · 현장 변수에 따라 변동.
-// - CMS 월 구독가는 표기하지 않는다 (서비스 준비중). CMS_STATUS 참고.
+// - CMS 월 구독가는 표기하지 않는다 (설치 시 콘텐츠 세팅·교육으로 제공, 별도 구독 상품 아님).
 // ─────────────────────────────────────────────────────────────────────────
 
 /** 전체 견적 범위 (홈/차별화/SEO 공통) */
@@ -44,9 +44,8 @@ export const SEGMENT_PRICE_LABEL: Record<string, string> = {
   event: '기간·규모별 협의',
 }
 
-/** CMS 구독 서비스 상태 — 준비중 (월 구독가 미표기) */
-export const CMS_STATUS = '준비중' as const
-export const CMS_LABEL = '원격 콘텐츠 관리 (준비중)' as const
+/** 콘텐츠 운영 지원 — 설치 시 실제 제공하는 딜리버러블 (원격 CMS 확장은 로드맵) */
+export const CMS_LABEL = '콘텐츠 세팅 · 운영 지원' as const
 
 /** 공통 가격 면책 문구 */
 export const PRICE_DISCLAIMER =

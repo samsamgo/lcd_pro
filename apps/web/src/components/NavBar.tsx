@@ -6,14 +6,13 @@ import { useEffect, useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import { SITE } from '@/lib/seo/site'
 
-// 단일 페이지 통합 — 메뉴는 홈(/) 섹션 앵커로 부드럽게 스크롤한다.
-// 블로그만 실제 라우트. (services/faq 등은 홈 섹션으로 흡수됨)
+// 멀티페이지 구조 — 각 메뉴는 독립 라우트로 이동한다.
 const NAV_LINKS = [
-  { href: '/#services', label: '서비스' },
-  { href: '/#how', label: '진행 방식' },
-  { href: '/#products', label: '제품' },
-  { href: '/#packages', label: '패키지' },
-  { href: '/#faq', label: 'FAQ' },
+  { href: '/services', label: '서비스' },
+  { href: '/products', label: '제품' },
+  { href: '/packages', label: '패키지' },
+  { href: '/about', label: '회사소개' },
+  { href: '/faq', label: 'FAQ' },
   { href: '/blog', label: '블로그' },
 ]
 

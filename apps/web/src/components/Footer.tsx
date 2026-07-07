@@ -23,15 +23,15 @@ export function Footer() {
           <div className="grid grid-cols-2 gap-8 text-sm sm:grid-cols-3">
             <div className="space-y-3">
               <p className="font-semibold text-zinc-700">서비스</p>
-              <Link href="/#services" className="block text-zinc-600 hover:text-zinc-900">서비스</Link>
-              <Link href="/#products" className="block text-zinc-600 hover:text-zinc-900">제품 라인업</Link>
-              <Link href="/#packages" className="block text-zinc-600 hover:text-zinc-900">패키지</Link>
+              <Link href="/services" className="block text-zinc-600 hover:text-zinc-900">서비스</Link>
+              <Link href="/products" className="block text-zinc-600 hover:text-zinc-900">제품 라인업</Link>
+              <Link href="/packages" className="block text-zinc-600 hover:text-zinc-900">패키지</Link>
               <Link href="/quote" className="block text-zinc-600 hover:text-zinc-900">견적 요청</Link>
             </div>
             <div className="space-y-3">
               <p className="font-semibold text-zinc-700">리소스</p>
               <Link href="/blog" className="block text-zinc-600 hover:text-zinc-900">블로그</Link>
-              <Link href="/#faq" className="block text-zinc-600 hover:text-zinc-900">FAQ</Link>
+              <Link href="/faq" className="block text-zinc-600 hover:text-zinc-900">FAQ</Link>
               <Link href="/about" className="block text-zinc-600 hover:text-zinc-900">회사 소개</Link>
             </div>
             <div className="space-y-3">

@@ -20,7 +20,7 @@ const PACKAGES = [
     tier: 'standard',
     name: '스탠다드',
     tagline: '가장 많이 선택하는 플랜',
-    note: '원격 콘텐츠 관리(CMS) 준비중',
+    note: '콘텐츠 교체 방법 1:1 교육 포함',
     features: [
       'LED 패널 + 컨트롤러 + 전원',
       '프레임 + 설치 노무',
@@ -35,7 +35,7 @@ const PACKAGES = [
     tier: 'premium',
     name: '프리미엄',
     tagline: '무중단 운영이 필요한 매장',
-    note: '원격 콘텐츠 관리(CMS) 준비중',
+    note: '콘텐츠 제작·운영까지 밀착 지원',
     features: [
       '스탠다드 전체 포함',
       '예비 부품 제공',
@@ -50,18 +50,20 @@ const PACKAGES = [
   },
 ]
 
-export function PackagesSection() {
+export function PackagesSection({ hideHeader = false }: { hideHeader?: boolean }) {
   return (
     <section id="packages" className="scroll-mt-20 py-24 px-4">
       <div className="mx-auto max-w-5xl">
-        <div className="mb-14 text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-blue-600">
-            패키지
-          </p>
-          <h2 className="text-4xl font-bold sm:text-5xl">
-            목적에 맞게 선택하세요
-          </h2>
-        </div>
+        {!hideHeader && (
+          <div className="mb-14 text-center">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-blue-600">
+              패키지
+            </p>
+            <h2 className="text-4xl font-bold sm:text-5xl">
+              목적에 맞게 선택하세요
+            </h2>
+          </div>
+        )}
 
         <div className="grid gap-5 md:grid-cols-3">
           {PACKAGES.map((pkg) => (

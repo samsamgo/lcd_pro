@@ -31,17 +31,19 @@ export const HOME_FAQS = [
   },
 ]
 
-export function FaqSection() {
+export function FaqSection({ hideHeader = false }: { hideHeader?: boolean }) {
   return (
     <section id="faq" className="scroll-mt-20 bg-white py-24 px-4">
       <JsonLd id="ld-home-faq" data={faqPageLd(HOME_FAQS)} />
       <div className="mx-auto max-w-3xl">
-        <div className="mb-12 text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-blue-600">
-            FAQ
-          </p>
-          <h2 className="text-3xl font-bold sm:text-4xl">자주 묻는 질문</h2>
-        </div>
+        {!hideHeader && (
+          <div className="mb-12 text-center">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-blue-600">
+              FAQ
+            </p>
+            <h2 className="text-3xl font-bold sm:text-4xl">자주 묻는 질문</h2>
+          </div>
+        )}
 
         <div className="space-y-3">
           {HOME_FAQS.map((item) => (

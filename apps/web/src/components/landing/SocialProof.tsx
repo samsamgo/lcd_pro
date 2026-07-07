@@ -11,19 +11,19 @@ const CASES = [
   {
     type: '카페·외식 매장',
     spec: '실내 IN-M · P3',
-    img: '/curated/case-adamchicken.jpg',
+    img: '/curated/gal-restaurant-menu.jpg',
     desc: '메뉴 교체를 현수막 대신 화면에서 즉시. 이벤트·계절 메뉴까지 손쉽게 반영.',
   },
   {
-    type: '근린 상가·생활업종',
+    type: '리테일·뷰티 매장',
     spec: '실내 IN-M · P3',
-    img: '/curated/case-godeok-emc.jpg',
+    img: '/curated/gal-beauty-storefront.jpg',
     desc: '공지·홍보·스케줄을 한 화면으로 통합. 콘텐츠 변경에 추가 인쇄비가 들지 않습니다.',
   },
   {
     type: '옥외·로드사이드',
     spec: '옥외 OUT-M · P5',
-    img: '/curated/case-namyangju.jpg',
+    img: '/curated/svc-outdoor-p5.jpg',
     desc: '직사광선에도 선명한 고밝기 옥외 시공. 원거리 가시성과 내구성을 확보합니다.',
   },
 ]
@@ -48,9 +48,9 @@ export function SocialProof() {
         {/* 시공 사례 */}
         <div className="mb-12 text-center">
           <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-blue-600">
-            시공 사례
+            활용 예시
           </p>
-          <h2 className="text-3xl font-bold sm:text-4xl">업종별 설치 사례</h2>
+          <h2 className="text-3xl font-bold sm:text-4xl">업종별 활용 예시</h2>
         </div>
 
         <div className="grid gap-5 sm:grid-cols-3">

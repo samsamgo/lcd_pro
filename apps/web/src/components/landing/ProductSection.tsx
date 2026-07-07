@@ -65,21 +65,23 @@ const PRODUCTS = [
   },
 ]
 
-export function ProductSection() {
+export function ProductSection({ hideHeader = false }: { hideHeader?: boolean }) {
   return (
     <section id="products" className="surface-dark scroll-mt-20 py-24 px-4">
       <div className="mx-auto max-w-6xl">
-        <div className="mb-14 text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-cyan-400">
-            제품 라인업
-          </p>
-          <h2 className="text-4xl font-bold text-white sm:text-5xl">
-            표준화된 6가지 SKU
-          </h2>
-          <p className="mt-4 text-zinc-400">
-            복잡한 스펙 없이 — 공간과 목적에 맞는 제품을 바로 추천합니다.
-          </p>
-        </div>
+        {!hideHeader && (
+          <div className="mb-14 text-center">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-cyan-400">
+              제품 라인업
+            </p>
+            <h2 className="text-4xl font-bold text-white sm:text-5xl">
+              표준화된 6가지 SKU
+            </h2>
+            <p className="mt-4 text-zinc-400">
+              복잡한 스펙 없이 — 공간과 목적에 맞는 제품을 바로 추천합니다.
+            </p>
+          </div>
+        )}
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {PRODUCTS.map((p) => (
@@ -128,8 +130,10 @@ export function ProductSection() {
                     <p className="font-semibold text-white">{SKU_PRICE_FROM[p.sku]}</p>
                   </div>
                   <div>
-                    <span className="text-zinc-500">원격 관리</span>
-                    <p className="font-medium text-zinc-300">준비중</p>
+                    <span className="text-zinc-500">설치 환경</span>
+                    <p className="font-medium text-zinc-300">
+                      {p.env === 'indoor' ? '실내' : '옥외'}
+                    </p>
                   </div>
                 </div>
 

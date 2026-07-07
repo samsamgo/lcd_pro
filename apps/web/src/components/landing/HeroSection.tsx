@@ -7,8 +7,8 @@ import { SITE } from '@/lib/seo/site'
 
 const BADGES = [
   { icon: Clock, text: '사진 3장 즉석 견적' },
-  { icon: Zap, text: '표준화 설치' },
-  { icon: Shield, text: '원격 콘텐츠 관리 (준비중)' },
+  { icon: Zap, text: '1~3일 표준 시공' },
+  { icon: Shield, text: '24시간 긴급 AS' },
 ]
 
 export function HeroSection() {
@@ -68,7 +68,7 @@ export function HeroSection() {
             />
           </Link>
           <Link
-            href="/#products"
+            href="/products"
             className="flex items-center gap-2 rounded-xl border border-white/25 bg-white/5 px-8 py-4 text-base font-semibold text-white backdrop-blur transition-all hover:bg-white/10"
           >
             제품 라인업 보기

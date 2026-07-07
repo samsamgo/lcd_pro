@@ -7,7 +7,7 @@
 
 const RAW_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/+$/, '') ||
-  'https://wktech.co.kr' // TODO(COO): 도메인 확정 후 정식 URL 주입
+  'https://wooktech.co.kr' // 운영 도메인 (구매 완료). override: NEXT_PUBLIC_SITE_URL
 
 export const SITE = {
   // 브랜드
@@ -23,7 +23,7 @@ export const SITE = {
   url: RAW_URL,
   locale: 'ko_KR',
   defaultLanguage: 'ko',
-  email: 'contact@wktech.co.kr',
+  email: 'contact@wooktech.co.kr',
   // 실제 대표번호 미확정 — 가짜 번호 노출 금지. CEO가 실제 번호 제공 시 채운다.
   // 빈 값이면 UI는 전화 링크/번호를 omit하고 견적 폼만 노출한다.
   phone: '' as string,

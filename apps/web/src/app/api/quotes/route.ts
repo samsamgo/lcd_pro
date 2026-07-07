@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { serverClient } from '@/lib/supabase'
-import { notifyCustomerQuoteReceived, notifyAdminNewQuote } from '@/lib/notify'
+import { notifyCustomerQuoteReceived, notifyAdminNewQuote, notifyLeadWebhook } from '@/lib/notify'
 import { features } from '@/lib/features'
 import {
   estimateProject,
@@ -115,8 +115,25 @@ export async function POST(req: NextRequest) {
       }
     : null
 
-  // ── MVP 모드 (features.quotePersistence OFF): DB·사진·알림 전부 건너뜀 ──
-  // 즉석 화면 견적만 반환. 리드 유실 방지 CTA는 클라이언트(QuoteSuccess)에서 표시.
+  // ── 리드 웹훅 알림 (DB 저장과 독립 · 항상 시도) ───────────────────
+  // ADMIN_LEAD_WEBHOOK(또는 Slack/Kakao 웹훅)만 있으면 Supabase 없이도
+  // 사장이 리드를 즉시 받는다. 웹훅 미설정 시 no-op (접수 흐름엔 영향 없음).
+  const priceRange = estimateSummary?.price ?? null
+  void notifyLeadWebhook({
+    businessName,
+    contactName,
+    phone,
+    region,
+    environment,
+    urgency,
+    purpose,
+    quoteId: 'pending',
+    priceMin: priceRange?.min ?? null,
+    priceMax: priceRange?.max ?? null,
+  })
+
+  // ── MVP 모드 (features.quotePersistence OFF): DB·사진 저장 건너뜀 ──
+  // 즉석 화면 견적 + 웹훅 리드 전달만. (DB·사진 보관은 persistence ON 시)
   if (!features.quotePersistence) {
     return NextResponse.json({
       success: true,
