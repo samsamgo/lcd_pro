@@ -74,6 +74,9 @@ export function HeroSection() {
             제품 라인업 보기
           </Link>
         </div>
+        <p className="mt-4 text-sm text-zinc-400">
+          약 5분 소요 · 비용 없음 · 기술 지식 없어도 됩니다
+        </p>
 
         {/* 소셜 증거 미니 배지 */}
         <div className="mt-12 flex flex-wrap justify-center gap-4">

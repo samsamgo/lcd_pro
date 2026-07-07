@@ -81,7 +81,8 @@ export function SocialProof() {
         </div>
 
         <p className="mt-6 text-center text-xs text-zinc-500">
-          * 이미지는 설치 예시이며, 실제 시공 현장 사진·고객 사례는 동의 절차 후 게재됩니다.
+          * 위 이미지는 실제 시공 현장 사진이 아니라 업종별 활용을 돕기 위한 예시입니다.
+          실제 시공 사례는 고객 동의 절차 후 순차 게재됩니다.
         </p>
       </div>
     </section>

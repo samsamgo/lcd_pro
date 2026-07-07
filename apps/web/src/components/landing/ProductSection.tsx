@@ -75,7 +75,7 @@ export function ProductSection({ hideHeader = false }: { hideHeader?: boolean })
               제품 라인업
             </p>
             <h2 className="text-4xl font-bold text-white sm:text-5xl">
-              표준화된 6가지 SKU
+              표준화된 6가지 모델
             </h2>
             <p className="mt-4 text-zinc-400">
               복잡한 스펙 없이 — 공간과 목적에 맞는 제품을 바로 추천합니다.
@@ -150,9 +150,16 @@ export function ProductSection({ hideHeader = false }: { hideHeader?: boolean })
           ))}
         </div>
 
-        <p className="mt-6 text-center text-xs text-zinc-500">
-          * {PRICE_DISCLAIMER}
-        </p>
+        <div className="mx-auto mt-8 max-w-3xl rounded-xl border border-white/10 bg-white/[0.03] p-5 text-xs leading-relaxed text-zinc-400">
+          <p className="mb-2 font-semibold text-zinc-200">가격에 포함 / 별도 항목</p>
+          <p className="mb-1">
+            <span className="text-cyan-300">포함</span> — LED 패널·컨트롤러·전원·프레임·표준 설치 노무
+          </p>
+          <p className="mb-3">
+            <span className="text-amber-300">별도(현장 조건에 따라)</span> — 전기 증설·구조 보강·옥외 광고물 인허가·고소작업·야간 시공·VAT
+          </p>
+          <p className="text-zinc-500">* {PRICE_DISCLAIMER}</p>
+        </div>
       </div>
     </section>
   )

@@ -32,7 +32,7 @@ export default function ProductsPage() {
       <main id="main">
         <PageHero
           eyebrow="Products"
-          title="공간에 맞는 표준 SKU"
+          title="공간에 맞는 표준 모델"
           description="복잡한 스펙 없이 — 실내·옥외, 화면 크기, 목적에 맞는 제품을 바로 추천합니다. 모든 설치비 기준가는 예상 범위로 투명하게 공개합니다."
           crumbs={[{ name: '홈', href: '/' }, { name: '제품 라인업' }]}
         />

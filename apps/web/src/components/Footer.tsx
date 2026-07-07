@@ -40,6 +40,7 @@ export function Footer() {
                 <a href={`tel:${SITE.phone.replace(/[^+\d]/g, '')}`} className="block text-zinc-600 hover:text-zinc-900">전화 문의</a>
               )}
               <Link href="/quote" className="block text-zinc-600 hover:text-zinc-900">견적 요청</Link>
+              <a href={`mailto:${SITE.email}`} className="block text-zinc-600 hover:text-zinc-900">{SITE.email}</a>
               <Link href="/privacy" className="block text-zinc-600 hover:text-zinc-900">개인정보처리방침</Link>
             </div>
           </div>

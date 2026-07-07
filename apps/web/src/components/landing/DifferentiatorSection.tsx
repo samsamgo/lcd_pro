@@ -31,7 +31,7 @@ export function DifferentiatorSection() {
             차별화
           </p>
           <h2 className="text-3xl font-bold sm:text-4xl">
-            기존 업체들이 하지 않는 것들
+            우강테크는 이렇게 다릅니다
           </h2>
         </div>
 
