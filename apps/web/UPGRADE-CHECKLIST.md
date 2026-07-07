@@ -54,8 +54,9 @@
 ## H. 배포 (사용자 액션 필요 — DEPLOY.md)
 - [x] H1. Vercel 빌드설정·GitHub Actions 파이프라인 확인
 - [x] H2. 프로덕션 env 문서화(.env.example, DEPLOY.md)
-- [ ] H3. `main` 머지 push → 자동 배포 (프로덕션 게시: 사용자 확인 후)
-- [ ] H4. wooktech.co.kr 도메인 연결 + DNS (Vercel 대시보드 + 레지스트라 — 사용자)
+- [x] H3. `main` 머지 push 완료(dd3b03c) → GitHub Actions `deploy.yml` 프로덕션 배포 트리거됨
+      → 성공 여부는 레포 시크릿(VERCEL_TOKEN/ORG_ID/PROJECT_ID) 설정에 의존
+- [ ] H4. wooktech.co.kr 도메인 연결 + DNS (Vercel 대시보드 + 레지스트라 — 사용자 자격증명 필요, CLI 불가)
 - [ ] H5. 라이브 최종 확인
 
 ## I. 최종 검수
