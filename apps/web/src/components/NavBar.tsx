@@ -2,32 +2,80 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { Menu, X, MessageCircle } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import {
+  Menu, X, MessageCircle, ChevronDown,
+  MonitorSmartphone, Layers, Sparkles, Wrench, Ruler, ShieldCheck,
+  Building2, BookOpen, HelpCircle, Coffee, UtensilsCrossed, Dumbbell, Store, Sun,
+  type LucideIcon,
+} from 'lucide-react'
 import { SITE } from '@/lib/seo/site'
 import { useSiteModals } from '@/components/modals/SiteModals'
 
-// 멀티페이지 구조 — 각 메뉴는 독립 라우트로 이동한다.
-const NAV_LINKS = [
-  { href: '/services', label: '서비스' },
-  { href: '/products', label: '제품' },
-  { href: '/industries', label: '업종별' },
-  { href: '/packages', label: '패키지' },
-  { href: '/about', label: '회사소개' },
-  { href: '/faq', label: 'FAQ' },
-  { href: '/blog', label: '블로그' },
+interface NavChild {
+  label: string
+  desc: string
+  href: string
+  icon: LucideIcon
+}
+interface NavGroup {
+  label: string
+  href: string
+  children: NavChild[]
+}
+
+const NAV: NavGroup[] = [
+  {
+    label: '디스플레이',
+    href: '/products',
+    children: [
+      { label: '제품 라인업', desc: '실내·옥외 6종 표준 모델', href: '/products', icon: MonitorSmartphone },
+      { label: '패키지 · 가격', desc: '베이직 · 스탠다드 · 프리미엄 · 렌탈', href: '/packages', icon: Layers },
+      { label: '즉석 견적', desc: '사진 3장 · 30분 범위 견적', href: '/quote', icon: Sparkles },
+    ],
+  },
+  {
+    label: '솔루션',
+    href: '/services',
+    children: [
+      { label: '서비스 전체', desc: '설계 · 시공 · CMS · AS를 한 파트너로', href: '/services', icon: Wrench },
+      { label: '표준 시공', desc: '표준 캐비닛 · 3일 표준 설치', href: '/services', icon: Ruler },
+      { label: 'AS · 유지보수', desc: '모듈 교체 · 정기 점검 · 긴급 AS', href: '/services', icon: ShieldCheck },
+    ],
+  },
+  {
+    label: '업종별',
+    href: '/industries',
+    children: [
+      { label: '카페 · 베이커리', desc: '실내 메뉴 디스플레이', href: '/industries/cafe', icon: Coffee },
+      { label: '식당 · 외식', desc: '메뉴 · 홍보 통합', href: '/industries/restaurant', icon: UtensilsCrossed },
+      { label: '헬스장 · 피트니스', desc: '공지 · 시간표 · 홍보', href: '/industries/gym', icon: Dumbbell },
+      { label: '프랜차이즈 · 다점포', desc: '표준화 · 일괄 운영', href: '/industries/franchise', icon: Store },
+      { label: '옥외 광고', desc: '고밝기 · 인허가 대행', href: '/industries/outdoor-ad', icon: Sun },
+    ],
+  },
+  {
+    label: '회사',
+    href: '/about',
+    children: [
+      { label: '회사 소개', desc: '빛으로 공간을 짓다', href: '/about', icon: Building2 },
+      { label: '블로그', desc: '견적 · 시공 · 운영 가이드', href: '/blog', icon: BookOpen },
+      { label: 'FAQ', desc: '자주 묻는 질문', href: '/faq', icon: HelpCircle },
+    ],
+  },
 ]
 
 export function NavBar() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [openGroup, setOpenGroup] = useState<string | null>(null)
+  const [mobileGroup, setMobileGroup] = useState<string | null>(null)
   const pathname = usePathname()
   const { openConsult } = useSiteModals()
-  // 다크 히어로가 상단에 깔린 페이지(홈·블로그 인덱스)에서만 상단 투명+밝은 텍스트.
-  // 그 외(블로그 글·about·faq 등 밝은 상단)에서는 진한 텍스트로 가독성 유지.
+  const closeTimer = useRef<number | null>(null)
+
   const hasDarkHero = pathname === '/' || pathname === '/blog'
 
-  // 애플식 sticky 헤더 — 스크롤 시 배경/그림자 페이드 인
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8)
     onScroll()
@@ -35,48 +83,87 @@ export function NavBar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // 상단(스크롤 전)에 다크 히어로가 있는 페이지에서만 밝은 텍스트, 스크롤 후엔 흰 배경+진한 텍스트
-  const onDark = hasDarkHero && !scrolled && !open
+  const onDark = hasDarkHero && !scrolled && !open && openGroup === null
+
+  const enter = (label: string) => {
+    if (closeTimer.current) window.clearTimeout(closeTimer.current)
+    setOpenGroup(label)
+  }
+  const leave = () => {
+    if (closeTimer.current) window.clearTimeout(closeTimer.current)
+    closeTimer.current = window.setTimeout(() => setOpenGroup(null), 120)
+  }
 
   return (
     <header
+      onMouseLeave={leave}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled || open
-          ? 'border-b border-zinc-200 bg-white/80 shadow-sm backdrop-blur-md'
+        scrolled || open || openGroup
+          ? 'border-b border-zinc-200 bg-white/85 shadow-sm backdrop-blur-md'
           : 'border-b border-transparent bg-transparent'
       }`}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
-        <Link
-          href="/"
-          className="flex items-center gap-2 rounded-lg"
-          aria-label={`${SITE.nameKo} 홈`}
-        >
+        <Link href="/" className="flex items-center gap-2 rounded-lg" aria-label={`${SITE.nameKo} 홈`}>
           <span className="text-xl font-bold tracking-tight">
             <span className={onDark ? 'text-white' : 'text-gradient'}>우강테크</span>
-            <span
-              className={`ml-1.5 text-sm font-medium ${
-                onDark ? 'text-zinc-300' : 'text-zinc-600'
-              }`}
-            >
+            <span className={`ml-1.5 text-sm font-medium ${onDark ? 'text-zinc-300' : 'text-zinc-600'}`}>
               WK Tech
             </span>
           </span>
         </Link>
 
-        <nav aria-label="주요 메뉴" className="hidden items-center gap-8 md:flex">
-          {NAV_LINKS.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className={`rounded text-sm transition-colors ${
-                onDark
-                  ? 'text-zinc-200 hover:text-white'
-                  : 'text-zinc-700 hover:text-zinc-900'
-              }`}
-            >
-              {l.label}
-            </Link>
+        {/* 데스크톱 메가메뉴 */}
+        <nav aria-label="주요 메뉴" className="hidden items-center gap-1 md:flex">
+          {NAV.map((g) => (
+            <div key={g.label} className="relative" onMouseEnter={() => enter(g.label)}>
+              <Link
+                href={g.href}
+                onFocus={() => enter(g.label)}
+                aria-expanded={openGroup === g.label}
+                className={`flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                  onDark ? 'text-zinc-100 hover:bg-white/10' : 'text-zinc-700 hover:bg-zinc-100'
+                }`}
+              >
+                {g.label}
+                <ChevronDown
+                  size={14}
+                  className={`transition-transform ${openGroup === g.label ? 'rotate-180' : ''} ${
+                    onDark ? 'text-zinc-400' : 'text-zinc-400'
+                  }`}
+                />
+              </Link>
+
+              {/* 드롭다운 패널 */}
+              {openGroup === g.label && (
+                <div
+                  className="absolute left-1/2 top-full w-[22rem] -translate-x-1/2 pt-3"
+                  onMouseEnter={() => enter(g.label)}
+                >
+                  <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white p-2 shadow-xl ring-1 ring-black/5">
+                    {g.children.map((c) => {
+                      const Icon = c.icon
+                      return (
+                        <Link
+                          key={c.label + c.href}
+                          href={c.href}
+                          onClick={() => setOpenGroup(null)}
+                          className="flex items-start gap-3 rounded-xl p-3 transition-colors hover:bg-blue-50"
+                        >
+                          <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-600/10 text-blue-600">
+                            <Icon size={17} />
+                          </span>
+                          <span>
+                            <span className="block text-sm font-semibold text-zinc-900">{c.label}</span>
+                            <span className="block text-xs text-zinc-500">{c.desc}</span>
+                          </span>
+                        </Link>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
           ))}
         </nav>
 
@@ -85,9 +172,7 @@ export function NavBar() {
             type="button"
             onClick={() => openConsult('navbar')}
             className={`flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-semibold transition-colors ${
-              onDark
-                ? 'text-zinc-100 hover:bg-white/10'
-                : 'text-zinc-700 hover:bg-zinc-100'
+              onDark ? 'text-zinc-100 hover:bg-white/10' : 'text-zinc-700 hover:bg-zinc-100'
             }`}
           >
             <MessageCircle size={15} className="text-blue-500" />
@@ -101,10 +186,11 @@ export function NavBar() {
           </Link>
         </div>
 
+        {/* 모바일 */}
         <div className="flex items-center gap-2 md:hidden">
           <Link
             href="/quote"
-            className="rounded-lg bg-blue-600 px-3 py-2 text-sm font-semibold text-white transition-all hover:bg-blue-500 active:scale-95"
+            className="rounded-lg bg-blue-600 px-3 py-2 text-sm font-semibold text-white transition-all active:scale-95"
           >
             견적
           </Link>
@@ -120,31 +206,46 @@ export function NavBar() {
         </div>
       </div>
 
+      {/* 모바일 아코디언 */}
       {open && (
-        <div
-          id="mobile-nav"
-          className="border-t border-zinc-200 bg-white px-4 pb-4 pt-2 md:hidden"
-        >
-          {NAV_LINKS.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              onClick={() => setOpen(false)}
-              className="block rounded py-3 text-sm text-zinc-700 hover:text-zinc-900"
-            >
-              {l.label}
-            </Link>
+        <div id="mobile-nav" className="max-h-[80vh] overflow-y-auto border-t border-zinc-200 bg-white px-4 pb-4 pt-2 md:hidden">
+          {NAV.map((g) => (
+            <div key={g.label} className="border-b border-zinc-100">
+              <button
+                type="button"
+                onClick={() => setMobileGroup(mobileGroup === g.label ? null : g.label)}
+                aria-expanded={mobileGroup === g.label}
+                className="flex w-full items-center justify-between py-3.5 text-left text-sm font-semibold text-zinc-800"
+              >
+                {g.label}
+                <ChevronDown size={16} className={`text-zinc-400 transition-transform ${mobileGroup === g.label ? 'rotate-180' : ''}`} />
+              </button>
+              {mobileGroup === g.label && (
+                <div className="pb-2">
+                  {g.children.map((c) => (
+                    <Link
+                      key={c.label + c.href}
+                      href={c.href}
+                      onClick={() => setOpen(false)}
+                      className="flex items-center gap-3 rounded-lg py-2.5 pl-2 pr-3 text-sm text-zinc-600 hover:bg-zinc-50"
+                    >
+                      <c.icon size={16} className="text-blue-600" />
+                      <span>
+                        <span className="font-medium text-zinc-800">{c.label}</span>
+                        <span className="ml-2 text-xs text-zinc-400">{c.desc}</span>
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
           ))}
           <button
             type="button"
-            onClick={() => {
-              setOpen(false)
-              openConsult('navbar-mobile')
-            }}
-            className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-lg border border-zinc-300 px-4 py-3 text-sm font-semibold text-zinc-700"
+            onClick={() => { setOpen(false); openConsult('navbar-mobile') }}
+            className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-lg border border-zinc-300 px-4 py-3 text-sm font-semibold text-zinc-700"
           >
-            <MessageCircle size={15} className="text-blue-600" />
-            빠른 상담
+            <MessageCircle size={15} className="text-blue-600" /> 빠른 상담
           </button>
           <Link
             href="/quote"
