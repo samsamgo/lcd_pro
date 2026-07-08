@@ -39,8 +39,10 @@ const NAV: NavGroup[] = [
     href: '/services',
     children: [
       { label: '서비스 전체', desc: '설계 · 시공 · CMS · AS를 한 파트너로', href: '/services', icon: Wrench },
-      { label: '표준 시공', desc: '표준 캐비닛 · 3일 표준 설치', href: '/services', icon: Ruler },
-      { label: 'AS · 유지보수', desc: '모듈 교체 · 정기 점검 · 긴급 AS', href: '/services', icon: ShieldCheck },
+      { label: '표준 시공', desc: '표준 캐비닛 · 3일 표준 설치', href: '/services#install', icon: Ruler },
+      { label: 'CMS 콘텐츠 운영', desc: '원격 교체 · 스케줄 · 다점포', href: '/services#cms', icon: MonitorSmartphone },
+      { label: 'AS · 유지보수', desc: '모듈 교체 · 정기 점검 · 긴급 AS', href: '/services#care', icon: ShieldCheck },
+      { label: '인증 · 공공조달', desc: 'KC · 옥외광고물 · 나라장터', href: '/services#cert', icon: Building2 },
     ],
   },
   {
@@ -75,7 +77,8 @@ export function NavBar() {
   const closeTimer = useRef<number | null>(null)
 
   // 상단이 다크 히어로인 페이지 — 스크롤 전 투명 헤더 + 밝은 글자
-  const hasDarkHero = pathname === '/' || pathname === '/blog' || pathname === '/about'
+  const DARK_HERO = ['/', '/blog', '/about', '/services']
+  const hasDarkHero = DARK_HERO.includes(pathname) || pathname.startsWith('/industries/')
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8)

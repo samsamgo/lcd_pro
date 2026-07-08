@@ -5,7 +5,7 @@ import { ArrowRight, Check, X } from 'lucide-react'
 import { NavBar } from '@/components/NavBar'
 import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
-import { PageHero } from '@/components/PageHero'
+import { IndustryHero } from '@/components/industries/IndustryHero'
 import { ProductGrid } from '@/components/landing/ProductGrid'
 import { CtaSection } from '@/components/landing/CtaSection'
 import { JsonLd } from '@/components/seo/JsonLd'
@@ -56,10 +56,14 @@ export default function IndustryPage({ params }: { params: { slug: string } }) {
       />
       <NavBar />
       <main id="main">
-        <PageHero
+        <IndustryHero
           eyebrow={ind.eyebrow}
           title={ind.title}
           description={ind.description}
+          image={ind.heroImage}
+          imageAlt={`${ind.nameKo} LED 디스플레이`}
+          quoteHref={`/quote?type=${ind.quoteType}`}
+          quoteCta={`${ind.nameKo} 견적 받기`}
           crumbs={[
             { name: '홈', href: '/' },
             { name: '업종별', href: '/industries' },

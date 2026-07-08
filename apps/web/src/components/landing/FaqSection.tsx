@@ -1,4 +1,9 @@
+'use client'
+
+import { useState } from 'react'
 import Link from 'next/link'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { ChevronDown } from 'lucide-react'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { faqPageLd } from '@/lib/seo/jsonld'
 
@@ -42,41 +47,66 @@ export const HOME_FAQS = [
 ]
 
 export function FaqSection({ hideHeader = false }: { hideHeader?: boolean }) {
+  const [open, setOpen] = useState<number | null>(0)
+  const reduce = useReducedMotion()
+
   return (
     <section id="faq" className="scroll-mt-20 bg-white py-24 px-4">
       <JsonLd id="ld-home-faq" data={faqPageLd(HOME_FAQS)} />
       <div className="mx-auto max-w-3xl">
         {!hideHeader && (
           <div className="mb-12 text-center">
-            <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-blue-600">
-              FAQ
-            </p>
+            <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-blue-600">FAQ</p>
             <h2 className="text-3xl font-bold sm:text-4xl">자주 묻는 질문</h2>
           </div>
         )}
 
         <div className="space-y-3">
-          {HOME_FAQS.map((item) => (
-            <details
-              key={item.question}
-              className="group rounded-2xl border border-zinc-200 bg-white p-5 open:border-blue-500/40"
-            >
-              <summary className="cursor-pointer list-none text-base font-semibold text-zinc-900">
-                {item.question}
-              </summary>
-              <div className="mt-3 text-sm leading-relaxed text-zinc-700">
-                {item.answer}
+          {HOME_FAQS.map((item, i) => {
+            const isOpen = open === i
+            return (
+              <div
+                key={item.question}
+                className={`overflow-hidden rounded-2xl border transition-colors ${
+                  isOpen ? 'border-blue-500/50 bg-blue-50/30' : 'border-zinc-200 bg-white hover:border-zinc-300'
+                }`}
+              >
+                <button
+                  type="button"
+                  onClick={() => setOpen(isOpen ? null : i)}
+                  aria-expanded={isOpen}
+                  className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left text-base font-semibold text-zinc-900"
+                >
+                  <span>{item.question}</span>
+                  <span
+                    className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition-all ${
+                      isOpen ? 'rotate-180 bg-blue-600 text-white' : 'bg-zinc-100 text-zinc-500'
+                    }`}
+                  >
+                    <ChevronDown size={16} />
+                  </span>
+                </button>
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      initial={reduce ? { opacity: 0 } : { height: 0, opacity: 0 }}
+                      animate={reduce ? { opacity: 1 } : { height: 'auto', opacity: 1 }}
+                      exit={reduce ? { opacity: 0 } : { height: 0, opacity: 0 }}
+                      transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+                      className="overflow-hidden"
+                    >
+                      <p className="px-5 pb-5 text-sm leading-relaxed text-zinc-700">{item.answer}</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-            </details>
-          ))}
+            )
+          })}
         </div>
 
         <p className="mt-8 text-center text-sm text-zinc-600">
           더 궁금한 점이 있으신가요?{' '}
-          <Link
-            href="/blog"
-            className="font-semibold text-blue-600 underline-offset-4 hover:underline"
-          >
+          <Link href="/blog" className="font-semibold text-blue-600 underline-offset-4 hover:underline">
             블로그 가이드 보기 →
           </Link>
         </p>

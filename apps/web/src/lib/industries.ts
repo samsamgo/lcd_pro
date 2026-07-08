@@ -19,6 +19,8 @@ export interface Industry {
   /** 예상 가격대(표시용, pricing 라벨 기반) */
   priceHint: string
   environment: 'indoor' | 'outdoor'
+  /** 다크 히어로 배경 이미지 */
+  heroImage: string
 }
 
 export const INDUSTRIES: Industry[] = [
@@ -44,6 +46,7 @@ export const INDUSTRIES: Industry[] = [
     recommendedSkus: ['IN-S', 'P2.5', 'IN-M'],
     priceHint: '₩200만 ~ ₩350만 (설치비 기준·VAT 별도)',
     environment: 'indoor',
+    heroImage: '/curated/gal-restaurant-menu.jpg',
   },
   {
     slug: 'restaurant',
@@ -67,6 +70,7 @@ export const INDUSTRIES: Industry[] = [
     recommendedSkus: ['IN-M', 'IN-S', 'OUT-S'],
     priceHint: '₩350만 ~ ₩560만 (설치비 기준·VAT 별도)',
     environment: 'indoor',
+    heroImage: '/curated/cap-restaurant.jpg',
   },
   {
     slug: 'gym',
@@ -90,6 +94,7 @@ export const INDUSTRIES: Industry[] = [
     recommendedSkus: ['IN-M', 'IN-S'],
     priceHint: '₩350만 ~ ₩470만 (설치비 기준·VAT 별도)',
     environment: 'indoor',
+    heroImage: '/curated/svc-indoor-p25.jpg',
   },
   {
     slug: 'franchise',
@@ -113,6 +118,7 @@ export const INDUSTRIES: Industry[] = [
     recommendedSkus: ['IN-M', 'OUT-S', 'OUT-M'],
     priceHint: '수량 협의 (다점포 단가 조정)',
     environment: 'indoor',
+    heroImage: '/curated/gal-beauty-storefront.jpg',
   },
   {
     slug: 'outdoor-ad',
@@ -136,6 +142,7 @@ export const INDUSTRIES: Industry[] = [
     recommendedSkus: ['OUT-S', 'OUT-M', 'OUT-L'],
     priceHint: '₩470만 ~ ₩1,050만+ (설치비 기준·VAT 별도)',
     environment: 'outdoor',
+    heroImage: '/curated/svc-outdoor-p5.jpg',
   },
 ]
 
