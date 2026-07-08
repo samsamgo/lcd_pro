@@ -15,6 +15,7 @@ export function Step3PhotoUpload() {
   const { setValue, formState: { errors } } = useFormContext<QuoteFormData>()
   const photos: File[] = useWatch({ name: 'photos' }) ?? []
   const inputRef = useRef<HTMLInputElement>(null)
+  const cameraRef = useRef<HTMLInputElement>(null)
 
   const handleFiles = useCallback(
     (files: FileList | null) => {
@@ -60,25 +61,65 @@ export function Step3PhotoUpload() {
         ))}
       </div>
 
-      {/* 드롭존 */}
+      {/* 드롭존 (키보드 접근 가능) */}
       <div
+        role="button"
+        tabIndex={0}
+        aria-label="사진 선택 또는 드래그하여 업로드"
         onDrop={handleDrop}
         onDragOver={(e) => e.preventDefault()}
         onClick={() => inputRef.current?.click()}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            inputRef.current?.click()
+          }
+        }}
         className="cursor-pointer rounded-2xl border-2 border-dashed border-zinc-300 p-8 text-center transition-all hover:border-blue-500/50 hover:bg-blue-500/5"
       >
-        <Upload size={28} className="mx-auto mb-3 text-zinc-600" />
+        <Upload size={28} className="mx-auto mb-3 text-zinc-600" aria-hidden="true" />
         <p className="text-sm text-zinc-700">클릭하거나 사진을 여기에 드래그하세요</p>
         <p className="mt-1 text-xs text-zinc-600">스마트폰 사진도 바로 업로드 가능합니다</p>
-        <input
-          ref={inputRef}
-          type="file"
-          accept="image/*"
-          multiple
-          className="hidden"
-          onChange={(e) => handleFiles(e.target.files)}
-        />
       </div>
+
+      {/* 모바일 우선: 사진 촬영 / 앨범 선택 버튼 (엄지 영역, 큰 탭 타깃) */}
+      <div className="grid grid-cols-2 gap-2">
+        <button
+          type="button"
+          onClick={() => cameraRef.current?.click()}
+          className="flex items-center justify-center gap-2 rounded-xl border border-zinc-300 py-3 text-sm font-semibold text-zinc-700 transition-all hover:bg-zinc-50 active:scale-95"
+        >
+          <Camera size={16} className="text-blue-600" />
+          사진 촬영
+        </button>
+        <button
+          type="button"
+          onClick={() => inputRef.current?.click()}
+          className="flex items-center justify-center gap-2 rounded-xl border border-zinc-300 py-3 text-sm font-semibold text-zinc-700 transition-all hover:bg-zinc-50 active:scale-95"
+        >
+          <Upload size={16} className="text-blue-600" />
+          앨범에서 선택
+        </button>
+      </div>
+
+      {/* 앨범 다중 선택 */}
+      <input
+        ref={inputRef}
+        type="file"
+        accept="image/*"
+        multiple
+        className="hidden"
+        onChange={(e) => handleFiles(e.target.files)}
+      />
+      {/* 모바일 후면 카메라 즉시 촬영 (데스크톱에선 파일 선택으로 폴백) */}
+      <input
+        ref={cameraRef}
+        type="file"
+        accept="image/*"
+        capture="environment"
+        className="hidden"
+        onChange={(e) => handleFiles(e.target.files)}
+      />
 
       {/* 미리보기 */}
       {photos.length > 0 && (
@@ -89,8 +130,8 @@ export function Step3PhotoUpload() {
               <button
                 type="button"
                 onClick={() => removePhoto(idx)}
-                className="absolute right-1 top-1 flex h-6 w-6 items-center justify-center rounded-full bg-black/70 text-white opacity-0 transition-opacity group-hover:opacity-100"
-                aria-label="사진 삭제"
+                className="absolute right-1 top-1 flex h-7 w-7 items-center justify-center rounded-full bg-black/70 text-white opacity-100 transition-opacity focus-visible:opacity-100 sm:opacity-0 sm:group-hover:opacity-100"
+                aria-label={`사진 ${idx + 1} 삭제`}
               >
                 <X size={12} />
               </button>
@@ -113,7 +154,7 @@ export function Step3PhotoUpload() {
       </p>
 
       {errors.photos && (
-        <p className="text-xs text-red-600">{errors.photos.message as string}</p>
+        <p role="alert" className="text-xs text-red-600">{errors.photos.message as string}</p>
       )}
     </div>
   )
