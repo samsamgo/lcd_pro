@@ -1,8 +1,5 @@
 import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
-import { JsonLd } from '@/components/seo/JsonLd'
-import { breadcrumbLd } from '@/lib/seo/jsonld'
-import { absoluteUrl } from '@/lib/seo/site'
 
 interface Crumb {
   name: string
@@ -22,15 +19,6 @@ export function PageHero({
 }) {
   return (
     <section className="relative overflow-hidden border-b border-zinc-200 bg-gradient-to-b from-blue-50/60 to-white pt-28 pb-14 px-4">
-      <JsonLd
-        id="ld-breadcrumb"
-        data={breadcrumbLd(
-          crumbs.map((c) => ({
-            name: c.name,
-            ...(c.href ? { url: absoluteUrl(c.href) } : {}),
-          })),
-        )}
-      />
       <div
         className="pointer-events-none absolute inset-0"
         aria-hidden="true"

@@ -11,6 +11,7 @@ import { useSiteModals } from '@/components/modals/SiteModals'
 const NAV_LINKS = [
   { href: '/services', label: '서비스' },
   { href: '/products', label: '제품' },
+  { href: '/industries', label: '업종별' },
   { href: '/packages', label: '패키지' },
   { href: '/about', label: '회사소개' },
   { href: '/faq', label: 'FAQ' },

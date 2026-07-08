@@ -72,6 +72,7 @@ export function QuoteWizard({ defaultType }: { defaultType?: string }) {
   const [step, setStep] = useState(0)
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
   const [estimate, setEstimate] = useState<EstimateSummary | null>(null)
 
   const prefill = defaultType ? PREFILL[defaultType] : undefined
@@ -99,6 +100,7 @@ export function QuoteWizard({ defaultType }: { defaultType?: string }) {
 
   const handleSubmit = methods.handleSubmit(async (data) => {
     setSubmitting(true)
+    setSubmitError('')
     try {
       const formData = new FormData()
       Object.entries(data).forEach(([key, val]) => {
@@ -114,7 +116,7 @@ export function QuoteWizard({ defaultType }: { defaultType?: string }) {
       setEstimate(json.estimate ?? null)
       setSubmitted(true)
     } catch {
-      alert('제출 중 오류가 발생했습니다. 다시 시도해주세요.')
+      setSubmitError('제출 중 오류가 발생했습니다. 네트워크를 확인하고 다시 시도해주세요.')
     } finally {
       setSubmitting(false)
     }
@@ -133,6 +135,12 @@ export function QuoteWizard({ defaultType }: { defaultType?: string }) {
           {step === 2 && <Step3PhotoUpload />}
           {step === 3 && <Step4Budget />}
         </div>
+
+        {submitError && (
+          <p role="alert" className="mt-4 rounded-lg bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+            {submitError}
+          </p>
+        )}
 
         <div className="mt-8 flex justify-between gap-3">
           {step > 0 && (

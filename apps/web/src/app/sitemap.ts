@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { SITE } from '@/lib/seo/site'
 import { getAllPosts } from '@/lib/blog'
+import { INDUSTRIES } from '@/lib/industries'
 
 export const dynamic = 'force-static'
 export const revalidate = 3600
@@ -18,8 +19,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/about`,    lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/quote`,    lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${base}/blog`,     lastModified: now, changeFrequency: 'daily',   priority: 0.8 },
+    { url: `${base}/industries`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/privacy`,  lastModified: now, changeFrequency: 'yearly',  priority: 0.3 },
   ]
+
+  const industryEntries: MetadataRoute.Sitemap = INDUSTRIES.map((i) => ({
+    url: `${base}/industries/${i.slug}`,
+    lastModified: now,
+    changeFrequency: 'monthly',
+    priority: 0.75,
+  }))
 
   const posts = await getAllPosts()
   const blogEntries: MetadataRoute.Sitemap = posts.map((p) => ({
@@ -29,5 +38,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }))
 
-  return [...staticEntries, ...blogEntries]
+  return [...staticEntries, ...industryEntries, ...blogEntries]
 }

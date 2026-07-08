@@ -3,17 +3,20 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { Building2, Sun, Plus } from 'lucide-react'
-import { SKU_PRICE_FROM } from '@/lib/pricing'
+import { SKU_PRICE_FROM, type Sku } from '@/lib/pricing'
 import { PRODUCTS, type ProductInfo } from '@/lib/products'
 import { ProductDetailModal } from './ProductDetailModal'
 
-export function ProductGrid() {
+export function ProductGrid({ skus }: { skus?: Sku[] }) {
   const [active, setActive] = useState<ProductInfo | null>(null)
+  const items = skus
+    ? skus.map((s) => PRODUCTS.find((p) => p.sku === s)).filter((p): p is ProductInfo => !!p)
+    : PRODUCTS
 
   return (
     <>
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {PRODUCTS.map((p) => (
+        {items.map((p) => (
           <button
             key={p.sku}
             type="button"
