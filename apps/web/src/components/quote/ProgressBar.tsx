@@ -6,10 +6,18 @@ interface ProgressBarProps {
 
 export function ProgressBar({ current, total, labels }: ProgressBarProps) {
   return (
-    <div>
+    <div
+      role="progressbar"
+      aria-valuemin={1}
+      aria-valuemax={total}
+      aria-valuenow={current + 1}
+      aria-valuetext={`전체 ${total}단계 중 ${current + 1}단계: ${labels[current]}`}
+    >
       <div className="mb-3 flex items-center justify-between text-xs text-zinc-600">
-        <span className="font-medium text-zinc-800">{labels[current]}</span>
-        <span aria-label={`전체 ${total}단계 중 ${current + 1}단계`}>
+        <span className="font-medium text-zinc-800" aria-live="polite">
+          {labels[current]}
+        </span>
+        <span>
           {current + 1} / {total}
         </span>
       </div>

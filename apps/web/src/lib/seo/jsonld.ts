@@ -236,7 +236,7 @@ export function howToLd(input: HowToLdInput) {
 /* ───────────────────────── BreadcrumbList ──────────────────────── */
 export interface BreadcrumbItem {
   name: string
-  url: string
+  url?: string
 }
 export function breadcrumbLd(items: BreadcrumbItem[]) {
   return {
@@ -246,7 +246,8 @@ export function breadcrumbLd(items: BreadcrumbItem[]) {
       '@type': 'ListItem',
       position: i + 1,
       name: it.name,
-      item: it.url,
+      // 현재 페이지(마지막 항목)는 url 생략 가능 (Google 가이드라인 허용)
+      ...(it.url ? { item: it.url } : {}),
     })),
   }
 }

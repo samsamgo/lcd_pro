@@ -13,7 +13,7 @@ export function FormField({ label, error, required, children }: FormFieldProps) 
         {required && <span className="ml-1 text-blue-600">*</span>}
       </label>
       {children}
-      {error && <p className="text-xs text-red-600">{error}</p>}
+      {error && <p role="alert" className="text-xs text-red-600">{error}</p>}
     </div>
   )
 }

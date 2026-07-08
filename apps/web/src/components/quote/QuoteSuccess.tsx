@@ -1,5 +1,9 @@
+'use client'
+
 import Link from 'next/link'
-import { CheckCircle2, AlertTriangle, Layers } from 'lucide-react'
+import { CheckCircle2, AlertTriangle, Layers, MessageCircle, Phone } from 'lucide-react'
+import { SITE } from '@/lib/seo/site'
+import { useSiteModals } from '@/components/modals/SiteModals'
 
 // API → 클라이언트로 돌아오는 견적 요약 (route.ts 와 일치)
 export interface EstimateSummary {
@@ -42,6 +46,7 @@ interface Props {
 }
 
 export function QuoteSuccess({ estimate }: Props) {
+  const { openConsult } = useSiteModals()
   const blocked = estimate?.pricing_blocked
   const cls = estimate?.classification
   // 견적 산출 여부에 따라 정직하게 헤드라인 분기 (치수 미입력/엔지니어링 라우팅 시 "산출" 단언 금지)
@@ -79,12 +84,43 @@ export function QuoteSuccess({ estimate }: Props) {
         </ol>
       </div>
 
-      <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
+      <div className="rounded-xl bg-blue-600/5 p-5 text-center">
+        <p className="text-sm font-semibold text-zinc-800">더 빠르게 진행하고 싶으신가요?</p>
+        <p className="mt-1 text-xs text-zinc-600">담당자와 바로 연결해 현장 실측 일정을 잡아드립니다.</p>
+        <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:justify-center">
+          <button
+            type="button"
+            onClick={() => openConsult('quote-success')}
+            className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-blue-600 px-6 py-3 text-sm font-bold text-white transition-all hover:bg-blue-500 active:scale-95"
+          >
+            <MessageCircle size={16} />
+            상담·실측 예약
+          </button>
+          {SITE.phone && (
+            <a
+              href={`tel:${SITE.phone.replace(/[^+\d]/g, '')}`}
+              className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-zinc-300 px-6 py-3 text-sm font-semibold text-zinc-700 transition-all hover:bg-zinc-100"
+            >
+              <Phone size={16} className="text-blue-600" />
+              전화 {SITE.phone}
+            </a>
+          )}
+          {SITE.kakaoChannelUrl && (
+            <a
+              href={SITE.kakaoChannelUrl}
+              target="_blank"
+              rel="noopener"
+              className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-zinc-300 px-6 py-3 text-sm font-semibold text-zinc-700 transition-all hover:bg-zinc-100"
+            >
+              카카오 상담
+            </a>
+          )}
+        </div>
         <Link
           href="/"
-          className="rounded-xl border border-zinc-300 px-6 py-3 text-center text-sm font-semibold text-zinc-700 hover:bg-zinc-100"
+          className="mt-4 inline-block text-xs font-medium text-zinc-500 underline-offset-2 hover:underline"
         >
-          홈으로
+          홈으로 돌아가기
         </Link>
       </div>
 
