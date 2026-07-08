@@ -27,10 +27,10 @@ export default async function BlogIndex() {
   return (
     <>
       <NavBar />
-      <main className="pt-16">
+      <main>
         <JsonLd id="ld-breadcrumb" data={ld} />
 
-        <section className="surface-dark relative overflow-hidden border-b border-white/10">
+        <section className="surface-dark relative overflow-hidden border-b border-white/10 pt-16">
           <div className="pointer-events-none absolute inset-0" aria-hidden="true">
             <Image
               src="/curated/hero-blog.jpg"

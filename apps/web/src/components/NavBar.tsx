@@ -74,7 +74,8 @@ export function NavBar() {
   const { openConsult } = useSiteModals()
   const closeTimer = useRef<number | null>(null)
 
-  const hasDarkHero = pathname === '/' || pathname === '/blog'
+  // 상단이 다크 히어로인 페이지 — 스크롤 전 투명 헤더 + 밝은 글자
+  const hasDarkHero = pathname === '/' || pathname === '/blog' || pathname === '/about'
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8)
@@ -103,6 +104,10 @@ export function NavBar() {
           : 'border-b border-transparent bg-transparent'
       }`}
     >
+      {/* 다크 히어로 위 투명 헤더일 때 상단 스크림 — 밝은 글자 가독성 보장 */}
+      {onDark && (
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-black/50 to-transparent" aria-hidden="true" />
+      )}
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
         <Link href="/" className="flex items-center gap-2 rounded-lg" aria-label={`${SITE.nameKo} 홈`}>
           <span className="text-xl font-bold tracking-tight">
