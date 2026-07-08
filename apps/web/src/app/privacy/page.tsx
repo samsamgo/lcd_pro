@@ -1,9 +1,10 @@
 import { NavBar } from '@/components/NavBar'
 import { Footer } from '@/components/Footer'
+import { SITE } from '@/lib/seo/site'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: '개인정보처리방침 — LCD PRO',
+  title: `개인정보처리방침 — ${SITE.nameKo}`,
   robots: 'noindex',
 }
 
@@ -22,6 +23,14 @@ const SECTIONS = [
 - LED 전광판 설치 견적 산출 및 발송
 - 견적 관련 상담 및 계약 진행
 - 설치 완료 후 AS·유지보수 안내`,
+  },
+  {
+    title: '2-1. 현장 사진의 수집·이용',
+    content: `업로드하신 매장·현장 사진은 오직 설치 위치와 규모를 파악해 범위 견적을 산출하는 용도로만 사용합니다.
+- 사진은 견적 산출·상담 목적 외에 마케팅 등 다른 용도로 사용하지 않습니다.
+- 고객 동의 없이 사진을 외부에 공개하거나 제3자에게 제공하지 않습니다.
+- 견적 목적 달성 후 또는 삭제 요청 시 지체 없이 파기합니다.
+- 시공 사례로 활용이 필요한 경우, 별도의 명시적 동의를 받은 사진만 사용합니다.`,
   },
   {
     title: '3. 보유 및 이용 기간',
@@ -47,11 +56,12 @@ const SECTIONS = [
 - 개인정보 정정·삭제 요청
 - 개인정보 처리 정지 요청
 
-요청은 이메일(contact@lcdpro.co.kr) 또는 전화로 접수합니다. 10일 이내에 처리합니다.`,
+요청은 이메일(${SITE.email}) 또는 상담 채널로 접수합니다. 10일 이내에 처리합니다.
+사진 삭제를 원하시면 위 연락처로 요청해 주시면 즉시 파기합니다.`,
   },
   {
     title: '7. 문의처',
-    content: `개인정보 관련 문의:\n이메일: contact@lcdpro.co.kr\n운영시간: 평일 09:00 ~ 18:00`,
+    content: `개인정보 관련 문의:\n이메일: ${SITE.email}${SITE.phone ? `\n전화: ${SITE.phone}` : ''}${SITE.openingHours ? `\n운영시간: ${SITE.openingHours}` : ''}`,
   },
 ]
 

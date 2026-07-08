@@ -2,10 +2,11 @@ import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import Script from 'next/script'
 import './globals.css'
-import { SITE, absoluteUrl } from '@/lib/seo/site'
+import { SITE } from '@/lib/seo/site'
 import { organizationLd, localBusinessLd, websiteLd } from '@/lib/seo/jsonld'
+import { SiteModalsProvider } from '@/components/modals/SiteModals'
 
-const inter = Inter({ subsets: ['latin'], display: 'swap' })
+const inter = Inter({ subsets: ['latin'], display: 'swap', variable: '--font-inter' })
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -55,9 +56,11 @@ export const metadata: Metadata = {
     googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 },
   },
   verification: {
-    // TODO(COO): GSC + Naver Search Advisor 등록 후 실제 토큰 주입
-    // google: 'GSC_TOKEN_PLACEHOLDER',
-    // other: { 'naver-site-verification': 'NAVER_TOKEN_PLACEHOLDER' },
+    // GSC + Naver Search Advisor — env(NEXT_PUBLIC_*_SITE_VERIFICATION) 설정 시 자동 주입
+    ...(SITE.googleSiteVerification ? { google: SITE.googleSiteVerification } : {}),
+    ...(SITE.naverSiteVerification
+      ? { other: { 'naver-site-verification': SITE.naverSiteVerification } }
+      : {}),
   },
   icons: {
     icon: '/favicon.ico',
@@ -70,8 +73,14 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="ko">
+    <html lang="ko" className={inter.variable}>
       <head>
+        {/* 한글 최적 웹폰트 Pretendard (동적 서브셋 — 사용 글자만 로드). 실패 시 시스템 한글 폰트로 폴백 */}
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+        />
         {/* Organization + LocalBusiness + WebSite JSON-LD (홈에 항상 노출, AEO 핵심) */}
         <Script
           id="ld-organization"
@@ -92,7 +101,9 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd()) }}
         />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <SiteModalsProvider>{children}</SiteModalsProvider>
+      </body>
     </html>
   )
 }

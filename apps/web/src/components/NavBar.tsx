@@ -3,8 +3,9 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, MessageCircle } from 'lucide-react'
 import { SITE } from '@/lib/seo/site'
+import { useSiteModals } from '@/components/modals/SiteModals'
 
 // 멀티페이지 구조 — 각 메뉴는 독립 라우트로 이동한다.
 const NAV_LINKS = [
@@ -20,6 +21,7 @@ export function NavBar() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const pathname = usePathname()
+  const { openConsult } = useSiteModals()
   // 다크 히어로가 상단에 깔린 페이지(홈·블로그 인덱스)에서만 상단 투명+밝은 텍스트.
   // 그 외(블로그 글·about·faq 등 밝은 상단)에서는 진한 텍스트로 가독성 유지.
   const hasDarkHero = pathname === '/' || pathname === '/blog'
@@ -77,7 +79,19 @@ export function NavBar() {
           ))}
         </nav>
 
-        <div className="hidden items-center gap-3 md:flex">
+        <div className="hidden items-center gap-2 md:flex">
+          <button
+            type="button"
+            onClick={() => openConsult('navbar')}
+            className={`flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-semibold transition-colors ${
+              onDark
+                ? 'text-zinc-100 hover:bg-white/10'
+                : 'text-zinc-700 hover:bg-zinc-100'
+            }`}
+          >
+            <MessageCircle size={15} className="text-blue-500" />
+            빠른 상담
+          </button>
           <Link
             href="/quote"
             className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition-all hover:bg-blue-500 active:scale-95 glow"
@@ -120,6 +134,17 @@ export function NavBar() {
               {l.label}
             </Link>
           ))}
+          <button
+            type="button"
+            onClick={() => {
+              setOpen(false)
+              openConsult('navbar-mobile')
+            }}
+            className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-lg border border-zinc-300 px-4 py-3 text-sm font-semibold text-zinc-700"
+          >
+            <MessageCircle size={15} className="text-blue-600" />
+            빠른 상담
+          </button>
           <Link
             href="/quote"
             onClick={() => setOpen(false)}

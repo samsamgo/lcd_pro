@@ -12,8 +12,11 @@ import { FaqSection } from '@/components/landing/FaqSection'
 import { CtaSection } from '@/components/landing/CtaSection'
 import { NavBar } from '@/components/NavBar'
 import { Footer } from '@/components/Footer'
+import { MobileCtaBar } from '@/components/MobileCtaBar'
+import { ComparisonSection } from '@/components/landing/ComparisonSection'
+import { InstantQuotePreview } from '@/components/landing/InstantQuotePreview'
 import { JsonLd } from '@/components/seo/JsonLd'
-import { serviceLd } from '@/lib/seo/jsonld'
+import { serviceLd, howToLd, breadcrumbLd } from '@/lib/seo/jsonld'
 import { SITE, absoluteUrl, buildMetadata } from '@/lib/seo/site'
 import { PRICE_RANGE_SCHEMA } from '@/lib/pricing'
 
@@ -38,10 +41,30 @@ export default function Home() {
           url: absoluteUrl('/'),
         })}
       />
+      <JsonLd
+        id="ld-home-howto"
+        data={howToLd({
+          name: '사진 3장으로 LED 전광판 견적받고 설치하기',
+          description: '매장 사진 3장으로 예상 범위 견적을 확인하고 표준 시공과 AS까지 진행하는 절차.',
+          totalTime: 'PT5M',
+          steps: [
+            { name: '사진 업로드', text: '설치 위치가 보이는 매장 사진 3장을 업로드합니다.' },
+            { name: '즉석 범위 견적', text: '업종·환경·크기 기준으로 예상 범위 견적을 화면에서 바로 확인합니다.' },
+            { name: '현장 실측·확정 견적', text: '전문가가 현장을 실측해 확정 견적과 시공 일정을 안내합니다.' },
+            { name: '표준 시공·AS', text: '1~3일 표준 시공 후 정기 점검과 AS로 운영을 지원합니다.' },
+          ],
+        })}
+      />
+      <JsonLd
+        id="ld-home-breadcrumb"
+        data={breadcrumbLd([{ name: '홈', url: absoluteUrl('/') }])}
+      />
       <NavBar />
       <main id="main">
         <HeroSection />
+        <InstantQuotePreview />
         <ProblemSection />
+        <ComparisonSection />
         <ServicesSection />
         <DifferentiatorSection />
         <HowItWorks />
@@ -53,6 +76,7 @@ export default function Home() {
         <CtaSection />
       </main>
       <Footer />
+      <MobileCtaBar />
     </>
   )
 }

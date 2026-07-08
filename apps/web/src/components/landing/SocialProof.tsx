@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import { CaseGallery } from './CaseGallery'
 
 const STATS = [
   { value: '즉시', label: '사진 3장 범위 견적' },
@@ -53,36 +53,11 @@ export function SocialProof() {
           <h2 className="text-3xl font-bold sm:text-4xl">업종별 활용 예시</h2>
         </div>
 
-        <div className="grid gap-5 sm:grid-cols-3">
-          {CASES.map((c) => (
-            <div
-              key={c.type}
-              className="group overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition-all hover:-translate-y-0.5 hover:led-frame"
-            >
-              <div className="relative aspect-[4/3] overflow-hidden bg-zinc-900">
-                <Image
-                  src={c.img}
-                  alt={`${c.type} LED 사이니지 설치 예시`}
-                  fill
-                  sizes="(max-width: 640px) 100vw, 33vw"
-                  className="object-cover img-zoom"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/70 via-zinc-950/10 to-transparent" />
-                <div className="absolute bottom-3 left-4 right-4">
-                  <p className="text-base font-bold text-white">{c.type}</p>
-                  <p className="text-xs font-medium text-cyan-300">{c.spec}</p>
-                </div>
-              </div>
-              <div className="p-5">
-                <p className="text-sm leading-relaxed text-zinc-700">{c.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+        <CaseGallery cases={CASES} />
 
         <p className="mt-6 text-center text-xs text-zinc-500">
           * 위 이미지는 실제 시공 현장 사진이 아니라 업종별 활용을 돕기 위한 예시입니다.
-          실제 시공 사례는 고객 동의 절차 후 순차 게재됩니다.
+          실제 시공 사례는 고객 동의 절차 후 순차 게재됩니다. (이미지를 누르면 크게 볼 수 있습니다)
         </p>
       </div>
     </section>

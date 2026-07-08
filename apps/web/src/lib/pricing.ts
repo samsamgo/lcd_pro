@@ -35,6 +35,16 @@ export const SKU_PRICE_FROM: Record<Sku, string> = {
   'OUT-L': '1,050만원~',
 }
 
+/** SKU별 설치비 기준가(부터) 숫자값(KRW) — Product/Offer JSON-LD용 */
+export const SKU_PRICE_FROM_KRW: Record<Sku, number> = {
+  'IN-S': 2_000_000,
+  'IN-M': 3_500_000,
+  'P2.5': 5_000_000,
+  'OUT-S': 3_000_000,
+  'OUT-M': 5_600_000,
+  'OUT-L': 10_500_000,
+}
+
 /** 업종별 추천 구성 가격대 (표시용) */
 export const SEGMENT_PRICE_LABEL: Record<string, string> = {
   food: '₩200만 ~ ₩280만',

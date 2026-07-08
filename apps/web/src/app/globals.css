@@ -37,7 +37,12 @@
 @layer base {
   body {
     @apply bg-white text-zinc-900 antialiased;
+    /* Latin은 Inter, 한글은 Pretendard → 시스템 한글 폰트 순 폴백 (외부 CDN 실패에도 안전) */
+    font-family: var(--font-inter), 'Pretendard Variable', Pretendard, 'Apple SD Gothic Neo',
+      'Malgun Gothic', 'Noto Sans KR', system-ui, -apple-system, sans-serif;
     font-feature-settings: 'kern' 1, 'liga' 1;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
   }
   ::selection { @apply bg-blue-600/20 text-zinc-900; }
 

@@ -13,7 +13,7 @@ const BADGES = [
 
 export function HeroSection() {
   return (
-    <section className="surface-dark relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-4 pt-16">
+    <section className="surface-dark relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden px-4 pb-16 pt-24">
       {/* 배경 — 대형 LED 실사. 사진이 주인공, 어두운 오버레이로 텍스트 대비만 확보 */}
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <Image

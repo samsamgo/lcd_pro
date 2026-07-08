@@ -24,9 +24,26 @@ export const SITE = {
   locale: 'ko_KR',
   defaultLanguage: 'ko',
   email: 'contact@wooktech.co.kr',
-  // 실제 대표번호 미확정 — 가짜 번호 노출 금지. CEO가 실제 번호 제공 시 채운다.
-  // 빈 값이면 UI는 전화 링크/번호를 omit하고 견적 폼만 노출한다.
-  phone: '' as string,
+  // 실제 대표번호 미확정 — 가짜 번호 노출 금지. CEO가 실제 번호 제공 시 env로 주입.
+  // 빈 값이면 UI는 전화 링크/번호를 omit하고 견적/상담 채널만 노출한다.
+  phone: (process.env.NEXT_PUBLIC_PHONE ?? '') as string,
+
+  // 실제 확정 시 env로 주입 (가짜 값 노출 금지). 빈 값이면 UI에서 해당 항목 omit.
+  addressFull: (process.env.NEXT_PUBLIC_ADDRESS ?? '') as string, // 예: 서울시 ○○구 ○○로 00
+  ceoName: (process.env.NEXT_PUBLIC_CEO ?? '') as string,
+  bizRegNo: (process.env.NEXT_PUBLIC_BIZ_REG_NO ?? '') as string, // 사업자등록번호
+  openingHours: (process.env.NEXT_PUBLIC_HOURS ?? '') as string, // 예: 평일 09:00~18:00
+
+  // 상담 채널 URL — 실제 채널 개설 후 env 주입. 값이 있을 때만 버튼/링크 노출.
+  kakaoChannelUrl: (process.env.NEXT_PUBLIC_KAKAO_CHANNEL ?? '') as string,
+  naverTalkUrl: (process.env.NEXT_PUBLIC_NAVER_TALK ?? '') as string,
+  naverPlaceUrl: (process.env.NEXT_PUBLIC_NAVER_PLACE ?? '') as string,
+  instagramUrl: (process.env.NEXT_PUBLIC_INSTAGRAM ?? '') as string,
+  youtubeUrl: (process.env.NEXT_PUBLIC_YOUTUBE ?? '') as string,
+
+  // 검색엔진 사이트 소유확인 토큰
+  naverSiteVerification: (process.env.NEXT_PUBLIC_NAVER_SITE_VERIFICATION ?? '') as string,
+  googleSiteVerification: (process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ?? '') as string,
 
   // 비즈니스
   industry: 'LED 사이니지 / 디지털 사이니지 / 전광판',
@@ -35,6 +52,17 @@ export const SITE = {
   countryCode: 'KR',
   founded: '2026',
 } as const
+
+/** 설정된 소셜/채널 URL만 모아 반환 (JSON-LD sameAs, 푸터 링크 등에 사용) */
+export function socialLinks(): string[] {
+  return [
+    SITE.kakaoChannelUrl,
+    SITE.naverTalkUrl,
+    SITE.naverPlaceUrl,
+    SITE.instagramUrl,
+    SITE.youtubeUrl,
+  ].filter(Boolean)
+}
 
 export function absoluteUrl(path: string = '/'): string {
   if (!path.startsWith('/')) path = `/${path}`

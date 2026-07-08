@@ -6,7 +6,7 @@
  * HowTo, BreadcrumbList — 페이지별로 필요한 것만 사용.
  */
 
-import { SITE, absoluteUrl } from './site'
+import { SITE, absoluteUrl, socialLinks } from './site'
 import { PRICE_RANGE_SCHEMA } from '../pricing'
 
 /* ───────────────────────── Organization ────────────────────────── */
@@ -38,9 +38,7 @@ export function organizationLd() {
         availableLanguage: ['Korean'],
       },
     ],
-    sameAs: [
-      // TODO(03-marketing-sales): 도메인·SNS 확정 후 채움
-    ],
+    sameAs: socialLinks(),
   }
 }
 
@@ -62,8 +60,65 @@ export function localBusinessLd() {
       '@type': 'PostalAddress',
       addressCountry: SITE.countryCode,
       addressLocality: SITE.cityKo,
+      ...(SITE.addressFull ? { streetAddress: SITE.addressFull } : {}),
     },
+    ...(SITE.openingHours ? { openingHours: SITE.openingHours } : {}),
     areaServed: { '@type': 'Country', name: 'South Korea' },
+    sameAs: socialLinks(),
+  }
+}
+
+/* ───────────────────────── Product + Offer ─────────────────────── */
+export interface ProductLdInput {
+  name: string
+  description: string
+  sku: string
+  image?: string
+  category?: string
+  priceFrom?: number // KRW 최소가 (설치비 기준). 있으면 Offer 노출
+  url?: string
+}
+export function productLd(input: ProductLdInput) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: input.name,
+    description: input.description,
+    sku: input.sku,
+    image: input.image ?? absoluteUrl('/opengraph-image'),
+    category: input.category ?? 'LED 사이니지',
+    brand: { '@type': 'Brand', name: SITE.nameKo },
+    ...(input.url ? { url: input.url } : {}),
+    ...(input.priceFrom
+      ? {
+          offers: {
+            '@type': 'Offer',
+            priceCurrency: 'KRW',
+            price: input.priceFrom,
+            priceSpecification: {
+              '@type': 'PriceSpecification',
+              priceCurrency: 'KRW',
+              minPrice: input.priceFrom,
+              valueAddedTaxIncluded: false,
+            },
+            availability: 'https://schema.org/InStock',
+            seller: { '@id': `${SITE.url}/#organization` },
+          },
+        }
+      : {}),
+  }
+}
+
+/** 여러 제품을 ItemList 로 묶어 제품 목록 페이지에 노출 */
+export function productListLd(products: ProductLdInput[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: products.map((p, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      item: productLd(p),
+    })),
   }
 }
 
