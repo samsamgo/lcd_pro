@@ -11,6 +11,7 @@ import {
 } from 'lucide-react'
 import { SITE } from '@/lib/seo/site'
 import { useSiteModals } from '@/components/modals/SiteModals'
+import { BrandLogo } from '@/components/brand/BrandLogo'
 
 interface NavChild {
   label: string
@@ -112,13 +113,12 @@ export function NavBar() {
         <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-black/50 to-transparent" aria-hidden="true" />
       )}
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
-        <Link href="/" className="flex items-center gap-2 rounded-lg" aria-label={`${SITE.nameKo} 홈`}>
-          <span className="text-xl font-bold tracking-tight">
-            <span className={onDark ? 'text-white' : 'text-gradient'}>우강테크</span>
-            <span className={`ml-1.5 text-sm font-medium ${onDark ? 'text-zinc-300' : 'text-zinc-600'}`}>
-              WK Tech
-            </span>
-          </span>
+        <Link
+          href="/"
+          className={`flex items-center rounded-lg ${onDark ? 'text-white' : 'text-[#1F2937]'}`}
+          aria-label={`${SITE.nameKo} 홈`}
+        >
+          <BrandLogo markSize={32} />
         </Link>
 
         {/* 데스크톱 메가메뉴 */}

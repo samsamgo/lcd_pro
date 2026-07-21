@@ -12,9 +12,9 @@ const RAW_URL =
 export const SITE = {
   // 브랜드
   nameKo: '우강테크',
-  nameEn: 'WK Tech',
+  nameEn: 'WOOKANG TECH',
   legalName: '우강테크',
-  shortName: 'WK Tech',
+  shortName: 'WOOKANG TECH',
   sloganKo: '빛으로 공간을 짓다',
   sloganEn: 'We build with light.',
   taglineKo: '빛으로 공간을 바꾸는 디스플레이 브랜드 — 설계·제조·시공·운영을 하나의 표준으로',

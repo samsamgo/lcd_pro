@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { SITE } from '@/lib/seo/site'
+import { BrandLogo } from '@/components/brand/BrandLogo'
 
 export function Footer() {
   const year = new Date().getFullYear()
@@ -8,10 +9,7 @@ export function Footer() {
       <div className="mx-auto max-w-5xl">
         <div className="flex flex-col items-start justify-between gap-8 sm:flex-row">
           <div>
-            <p className="text-xl font-bold tracking-tight">
-              <span className="text-gradient">{SITE.nameKo}</span>
-              <span className="ml-2 text-base font-medium text-zinc-500">{SITE.nameEn}</span>
-            </p>
+            <BrandLogo markSize={34} className="text-[#1F2937]" />
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-zinc-600">
               {SITE.sloganKo}
             </p>

@@ -37,7 +37,7 @@ export function BrandHero() {
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="mb-6 text-sm font-medium uppercase tracking-[0.3em] text-cyan-300/90"
         >
-          우강테크 · WK Tech
+          우강테크 · WOOKANG TECH
         </motion.p>
 
         <motion.h1

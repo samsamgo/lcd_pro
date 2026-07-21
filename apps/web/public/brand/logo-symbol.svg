@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-labelledby="title desc">
+  <title id="title">우강테크 플랫 아이소메트릭 심볼</title>
+  <desc id="desc">비스듬한 평행사변형 획으로 만든 오른쪽이 열린 프레임과 3열 4행 LED 픽셀</desc>
+
+  <!-- Flat isometric open frame: no side faces, depth, gradients, or shadows. -->
+  <path d="M23 39 L39 36 L29 91 L13 94 Z" fill="#1F2937"/>
+  <path d="M14 89 L84 78 L82 94 L12 105 Z" fill="#1F2937"/>
+  <path d="M25 29 L96 18 L93 36 L22 47 Z" fill="#FF6A00"/>
+  <path d="M25 29 L96 18 L95 22 L24 33 Z" fill="#FF8A3D"/>
+
+  <!-- 3 × 4 LED pixels, aligned to the same isometric plane. -->
+  <g>
+    <path d="M44 48 L53 46.5 L51.5 54.5 L42.5 56 Z" fill="#FF6A00"/>
+    <path d="M59 45.5 L68 44 L66.5 52 L57.5 53.5 Z" fill="#FF8A3D"/>
+    <path d="M74 43 L83 41.5 L81.5 49.5 L72.5 51 Z" fill="#FF8A3D"/>
+
+    <path d="M42 59.5 L51 58 L49.5 66 L40.5 67.5 Z" fill="#FF6A00"/>
+    <path d="M57 57 L66 55.5 L64.5 63.5 L55.5 65 Z" fill="#FF6A00"/>
+    <path d="M72 54.5 L81 53 L79.5 61 L70.5 62.5 Z" fill="#FF8A3D"/>
+
+    <path d="M40 71 L49 69.5 L47.5 77.5 L38.5 79 Z" fill="#1F2937"/>
+    <path d="M55 68.5 L64 67 L62.5 75 L53.5 76.5 Z" fill="#1F2937"/>
+    <path d="M70 66 L79 64.5 L77.5 72.5 L68.5 74 Z" fill="#FF6A00"/>
+
+    <path d="M38 82.5 L47 81 L45.5 89 L36.5 90.5 Z" fill="#141C2B"/>
+    <path d="M53 80 L62 78.5 L60.5 86.5 L51.5 88 Z" fill="#141C2B"/>
+    <path d="M68 77.5 L77 76 L75.5 84 L66.5 85.5 Z" fill="#1F2937"/>
+  </g>
+</svg>
