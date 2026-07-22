@@ -1,47 +1,33 @@
-name: Deploy to Vercel
+name: CI
 
+# 실제 배포는 Vercel 자체 Git 연동이 담당한다.
+# 이 워크플로는 main 푸시/PR마다 타입체크·빌드만 검증하는 CI 게이트다.
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
 
-env:
-  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-  PNPM_VERSION: 9
-
 jobs:
-  deploy:
+  ci:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
+      # pnpm 버전은 package.json "packageManager"(pnpm@9.0.0)에서 읽는다.
+      # 여기서 version을 지정하면 "Multiple versions of pnpm specified" 에러로 실패한다.
       - uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: Type check
         run: pnpm --filter @lcd-pro/web exec tsc --noEmit
 
-      - name: Pull Vercel environment
-        run: npx vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-
       - name: Build
-        run: npx vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Deploy to Vercel (Preview)
-        if: github.event_name == 'pull_request'
-        run: npx vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Deploy to Vercel (Production)
-        if: github.ref == 'refs/heads/main'
-        run: npx vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+        run: pnpm --filter @lcd-pro/web build
