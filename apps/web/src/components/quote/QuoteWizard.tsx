@@ -30,7 +30,7 @@ const quoteSchema = z.object({
   purpose: z.string().min(5, '사용 목적을 간략히 입력해주세요.'),
   urgency: z.enum(['low', 'normal', 'high', 'urgent']).default('normal'),
   // 표준 블록 (선택값)
-  familyCode: z.enum(['F-IN-P3', 'F-IN-P2.5', 'F-OUT-P5']).optional(),
+  familyCode: z.enum(['F-IN-P1.86', 'F-IN-P3', 'F-IN-P2.5', 'F-OUT-P5']).optional(),
   highRes: z.boolean().default(false),
   needsLiveInput: z.boolean().default(false),
   exactSizeRequired: z.boolean().default(false),

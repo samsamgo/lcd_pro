@@ -18,14 +18,18 @@ export async function POST(req: NextRequest) {
 
   const raw = await req.text()
 
-  // 옵셔널 서명 검증
+  // fail-closed 서명 검증 — 셋 중 하나만 빠져도 통과시키면 누구나 위조 웹훅을 밀어넣는다
   const sig = req.headers.get('tosspayments-webhook-signature')
   const transTime = req.headers.get('tosspayments-webhook-transmission-time')
   const secret = process.env.TOSS_WEBHOOK_SECRET
-  if (sig && transTime && secret) {
-    if (!verifyTossSignature(raw, transTime, sig, secret)) {
-      return NextResponse.json({ error: 'invalid signature' }, { status: 401 })
-    }
+  if (!secret) {
+    return NextResponse.json({ error: 'TOSS_WEBHOOK_SECRET 미설정' }, { status: 500 })
+  }
+  if (!sig || !transTime) {
+    return NextResponse.json({ error: 'signature 누락' }, { status: 401 })
+  }
+  if (!verifyTossSignature(raw, transTime, sig, secret)) {
+    return NextResponse.json({ error: 'invalid signature' }, { status: 401 })
   }
 
   let payload: any

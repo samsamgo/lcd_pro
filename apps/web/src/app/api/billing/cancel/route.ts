@@ -30,6 +30,10 @@ export async function POST(req: NextRequest) {
   if (!subscriptionId) {
     return NextResponse.json({ error: 'subscriptionId 누락' }, { status: 400 })
   }
+  // fail-closed: customerId를 빼면 소유권 검사를 건너뛰던 구멍 — 남의 구독을 해지할 수 있었다
+  if (!customerId) {
+    return NextResponse.json({ error: 'customerId 누락' }, { status: 400 })
+  }
 
   const db = serverClient()
 

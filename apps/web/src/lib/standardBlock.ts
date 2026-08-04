@@ -3,7 +3,7 @@
 //
 // 출력은 결정적(deterministic). RFQ 미확정 수치는 CANDIDATE 라벨로 별도 노출.
 
-export type FamilyCode = 'F-IN-P3' | 'F-IN-P2.5' | 'F-OUT-P5'
+export type FamilyCode = 'F-IN-P1.86' | 'F-IN-P3' | 'F-IN-P2.5' | 'F-OUT-P5'
 export type Environment = 'indoor' | 'outdoor'
 export type Classification = 'STANDARD_LAYOUT' | 'STANDARD_ZONE' | 'ENGINEERING_CUSTOM'
 export type PackageTier = 'BASIC' | 'STANDARD' | 'PREMIUM' | 'RENTAL'
@@ -29,6 +29,12 @@ export const CABINET_H_MM = 480
 export const MODULES_PER_CABINET = 6
 
 export const FAMILIES: Record<FamilyCode, FamilySpec> = {
+  // 주력 제품. 모듈 320x160mm = 172x86px → 캐비닛(2x3모듈) 344x258px, 실피치 640/344 = 1.8605mm
+  // ⚠ max_w_per_m2 는 공급사 사양서 회수 전 보수 추정 (WK-SOURCING). candidate 유지.
+  'F-IN-P1.86': {
+    family_code: 'F-IN-P1.86', env: 'indoor', pitch: 'P1.86',
+    cab_px_w: 344, cab_px_h: 258, max_w_per_m2: 800, candidate: true,
+  },
   'F-IN-P3': {
     family_code: 'F-IN-P3', env: 'indoor', pitch: 'P3',
     cab_px_w: 208, cab_px_h: 156, max_w_per_m2: 600, candidate: true,
@@ -407,5 +413,7 @@ export function estimateProject(input: ProjectInput): ProjectEstimate {
 
 export function recommendFamily(env: Environment, highRes: boolean): FamilyCode {
   if (env === 'outdoor') return 'F-OUT-P5'
+  // P1.86 은 고객이 직접 고를 때만 견적한다. 공급사 확정(WK-SOURCING) 전까지
+  // 자동 추천으로 밀면 팔 수 없는 제품을 견적내게 된다. 확정되면 이 줄만 바꾼다.
   return highRes ? 'F-IN-P2.5' : 'F-IN-P3'
 }

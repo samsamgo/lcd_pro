@@ -19,12 +19,13 @@ export async function GET(req: NextRequest) {
   }
 
   // Vercel Cron 인증 검증
+  // fail-closed: CRON_SECRET 미설정이면 인증 자체가 불가 → 열지 않는다
   const secret = process.env.CRON_SECRET
-  if (secret) {
-    const auth = req.headers.get('authorization')
-    if (auth !== `Bearer ${secret}`) {
-      return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
-    }
+  if (!secret) {
+    return NextResponse.json({ error: 'CRON_SECRET 미설정' }, { status: 500 })
+  }
+  if (req.headers.get('authorization') !== `Bearer ${secret}`) {
+    return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
   }
 
   const db = serverClient()

@@ -12,10 +12,29 @@ const CABINET_H_MM = 480
 const MODULES_PER_CABINET = 6  // 320x160 × 2×3
 
 const FAMILIES = {
+  'F-IN-P1.86':{ env: 'indoor',  pitch: 'P1.86',cab_px_w: 344, cab_px_h: 258, max_w_per_m2: 800 },
   'F-IN-P3':   { env: 'indoor',  pitch: 'P3',   cab_px_w: 208, cab_px_h: 156, max_w_per_m2: 600 },
   'F-IN-P2.5': { env: 'indoor',  pitch: 'P2.5', cab_px_w: 256, cab_px_h: 192, max_w_per_m2: 600 },
   'F-OUT-P5':  { env: 'outdoor', pitch: 'P5',   cab_px_w: 128, cab_px_h: 96,  max_w_per_m2: 800 },
 }
+
+// 피치 정합 — cab_px × 피치 = 캐비닛 실치수여야 한다.
+// 화소수를 잘못 넣으면 견적 전체(전력·컨트롤러·판매가)가 조용히 틀어지므로 여기서 먼저 막는다.
+// 공칭 피치명은 반올림값이다(예: "P3"의 실측은 320/104 = 3.077mm) → 상대오차 4%까지 허용.
+// 가로·세로 실피치는 정사각 화소여야 하므로 서로 일치해야 한다(여긴 엄격).
+for (const [code, F] of Object.entries(FAMILIES)) {
+  const nominal = parseFloat(F.pitch.replace('P', ''))
+  const [pw, ph] = [CABINET_W_MM / F.cab_px_w, CABINET_H_MM / F.cab_px_h]
+  if (Math.abs(pw - ph) > 0.01) {
+    console.error(`✗ ${code}: 화소 비정사각 — 가로 ${pw.toFixed(3)}mm / 세로 ${ph.toFixed(3)}mm`)
+    process.exit(1)
+  }
+  if (Math.abs(pw - nominal) / nominal > 0.04) {
+    console.error(`✗ ${code}: 피치 불일치 — 공칭 ${nominal}mm / 실측 ${pw.toFixed(3)}mm`)
+    process.exit(1)
+  }
+}
+console.log(`✓ 피치 정합 ${Object.keys(FAMILIES).length}/${Object.keys(FAMILIES).length} 패밀리`)
 
 // 매트릭스에 정사각형 중간 사이즈(A-4x4, A-5x5) 보강 — 검증 중 발견
 const LAYOUTS = [

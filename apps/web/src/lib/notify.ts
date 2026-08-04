@@ -42,7 +42,7 @@ export async function notifyCustomerQuoteReceived(data: QuoteNotifyData) {
             templateParameter: {
               businessName: data.businessName,
               estimateTime: '범위 견적을 안내드립니다.',
-              contactUrl: `https://lcdpro.co.kr/quote/status/${data.quoteId}`,
+              contactUrl: `https://wooktech.co.kr/quote/status/${data.quoteId}`,
             },
           },
         ],
@@ -73,7 +73,7 @@ async function notifyCustomerSMS(data: QuoteNotifyData) {
       user_id: aligoUserId,
       sender: senderNumber,
       receiver: data.phone.replace(/-/g, ''),
-      msg: `[LCD PRO] ${data.businessName} 견적 요청이 접수되었습니다.\n범위 견적을 안내드립니다.\n문의: lcdpro.co.kr`,
+      msg: `[우강테크] ${data.businessName} 견적 요청이 접수되었습니다.\n범위 견적을 안내드립니다.\n문의: wooktech.co.kr`,
       testmode_yn: process.env.NODE_ENV === 'production' ? 'N' : 'Y',
     })
 
@@ -137,7 +137,7 @@ async function notifyAdminSlack(data: QuoteNotifyData) {
             {
               type: 'button',
               text: { type: 'plain_text', text: '견적 처리하기' },
-              url: `https://admin.lcdpro.co.kr/quotes/${data.quoteId}`,
+              url: `https://admin.wooktech.co.kr/quotes/${data.quoteId}`,
               style: 'primary',
             },
           ],
@@ -169,7 +169,7 @@ async function notifyAdminSMS(data: QuoteNotifyData) {
       user_id: aligoUserId,
       sender: senderNumber,
       receiver: adminPhone,
-      msg: `[LCD PRO 신규견적]\n${data.businessName} (${data.region})\n${data.phone}\n${data.environment === 'indoor' ? '실내' : '옥외'} / ${urgencyLabel[data.urgency] ?? ''}\n처리: admin.lcdpro.co.kr`,
+      msg: `[우강테크 신규견적]\n${data.businessName} (${data.region})\n${data.phone}\n${data.environment === 'indoor' ? '실내' : '옥외'} / ${urgencyLabel[data.urgency] ?? ''}\n처리: admin.wooktech.co.kr`,
       testmode_yn: process.env.NODE_ENV === 'production' ? 'N' : 'Y',
     })
 

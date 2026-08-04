@@ -19,7 +19,8 @@ type PackageTierEnum = Database['public']['Enums']['package_tier']
 
 // 신엔진 family → legacy sku_code (admin 호환용, types.gen.ts 재생성 전까지 임시 매핑)
 function familyToLegacySku(family: FamilyCode, areaM2: number): SkuCode {
-  if (family === 'F-IN-P2.5') return 'P2.5'
+  // P1.86 은 legacy SkuCode enum에 없다 → 가장 가까운 실내 파인피치로 매핑 (admin 표시용)
+  if (family === 'F-IN-P1.86' || family === 'F-IN-P2.5') return 'P2.5'
   if (family === 'F-IN-P3')   return areaM2 <= 4 ? 'IN-S' : 'IN-M'
   // F-OUT-P5
   if (areaM2 <= 6)  return 'OUT-S'
@@ -115,9 +116,22 @@ export async function POST(req: NextRequest) {
       }
     : null
 
+  // ── 리드 최후 보루 ────────────────────────────────────────────────
+  // 웹훅도 DB도 실패하면 리드가 통째로 증발한다(실제로 그렇게 소실됐다).
+  // 어떤 경로가 실패하든 리드 원문을 stderr에 남긴다 — Vercel 로그에서 회수 가능.
+  const leadRecord = {
+    businessName, contactName, phone, region, businessType,
+    environment, urgency, purpose,
+    widthMm, heightMm, viewingDistance, additionalNotes,
+    photoCount: photos.length,
+    at: new Date().toISOString(),
+  }
+  const logLead = (why: string) =>
+    console.error('[LEAD-FALLBACK]', why, JSON.stringify(leadRecord))
+
   // ── 리드 웹훅 알림 (DB 저장과 독립 · 항상 시도) ───────────────────
   // ADMIN_LEAD_WEBHOOK(또는 Slack/Kakao 웹훅)만 있으면 Supabase 없이도
-  // 사장이 리드를 즉시 받는다. 웹훅 미설정 시 no-op (접수 흐름엔 영향 없음).
+  // 사장이 리드를 즉시 받는다. 미설정·실패 시 로그로 떨어뜨린다(더는 조용히 삼키지 않는다).
   const priceRange = estimateSummary?.price ?? null
   void notifyLeadWebhook({
     businessName,
@@ -130,11 +144,14 @@ export async function POST(req: NextRequest) {
     quoteId: 'pending',
     priceMin: priceRange?.min ?? null,
     priceMax: priceRange?.max ?? null,
-  })
+  }).then(r => { if (!r.success) logLead('webhook-unsent') })
 
-  // ── MVP 모드 (features.quotePersistence OFF): DB·사진 저장 건너뜀 ──
-  // 즉석 화면 견적 + 웹훅 리드 전달만. (DB·사진 보관은 persistence ON 시)
-  if (!features.quotePersistence) {
+  // ── DB 저장 불가 조건: 플래그 OFF 또는 Supabase env 미설정 ─────────
+  // env 없이 serverClient()를 부르면 throw → 고객이 500을 본다. 먼저 막는다.
+  const supabaseReady =
+    !!process.env.NEXT_PUBLIC_SUPABASE_URL && !!process.env.SUPABASE_SERVICE_KEY
+  if (!features.quotePersistence || !supabaseReady) {
+    logLead(features.quotePersistence ? 'supabase-env-missing' : 'persistence-off')
     return NextResponse.json({
       success: true,
       quoteId: null,
@@ -142,7 +159,7 @@ export async function POST(req: NextRequest) {
     })
   }
 
-  // ── 이하: features.quotePersistence ON 일 때만 (Supabase 필요) ──────
+  // ── 이하: DB 저장 경로 ─────────────────────────────────────────────
   const supabase = serverClient()
 
   // 고객 upsert (phone 기준)
@@ -164,7 +181,9 @@ export async function POST(req: NextRequest) {
       .single()
 
     if (customerError || !newCustomer) {
-      return NextResponse.json({ error: '고객 생성 실패' }, { status: 500 })
+      // 고객에게 에러를 던지면 리드도 같이 죽는다. 로그로 회수하고 접수는 성공 처리.
+      logLead(`customer-insert-failed: ${customerError?.message ?? 'unknown'}`)
+      return NextResponse.json({ success: true, quoteId: null, estimate: estimateSummary })
     }
     customerId = newCustomer.id
   }
@@ -223,7 +242,8 @@ export async function POST(req: NextRequest) {
     .single()
 
   if (quoteError || !quote) {
-    return NextResponse.json({ error: '견적 생성 실패' }, { status: 500 })
+    logLead(`quote-insert-failed: ${quoteError?.message ?? 'unknown'}`)
+    return NextResponse.json({ success: true, quoteId: null, estimate: estimateSummary })
   }
 
   // 사진 업로드

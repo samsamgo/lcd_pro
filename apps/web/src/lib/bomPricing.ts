@@ -7,6 +7,7 @@ import type { BOM, Environment, FamilyCode } from './standardBlock'
 
 // ── 단가 (편집 단일 지점) ────────────────────────────────
 const MODULE_COST_BY_FAMILY: Record<FamilyCode, number> = {
+  'F-IN-P1.86': 55_000, // ⚠ 미회수 추정(RFQ 0곳 회신) — 단가 오면 이 줄만 갱신
   'F-IN-P3': 22_500,    // 시장 중앙값
   'F-IN-P2.5': 30_000,  // 추정
   'F-OUT-P5': 22_000,   // 실측 기반
