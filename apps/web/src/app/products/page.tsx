@@ -12,9 +12,9 @@ import { SITE, buildMetadata } from '@/lib/seo/site'
 export const dynamic = 'force-static'
 
 export const metadata: Metadata = buildMetadata({
-  title: '제품 라인업',
+  title: '설치 장소별 안내판',
   description:
-    '실내 소형 메뉴판부터 옥외 대형 빌딩 전광판까지 — 공간과 목적에 맞춰 표준화한 6가지 LED 사이니지 SKU. 픽셀 피치·밝기·설치비 기준가를 투명하게 공개합니다.',
+    '민원실 안내판부터 옥외 대형 전광판까지, 설치 장소와 보는 거리에 맞춰 표준 규격으로 제작합니다. 기준 가격과 포함 범위를 그대로 공개합니다.',
   path: '/products',
 })
 
@@ -25,16 +25,16 @@ export default function ProductsPage() {
         id="ld-breadcrumb-products"
         data={breadcrumbLd([
           { name: '홈', url: SITE.url + '/' },
-          { name: '제품 라인업', url: SITE.url + '/products' },
+          { name: '설치 장소별 안내판', url: SITE.url + '/products' },
         ])}
       />
       <NavBar />
       <main id="main">
         <PageHero
-          eyebrow="Products"
-          title="공간에 맞는 표준 모델"
-          description="복잡한 스펙 없이 — 실내·옥외, 화면 크기, 목적에 맞는 제품을 바로 추천합니다. 모든 설치비 기준가는 예상 범위로 투명하게 공개합니다."
-          crumbs={[{ name: '홈', href: '/' }, { name: '제품 라인업' }]}
+          eyebrow="설치 장소별 안내"
+          title="보는 거리와 설치 장소로 고르세요"
+          description="민원실 창구처럼 가까이 보는 화면부터 건물 밖에서 멀리 보는 화면까지 나누어 안내합니다. 화면 크기와 설치 위치를 알려주시면 맞는 구성을 제안해 드립니다."
+          crumbs={[{ name: '홈', href: '/' }, { name: '설치 장소별 안내판' }]}
         />
         <ProductSection hideHeader />
         <TargetSection />

@@ -40,7 +40,7 @@ export function Step2InstallInfo() {
             >
               {e === 'indoor' ? '실내' : '옥외'}
               <span className="ml-2 text-xs font-normal text-zinc-500">
-                {e === 'indoor' ? '(P2.5~P4)' : '(P4~P6)'}
+                {e === 'indoor' ? '(건물 안)' : '(건물 밖)'}
               </span>
             </button>
           ))}
@@ -72,8 +72,8 @@ export function Step2InstallInfo() {
 
       {/* 표준 적용 안내 */}
       <div className="rounded-xl border border-zinc-200 bg-white/60 p-4 text-xs text-zinc-600">
-        <p className="mb-1 font-semibold text-zinc-800">표준 사이즈 안내</p>
-        <p>요청 크기에 가장 가까운 표준 캐비닛 사이즈로 제안드립니다. 납기 단축, 가격 안정,
+        <p className="mb-1 font-semibold text-zinc-800">제작 크기 안내</p>
+        <p>요청하신 크기에 가장 가까운 기본 제작 단위로 제안드립니다. 납기 단축, 가격 안정,
           유지보수·예비부품 호환성이 좋아집니다.</p>
       </div>
 
@@ -82,7 +82,7 @@ export function Step2InstallInfo() {
         <div className="space-y-2">
           <label className="flex items-center gap-2 text-sm text-zinc-700">
             <input type="checkbox" {...register('highRes')} className="h-4 w-4" />
-            근거리 고해상도 (P2.5) 권장 — 회의실·바·로비
+            가까이서 보는 자리 — 민원실·로비·회의실
           </label>
           <label className="flex items-center gap-2 text-sm text-zinc-700">
             <input type="checkbox" {...register('needsLiveInput')} className="h-4 w-4" />

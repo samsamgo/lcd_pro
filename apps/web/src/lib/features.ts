@@ -15,8 +15,6 @@ export const features = {
   quotePersistence: process.env.NEXT_PUBLIC_FEAT_QUOTE_PERSISTENCE !== 'off',
   /** 카카오 알림톡 / 알리고 SMS / Slack 알림 (FEAT_NOTIFICATIONS=on) */
   notifications: process.env.FEAT_NOTIFICATIONS === 'on',
-  /** 구독·결제 (Toss) — subscribe/account 페이지, billing API (NEXT_PUBLIC_FEAT_BILLING=on) */
-  billing: process.env.NEXT_PUBLIC_FEAT_BILLING === 'on',
 } as const
 
 export type FeatureFlags = typeof features

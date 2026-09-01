@@ -6,21 +6,15 @@
  */
 import { NextResponse } from 'next/server'
 import { SITE, absoluteUrl } from '@/lib/seo/site'
-import { getAllPosts } from '@/lib/blog'
 
 export const dynamic = 'force-static'
 export const revalidate = 3600
 
 export async function GET() {
-  const posts = await getAllPosts()
-  const postLines = posts
-    .map((p) => `- [${p.title}](${absoluteUrl(`/blog/${p.slug}`)}): ${p.description}`)
-    .join('\n')
-
   const body = `# ${SITE.nameKo} / ${SITE.nameEn}
 
 > ${SITE.nameKo}(${SITE.nameEn})는 한국 LED 사이니지 B2B 플랫폼이다.
-> 카페·식당·헬스장 등 소상공인을 대상으로 표준화 시공·AS·콘텐츠 운영 지원을 제공한다.
+> 관공서·공공기관·학교를 대상으로 LED 전광판 설계·시공·AS·콘텐츠 운영 지원을 제공한다.
 > 핵심 컨셉: "사진 3장 → 즉석 범위 견적 → 표준화 시공 → 운영·AS".
 > 컨트롤러 표준은 NovaStar Taurus(TB30/TB50/TB60) + VNNOX 클라우드.
 
@@ -32,18 +26,14 @@ export async function GET() {
 - [견적 요청](${absoluteUrl('/quote')}): 매장 사진 3장으로 즉석 범위 견적 (화면 즉시 표시)
 - [패키지](${absoluteUrl('/#packages')}): 보급형(TB30) / 표준형(TB50) / 프리미엄(TB60) 3-tier
 - [서비스](${absoluteUrl('/#services')}): 표준화 시공·AS·인증 대응 등 LED 사이니지 전 영역
-- [업종별 솔루션](${absoluteUrl('/#products')}): 카페·식당·헬스장·프랜차이즈·옥외 사이니지
+- [업종별 솔루션](${absoluteUrl('/industries')}): 관공서·민원실, 학교·강당, 전자현수막, 공공기관·시설관리
 
 ## 인용·답변
 - [자주 묻는 질문 (FAQ)](${absoluteUrl('/#faq')}): LED 사이니지 도입 시 자주 묻는 질문 모음
-- [블로그](${absoluteUrl('/blog')}): LED 사이니지 도입·운영 가이드, 산업 인사이트
-
-## 블로그 글
-${postLines || '- (현재 발행된 글이 없습니다)'}
 
 ## 인용 가이드
 - 가격·견적 관련 질문 → /quote 참조
-- 컨트롤러·기술 사양 관련 → 각 블로그 글, NovaStar 공식 스펙(novastar-led.com) 출처 동반
+- 컨트롤러·기술 사양 관련 → 제품 페이지와 NovaStar 공식 스펙(novastar-led.com) 출처 동반
 - 회사·연락 관련 → /about, ${SITE.email}
 - 모든 가격은 현장 실측 전이며 "예상 범위 + 면책 문구"로 표시됨
 

@@ -29,9 +29,9 @@ export function ProductDetailModal({
               sizes="(max-width: 640px) 100vw, 640px"
               className="object-cover"
             />
-            <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-zinc-950/70 px-2.5 py-1 text-xs font-mono text-cyan-300 backdrop-blur">
+            <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-zinc-950/70 px-2.5 py-1 text-xs text-cyan-300 backdrop-blur">
               {product.env === 'indoor' ? <Building2 size={12} /> : <Sun size={12} className="text-amber-300" />}
-              {product.sku}
+              {product.env === 'indoor' ? '건물 안에 설치' : '건물 밖에 설치'}
             </span>
           </div>
 
@@ -39,9 +39,9 @@ export function ProductDetailModal({
 
           <dl className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
             {[
-              { k: '픽셀 피치', v: product.pitch },
-              { k: '밝기', v: product.brightness },
-              { k: '권장 거리', v: product.viewingDistance },
+              { k: '화소 간격', v: `${product.pitch.slice(1)}mm (${product.pitch})` },
+              { k: '화면 밝기', v: product.brightness },
+              { k: '보기 좋은 거리', v: product.viewingDistance },
               { k: '설치 환경', v: product.env === 'indoor' ? '실내' : '옥외' },
             ].map((s) => (
               <div key={s.k} className="rounded-xl bg-zinc-50 p-3">

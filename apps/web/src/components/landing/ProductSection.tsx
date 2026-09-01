@@ -26,15 +26,15 @@ export function ProductSection({ hideHeader = false }: { hideHeader?: boolean })
         {!hideHeader && (
           <div className="mb-14 text-center">
             <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-cyan-400">
-              제품 라인업
+              설치 장소별 안내
             </p>
             <h2 className="text-4xl font-bold text-white sm:text-5xl">
-              표준화된 6가지 모델
+              어디에 설치하고 얼마나 멀리서 보시나요?
             </h2>
             <p className="mt-4 text-zinc-400">
-              복잡한 스펙 없이 — 공간과 목적에 맞는 제품을 바로 추천합니다.
+              실내·실외와 주로 보는 거리를 기준으로 알맞은 화면을 찾을 수 있습니다.
               <br className="hidden sm:block" />
-              카드를 누르면 상세 스펙과 예상 가격을 확인할 수 있어요.
+              정확한 화소 간격과 밝기, 예상 가격은 카드를 눌러 확인하세요.
             </p>
           </div>
         )}

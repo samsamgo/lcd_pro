@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react'
 import {
   Menu, X, MessageCircle, ChevronDown,
   MonitorSmartphone, Layers, Sparkles, Wrench, Ruler, ShieldCheck,
-  Building2, BookOpen, HelpCircle, Coffee, UtensilsCrossed, Dumbbell, Store, Sun,
+  Building2, BookOpen, HelpCircle,
   type LucideIcon,
 } from 'lucide-react'
 import { SITE } from '@/lib/seo/site'
@@ -50,19 +50,17 @@ const NAV: NavGroup[] = [
     label: '업종별',
     href: '/industries',
     children: [
-      { label: '카페 · 베이커리', desc: '실내 메뉴 디스플레이', href: '/industries/cafe', icon: Coffee },
-      { label: '식당 · 외식', desc: '메뉴 · 홍보 통합', href: '/industries/restaurant', icon: UtensilsCrossed },
-      { label: '헬스장 · 피트니스', desc: '공지 · 시간표 · 홍보', href: '/industries/gym', icon: Dumbbell },
-      { label: '프랜차이즈 · 다점포', desc: '표준화 · 일괄 운영', href: '/industries/franchise', icon: Store },
-      { label: '옥외 광고', desc: '고밝기 · 인허가 대행', href: '/industries/outdoor-ad', icon: Sun },
+      { label: '관공서 · 민원실', desc: '창구 · 부서 · 시정 안내', href: '/industries/public-office', icon: Building2 },
+      { label: '학교 · 강당', desc: '급식표 · 행사 · 귀가 안내', href: '/industries/school', icon: BookOpen },
+      { label: '전자현수막', desc: '재난 · 시정 홍보 · 계도 문구', href: '/industries/banner', icon: Layers },
+      { label: '공공기관 · 시설관리', desc: '로비 · 층별 종합안내', href: '/industries/institution', icon: ShieldCheck },
     ],
   },
   {
     label: '회사',
     href: '/about',
     children: [
-      { label: '회사 소개', desc: '빛으로 공간을 짓다', href: '/about', icon: Building2 },
-      { label: '블로그', desc: '견적 · 시공 · 운영 가이드', href: '/blog', icon: BookOpen },
+      { label: '회사 소개', desc: 'LED 전광판 설계 · 시공 안내', href: '/about', icon: Building2 },
       { label: 'FAQ', desc: '자주 묻는 질문', href: '/faq', icon: HelpCircle },
     ],
   },
@@ -78,7 +76,7 @@ export function NavBar() {
   const closeTimer = useRef<number | null>(null)
 
   // 상단이 다크 히어로인 페이지 — 스크롤 전 투명 헤더 + 밝은 글자
-  const DARK_HERO = ['/', '/blog', '/about', '/services']
+  const DARK_HERO = ['/', '/about', '/services']
   const hasDarkHero = DARK_HERO.includes(pathname) || pathname.startsWith('/industries/')
 
   useEffect(() => {

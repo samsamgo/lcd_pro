@@ -18,7 +18,7 @@
 - [~] (선택) 실제 제품 실물/시공 사진 — 사용자 제공 시 교체 권장
 
 ## C. 멀티페이지 구조
-- [x] C1. NavBar → 실제 라우트(/services /products /packages /about /faq /blog)
+- [x] C1. NavBar → 실제 라우트(/services /products /packages /industries /about /faq)
 - [x] C2~C6. /services /products /packages /faq 독립 페이지 신설(리다이렉트 제거), /about 유지
 - [x] C7. 홈은 요약 랜딩 + 각 페이지 유도
 - [x] C8. sitemap·breadcrumb·내부링크 일관성

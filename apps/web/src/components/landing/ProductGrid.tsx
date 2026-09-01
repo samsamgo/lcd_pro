@@ -33,16 +33,16 @@ export function ProductGrid({ skus }: { skus?: Sku[] }) {
                 className="object-cover img-zoom"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent" />
-              <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-zinc-950/70 px-2.5 py-1 text-xs font-mono text-cyan-300 backdrop-blur">
+              <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-zinc-950/70 px-2.5 py-1 text-xs text-cyan-300 backdrop-blur">
                 {p.env === 'indoor' ? (
                   <Building2 size={12} className="text-cyan-300" />
                 ) : (
                   <Sun size={12} className="text-amber-300" />
                 )}
-                {p.sku}
+                {p.env === 'indoor' ? '건물 안에 설치' : '건물 밖에 설치'}
               </span>
               <span className="absolute bottom-3 left-3 rounded-md bg-cyan-400/90 px-2 py-0.5 text-xs font-bold text-zinc-950">
-                {p.brightness}
+                보기 좋은 거리 {p.viewingDistance}
               </span>
               <span className="absolute bottom-3 right-3 rounded-full bg-white/10 p-1.5 text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
                 <Plus size={15} />
@@ -57,11 +57,11 @@ export function ProductGrid({ skus }: { skus?: Sku[] }) {
 
               <div className="mb-4 grid grid-cols-2 gap-2 text-xs text-zinc-400">
                 <div>
-                  <span className="text-zinc-500">피치</span>
-                  <p className="font-medium text-zinc-200">{p.pitch}</p>
+                  <span className="text-zinc-500">화소 간격</span>
+                  <p className="font-medium text-zinc-200">{p.pitch.slice(1)}mm <span className="text-[10px] text-zinc-500">({p.pitch})</span></p>
                 </div>
                 <div>
-                  <span className="text-zinc-500">밝기</span>
+                  <span className="text-zinc-500">화면 밝기</span>
                   <p className="font-medium text-zinc-200">{p.brightness}</p>
                 </div>
                 <div>
@@ -77,7 +77,7 @@ export function ProductGrid({ skus }: { skus?: Sku[] }) {
               </div>
 
               <span className="inline-flex items-center gap-1 text-xs font-semibold text-cyan-400 group-hover:text-cyan-300">
-                상세 스펙 보기 <Plus size={12} />
+                자세한 규격 보기 <Plus size={12} />
               </span>
             </div>
           </button>

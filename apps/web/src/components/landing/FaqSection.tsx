@@ -106,8 +106,8 @@ export function FaqSection({ hideHeader = false }: { hideHeader?: boolean }) {
 
         <p className="mt-8 text-center text-sm text-zinc-600">
           더 궁금한 점이 있으신가요?{' '}
-          <Link href="/blog" className="font-semibold text-blue-600 underline-offset-4 hover:underline">
-            블로그 가이드 보기 →
+          <Link href="/quote" className="font-semibold text-blue-600 underline-offset-4 hover:underline">
+            설치 조건 남기고 상담 요청하기 →
           </Link>
         </p>
       </div>

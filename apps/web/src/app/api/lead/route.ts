@@ -14,6 +14,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: '잘못된 요청입니다.' }, { status: 400 })
   }
 
+  const leadRecord = {
+    ...body,
+    at: new Date().toISOString(),
+  }
+  const logLead = (why: string) =>
+    console.error('[LEAD-FALLBACK]', why, JSON.stringify(leadRecord))
+  logLead('received')
+
   const phone = String(body.phone ?? '').trim()
   const businessType = String(body.businessType ?? '').trim()
   const contactName = String(body.contactName ?? '').trim()
@@ -31,16 +39,21 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: '개인정보 수집 동의가 필요합니다.' }, { status: 400 })
   }
 
-  await notifyLeadWebhook({
-    businessName: businessType || '(빠른 상담)',
-    contactName: contactName || '-',
-    phone,
-    region: region || '-',
-    environment: environment as 'indoor' | 'outdoor',
-    urgency: 'normal',
-    quoteId: 'lead',
-    purpose: message || '빠른 상담 요청',
-  })
+  try {
+    const result = await notifyLeadWebhook({
+      businessName: businessType || '(빠른 상담)',
+      contactName: contactName || '-',
+      phone,
+      region: region || '-',
+      environment: environment as 'indoor' | 'outdoor',
+      urgency: 'normal',
+      quoteId: 'lead',
+      purpose: message || '빠른 상담 요청',
+    })
+    if (!result.success) logLead('webhook-unsent')
+  } catch {
+    logLead('webhook-unsent')
+  }
 
   return NextResponse.json({ success: true })
 }

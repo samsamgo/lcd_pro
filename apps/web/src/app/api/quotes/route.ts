@@ -4,6 +4,7 @@ import { notifyCustomerQuoteReceived, notifyAdminNewQuote, notifyLeadWebhook } f
 import { features } from '@/lib/features'
 import {
   estimateProject,
+  FAMILIES,
   recommendFamily,
   type FamilyCode,
   type PackageTier,
@@ -56,7 +57,7 @@ export async function POST(req: NextRequest) {
   const desiredHeight = formData.get('desiredHeight') as string | null
   const viewingDistance = formData.get('viewingDistance') as string | null
   const additionalNotes = formData.get('additionalNotes') as string | null
-  const familyCodeInput = formData.get('familyCode') as FamilyCode | null
+  const familyCodeInput = formData.get('familyCode')
   const highResFlag = formData.get('highRes') === 'true'
   const needsLiveInput = formData.get('needsLiveInput') === 'true'
   const exactSizeRequired = formData.get('exactSizeRequired') === 'true'
@@ -82,7 +83,11 @@ export async function POST(req: NextRequest) {
   let familyCode: FamilyCode | null = null
   let packageTier: PackageTier = 'STANDARD'
   if (widthMm && heightMm && widthMm > 0 && heightMm > 0) {
-    familyCode = familyCodeInput ?? recommendFamily(environment, highResFlag)
+    familyCode =
+      typeof familyCodeInput === 'string' &&
+      Object.prototype.hasOwnProperty.call(FAMILIES, familyCodeInput)
+        ? familyCodeInput as FamilyCode
+        : recommendFamily(environment, highResFlag)
     // 면적 사전계산 → 패키지 추천 (estimate 후 area_m2 fix-up)
     const provisionalArea = (widthMm / 1000) * (heightMm / 1000)
     packageTier = recommendPackageTier(environment, provisionalArea)
@@ -133,18 +138,23 @@ export async function POST(req: NextRequest) {
   // ADMIN_LEAD_WEBHOOK(또는 Slack/Kakao 웹훅)만 있으면 Supabase 없이도
   // 사장이 리드를 즉시 받는다. 미설정·실패 시 로그로 떨어뜨린다(더는 조용히 삼키지 않는다).
   const priceRange = estimateSummary?.price ?? null
-  void notifyLeadWebhook({
-    businessName,
-    contactName,
-    phone,
-    region,
-    environment,
-    urgency,
-    purpose,
-    quoteId: 'pending',
-    priceMin: priceRange?.min ?? null,
-    priceMax: priceRange?.max ?? null,
-  }).then(r => { if (!r.success) logLead('webhook-unsent') })
+  try {
+    const result = await notifyLeadWebhook({
+      businessName,
+      contactName,
+      phone,
+      region,
+      environment,
+      urgency,
+      purpose,
+      quoteId: 'pending',
+      priceMin: priceRange?.min ?? null,
+      priceMax: priceRange?.max ?? null,
+    })
+    if (!result.success) logLead('webhook-unsent')
+  } catch {
+    logLead('webhook-unsent')
+  }
 
   // ── DB 저장 불가 조건: 플래그 OFF 또는 Supabase env 미설정 ─────────
   // env 없이 serverClient()를 부르면 throw → 고객이 500을 본다. 먼저 막는다.

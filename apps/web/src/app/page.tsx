@@ -1,10 +1,13 @@
 import type { Metadata } from 'next'
-import { BrandHero } from '@/components/brand/BrandHero'
-import { Manifesto } from '@/components/brand/Manifesto'
-import { CinematicScene } from '@/components/brand/CinematicScene'
-import { InstantQuotePreview } from '@/components/landing/InstantQuotePreview'
-import { ProductSection } from '@/components/landing/ProductSection'
-import { PackagesSection } from '@/components/landing/PackagesSection'
+import { PublicHero } from '@/components/public/PublicHero'
+import { ProofRow } from '@/components/public/ProofRow'
+import { LightStatement } from '@/components/public/LightStatement'
+import { UseCaseBlock } from '@/components/public/UseCaseBlock'
+import { ScreenGallery } from '@/components/public/ScreenGallery'
+import { AfterService } from '@/components/public/AfterService'
+import { DocumentList } from '@/components/public/DocumentList'
+import { SecondaryMarkets } from '@/components/public/SecondaryMarkets'
+import { ContactBlock } from '@/components/public/ContactBlock'
 import { FaqSection } from '@/components/landing/FaqSection'
 import { NavBar } from '@/components/NavBar'
 import { Footer } from '@/components/Footer'
@@ -15,9 +18,9 @@ import { SITE, absoluteUrl, buildMetadata } from '@/lib/seo/site'
 import { PRICE_RANGE_SCHEMA } from '@/lib/pricing'
 
 export const metadata: Metadata = buildMetadata({
-  title: `${SITE.nameKo} | 빛으로 공간을 바꾸는 디스플레이 브랜드`,
+  title: `${SITE.nameKo} | 관공서·학교 LED 전광판 · 전자현수막`,
   description:
-    '우강테크(WK Tech)는 빛으로 공간을 바꾸는 디스플레이 브랜드입니다. LED 디스플레이의 설계·제조·시공·운영을 하나의 표준으로 잇습니다. 사진 3장이면 30분 안에 예상 범위 견적을 확인하세요.',
+    '우강테크(WK Tech)는 관공서·공공기관·학교에 LED 전광판과 전자현수막을 공급합니다. 설계·제작·시공·A/S를 직접 수행합니다. 규격서와 개략 견적을 무상으로 보내드립니다.',
   path: '/',
 })
 
@@ -27,10 +30,10 @@ export default function Home() {
       <JsonLd
         id="ld-home-service"
         data={serviceLd({
-          name: 'LED 디스플레이 설계·제조·시공·운영',
+          name: 'LED 전광판·전자현수막 설계·제작·시공·유지보수',
           description:
-            '빛으로 공간을 바꾸는 디스플레이 브랜드. LED 사이니지의 설계·제조·표준 시공·CMS 운영·AS를 하나로 제공합니다.',
-          serviceType: 'LED 디스플레이 · 사이니지',
+            '관공서·공공기관·학교를 위한 LED 전광판과 전자현수막. 설계·제작·시공·A/S를 하나의 절차로 제공합니다.',
+          serviceType: 'LED 전광판 · 전자현수막',
           priceRange: PRICE_RANGE_SCHEMA,
           url: absoluteUrl('/'),
         })}
@@ -38,14 +41,15 @@ export default function Home() {
       <JsonLd
         id="ld-home-howto"
         data={howToLd({
-          name: '사진 3장으로 LED 디스플레이 견적받고 설치하기',
-          description: '매장 사진 3장으로 30분 안에 예상 범위 견적을 확인하고 표준 시공과 운영까지 진행하는 절차.',
-          totalTime: 'PT30M',
+          name: '관공서·학교 LED 전광판 도입 절차',
+          description:
+            '설치 장소와 규모 확인부터 현장 실측, 제작·시공, 담당자 교육과 A/S까지의 절차.',
+          totalTime: 'P30D',
           steps: [
-            { name: '사진 업로드', text: '설치 위치가 보이는 공간 사진 3장을 업로드합니다.' },
-            { name: '30분 범위 견적', text: '표준 SKU 기준으로 예상 범위 견적을 화면에서 바로 확인합니다.' },
-            { name: '현장 실측·확정 견적', text: '전문가가 현장을 실측해 확정 견적과 시공 일정을 안내합니다.' },
-            { name: '표준 시공·운영', text: '3일 표준 시공 후 CMS 운영과 AS로 공간을 관리합니다.' },
+            { name: '문의·상담', text: '설치 장소와 용도를 알려주시면 개략 견적과 사양서를 보내드립니다.' },
+            { name: '현장 실측', text: '전기 인입과 구조를 확인해 확정 견적과 규격서를 작성합니다.' },
+            { name: '제작·시공', text: '자사에서 조립·검사한 뒤 기관 일정에 맞춰 설치합니다.' },
+            { name: '교육·A/S', text: '화면 교체 방법을 담당자에게 안내하고, 이후 고장은 모듈 단위로 대응합니다.' },
           ],
         })}
       />
@@ -53,79 +57,49 @@ export default function Home() {
 
       <NavBar />
       <main id="main">
-        <BrandHero />
-        <Manifesto />
+        {/* 관공서 담당자가 확인하는 순서대로 배치한다.
+            ① 무엇을 하는 회사인가 → ② 믿을 만한가 → ③ 우리 같은 데 쓰나
+            → ④ 설치 후는 어떻게 되나 → ⑤ 서류는 있나 → ⑥ 어떻게 연락하나 */}
+        <PublicHero />
+        <ProofRow />
+        <LightStatement />
 
-        {/* 실내 */}
-        <CinematicScene
-          layout="fullbleed"
-          align="left"
-          eyebrow="실내 · Indoor"
-          title={<>메뉴가,<br />살아 움직인다</>}
-          body="종이 메뉴판의 시대는 지났습니다. 카페·식당의 메뉴와 가격을 화면에서 즉시 바꾸고, 계절과 시간에 맞춰 공간의 표정을 바꿉니다."
-          image="/curated/gal-restaurant-menu.jpg"
-          imageAlt="카페·식당 실내 LED 메뉴 디스플레이"
-          href="/industries/cafe"
-          cta="실내 디스플레이 보기"
+        <UseCaseBlock
+          id="public-office"
+          grey
+          eyebrow="관공서 · 민원실"
+          title={<>대기번호부터<br />부서 안내까지</>}
+          body="창구 번호를 실시간으로 띄우고, 비는 시간에는 시정 공지를 내보냅니다. 조직 개편으로 부서 이름이 바뀌어도 안내판을 새로 제작할 일이 없습니다."
+          image="/cases/opt/case-04.jpg"
+          imageAlt="공공기관 로비에 설치된 캠페인 안내 LED 스탠드와 접수 창구"
+          tags={['실내 설치', '가까이서도 또렷한 글자', '담당자가 직접 수정']}
+          href="/industries/public-office"
+          cta="관공서 사례 보기"
+          imageRight
         />
 
-        {/* 옥외 */}
-        <CinematicScene
-          layout="split"
-          theme="dark"
-          imageSide="right"
-          eyebrow="옥외 · Outdoor"
-          title={<>거리를,<br />압도한다</>}
-          body="직사광선 아래서도 선명한 고밝기 옥외 디스플레이. 원거리 가시성부터 방수·구조·옥외광고물 인허가까지 — 거리에서 가장 먼저 눈에 띄는 공간을 만듭니다."
-          image="/curated/svc-outdoor-p5.jpg"
-          imageAlt="옥외 고밝기 LED 광고 디스플레이"
-          href="/industries/outdoor-ad"
-          cta="옥외 디스플레이 보기"
+        <UseCaseBlock
+          id="school"
+          eyebrow="학교 · 강당 · 전자현수막"
+          title={<>행사 때마다 새로<br />걸지 않아도 됩니다</>}
+          body="급식표, 행사 안내, 귀가 시간을 같은 화면에서 바꿉니다. 강당은 뒷자리에서도 읽혀야 하니 시청거리를 먼저 재고, 기존 현수막 걸이와 부딪히지 않는지도 확인합니다."
+          image="/cases/opt/case-17.jpg"
+          imageAlt="학교·기관 홀에 곡면으로 설치된 구역 안내 LED"
+          tags={['실내·옥외 모두', '밤에는 자동으로 어둡게', '옥외광고물 신고 지원']}
+          href="/industries/school"
+          cta="학교 사례 보기"
+          imageRight={false}
         />
 
-        {/* 표준 */}
-        <CinematicScene
-          layout="split"
-          theme="light"
-          imageSide="left"
-          eyebrow="기술 표준 · Standard"
-          title={<>표준이,<br />속도를 만든다</>}
-          body="우강테크는 캐비닛·컨트롤러·절차를 표준화했습니다. NovaStar 글로벌 컨트롤러와 표준 SKU로, 복잡한 견적을 30분으로, 긴 시공을 3일로 줄였습니다."
-          image="/curated/svc-controller.jpg"
-          imageAlt="NovaStar 표준 LED 컨트롤러"
-          stats={[
-            { value: '30분', label: '1차 견적' },
-            { value: '3일', label: '표준 시공' },
-            { value: '6종', label: '표준 SKU' },
-          ]}
-          href="/services"
-          cta="기술 표준 알아보기"
-        />
+        <ScreenGallery />
+        <AfterService />
+        <DocumentList />
 
-        {/* 인터랙티브 견적 */}
-        <InstantQuotePreview />
+        {/* 민간·소상공인은 제외하지 않고 2차 영역으로 남긴다 (요청자 지시) */}
+        <SecondaryMarkets />
 
-        {/* 라인업 */}
-        <ProductSection />
-
-        {/* 패키지 */}
-        <PackagesSection />
-
-        {/* FAQ */}
         <FaqSection />
-
-        {/* 클로징 */}
-        <CinematicScene
-          layout="fullbleed"
-          align="center"
-          eyebrow="Start"
-          title={<>당신의 공간을, 켜다</>}
-          body="사진 3장이면 충분합니다. 30분 안에 예상 범위 견적을 받아보세요."
-          image="/curated/gal-metro-videowall.jpg"
-          imageAlt="대형 LED 디스플레이 공간"
-          href="/quote"
-          cta="견적 시작하기"
-        />
+        <ContactBlock />
       </main>
       <Footer />
       <MobileCtaBar />

@@ -29,13 +29,10 @@ export function MarginCalculator({ products }: Props) {
   const multiplier = PACKAGE_MULTIPLIERS[selectedPkg] ?? 1
   const baseHardware = product ? product.base_price_krw * areaSqm : 0
   const installCost = product ? product.install_price_krw : 0
-  const monthlyCms = product ? product.monthly_cms_krw : 0
-
   const totalCost = baseHardware + installCost
   const discount = parseFloat(discountPct) / 100
   const salePrice = totalCost * multiplier * (1 - discount)
   const margin = salePrice > 0 ? ((salePrice - totalCost) / salePrice) * 100 : 0
-  const annualRevenue = salePrice + monthlyCms * 12
 
   const marginColor = margin >= 40 ? 'text-emerald-400' : margin >= 30 ? 'text-green-400' : margin >= 20 ? 'text-yellow-400' : 'text-red-400'
 
@@ -134,14 +131,6 @@ export function MarginCalculator({ products }: Props) {
           {margin < 30 && (
             <p className="text-xs text-red-400">⚠ 최소 마진 30% 미달 — 견적 발송 불가</p>
           )}
-          <div className="flex justify-between border-t border-white/[0.06] pt-2 text-zinc-500">
-            <span>CMS 월 구독</span>
-            <span>₩{monthlyCms.toLocaleString()}/월</span>
-          </div>
-          <div className="flex justify-between font-semibold text-blue-300">
-            <span>1년 총 매출 (설치+CMS)</span>
-            <span>₩{annualRevenue.toLocaleString()}</span>
-          </div>
         </div>
       )}
     </div>

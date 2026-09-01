@@ -1,52 +1,68 @@
+/* eslint-disable @next/next/no-img-element */
 import { SITE } from '@/lib/seo/site'
 
 /**
- * 우강테크 / WOOKANG TECH 브랜드 심볼 (v5, 2026-07 · flat isometric)
- * - 브랜드 가이드의 비스듬한(아이소메트릭) 열린 프레임: 상단+우측 오렌지 빔, 네이비 좌하 프레임, LED 픽셀 그리드
- * - 오렌지(#FF6A00/#FF8A3D)는 고정, 네이비는 `currentColor` → 배경(라이트/다크) 자동 적응
- * - 원본 벡터: public/brand/logo-symbol.svg (Codex 제작 · COO 검수)
+ * 우강테크 브랜드 로고.
+ *
+ * ⚠️ 임의 제작 금지. 아래 파일은 **원본 로고에서 추출한 실제 도형**이다.
+ *    원본: `자료/우강테그 로코.svg` (Adobe Illustrator)
+ *    - `/brand/wk-mark.svg`      심볼만 (viewBox 실측 232.96 57.67 132.64 176.56)
+ *    - `/brand/wk-logo.svg`      원본 로크업 — 심볼 + WOOKANG TECH + 우강테크 (세로 조합)
+ *    - `/brand/wk-logo-dark.svg` 어두운 배경용 흰색 버전
+ *
+ *    팔레트 실측: 주황 #de671d · 네이비블랙 #03111f · 회색 #6c7073
  */
+
+/** 심볼 비율 — 정사각형이 아니다(가로 132.64 : 세로 176.56) */
+const MARK_RATIO = 132.64 / 176.56
+
+/** 심볼만. `size`는 높이 기준이며 가로는 비율로 계산된다. */
 export function BrandMark({ size = 32, className = '' }: { size?: number; className?: string }) {
   return (
-    <svg
-      width={size}
+    <img
+      src="/brand/wk-mark.svg"
+      alt=""
+      width={Math.round(size * MARK_RATIO)}
       height={size}
-      viewBox="0 0 120 120"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
       className={className}
-      role="img"
-      aria-label="우강테크 심볼"
-    >
-      {/* 네이비 열린 프레임 (좌측 사선획 + 하단획) — currentColor 적응 */}
-      <path d="M24 38 L37 36 L27 89 L14 91 Z" fill="currentColor" />
-      <path d="M15 90 L84 79 L82 92 L13 103 Z" fill="currentColor" />
-      {/* 오렌지 빔 (상단 + 우상단 코너) */}
-      <path d="M25 27 L99 15 L95 38 L82 40 L84 29 L22 39 Z" fill="#FF6A00" />
-      <path d="M25 27 L99 15 L98.25 19 L24.25 31 Z" fill="#FF8A3D" />
-      {/* LED 픽셀 3×4 — 위 오렌지 → 아래 네이비 대각선 */}
-      <path d="M49 44 L58 42.5 L56.5 50.5 L47.5 52 Z" fill="#FF6A00" />
-      <path d="M63.5 41.5 L72.5 40 L71 48 L62 49.5 Z" fill="#FF8A3D" />
-      <path d="M78 39 L87 37.5 L85.5 45.5 L76.5 47 Z" fill="#FF8A3D" />
-      <path d="M47 55.5 L56 54 L54.5 62 L45.5 63.5 Z" fill="#FF6A00" />
-      <path d="M61.5 53 L70.5 51.5 L69 59.5 L60 61 Z" fill="#FF6A00" />
-      <path d="M76 50.5 L85 49 L83.5 57 L74.5 58.5 Z" fill="#FF8A3D" />
-      <path d="M45 67 L54 65.5 L52.5 73.5 L43.5 75 Z" fill="currentColor" />
-      <path d="M59.5 64.5 L68.5 63 L67 71 L58 72.5 Z" fill="currentColor" />
-      <path d="M74 62 L83 60.5 L81.5 68.5 L72.5 70 Z" fill="#FF6A00" />
-      <path d="M43 78.5 L52 77 L50.5 85 L41.5 86.5 Z" fill="currentColor" opacity="0.72" />
-      <path d="M57.5 76 L66.5 74.5 L65 82.5 L56 84 Z" fill="currentColor" opacity="0.72" />
-      <path d="M72 73.5 L81 72 L79.5 80 L70.5 81.5 Z" fill="currentColor" />
-    </svg>
+      aria-hidden="true"
+    />
   )
 }
 
 /**
- * 헤더·푸터용 가로 로크업. 부모의 text-color가 프레임/영문 워드마크에 상속된다.
- * (다크 히어로 위: text-white / 라이트: text-[#1F2937])
+ * 원본 로크업 전체(심볼 + 워드마크 세로 조합).
+ * 세로로 긴 형태라 푸터·문서·인쇄물처럼 공간이 있는 곳에 쓴다.
+ * 헤더처럼 높이가 좁은 곳에는 BrandLogo(가로형)를 쓴다.
+ */
+export function BrandLockup({
+  height = 72,
+  dark = false,
+  className = '',
+}: {
+  height?: number
+  dark?: boolean
+  className?: string
+}) {
+  return (
+    <img
+      src={dark ? '/brand/wk-logo-dark.svg' : '/brand/wk-logo.svg'}
+      alt={`${SITE.nameKo} ${SITE.nameEn}`}
+      height={height}
+      width={Math.round(height * (323.93 / 265))}
+      className={className}
+    />
+  )
+}
+
+/**
+ * 헤더용 가로형 로크업 — 원본 심볼 + 조판된 워드마크.
+ *
+ * 원본 로크업은 세로 조합이라 높이 56~64px 헤더에서는 글자가 판독 불가 수준으로
+ * 작아진다. 그래서 헤더에서는 심볼(원본 파일)만 쓰고 회사명은 웹폰트로 조판한다.
  */
 export function BrandLogo({
-  markSize = 40,
+  markSize = 32,
   withText = true,
   className = '',
 }: {
@@ -55,13 +71,13 @@ export function BrandLogo({
   className?: string
 }) {
   return (
-    <span className={`inline-flex items-center gap-2 ${className}`}>
+    <span className={`inline-flex items-center gap-2.5 ${className}`}>
       <BrandMark size={markSize} />
       {withText && (
         <span className="flex flex-col leading-none">
-          <span className="text-[15px] font-extrabold tracking-[0.05em]">WOOKANG TECH</span>
-          <span className="mt-1 text-[10px] font-semibold tracking-[0.3em] text-[#FF6A00]">
-            {SITE.nameKo}
+          <span className="text-[17px] font-bold tracking-[-0.03em]">{SITE.nameKo}</span>
+          <span className="mt-1 text-[8.5px] font-semibold uppercase tracking-[0.22em] text-wk-ink4">
+            Wookang Tech
           </span>
         </span>
       )}

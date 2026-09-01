@@ -95,3 +95,63 @@
       focus:border-blue-500/60 focus:outline-none focus:ring-2 focus:ring-blue-500/20;
   }
 }
+
+/* ============================================================
+   우강테크 공공 UI 컴포넌트
+   출처: COO/reports/codex/토스-UI-분석.md (TDS 실측 수치)
+   - 버튼 높이 52px(데스크톱) / 56px(모바일), radius 12 / 16
+   - 2차 버튼은 outline이 아니라 색면(#E8F3FF)
+   - 모션은 상태 피드백 150ms만. 장식용 스크롤 등장 효과는 쓰지 않는다
+   ============================================================ */
+@layer components {
+  .wk-btn {
+    @apply inline-flex h-[56px] w-full items-center justify-center gap-1.5 rounded-btn-m
+      text-[17px] font-semibold transition-colors duration-150
+      sm:h-[52px] sm:w-auto sm:rounded-btn sm:px-6;
+  }
+  .wk-btn-p {
+    @apply wk-btn bg-wk-blue text-white hover:bg-wk-blueHover active:bg-wk-blueActive active:scale-[.98];
+  }
+  .wk-btn-w {
+    @apply wk-btn bg-wk-blueWeak text-wk-blueActive hover:bg-[#DBEAFE] active:scale-[.98];
+  }
+  /* 헤더·인라인용 소형 */
+  .wk-btn-sm {
+    @apply inline-flex h-10 w-auto items-center justify-center rounded-[10px] px-[18px]
+      text-[15px] font-semibold transition-colors duration-150;
+  }
+
+  /* 표면 분리로 위계를 만든다. 두꺼운 테두리를 쓰지 않는다 */
+  .wk-card {
+    @apply rounded-card-m bg-white p-5 sm:rounded-card sm:p-7;
+  }
+  .wk-card-img {
+    @apply overflow-hidden rounded-card-m bg-wk-bg sm:rounded-card;
+  }
+
+  /* 정보 나열 — 최소 64px, 1px divider */
+  .wk-row {
+    @apply flex min-h-[64px] items-center gap-4 border-b border-wk-line py-3.5 last:border-b-0;
+  }
+  .wk-row-link {
+    @apply wk-row transition-colors hover:bg-wk-bgFaint;
+  }
+
+  .wk-tag {
+    @apply inline-flex h-[30px] items-center rounded-lg bg-wk-bg px-3 text-sm font-semibold text-wk-ink2;
+  }
+}
+
+@layer utilities {
+  /* 타이포 스케일 — 모바일 → 데스크톱 */
+  .wk-hero   { @apply text-[40px] font-extrabold leading-[48px] tracking-[-0.025em] md:text-[64px] md:leading-[67px]; }
+  .wk-h1     { @apply text-[36px] font-bold leading-[44px] tracking-[-0.025em] md:text-[52px] md:leading-[57px]; }
+  .wk-h2     { @apply text-[28px] font-bold leading-9 tracking-[-0.025em] md:text-[36px] md:leading-[45px]; }
+  .wk-h3     { @apply text-[19px] font-bold leading-[27px] tracking-[-0.02em] md:text-[20px] md:leading-[29px]; }
+  .wk-lead   { @apply text-[17px] leading-[27px] text-wk-ink3 md:text-[19px] md:leading-[30px]; }
+  .wk-cap    { @apply text-sm leading-[21px] text-wk-ink4; }
+  .wk-eyebrow{ @apply mb-3 text-[15px] font-bold leading-[22px] text-wk-blue; }
+  /* 페이지 여백 — 데스크톱 32 / 모바일 20 */
+  .wk-wrap   { @apply mx-auto w-full max-w-[1200px] px-5 md:px-8; }
+  .wk-sec    { @apply py-[72px] md:py-24; }
+}

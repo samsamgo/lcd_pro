@@ -158,37 +158,6 @@ export function serviceLd(input: ServiceLdInput) {
   }
 }
 
-/* ───────────────────────── BlogPosting ─────────────────────────── */
-export interface BlogPostingLdInput {
-  title: string
-  description: string
-  url: string
-  publishedAt: string
-  updatedAt?: string
-  author?: string
-  image?: string
-  tags?: string[]
-}
-export function blogPostingLd(input: BlogPostingLdInput) {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
-    headline: input.title,
-    description: input.description,
-    image: input.image ?? absoluteUrl('/opengraph-image'),
-    datePublished: input.publishedAt,
-    dateModified: input.updatedAt ?? input.publishedAt,
-    author: {
-      '@type': 'Organization',
-      name: input.author ?? SITE.nameKo,
-    },
-    publisher: { '@id': `${SITE.url}/#organization` },
-    mainEntityOfPage: { '@type': 'WebPage', '@id': input.url },
-    keywords: input.tags?.join(', '),
-    inLanguage: SITE.locale,
-  }
-}
-
 /* ───────────────────────── FAQPage ─────────────────────────────── */
 export interface FaqItem {
   question: string

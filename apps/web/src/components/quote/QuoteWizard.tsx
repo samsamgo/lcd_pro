@@ -64,8 +64,11 @@ const PREFILL: Record<string, Partial<QuoteFormData>> = {
   academy: { businessType: 'academy', environment: 'indoor' },
   gym: { businessType: 'gym', environment: 'indoor' },
   school: { businessType: 'school', environment: 'indoor' },
-  government: { businessType: 'government', environment: 'outdoor' },
+  government: { businessType: 'government', environment: 'indoor' },
   factory: { businessType: 'factory', environment: 'outdoor' },
+  'public-office': { businessType: 'government', environment: 'indoor' },
+  banner: { businessType: 'government', environment: 'outdoor' },
+  institution: { businessType: 'government', environment: 'indoor' },
 }
 
 export function QuoteWizard({ defaultType }: { defaultType?: string }) {

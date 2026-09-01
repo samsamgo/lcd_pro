@@ -15,17 +15,7 @@ export default function SettingsPage() {
   const env = {
     SUPABASE_URL: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
     SUPABASE_SERVICE_KEY: !!process.env.SUPABASE_SERVICE_KEY,
-    TOSS_SECRET_KEY: !!process.env.TOSS_SECRET_KEY,
-    TOSS_CLIENT_KEY: !!process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY,
-    CRON_SECRET: !!process.env.CRON_SECRET,
-    TOSS_WEBHOOK_SECRET: !!process.env.TOSS_WEBHOOK_SECRET,
   }
-
-  const tossMode = (process.env.TOSS_SECRET_KEY ?? '').startsWith('test_')
-    ? 'TEST'
-    : (process.env.TOSS_SECRET_KEY ?? '').startsWith('live_')
-      ? 'LIVE'
-      : 'UNSET'
 
   return (
     <div className="p-6">
@@ -38,33 +28,6 @@ export default function SettingsPage() {
         <Card title="환경변수">
           <Row label="NEXT_PUBLIC_SUPABASE_URL" value={flag(env.SUPABASE_URL)} />
           <Row label="SUPABASE_SERVICE_KEY" value={flag(env.SUPABASE_SERVICE_KEY)} />
-          <Row label="TOSS_SECRET_KEY" value={flag(env.TOSS_SECRET_KEY)} />
-          <Row label="NEXT_PUBLIC_TOSS_CLIENT_KEY" value={flag(env.TOSS_CLIENT_KEY)} />
-          <Row label="CRON_SECRET" value={flag(env.CRON_SECRET)} />
-          <Row label="TOSS_WEBHOOK_SECRET (옵셔널)" value={flag(env.TOSS_WEBHOOK_SECRET)} />
-        </Card>
-
-        <Card title="Toss 결제 모드">
-          <Row
-            label="현재 모드"
-            value={
-              <span
-                className={`badge ${
-                  tossMode === 'LIVE'
-                    ? 'bg-red-500/20 text-red-300'
-                    : tossMode === 'TEST'
-                      ? 'bg-yellow-500/20 text-yellow-300'
-                      : 'bg-zinc-700/40 text-zinc-400'
-                }`}
-              >
-                {tossMode}
-              </span>
-            }
-          />
-          <p className="text-xs text-zinc-500">
-            LIVE 모드는 별도 MID 계약 승인 후에만 사용. orderId 컨벤션:{' '}
-            <code className="text-zinc-300">sub_{'<subscriptionId>'}_{'<yyyymm>'}</code>
-          </p>
         </Card>
 
         <Card title="비즈니스 규칙 (하드코딩)">
@@ -81,7 +44,7 @@ export default function SettingsPage() {
           <ul className="space-y-1 text-xs text-zinc-400">
             <li>· Supabase 마이그레이션 4건 (001~004) 운영 DB 반영 확인 필요</li>
             <li>· 알림톡 BizTalk 콘솔 템플릿 등록은 외부 작업</li>
-            <li>· types.gen.ts 재생성 시 billing_history + toss_customer_key 포함 확인</li>
+            <li>· 공공기관 계약·세금계산서 발행 절차는 프로젝트별로 확인</li>
           </ul>
         </Card>
       </div>

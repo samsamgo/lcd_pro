@@ -16,7 +16,7 @@ export const dynamic = 'force-static'
 export const metadata: Metadata = buildMetadata({
   title: '업종별 LED 전광판·사이니지',
   description:
-    '카페·식당·헬스장·프랜차이즈·옥외광고 등 업종별 맞춤 LED 사이니지 시공. 업종에 맞는 표준 모델과 예상 견적을 확인하세요.',
+    '관공서·민원실, 학교·강당, 전자현수막, 공공기관·시설관리를 위한 LED 전광판과 안내 사이니지 구성을 확인하세요.',
   path: '/industries',
 })
 
@@ -34,8 +34,8 @@ export default function IndustriesPage() {
       <main id="main">
         <PageHero
           eyebrow="Industries"
-          title="업종에 맞는 LED 사이니지"
-          description="업종마다 필요한 크기·밝기·운영 방식이 다릅니다. 우강테크는 업종별로 검증된 표준 모델과 시공 방식을 제안합니다."
+          title="공공 현장에 맞는 LED 사이니지"
+          description="민원실, 학교, 로비, 옥외 게시대는 시청 거리와 운영 내용이 서로 다릅니다. 설치 장소와 담당자의 실제 업무를 확인해 화면 구성을 제안합니다."
           crumbs={[{ name: '홈', href: '/' }, { name: '업종별' }]}
         />
         <section className="py-20 px-4">

@@ -13,11 +13,11 @@ export const SITE = {
   // 브랜드
   nameKo: '우강테크',
   nameEn: 'WOOKANG TECH',
-  legalName: '우강테크',
+  legalName: '주식회사 우강테크',
   shortName: 'WOOKANG TECH',
-  sloganKo: '빛으로 공간을 짓다',
+  sloganKo: '관공서·학교 전광판, 설치부터 A/S까지',
   sloganEn: 'We build with light.',
-  taglineKo: '빛으로 공간을 바꾸는 디스플레이 브랜드 — 설계·제조·시공·운영을 하나의 표준으로',
+  taglineKo: '관공서·공공기관·학교 LED 전광판·전자현수막 — 설계·제작·시공·A/S를 직접 수행합니다',
 
   // URL·연락
   url: RAW_URL,
@@ -26,13 +26,14 @@ export const SITE = {
   email: 'contact@wooktech.co.kr',
   // 실제 대표번호 미확정 — 가짜 번호 노출 금지. CEO가 실제 번호 제공 시 env로 주입.
   // 빈 값이면 UI는 전화 링크/번호를 omit하고 견적/상담 채널만 노출한다.
-  phone: (process.env.NEXT_PUBLIC_PHONE ?? '') as string,
+  phone: (process.env.NEXT_PUBLIC_PHONE || '010-7272-6903') as string, // 2026-09-01 CEO 확인. ⚠️ 휴대전화 — 유선 대표번호·A/S 번호 분리 권장
 
   // 실제 확정 시 env로 주입 (가짜 값 노출 금지). 빈 값이면 UI에서 해당 항목 omit.
-  addressFull: (process.env.NEXT_PUBLIC_ADDRESS ?? '') as string, // 예: 서울시 ○○구 ○○로 00
-  ceoName: (process.env.NEXT_PUBLIC_CEO ?? '') as string,
-  bizRegNo: (process.env.NEXT_PUBLIC_BIZ_REG_NO ?? '') as string, // 사업자등록번호
-  openingHours: (process.env.NEXT_PUBLIC_HOURS ?? '') as string, // 예: 평일 09:00~18:00
+  addressFull: (process.env.NEXT_PUBLIC_ADDRESS || '대전광역시 대덕구 대화로106번길 66, 2층 202호(대화동, 펜타플렉스)') as string,
+  ceoName: (process.env.NEXT_PUBLIC_CEO || '이희원') as string,
+  bizRegNo: (process.env.NEXT_PUBLIC_BIZ_REG_NO || '897-86-03889') as string,
+  corpRegNo: (process.env.NEXT_PUBLIC_CORP_REG_NO || '160111-0074810') as string,
+  openingHours: (process.env.NEXT_PUBLIC_HOURS || '평일 09:00~18:00') as string,
 
   // 상담 채널 URL — 실제 채널 개설 후 env 주입. 값이 있을 때만 버튼/링크 노출.
   kakaoChannelUrl: (process.env.NEXT_PUBLIC_KAKAO_CHANNEL ?? '') as string,
