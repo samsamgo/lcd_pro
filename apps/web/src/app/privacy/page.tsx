@@ -1,10 +1,12 @@
 import { NavBar } from '@/components/NavBar'
+import { breadcrumbLd } from '@/lib/seo/jsonld'
+import { JsonLd } from '@/components/seo/JsonLd'
 import { Footer } from '@/components/Footer'
 import { SITE } from '@/lib/seo/site'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: `개인정보처리방침 — ${SITE.nameKo}`,
+  title: '개인정보처리방침',
   robots: 'noindex',
 }
 
@@ -26,7 +28,7 @@ const SECTIONS = [
   },
   {
     title: '2-1. 현장 사진의 수집·이용',
-    content: `업로드하신 매장·현장 사진은 오직 설치 위치와 규모를 파악해 범위 견적을 산출하는 용도로만 사용합니다.
+    content: `업로드하신 현장 사진은 오직 설치 위치와 규모를 파악해 범위 견적을 산출하는 용도로만 사용합니다.
 - 사진은 견적 산출·상담 목적 외에 마케팅 등 다른 용도로 사용하지 않습니다.
 - 고객 동의 없이 사진을 외부에 공개하거나 제3자에게 제공하지 않습니다.
 - 견적 목적 달성 후 또는 삭제 요청 시 지체 없이 파기합니다.
@@ -69,16 +71,23 @@ export default function PrivacyPage() {
   return (
     <>
       <NavBar />
-      <main className="min-h-screen pt-24 pb-16 px-4">
+      <JsonLd
+        id="ld-breadcrumb-privacy"
+        data={breadcrumbLd([
+          { name: '홈', url: SITE.url + '/' },
+          { name: '개인정보처리방침', url: SITE.url + '/privacy' },
+        ])}
+      />
+      <main id="main" className="min-h-screen pt-24 pb-16 px-4">
         <div className="mx-auto max-w-3xl">
-          <h1 className="mb-2 text-3xl font-bold text-zinc-900">개인정보처리방침</h1>
-          <p className="mb-10 text-sm text-zinc-500">시행일: 2024년 1월 1일 · 최종 수정: 2024년 1월 1일</p>
+          <h1 className="mb-2 text-3xl font-bold text-wk-ink">개인정보처리방침</h1>
+          <p className="mb-10 text-sm text-wk-ink3">시행일: 2024년 1월 1일 · 최종 수정: 2024년 1월 1일</p>
 
           <div className="space-y-8">
             {SECTIONS.map((s) => (
               <div key={s.title}>
-                <h2 className="mb-3 text-lg font-semibold text-zinc-900">{s.title}</h2>
-                <p className="whitespace-pre-line text-sm leading-relaxed text-zinc-600">{s.content}</p>
+                <h2 className="mb-3 text-lg font-semibold text-wk-ink">{s.title}</h2>
+                <p className="whitespace-pre-line text-sm leading-relaxed text-wk-ink3">{s.content}</p>
               </div>
             ))}
           </div>

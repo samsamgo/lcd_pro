@@ -13,7 +13,7 @@ export const dynamic = 'force-static'
 export const metadata: Metadata = buildMetadata({
   title: '자주 묻는 질문',
   description:
-    'LED 사이니지 견적·인허가·AS·설치 기간·개인정보 등 자주 묻는 질문을 모았습니다. 왜 범위 견적인지, 옥외 인허가는 어떻게 처리되는지 확인하세요.',
+    '관공서·학교 LED 전광판 도입 전 가장 많이 묻는 질문. 예산 과목 계상, 계약 방법, 전기 인입, 옥외광고물 신고, 담당자 직접 조작, 보증과 A/S 절차를 정리했습니다.',
   path: '/faq',
 })
 
@@ -32,7 +32,7 @@ export default function FaqPage() {
         <PageHero
           eyebrow="FAQ"
           title="자주 묻는 질문"
-          description="견적·인허가·AS·설치 기간·개인정보까지 — 도입 전에 가장 많이 묻는 질문을 정리했습니다."
+          description="예산 과목 계상부터 계약·전기 인입·사후 관리까지, 담당자가 결재 전에 실제로 막히는 지점만 모았습니다."
           crumbs={[{ name: '홈', href: '/' }, { name: 'FAQ' }]}
         />
         <FaqSection hideHeader />

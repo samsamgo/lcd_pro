@@ -2,12 +2,25 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { Building2, Sun, Plus } from 'lucide-react'
+import { Building2, Sun, ArrowUpRight } from 'lucide-react'
 import { SKU_PRICE_FROM, type Sku } from '@/lib/pricing'
 import { PRODUCTS, type ProductInfo } from '@/lib/products'
 import { ProductDetailModal } from './ProductDetailModal'
+import { Reveal } from '@/components/motion'
 
-export function ProductGrid({ skus }: { skus?: Sku[] }) {
+/**
+ * 제품 카드 격자.
+ *
+ * 카드에 모델명을 앞세우지 않는다(안티패턴 13). 담당자가 아는 것은
+ *"민원실 창구", "정문", "도로변" 이지 `OUT-M`이 아니다.
+ * 그래서 이름은 설치 장소, 규격은 그 아래 근거로 둔다.
+ *
+ * 격자 이미지에는 반드시 정확한 sizes 를 준다. 생략하면 브라우저가 100vw로
+ * 가정해 3열 카드에 화면 폭짜리 이미지를 받는다.
+ */
+const GRID_SIZES = '(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw'
+
+export function ProductGrid({ skus, columns = 3 }: { skus?: Sku[]; columns?: 2 | 3 }) {
   const [active, setActive] = useState<ProductInfo | null>(null)
   const items = skus
     ? skus.map((s) => PRODUCTS.find((p) => p.sku === s)).filter((p): p is ProductInfo => !!p)
@@ -15,72 +28,73 @@ export function ProductGrid({ skus }: { skus?: Sku[] }) {
 
   return (
     <>
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {items.map((p) => (
+      <div className={`grid gap-5 sm:grid-cols-2 ${columns === 3 ? 'lg:grid-cols-3' : ''}`}>
+        {items.map((p, n) => (
+          <Reveal key={p.sku} className="h-full" y={16} delay={Math.min(n, 4) * 0.07}>
           <button
-            key={p.sku}
             type="button"
             onClick={() => setActive(p)}
-            aria-label={`${p.name} 상세 보기`}
-            className="group block overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] text-left transition-all hover:-translate-y-0.5 hover:border-cyan-400/40 hover:led-glow"
+            aria-label={`${p.name} 규격 자세히 보기`}
+            className="wk-card group !p-0 h-full w-full overflow-hidden text-left shadow-wk-2 ring-1 ring-wk-line"
           >
-            <div className="relative aspect-[16/10] overflow-hidden bg-zinc-900">
+            <div className="relative aspect-[16/10] overflow-hidden bg-wk-bg">
               <Image
                 src={p.img}
-                alt={`${p.name} 설치 예시`}
+                alt={p.imgAlt}
                 fill
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                className="object-cover img-zoom"
+                sizes={GRID_SIZES}
+                className="object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent" />
-              <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-zinc-950/70 px-2.5 py-1 text-xs text-cyan-300 backdrop-blur">
+              <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-lg bg-white/95 px-2.5 py-1 text-caption font-semibold text-wk-ink2 shadow-wk-1">
                 {p.env === 'indoor' ? (
-                  <Building2 size={12} className="text-cyan-300" />
+                  <Building2 size={13} aria-hidden="true" className="text-wk-blue" />
                 ) : (
-                  <Sun size={12} className="text-amber-300" />
+                  <Sun size={13} aria-hidden="true" className="text-wk-warn" />
                 )}
-                {p.env === 'indoor' ? '건물 안에 설치' : '건물 밖에 설치'}
-              </span>
-              <span className="absolute bottom-3 left-3 rounded-md bg-cyan-400/90 px-2 py-0.5 text-xs font-bold text-zinc-950">
-                보기 좋은 거리 {p.viewingDistance}
-              </span>
-              <span className="absolute bottom-3 right-3 rounded-full bg-white/10 p-1.5 text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
-                <Plus size={15} />
+                {p.env === 'indoor' ? '실내' : '옥외'}
               </span>
             </div>
 
-            <div className="p-6">
-              <div className="mb-1 flex items-center justify-between gap-2">
-                <h3 className="font-bold text-white">{p.name}</h3>
-              </div>
-              <p className="mb-4 text-xs text-cyan-400">{p.tag}</p>
+            <div className="p-5 sm:p-6">
+              <h3 className="text-h3 font-semibold text-wk-ink">{p.name}</h3>
+              <p className="mt-1.5 text-label text-wk-ink3">{p.tag}</p>
 
-              <div className="mb-4 grid grid-cols-2 gap-2 text-xs text-zinc-400">
+              <dl className="mt-5 grid grid-cols-2 gap-x-4 gap-y-3 border-t border-wk-line pt-4">
                 <div>
-                  <span className="text-zinc-500">화소 간격</span>
-                  <p className="font-medium text-zinc-200">{p.pitch.slice(1)}mm <span className="text-[10px] text-zinc-500">({p.pitch})</span></p>
+                  <dt className="text-caption text-wk-ink3">화소 간격</dt>
+                  <dd className="wk-metric mt-0.5 font-semibold text-wk-ink">
+                    {p.pitch.slice(1)}
+                    <small> mm</small>
+                  </dd>
                 </div>
                 <div>
-                  <span className="text-zinc-500">화면 밝기</span>
-                  <p className="font-medium text-zinc-200">{p.brightness}</p>
+                  <dt className="text-caption text-wk-ink3">밝기</dt>
+                  <dd className="wk-metric mt-0.5 font-semibold text-wk-ink">
+                    {p.brightness.replace(' nit', '')}
+                    <small> nit</small>
+                  </dd>
                 </div>
                 <div>
-                  <span className="text-zinc-500">설치비 기준</span>
-                  <p className="font-semibold text-white">{SKU_PRICE_FROM[p.sku]}</p>
+                  <dt className="text-caption text-wk-ink3">권장 시청 거리</dt>
+                  <dd className="wk-metric mt-0.5 font-semibold text-wk-ink">
+                    {p.viewingDistance}
+                  </dd>
                 </div>
                 <div>
-                  <span className="text-zinc-500">설치 환경</span>
-                  <p className="font-medium text-zinc-300">
-                    {p.env === 'indoor' ? '실내' : '옥외'}
-                  </p>
+                  <dt className="text-caption text-wk-ink3">설치비 기준</dt>
+                  <dd className="wk-metric mt-0.5 font-semibold text-wk-ink">
+                    {SKU_PRICE_FROM[p.sku]}
+                  </dd>
                 </div>
-              </div>
+              </dl>
 
-              <span className="inline-flex items-center gap-1 text-xs font-semibold text-cyan-400 group-hover:text-cyan-300">
-                자세한 규격 보기 <Plus size={12} />
+              <span className="mt-5 inline-flex items-center gap-1 text-label font-semibold text-wk-cta">
+                규격 자세히 보기
+                <ArrowUpRight size={15} aria-hidden="true" />
               </span>
             </div>
           </button>
+          </Reveal>
         ))}
       </div>
 

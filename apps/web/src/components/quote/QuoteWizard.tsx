@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -10,6 +10,8 @@ import { Step3PhotoUpload } from './steps/Step3PhotoUpload'
 import { Step4Budget } from './steps/Step4Budget'
 import { QuoteSuccess, type EstimateSummary } from './QuoteSuccess'
 import { ProgressBar } from './ProgressBar'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { EASE } from '@/components/motion'
 
 const quoteSchema = z.object({
   // Step 1
@@ -46,7 +48,7 @@ const quoteSchema = z.object({
 
 export type QuoteFormData = z.infer<typeof quoteSchema>
 
-const STEPS = ['업체 정보', '설치 정보', '현장 사진', '예산 & 제출']
+const STEPS = ['기관 정보', '설치 정보', '현장 사진', '제출']
 
 // /quote?type=... 업종 CTA 개인화 — 업종 기본값 + 설치환경/SKU 추천 prefill
 const PREFILL: Record<string, Partial<QuoteFormData>> = {
@@ -73,6 +75,10 @@ const PREFILL: Record<string, Partial<QuoteFormData>> = {
 
 export function QuoteWizard({ defaultType }: { defaultType?: string }) {
   const [step, setStep] = useState(0)
+  // 단계 전환 방향 — 뒤로 갈 때는 반대로 미끄러져야 "돌아왔다" 가 읽힌다
+  const [dir, setDir] = useState(1)
+  const reduce = useReducedMotion()
+  const panelRef = useRef<HTMLDivElement>(null)
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
@@ -100,6 +106,11 @@ export function QuoteWizard({ defaultType }: { defaultType?: string }) {
     const valid = await methods.trigger(fields as (keyof QuoteFormData)[])
     if (valid) setStep((s) => s + 1)
   }
+
+  useEffect(() => {
+    if (step === 0) return
+    panelRef.current?.focus()
+  }, [step])
 
   const handleSubmit = methods.handleSubmit(async (data) => {
     setSubmitting(true)
@@ -129,52 +140,72 @@ export function QuoteWizard({ defaultType }: { defaultType?: string }) {
 
   return (
     <FormProvider {...methods}>
-      <div className="glass rounded-2xl p-6 sm:p-8">
+      <div className="rounded-card border border-wk-line bg-white p-6 shadow-wk-2 sm:p-9">
         <ProgressBar current={step} total={STEPS.length} labels={STEPS} />
 
-        <div className="mt-8">
-          {step === 0 && <Step1BusinessInfo />}
-          {step === 1 && <Step2InstallInfo />}
-          {step === 2 && <Step3PhotoUpload />}
-          {step === 3 && <Step4Budget />}
+        <div className="relative mt-9 overflow-hidden">
+          <AnimatePresence mode="wait" initial={false} custom={dir}>
+            <motion.div
+              key={step}
+              ref={panelRef}
+              tabIndex={-1}
+              role="group"
+              aria-label={`${step + 1}단계: ${STEPS[step]}`}
+              custom={dir}
+              initial={reduce ? { opacity: 0 } : { opacity: 0, x: dir * 28 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={reduce ? { opacity: 0 } : { opacity: 0, x: dir * -28 }}
+              transition={{ duration: reduce ? 0.15 : 0.32, ease: EASE.entrance }}
+              className="outline-none"
+            >
+              {step === 0 && <Step1BusinessInfo />}
+              {step === 1 && <Step2InstallInfo />}
+              {step === 2 && <Step3PhotoUpload />}
+              {step === 3 && <Step4Budget />}
+            </motion.div>
+          </AnimatePresence>
         </div>
 
         {submitError && (
-          <p role="alert" className="mt-4 rounded-lg bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+          <p
+            role="alert"
+            className="mt-5 rounded-btn border border-wk-bad/30 bg-wk-bad/[0.06] px-4 py-3 text-label font-medium text-wk-bad"
+          >
             {submitError}
           </p>
         )}
 
-        <div className="mt-8 flex justify-between gap-3">
-          {step > 0 && (
+        <div className="mt-9 flex flex-col-reverse gap-3 border-t border-wk-line pt-7 sm:flex-row sm:justify-between">
+          {step > 0 ? (
             <button
               type="button"
-              onClick={() => setStep((s) => s - 1)}
-              className="rounded-xl border border-zinc-300 px-6 py-3 text-sm font-semibold text-zinc-700 transition-all hover:bg-zinc-100"
+              onClick={() => {
+                setDir(-1)
+                setStep((s) => s - 1)
+              }}
+              className="wk-btn border border-wk-line2 bg-white text-wk-ink2 hover:bg-wk-bgFaint"
             >
               이전
             </button>
+          ) : (
+            <span className="hidden sm:block" />
           )}
-          <div className="ml-auto">
-            {step < STEPS.length - 1 ? (
-              <button
-                type="button"
-                onClick={handleNext}
-                className="rounded-xl bg-blue-600 px-8 py-3 text-sm font-bold text-white transition-all hover:bg-blue-500 active:scale-95"
-              >
-                다음
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={handleSubmit}
-                disabled={submitting}
-                className="rounded-xl bg-blue-600 px-8 py-3 text-sm font-bold text-white transition-all hover:bg-blue-500 active:scale-95 disabled:opacity-60"
-              >
-                {submitting ? '제출 중...' : '견적 요청 완료'}
-              </button>
-            )}
-          </div>
+
+          {step < STEPS.length - 1 ? (
+            <button type="button" onClick={handleNext} className="wk-btn-p">
+              다음
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={handleSubmit}
+              disabled={submitting}
+              aria-busy={submitting}
+              className="wk-btn-p disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {submitting ? '제출 중…' : '견적 요청 보내기'}
+            </button>
+          )}
         </div>
       </div>
     </FormProvider>
@@ -185,7 +216,7 @@ function getStepFields(step: number): string[] {
   switch (step) {
     case 0: return ['businessType', 'businessName', 'contactName', 'phone', 'region']
     case 1: return ['environment', 'purpose', 'urgency']
-    case 2: return ['photos']
+    case 2: return []   // 사진은 선택이라 검증하지 않는다
     case 3: return ['agreePrivacy']
     default: return []
   }

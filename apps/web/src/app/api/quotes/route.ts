@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { serverClient } from '@/lib/supabase'
-import { notifyCustomerQuoteReceived, notifyAdminNewQuote, notifyLeadWebhook } from '@/lib/notify'
+import { notifyCustomerQuoteReceived, notifyAdminNewQuote, notifyLead } from '@/lib/notify'
 import { features } from '@/lib/features'
 import {
   estimateProject,
@@ -139,7 +139,7 @@ export async function POST(req: NextRequest) {
   // 사장이 리드를 즉시 받는다. 미설정·실패 시 로그로 떨어뜨린다(더는 조용히 삼키지 않는다).
   const priceRange = estimateSummary?.price ?? null
   try {
-    const result = await notifyLeadWebhook({
+    const result = await notifyLead({
       businessName,
       contactName,
       phone,

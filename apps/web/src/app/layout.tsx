@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
-import Script from 'next/script'
 import './globals.css'
 import { SITE } from '@/lib/seo/site'
 import { organizationLd, localBusinessLd, websiteLd } from '@/lib/seo/jsonld'
@@ -21,14 +20,15 @@ export const metadata: Metadata = {
     template: `%s | ${SITE.nameKo}`,
   },
   description:
-    '우강테크(WK Tech)는 카페·식당·헬스장 등 소상공인을 위한 LED 사이니지 표준화 시공 플랫폼입니다. 사진 3장으로 즉석 범위 견적을 화면에서 바로 확인하세요.',
+    '우강테크(WK Tech)는 관공서·공공기관·학교에 LED 전광판과 전자현수막을 공급합니다. 설계·제작·시공·A/S를 자사에서 직접 수행하며, 규격서와 개략 견적을 무상으로 보내드립니다.',
   applicationName: SITE.nameKo,
   authors: [{ name: SITE.nameKo }],
   generator: 'Next.js',
   keywords: [
-    'LED 사이니지', 'LED 전광판', '우강테크', 'WK Tech',
-    '전광판 설치', '전광판 견적', '디지털 사이니지',
-    'NovaStar', '전광판 AS', '카페 LED', '식당 LED',
+    'LED 전광판', '전자현수막', '우강테크', 'WK Tech',
+    '관공서 전광판', '학교 전광판', '지자체 전자현수막',
+    '전광판 설치', '전광판 견적', '전광판 제작', '전광판 AS',
+    '조달 전광판', '디지털 사이니지',
   ],
   alternates: {
     canonical: '/',
@@ -79,33 +79,32 @@ export default function RootLayout({
   return (
     <html lang="ko" className={inter.variable}>
       <head>
-        {/* 한글 최적 웹폰트 Pretendard (동적 서브셋 — 사용 글자만 로드). 실패 시 시스템 한글 폰트로 폴백 */}
-        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
-        />
+        {/* Pretendard 는 globals.css → pretendard.css 에서 자가호스팅으로 로드한다.
+            CDN 스타일시트는 렌더 블로킹이라 첫 화면 텍스트가 늦게 떴다. */}
         {/* Organization + LocalBusiness + WebSite JSON-LD (홈에 항상 노출, AEO 핵심) */}
-        <Script
-          id="ld-organization"
+        {/* 구조화 데이터는 정적 HTML 에 남겨야 JS 를 실행하지 않는 크롤러(네이버·다음)도 읽는다.
+            next/script 의 beforeInteractive 는 app router 에서 클라이언트 주입이라 소스에 안 남는다. */}
+        <script
           type="application/ld+json"
-          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationLd()) }}
         />
-        <Script
-          id="ld-localbusiness"
+        <script
           type="application/ld+json"
-          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessLd()) }}
         />
-        <Script
-          id="ld-website"
+        <script
           type="application/ld+json"
-          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd()) }}
         />
       </head>
-      <body className={inter.className}>
+      <body>
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100]
+ focus:rounded-btn focus:bg-wk-cta focus:px-4 focus:py-2.5 focus:text-white"
+        >
+          본문으로 건너뛰기
+        </a>
         <SiteModalsProvider>{children}</SiteModalsProvider>
       </body>
     </html>

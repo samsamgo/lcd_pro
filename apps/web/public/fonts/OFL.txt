@@ -1,0 +1,5 @@
+Pretendard Variable
+Copyright (c) 2021 Kil Hyung-jin, with Reserved Font Name Pretendard.
+Licensed under the SIL Open Font License, Version 1.1.
+https://github.com/orioncactus/pretendard
+전문: https://openfontlicense.org

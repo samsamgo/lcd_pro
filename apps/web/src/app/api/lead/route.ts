@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { notifyLeadWebhook } from '@/lib/notify'
+import { notifyLead } from '@/lib/notify'
 
 /**
  * 경량 상담 리드 엔드포인트 (빠른 상담 모달용).
  * 사진 없이 최소 정보(연락처 + 업종 + 용도)만 받아 사장에게 즉시 웹훅 전달한다.
- * 전체 견적(사진 3장 + 즉석 범위 견적)은 /api/quotes 를 사용한다.
+ * 전체 견적(설치 조건 + 개략 범위 산출)은 /api/quotes 를 사용한다.
  */
 export async function POST(req: NextRequest) {
   let body: Record<string, unknown>
@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const result = await notifyLeadWebhook({
+    const result = await notifyLead({
       businessName: businessType || '(빠른 상담)',
       contactName: contactName || '-',
       phone,

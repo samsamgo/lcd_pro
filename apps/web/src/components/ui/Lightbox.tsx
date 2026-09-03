@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { Modal } from './Modal'
@@ -48,12 +48,31 @@ export function Lightbox({
     return () => window.removeEventListener('keydown', onKey)
   }, [open, prev, next])
 
+  // 스와이프 — 좌우 60px 이상 드래그하면 이전/다음. 세로 스크롤과 헷갈리지 않게
+  // 세로 이동이 가로 이동보다 크면 무시한다.
+  const touchStart = useRef<{ x: number; y: number } | null>(null)
+  const onTouchStart = (e: React.TouchEvent) => {
+    const t = e.touches[0]
+    touchStart.current = { x: t.clientX, y: t.clientY }
+  }
+  const onTouchEnd = (e: React.TouchEvent) => {
+    const start = touchStart.current
+    touchStart.current = null
+    if (!start) return
+    const t = e.changedTouches[0]
+    const dx = t.clientX - start.x
+    const dy = t.clientY - start.y
+    if (Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy)) return
+    if (dx > 0) prev()
+    else next()
+  }
+
   if (!current) return null
 
   return (
-    <Modal open={open} onClose={onClose} size="xl" bare mobileSheet={false} className="bg-zinc-950">
-      <div className="relative">
-        <div className="relative aspect-[4/3] w-full bg-zinc-900 sm:aspect-[16/10]">
+    <Modal open={open} onClose={onClose} size="xl" bare mobileSheet={false} className="bg-wk-night">
+      <div className="relative" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+        <div className="relative aspect-[4/3] w-full bg-wk-night sm:aspect-[16/10]">
           <Image
             src={current.src}
             alt={current.alt}
@@ -70,7 +89,7 @@ export function Lightbox({
               type="button"
               onClick={prev}
               aria-label="이전 이미지"
-              className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-zinc-950/50 p-2.5 text-white backdrop-blur transition-colors hover:bg-zinc-950/70"
+              className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-wk-night/50 p-2.5 text-white backdrop-blur transition-colors hover:bg-wk-night/70"
             >
               <ChevronLeft size={22} />
             </button>
@@ -78,7 +97,7 @@ export function Lightbox({
               type="button"
               onClick={next}
               aria-label="다음 이미지"
-              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-zinc-950/50 p-2.5 text-white backdrop-blur transition-colors hover:bg-zinc-950/70"
+              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-wk-night/50 p-2.5 text-white backdrop-blur transition-colors hover:bg-wk-night/70"
             >
               <ChevronRight size={22} />
             </button>
@@ -91,11 +110,11 @@ export function Lightbox({
               <span className="text-xs font-semibold text-cyan-400">{current.tag}</span>
             )}
             {current.caption && (
-              <p className="truncate text-sm text-zinc-200">{current.caption}</p>
+              <p className="truncate text-sm text-wk-nightMuted">{current.caption}</p>
             )}
           </div>
           {images.length > 1 && (
-            <span className="shrink-0 text-xs text-zinc-400">
+            <span className="shrink-0 text-xs text-wk-ink4">
               {safeIndex + 1} / {images.length}
             </span>
           )}

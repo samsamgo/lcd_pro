@@ -11,6 +11,7 @@ import { createPortal } from 'react-dom'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { X } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { EASE } from '@/components/motion'
 
 export interface ModalProps {
   open: boolean
@@ -134,15 +135,14 @@ export function Modal({
         >
           {/* 백드롭 */}
           <motion.div
-            className="absolute inset-0 bg-zinc-950/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/45 backdrop-blur-sm"
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: reduce ? 0 : 0.2 }}
+            animate={{ opacity: 1, transition: { duration: reduce ? 0 : 0.2, ease: EASE.entrance } }}
+            exit={{ opacity: 0, transition: { duration: reduce ? 0 : 0.14, ease: EASE.entrance } }}
             onClick={dismissable ? onClose : undefined}
           />
 
-          {/* 패널 */}
+          {/* 패널 — 열림: opacity+scale(0.97→1) 200ms / 닫힘: 140ms */}
           <motion.div
             ref={panelRef}
             role="dialog"
@@ -153,15 +153,24 @@ export function Modal({
             initial={
               reduce
                 ? { opacity: 0 }
-                : { opacity: 0, y: mobileSheet ? 40 : 12, scale: mobileSheet ? 1 : 0.98 }
+                : { opacity: 0, y: mobileSheet ? 40 : 12, scale: mobileSheet ? 1 : 0.97 }
             }
-            animate={{ opacity: 1, y: 0, scale: 1 }}
+            animate={{
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              transition: { duration: reduce ? 0 : 0.2, ease: EASE.entrance },
+            }}
             exit={
               reduce
                 ? { opacity: 0 }
-                : { opacity: 0, y: mobileSheet ? 40 : 12, scale: mobileSheet ? 1 : 0.98 }
+                : {
+                    opacity: 0,
+                    y: mobileSheet ? 40 : 12,
+                    scale: mobileSheet ? 1 : 0.97,
+                    transition: { duration: 0.14, ease: EASE.entrance },
+                  }
             }
-            transition={{ duration: reduce ? 0 : 0.22, ease: [0.16, 1, 0.3, 1] }}
             className={cn(
               'relative z-10 mt-auto flex max-h-[92dvh] w-full flex-col overflow-hidden bg-white shadow-2xl outline-none',
               mobileSheet
@@ -174,7 +183,7 @@ export function Modal({
             {/* 모바일 그랩 핸들 */}
             {mobileSheet && (
               <div className="flex justify-center pt-3 sm:hidden" aria-hidden="true">
-                <span className="h-1.5 w-10 rounded-full bg-zinc-300" />
+                <span className="h-1.5 w-10 rounded-full bg-wk-line2" />
               </div>
             )}
 
@@ -182,12 +191,12 @@ export function Modal({
               <div className="flex items-start justify-between gap-4 px-6 pb-4 pt-5">
                 <div className="min-w-0">
                   {title && (
-                    <h2 id={titleId} className="text-lg font-bold text-zinc-900">
+                    <h2 id={titleId} className="text-lg font-bold text-wk-ink">
                       {title}
                     </h2>
                   )}
                   {description && (
-                    <p id={descId} className="mt-1 text-sm text-zinc-600">
+                    <p id={descId} className="mt-1 text-sm text-wk-ink3">
                       {description}
                     </p>
                   )}
@@ -197,7 +206,7 @@ export function Modal({
                     type="button"
                     onClick={onClose}
                     aria-label="닫기"
-                    className="-mr-2 -mt-1 shrink-0 rounded-lg p-2 text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-700"
+                    className="-mr-2 -mt-1 shrink-0 rounded-lg p-2 text-wk-ink4 transition-colors hover:bg-wk-bg hover:text-wk-ink2"
                   >
                     <X size={20} />
                   </button>
@@ -211,7 +220,7 @@ export function Modal({
                 type="button"
                 onClick={onClose}
                 aria-label="닫기"
-                className="absolute right-3 top-3 z-20 rounded-full bg-zinc-950/50 p-2 text-white backdrop-blur transition-colors hover:bg-zinc-950/70"
+                className="absolute right-3 top-3 z-20 rounded-full bg-wk-night/50 p-2 text-white backdrop-blur transition-colors hover:bg-wk-night/70"
               >
                 <X size={20} />
               </button>

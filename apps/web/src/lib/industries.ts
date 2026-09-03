@@ -1,3 +1,4 @@
+import { IMAGES } from './imageAssets'
 import type { Sku } from './pricing'
 
 export interface Industry {
@@ -21,6 +22,8 @@ export interface Industry {
   environment: 'indoor' | 'outdoor'
   /** 다크 히어로 배경 이미지 */
   heroImage: string
+  heroImageAlt: string
+  heroImageGenerated?: boolean
 }
 
 export const INDUSTRIES: Industry[] = [
@@ -46,7 +49,9 @@ export const INDUSTRIES: Industry[] = [
     recommendedSkus: ['P2.5', 'IN-S', 'IN-M'],
     priceHint: '화면 크기와 보는 거리, 설치 조건 확인 후 산출',
     environment: 'indoor',
-    heroImage: '/cases/opt/case-28.jpg',
+    heroImage: IMAGES.industry['public-office'],
+    heroImageAlt: '한국 공공 민원실 대기 공간 벽면의 대기 순번 안내 화면',
+    heroImageGenerated: true,
   },
   {
     slug: 'school',
@@ -70,7 +75,9 @@ export const INDUSTRIES: Industry[] = [
     recommendedSkus: ['IN-M', 'P2.5', 'OUT-S'],
     priceHint: '실내·실외 위치와 보는 거리, 화면 크기 확인 후 산출',
     environment: 'indoor',
-    heroImage: '/cases/opt/case-17.jpg',
+    heroImage: IMAGES.industry['school'],
+    heroImageAlt: '밝은 낮 한국 학교 정문 위에 설치된 등굣길 안전 안내 전자현수막',
+    heroImageGenerated: true,
   },
   {
     slug: 'banner',
@@ -94,7 +101,9 @@ export const INDUSTRIES: Industry[] = [
     recommendedSkus: ['OUT-S', 'OUT-M', 'OUT-L'],
     priceHint: '보는 거리와 구조물·전기·신고 조건 확인 후 산출',
     environment: 'outdoor',
-    heroImage: '/cases/opt/case-14.jpg',
+    heroImage: IMAGES.industry['banner'],
+    heroImageAlt: '비 오는 저녁 한국 도로 위 전자현수막에 표시된 호우 안전 안내',
+    heroImageGenerated: true,
   },
   {
     slug: 'institution',
@@ -118,7 +127,9 @@ export const INDUSTRIES: Industry[] = [
     recommendedSkus: ['IN-S', 'P2.5', 'IN-M'],
     priceHint: '보는 거리와 설치 위치, 안내 화면 구성 협의 후 산출',
     environment: 'indoor',
-    heroImage: '/cases/opt/case-15.jpg',
+    heroImage: IMAGES.industry['institution'],
+    heroImageAlt: '한국 공공 도서관 로비 벽면의 세로형 이용·운영시간·시설 안내 화면',
+    heroImageGenerated: true,
   },
   {
     slug: 'retail',
@@ -142,7 +153,8 @@ export const INDUSTRIES: Industry[] = [
     recommendedSkus: ['IN-S', 'IN-M', 'P2.5'],
     priceHint: '화면 크기와 보는 거리, 설치 조건 확인 후 산출',
     environment: 'indoor',
-    heroImage: '/curated/gal-restaurant-menu.jpg',
+    heroImage: IMAGES.industry['retail'],
+    heroImageAlt: '음식점 카운터 위에 설치된 디지털 메뉴 화면',
   },
   {
     slug: 'outdoor-ad',
@@ -166,7 +178,8 @@ export const INDUSTRIES: Industry[] = [
     recommendedSkus: ['OUT-S', 'OUT-M', 'OUT-L'],
     priceHint: '보는 거리와 화면 크기, 구조 조건 확인 후 산출',
     environment: 'outdoor',
-    heroImage: '/curated/gal-roadside-billboard.jpg',
+    heroImage: IMAGES.industry['outdoor-ad'],
+    heroImageAlt: '도로변에서 멀리 보이는 대형 옥외 LED 광고 화면',
   },
 ]
 

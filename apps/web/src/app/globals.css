@@ -1,3 +1,4 @@
+@import './pretendard.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -38,8 +39,10 @@
   body {
     @apply bg-white text-zinc-900 antialiased;
     /* Latin은 Inter, 한글은 Pretendard → 시스템 한글 폰트 순 폴백 (외부 CDN 실패에도 안전) */
-    font-family: var(--font-inter), 'Pretendard Variable', Pretendard, 'Apple SD Gothic Neo',
-      'Malgun Gothic', 'Noto Sans KR', system-ui, -apple-system, sans-serif;
+    /* 'Pretendard Fallback' 은 메트릭을 보정한 대체 폰트다(pretendard.css).
+       빼면 웹폰트가 도착하는 순간 줄바꿈이 바뀌어 히어로가 140px 밀린다(CLS 0.238 → 0.0002). */
+    font-family: var(--font-inter), 'Pretendard Variable', 'Pretendard Fallback', Pretendard,
+      'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', system-ui, -apple-system, sans-serif;
     font-feature-settings: 'kern' 1, 'liga' 1;
     word-break: keep-all;
     overflow-wrap: anywhere;
@@ -89,10 +92,30 @@
   .img-zoom {
     @apply transition-transform duration-500 group-hover:scale-105;
   }
+  /* 입력 — default / hover / focus / filled / error / disabled 상태를 전부 정의한다.
+     상태가 비면 "눌리는 느낌"이 사라지고 폼이 죽은 것처럼 보인다.
+     오류는 색만으로 알리지 않는다(FormField 가 아이콘·문구를 함께 붙인다). */
   .input-base {
-    @apply w-full rounded-xl border border-zinc-300 bg-white px-4 py-2.5 text-sm text-zinc-900
-      placeholder:text-zinc-400 transition-all
-      focus:border-blue-500/60 focus:outline-none focus:ring-2 focus:ring-blue-500/20;
+    @apply w-full rounded-btn border border-wk-line2 bg-white px-4 py-3 text-body text-wk-ink
+      placeholder:text-wk-ink4
+      transition-[border-color,box-shadow,background-color] duration-state ease-state
+      hover:border-wk-ink4
+      focus:border-wk-cta focus:outline-none focus:ring-4 focus:ring-wk-cta/15
+      disabled:cursor-not-allowed disabled:bg-wk-bg disabled:text-wk-disabled;
+  }
+  .input-base[aria-invalid='true'] {
+    @apply border-wk-bad focus:border-wk-bad focus:ring-wk-bad/15;
+  }
+  /* 선택형 버튼(업종·설치환경 등) — 선택 상태를 색만으로 알리지 않는다 */
+  .wk-chip {
+    @apply rounded-btn border px-3.5 py-2.5 text-label font-medium
+      transition-[background-color,border-color,color] duration-state ease-state;
+  }
+  .wk-chip-off {
+    @apply wk-chip border-wk-line2 bg-white text-wk-ink3 hover:border-wk-ink4 hover:text-wk-ink;
+  }
+  .wk-chip-on {
+    @apply wk-chip border-wk-cta bg-wk-blueWeak font-bold text-wk-ctaActive;
   }
 }
 
@@ -110,7 +133,7 @@
       sm:h-[52px] sm:w-auto sm:rounded-btn sm:px-6;
   }
   .wk-btn-p {
-    @apply wk-btn bg-wk-blue text-white hover:bg-wk-blueHover active:bg-wk-blueActive active:scale-[.98];
+    @apply wk-btn bg-wk-cta text-white shadow-wk-1 hover:bg-wk-ctaHover active:bg-wk-ctaActive active:scale-[.98];
   }
   .wk-btn-w {
     @apply wk-btn bg-wk-blueWeak text-wk-blueActive hover:bg-[#DBEAFE] active:scale-[.98];
@@ -144,14 +167,129 @@
 
 @layer utilities {
   /* 타이포 스케일 — 모바일 → 데스크톱 */
-  .wk-hero   { @apply text-[40px] font-extrabold leading-[48px] tracking-[-0.025em] md:text-[64px] md:leading-[67px]; }
-  .wk-h1     { @apply text-[36px] font-bold leading-[44px] tracking-[-0.025em] md:text-[52px] md:leading-[57px]; }
-  .wk-h2     { @apply text-[28px] font-bold leading-9 tracking-[-0.025em] md:text-[36px] md:leading-[45px]; }
-  .wk-h3     { @apply text-[19px] font-bold leading-[27px] tracking-[-0.02em] md:text-[20px] md:leading-[29px]; }
-  .wk-lead   { @apply text-[17px] leading-[27px] text-wk-ink3 md:text-[19px] md:leading-[30px]; }
-  .wk-cap    { @apply text-sm leading-[21px] text-wk-ink4; }
-  .wk-eyebrow{ @apply mb-3 text-[15px] font-bold leading-[22px] text-wk-blue; }
-  /* 페이지 여백 — 데스크톱 32 / 모바일 20 */
-  .wk-wrap   { @apply mx-auto w-full max-w-[1200px] px-5 md:px-8; }
-  .wk-sec    { @apply py-[72px] md:py-24; }
+  /* 타이포 — 유동형 스케일. 임의의 text-[NNpx]를 컴포넌트에 적지 말 것.
+     제목은 짧은 행 길이가 핵심이다. 크기만 키우면 Apple 느낌이 나지 않는다. */
+    /* max-width 를 ch 로 잡으면 폰트가 도착할 때 값이 바뀌어 제목이 다시 줄바꿈된다.
+     한글은 글자 하나가 대략 1em 이라 em 이 의도(줄당 11음절)에도 맞고 값도 고정이다. */
+  .wk-hero   { @apply text-display-hero font-bold; max-width: 11em; }
+  .wk-display{ @apply text-display-xl font-bold; }
+  .wk-h1     { @apply text-h1 font-bold; }
+  .wk-h2     { @apply text-h2 font-bold; }
+  .wk-h3     { @apply text-h3 font-semibold; }
+  .wk-lead   { @apply text-lead text-wk-ink2; max-width: 38rem; }
+  .wk-body   { @apply text-body text-wk-ink2; max-width: 38rem; }
+  /* 캡션은 작아서 대비가 더 중요하다. ink4(#8B95A1)는 흰 배경에서 3.04:1 로 AA 미달 */
+  .wk-cap    { @apply text-caption text-wk-ink3; }
+  .wk-eyebrow{ @apply mb-4 inline-flex items-center gap-2 text-label font-semibold uppercase tracking-[0.14em] text-wk-cta; }
+  /* 숫자 규격 — 열 정렬이 흔들리지 않게 */
+  .wk-metric { font-variant-numeric: tabular-nums lining-nums; }
+  .wk-metric > small { font-size: .72em; font-weight: 500; letter-spacing: 0; }
+
+  /* 컨테이너 — 본문 1200 / 사진 우선 1440 / 읽기 720 */
+  .wk-wrap   { @apply mx-auto w-full max-w-[1200px] px-5 md:px-8 lg:px-12; }
+  .wk-wrap-wide { @apply mx-auto w-full max-w-[1440px] px-5 md:px-8 lg:px-12; }
+  .wk-wrap-read { @apply mx-auto w-full max-w-[720px] px-5 md:px-8; }
+
+  /* 섹션 세로 리듬 — 네 단계만 쓴다. 임의의 py를 섞으면 리듬이 깨진다 */
+  .wk-sec-sm { @apply py-16 md:py-20 lg:py-24; }
+  .wk-sec    { @apply py-20 md:py-24 lg:py-32; }
+  .wk-sec-lg { @apply py-24 md:py-32 lg:py-40; }
+  .wk-sec-xl { @apply py-[120px] md:py-40 lg:py-[200px]; }
+
+  /* 다크 시네마틱 면 */
+  .wk-night      { @apply bg-wk-night text-wk-nightInk; }
+  .wk-night-card { @apply rounded-surface border border-white/10 bg-wk-nightCard shadow-wk-3; }
+  /* 라이트 → 다크 전환은 선이 아니라 그라디언트 다리로 잇는다 */
+  /* 라이트 → 다크 다리. 정거장을 2개로 두고 높이로 부드러움을 만든다.
+     정거장을 3개로 쪼개면 짧은 높이에서 중간색이 띠로 보인다. */
+  .wk-bridge-down { background: linear-gradient(to bottom, #FFFFFF 0%, #0B0B0F 100%); }
+  .wk-bridge-up   { background: linear-gradient(to bottom, #0B0B0F 0%, #FFFFFF 100%); }
+  .wk-night-glow  {
+    background:
+      radial-gradient(60% 45% at 50% 12%, rgba(49,130,246,.18), transparent 70%),
+      #0B0B0F;
+  }
+
+  /* 사진 위 문구 스크림 — "검정 40%" 같은 관행 대신 방향을 준다 */
+  .wk-scrim-l { background: linear-gradient(90deg, rgba(0,0,0,.74) 0%, rgba(0,0,0,.52) 34%, transparent 74%); }
+  /* 발광 화면이 프레임 절반을 차지하는 사진용. 일반 스크림으로는 본문이 빛 위에 얹힌다 */
+  /* 사진 카드 하단 문구용 — 아이브로우까지 덮어야 밝은 하늘 위에서도 읽힌다 */
+  .wk-scrim-card {
+    background: linear-gradient(to top, rgba(0,0,0,.88) 0%, rgba(0,0,0,.72) 26%, rgba(0,0,0,.34) 52%, transparent 82%);
+  }
+  .wk-scrim-l-deep {
+    background: linear-gradient(95deg, rgba(0,0,0,.88) 0%, rgba(0,0,0,.74) 28%, rgba(0,0,0,.42) 52%, transparent 82%);
+  }
+  .wk-scrim-b { background: linear-gradient(to top, rgba(0,0,0,.82) 0%, rgba(0,0,0,.34) 44%, transparent 78%); }
+
+  /* 필름 그레인 — 생성 이미지의 매끈한 CGI 느낌을 눌러준다 */
+  .wk-grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: .38;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+  }
+
+  /* 마스크 리빌 — 아래에서 위로 덮개가 걷힌다 */
+  .wk-clip-reveal { clip-path: inset(0 0 100% 0); }
+}
+
+/* ── 무한 루프 이미지 슬라이더 ──
+   목록을 두 벌 이어 붙이고 정확히 한 벌(50%)만큼 이동시켜 이음매를 없앤다.
+   gap 만큼의 오차는 마지막 카드 뒤 여백으로 흡수된다. */
+@keyframes wk-marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+.wk-marquee-track {
+  animation: wk-marquee 64s linear infinite;
+  will-change: transform;
+}
+.wk-marquee:hover .wk-marquee-track,
+.wk-marquee:focus-within .wk-marquee-track {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  /* 모션을 줄이는 사용자에게는 자동 흐름 대신 직접 넘기는 가로 스크롤을 준다 */
+  .wk-marquee { overflow-x: auto; scroll-snap-type: x mandatory; }
+  .wk-marquee-track { animation: none !important; }
+  .wk-marquee figure { scroll-snap-align: start; }
+}
+
+/* ── LED 문자 띠 — 실제 전광판처럼 좌우로 흐른다 ── */
+@keyframes wk-ticker {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-33.333%, 0, 0); }
+}
+.wk-ticker {
+  animation: wk-ticker 34s linear infinite;
+  will-change: transform;
+}
+
+/* ── 버튼 광택 — 마우스를 올리면 빛이 한 번 지나간다 ── */
+.wk-btn-p { position: relative; overflow: hidden; }
+.wk-btn-p::after {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 -60%;
+  width: 45%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,0.34), transparent);
+  transform: skewX(-18deg);
+  transition: left .55s cubic-bezier(.16,1,.3,1);
+  pointer-events: none;
+}
+.wk-btn-p:hover::after { left: 115%; }
+
+/* ── 카드가 떠오르는 느낌 ── */
+@media (hover: hover) and (pointer: fine) {
+  .wk-card { transition: transform .26s cubic-bezier(.16,1,.3,1), box-shadow .26s ease; }
+  a.wk-card:hover, button.wk-card:hover { transform: translateY(-4px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wk-ticker { animation: none !important; }
+  .wk-btn-p::after { display: none; }
 }

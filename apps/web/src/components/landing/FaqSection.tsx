@@ -1,115 +1,205 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import Link from 'next/link'
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ChevronDown } from 'lucide-react'
+
 import { JsonLd } from '@/components/seo/JsonLd'
 import { faqPageLd } from '@/lib/seo/jsonld'
+import { Reveal } from '@/components/motion'
 
-// 홈 인라인 FAQ — 최종 CTA 직전. 가격변동·인허가·AS·CMS·설치기간·사진 개인정보.
-export const HOME_FAQS = [
+/**
+ * 자주 묻는 질문.
+ *
+ * 독자는 관공서·학교 담당 공무원이다. 이 사람이 실제로 막히는 지점은
+ * 제품 사양이 아니라 **결재를 통과시키는 방법**이다.
+ * 예산 과목, 계약 방법, 전기 인입, 사후 관리 인력 — 그 순서로 묻는다.
+ * 그래서 답변마다 "그래서 담당자가 무엇을 하면 되는지" 로 끝난다.
+ *
+ * 아코디언 높이는 `height: auto` 애니메이션 대신 grid-template-rows 0fr→1fr 로 편다.
+ * height 애니메이션은 매 프레임 레이아웃을 다시 계산시킨다(설계계약서 §0.6).
+ *
+ * ⚠️ 지킬 수 없는 약속(응답 시간 SLA, 실적 건수)을 답변에 넣지 않는다.
+ */
+type Faq = { q: string; a: string; cat: Cat }
+type Cat = '예산·계약' | '설치·시공' | '운영·관리' | '사후관리'
+
+const CATS: Cat[] = ['예산·계약', '설치·시공', '운영·관리', '사후관리']
+
+const FAQS: Faq[] = [
   {
-    question: '왜 확정가가 아니라 범위 견적인가요?',
-    answer:
-      '전기 용량·구조 보강·인허가·통신 환경에 따라 실비가 크게 달라집니다. 현장 실측 전에 확정가를 약속하는 업체는 추후 추가비용이 붙기 쉽습니다. 우강테크는 "예상 범위 + 면책 문구" 형식만 사용하고, 확정가는 실측 후 안내합니다.',
+    cat: '예산·계약',
+    q: '예산은 어떤 과목으로 잡아야 하나요?',
+    a: '전광판은 내용연수가 있는 자산이라 통상 자산취득비 또는 시설비·부대비로 계상합니다. 기관 회계 기준에 따라 과목이 달라지므로, 규격서에 품명·규격·수량·내용연수를 기재해 드립니다. 그 문서를 그대로 예산 요구서에 첨부하실 수 있습니다.',
   },
   {
-    question: '옥외 광고물 인허가도 처리되나요?',
-    answer:
-      '옥외 설치는 방수·방진·구조 요건과 함께 옥외 광고물 신고가 필요합니다. 신고 절차는 우강테크가 함께 처리하며, 지역·구조에 따라 별도 비용이 발생할 수 있습니다.',
+    cat: '예산·계약',
+    q: '왜 확정가가 아니라 범위 견적인가요?',
+    a: '전기 용량, 구조 보강, 옥외광고물 신고, 통신 환경에 따라 실비가 크게 달라집니다. 실측 전에 확정가를 약속하는 곳은 나중에 추가비용이 붙기 쉽습니다. 우강테크는 문의 단계에서는 예상 범위와 그 산출 근거만 드리고, 현장 실측 후 확정 견적과 규격서를 문서로 제출합니다.',
   },
   {
-    question: 'AS는 어떻게 받나요? 보증 기간은요?',
-    answer:
-      'LED는 모듈 단위 교체가 가능해 부분 고장 시 해당 모듈만 빠르게 교체합니다. 하드웨어 보증은 스탠다드 1년, 프리미엄 2년이며, 프리미엄은 예비부품 보유와 24시간 긴급 우선 처리가 포함됩니다. 고장 접수는 견적/문의 채널로 받고, 무상 범위(초기 불량·보증 내 하드웨어)와 유상 범위(외부 충격·소비자 과실)를 사전에 안내드립니다.',
+    cat: '예산·계약',
+    q: '계약은 어떤 방식으로 하나요?',
+    a: '기관 규모와 금액에 따라 수의계약, 견적 제출, 나라장터 입찰 중에서 선택하십니다. 어느 방식이든 필요한 서류(사업자등록증, 규격서, 견적서, 시험성적서 등)를 요청 주시는 형식에 맞춰 제출합니다. 필요한 서류 목록을 먼저 알려주시면 준비해 보내드립니다.',
   },
   {
-    question: '전기요금이 많이 나오지 않나요?',
-    answer:
-      'LED는 표시 내용과 밝기에 따라 소비전력이 달라지며, 실내 소형 메뉴판은 일반 가전 수준, 옥외 대형은 그보다 높습니다. 견적 시 예상 소비전력과 권장 전원 회로를 함께 안내하고, 자동 밝기 조절로 전력을 절감할 수 있습니다.',
+    cat: '설치·시공',
+    q: '전기 인입은 누가 준비하나요?',
+    a: '설치 지점까지의 전원 인입은 기관에서, 그 이후 분전·배선·접지는 우강테크가 맡는 것이 일반적입니다. 실측 때 기존 회로 용량을 확인해 증설이 필요한지 먼저 판정하고, 필요하면 그 범위와 비용을 확정 견적에 명시합니다.',
   },
   {
-    question: '비·눈이 와도 괜찮나요? (옥외)',
-    answer:
-      '옥외 제품은 방수·방진(IP65 등) 규격으로 시공하며, 구조·전기·방수 마감을 현장 실측 후 확정합니다. 옥외 설치는 옥외 광고물 신고 절차를 함께 처리합니다.',
+    cat: '설치·시공',
+    q: '옥외광고물 신고는 누가 처리하나요?',
+    a: '옥외 설치는 지자체 옥외광고물 신고 대상일 수 있습니다. 신고 서류 준비와 접수는 우강테크가 함께 진행합니다. 다만 지역·구조·규격에 따라 신고 수수료나 구조안전 확인서가 추가로 필요할 수 있어, 해당 여부를 실측 단계에서 알려드립니다.',
   },
   {
-    question: '설치 기간은 얼마나 걸리나요?',
-    answer:
-      '표준 모델 기준 보통 1~3일입니다. 확정 견적 합의 후 자재 발주와 시공 일정을 협의하며, 영업 시간 외 시공 옵션도 가능합니다.',
+    cat: '설치·시공',
+    q: '시공 기간과 민원·학사 일정 영향은 어떻게 되나요?',
+    a: '표준 규격 기준 현장 작업은 보통 1~3일입니다. 소음과 통행 제한이 생기는 구간은 반나절 안쪽으로 몰아서 처리합니다. 방학, 휴일, 업무 시간 외 시공도 가능하니 기관 일정을 먼저 알려주시면 그 일정에 맞춰 계획을 짜서 보내드립니다.',
   },
   {
-    question: '보낸 매장 사진은 어떻게 쓰이나요?',
-    answer:
-      '사진은 설치 위치·규모를 파악해 범위 견적을 산출하는 용도로만 사용합니다. 개인정보 수집·이용 동의를 받은 범위 안에서만 활용하며, 자세한 내용은 개인정보처리방침에서 확인할 수 있습니다.',
+    cat: '설치·시공',
+    q: '비·눈·바람은 견디나요?',
+    a: '옥외 제품은 방수·방진 IP65 등급으로 시공하고, 지주·브래킷은 설치 지점의 풍압을 반영해 설계합니다. 구조 계산과 방수 마감 방식은 실측 후 규격서에 기재해 제출합니다.',
+  },
+  {
+    cat: '운영·관리',
+    q: '담당자가 직접 화면을 바꿀 수 있나요?',
+    a: '가능합니다. 그게 이 설비를 쓰는 이유입니다. 인수 시 담당자 PC에서 문구·일정·이미지를 바꾸는 방법을 교육하고, 화면 캡처를 넣은 조작 안내서를 함께 드립니다. 인사이동으로 담당자가 바뀌어도 그 문서로 인수인계가 됩니다.',
+  },
+  {
+    cat: '운영·관리',
+    q: '전기요금이 많이 나오지 않나요?',
+    a: '소비전력은 표시 내용과 밝기에 따라 달라집니다. 실내 소형은 일반 사무기기 수준이고 옥외 대형은 그보다 높습니다. 견적서에 예상 소비전력과 권장 전원 회로를 함께 적어 드리며, 주변 밝기에 따라 자동으로 휘도를 낮추는 설정으로 야간 전력을 줄일 수 있습니다.',
+  },
+  {
+    cat: '운영·관리',
+    q: '관리 인력이 따로 필요한가요?',
+    a: '상주 인력은 필요하지 않습니다. 평소 조작은 문구 교체 수준이고, 전원·신호 이상은 원격으로 먼저 확인합니다. 다만 담당 부서와 연락 창구 한 곳은 지정해 두시는 편이 장애 대응이 빠릅니다.',
+  },
+  {
+    cat: '사후관리',
+    q: '고장 나면 어떻게 되나요? 보증 기간은요?',
+    a: 'LED는 모듈 단위로 교체할 수 있어 부분 고장 시 화면 전체를 해체하지 않습니다. 접수 → 원격 확인 → 방문 판정 → 해당 모듈 교체 → 결과 보고 순으로 진행하고, 처리 내역은 문서로 제출해 검수·감사 자료로 쓰실 수 있습니다. 하드웨어 무상보증은 스탠다드 1년, 프리미엄 2년이며 프리미엄은 예비부품 보유가 포함됩니다.',
+  },
+  {
+    cat: '사후관리',
+    q: '규격서·도면·시험성적서를 받을 수 있나요?',
+    a: '받으실 수 있습니다. 제품 규격서와 설치 도면은 견적 단계에서, 시험성적서와 인증 서류는 계약 단계에서 제출합니다. 필요한 서류 목록을 알려주시면 기관 양식에 맞춰 정리해 보내드립니다.',
+  },
+  {
+    cat: '사후관리',
+    q: '보낸 현장 사진은 어떻게 쓰이나요?',
+    a: '설치 위치와 규모를 파악해 개략 견적을 내는 용도로만 씁니다. 동의받은 범위 안에서만 활용하고, 홍보에 쓰지 않습니다. 자세한 내용은 개인정보처리방침에서 확인하실 수 있습니다.',
   },
 ]
 
+/** JSON-LD 및 외부 참조용 평면 목록 */
+export const HOME_FAQS = FAQS.map((f) => ({ question: f.q, answer: f.a }))
+
 export function FaqSection({ hideHeader = false }: { hideHeader?: boolean }) {
-  const [open, setOpen] = useState<number | null>(0)
-  const reduce = useReducedMotion()
+  const [cat, setCat] = useState<Cat | '전체'>('전체')
+  const [open, setOpen] = useState<string | null>(FAQS[0].q)
+
+  const list = useMemo(() => (cat === '전체' ? FAQS : FAQS.filter((f) => f.cat === cat)), [cat])
 
   return (
-    <section id="faq" className="scroll-mt-20 bg-white py-24 px-4">
+    <section id="faq" aria-labelledby="faq-h" className="wk-sec scroll-mt-20 bg-white">
       <JsonLd id="ld-home-faq" data={faqPageLd(HOME_FAQS)} />
-      <div className="mx-auto max-w-3xl">
-        {!hideHeader && (
-          <div className="mb-12 text-center">
-            <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-blue-600">FAQ</p>
-            <h2 className="text-3xl font-bold sm:text-4xl">자주 묻는 질문</h2>
-          </div>
-        )}
 
-        <div className="space-y-3">
-          {HOME_FAQS.map((item, i) => {
-            const isOpen = open === i
-            return (
-              <div
-                key={item.question}
-                className={`overflow-hidden rounded-2xl border transition-colors ${
-                  isOpen ? 'border-blue-500/50 bg-blue-50/30' : 'border-zinc-200 bg-white hover:border-zinc-300'
-                }`}
-              >
-                <button
-                  type="button"
-                  onClick={() => setOpen(isOpen ? null : i)}
-                  aria-expanded={isOpen}
-                  className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left text-base font-semibold text-zinc-900"
-                >
-                  <span>{item.question}</span>
-                  <span
-                    className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition-all ${
-                      isOpen ? 'rotate-180 bg-blue-600 text-white' : 'bg-zinc-100 text-zinc-500'
-                    }`}
-                  >
-                    <ChevronDown size={16} />
-                  </span>
-                </button>
-                <AnimatePresence initial={false}>
-                  {isOpen && (
-                    <motion.div
-                      initial={reduce ? { opacity: 0 } : { height: 0, opacity: 0 }}
-                      animate={reduce ? { opacity: 1 } : { height: 'auto', opacity: 1 }}
-                      exit={reduce ? { opacity: 0 } : { height: 0, opacity: 0 }}
-                      transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-                      className="overflow-hidden"
-                    >
-                      <p className="px-5 pb-5 text-sm leading-relaxed text-zinc-700">{item.answer}</p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+      <div className="wk-wrap grid gap-12 lg:grid-cols-[4fr_8fr] lg:gap-16">
+        <div className="lg:sticky lg:top-28 lg:self-start">
+          {!hideHeader && (
+            <Reveal>
+              <div>
+                <p className="wk-eyebrow">FAQ</p>
+                <h2 id="faq-h" className="wk-h2 text-wk-ink">
+                  결재 전에
+                  <br />
+                  가장 많이 묻는 것
+                </h2>
+                <p className="wk-lead mt-5">
+                  예산 과목부터 사후 관리까지, 담당자가 실제로 막히는 지점만 모았습니다.
+                </p>
               </div>
-            )
-          })}
+            </Reveal>
+          )}
         </div>
 
-        <p className="mt-8 text-center text-sm text-zinc-600">
-          더 궁금한 점이 있으신가요?{' '}
-          <Link href="/quote" className="font-semibold text-blue-600 underline-offset-4 hover:underline">
-            설치 조건 남기고 상담 요청하기 →
-          </Link>
-        </p>
+        <div>
+          {/* 분류 — 선택 상태를 색만으로 알리지 않는다(색 + 굵기 + 밑줄) */}
+          <div role="tablist" aria-label="질문 분류" className="mb-8 flex flex-wrap gap-x-6 gap-y-3">
+            {(['전체', ...CATS] as const).map((c) => {
+              const on = cat === c
+              return (
+                <button
+                  key={c}
+                  role="tab"
+                  aria-selected={on}
+                  type="button"
+                  onClick={() => setCat(c)}
+                  className={`border-b-2 pb-1.5 text-label transition-colors duration-state ease-state ${
+                    on
+                      ? 'border-wk-cta font-bold text-wk-cta'
+                      : 'border-transparent font-medium text-wk-ink3 hover:text-wk-ink'
+                  }`}
+                >
+                  {c}
+                </button>
+              )
+            })}
+          </div>
+
+          <div className="border-t border-wk-line">
+            {list.map((item) => {
+              const isOpen = open === item.q
+              return (
+                <div key={item.q} className="border-b border-wk-line">
+                  <h3 className="m-0">
+                    <button
+                      type="button"
+                      onClick={() => setOpen(isOpen ? null : item.q)}
+                      aria-expanded={isOpen}
+                      className="flex w-full items-start justify-between gap-6 py-6 text-left"
+                    >
+                      <span className="text-body-lg font-semibold text-wk-ink">{item.q}</span>
+                      <span
+                        aria-hidden="true"
+                        className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full
+                          transition-all duration-state ease-state ${
+                            isOpen ? 'rotate-180 bg-wk-cta text-white' : 'bg-wk-bg text-wk-ink3'
+                          }`}
+                      >
+                        <ChevronDown size={16} strokeWidth={2.4} />
+                      </span>
+                    </button>
+                  </h3>
+
+                  {/* 0fr → 1fr. height 애니메이션과 달리 매 프레임 레이아웃을 다시 재지 않는다 */}
+                  <div
+                    className={`grid transition-[grid-template-rows,opacity] duration-enter ease-entrance ${
+                      isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                    }`}
+                  >
+                    <div className="overflow-hidden">
+                      <p className="wk-body max-w-[42rem] pb-7 !text-wk-ink3">{item.a}</p>
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+
+          <p className="wk-cap mt-8">
+            여기 없는 내용은 직접 물어보시는 편이 빠릅니다.{' '}
+            <Link
+              href="/quote"
+              className="font-semibold text-wk-cta underline underline-offset-4"
+            >
+              설치 조건 남기고 상담 요청하기 →
+            </Link>
+          </p>
+        </div>
       </div>
     </section>
   )

@@ -86,33 +86,33 @@ export function QuoteSuccess({ estimate }: Props) {
   return (
     <div className="glass rounded-2xl p-8">
       <div className="mb-6 flex flex-col items-center text-center">
-        <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-blue-600/10">
-          <CheckCircle2 size={32} className="text-blue-600" />
+        <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-wk-cta/10">
+          <CheckCircle2 size={32} className="text-wk-cta" />
         </div>
-        <h2 className="mb-2 text-2xl font-bold text-zinc-900">{heading}</h2>
-        <p className="text-zinc-700">{subtext}</p>
+        <h2 className="mb-2 text-2xl font-bold text-wk-ink">{heading}</h2>
+        <p className="text-wk-ink2">{subtext}</p>
       </div>
 
       {estimate && <EstimateBlock estimate={estimate} />}
 
-      <div className="mb-6 rounded-xl border border-zinc-200 bg-white/60 p-5 text-left text-sm text-zinc-700">
-        <p className="mb-2 font-semibold text-zinc-800">다음 단계</p>
+      <div className="mb-6 rounded-xl border border-wk-line bg-white/60 p-5 text-left text-sm text-wk-ink2">
+        <p className="mb-2 font-semibold text-wk-ink2">다음 단계</p>
         <ol className="space-y-1.5">
-          <li><span className="mr-2 font-bold text-blue-600">1.</span>{blocked ? '별도 설계 상담과 설계비 안내' : '화면의 예상 범위 견적 확인'}</li>
-          <li><span className="mr-2 font-bold text-blue-600">2.</span>현장 실사 일정 조율 (1~3일)</li>
-          <li><span className="mr-2 font-bold text-blue-600">3.</span>최종 견적 확정 + 계약</li>
-          <li><span className="mr-2 font-bold text-blue-600">4.</span>표준 시공 + 운영</li>
+          <li><span className="mr-2 font-bold text-wk-cta">1.</span>{blocked ? '별도 설계 상담과 설계비 안내' : '화면의 예상 범위 견적 확인'}</li>
+          <li><span className="mr-2 font-bold text-wk-cta">2.</span>현장 실사 일정 조율 (1~3일)</li>
+          <li><span className="mr-2 font-bold text-wk-cta">3.</span>최종 견적 확정 + 계약</li>
+          <li><span className="mr-2 font-bold text-wk-cta">4.</span>표준 시공 + 운영</li>
         </ol>
       </div>
 
-      <div className="rounded-xl bg-blue-600/5 p-5 text-center">
-        <p className="text-sm font-semibold text-zinc-800">더 빠르게 진행하고 싶으신가요?</p>
-        <p className="mt-1 text-xs text-zinc-600">담당자와 바로 연결해 현장 실측 일정을 잡아드립니다.</p>
+      <div className="rounded-xl bg-wk-cta/5 p-5 text-center">
+        <p className="text-sm font-semibold text-wk-ink2">더 빠르게 진행하고 싶으신가요?</p>
+        <p className="mt-1 text-xs text-wk-ink3">담당자와 바로 연결해 현장 실측 일정을 잡아드립니다.</p>
         <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:justify-center">
           <button
             type="button"
             onClick={() => openConsult('quote-success')}
-            className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-blue-600 px-6 py-3 text-sm font-bold text-white transition-all hover:bg-blue-500 active:scale-95"
+            className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-wk-cta px-6 py-3 text-sm font-bold text-white transition-all hover:bg-wk-blue active:scale-95"
           >
             <MessageCircle size={16} />
             상담·실측 예약
@@ -120,9 +120,9 @@ export function QuoteSuccess({ estimate }: Props) {
           {SITE.phone && (
             <a
               href={`tel:${SITE.phone.replace(/[^+\d]/g, '')}`}
-              className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-zinc-300 px-6 py-3 text-sm font-semibold text-zinc-700 transition-all hover:bg-zinc-100"
+              className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-wk-line2 px-6 py-3 text-sm font-semibold text-wk-ink2 transition-all hover:bg-wk-bg"
             >
-              <Phone size={16} className="text-blue-600" />
+              <Phone size={16} className="text-wk-cta" />
               전화 {SITE.phone}
             </a>
           )}
@@ -131,7 +131,7 @@ export function QuoteSuccess({ estimate }: Props) {
               href={SITE.kakaoChannelUrl}
               target="_blank"
               rel="noopener"
-              className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-zinc-300 px-6 py-3 text-sm font-semibold text-zinc-700 transition-all hover:bg-zinc-100"
+              className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-wk-line2 px-6 py-3 text-sm font-semibold text-wk-ink2 transition-all hover:bg-wk-bg"
             >
               카카오 상담
             </a>
@@ -139,14 +139,14 @@ export function QuoteSuccess({ estimate }: Props) {
         </div>
         <Link
           href="/"
-          className="mt-4 inline-block text-xs font-medium text-zinc-500 underline-offset-2 hover:underline"
+          className="mt-4 inline-block text-xs font-medium text-wk-ink3 underline-offset-2 hover:underline"
         >
           홈으로 돌아가기
         </Link>
       </div>
 
       {estimate && (
-        <p className="mt-4 text-center text-[11px] text-zinc-600">
+        <p className="mt-4 text-center text-caption text-wk-ink3">
           본 금액은 기본 제작 규격으로 계산한 예상치입니다. 현장 확인과 자재 가격 확인 후 일부 수치가 달라질 수 있습니다.
         </p>
       )}
@@ -164,14 +164,14 @@ function EstimateBlock({ estimate }: { estimate: EstimateSummary }) {
           <AlertTriangle size={18} />
           <span className="font-semibold">별도 설계가 필요한 요청입니다</span>
         </div>
-        <p className="mb-3 text-sm text-zinc-700">
+        <p className="mb-3 text-sm text-wk-ink2">
           요청하신 사양은 표준 자동 견적 범위를 벗어나므로 별도 설계 상담이 필요합니다.
         </p>
-        <ul className="mb-3 list-inside list-disc space-y-1 text-xs text-zinc-600">
+        <ul className="mb-3 list-inside list-disc space-y-1 text-xs text-wk-ink3">
           {classification_reasons.map((r, i) => <li key={i}>{reasonLabel(r)}</li>)}
         </ul>
         {standard && (
-          <p className="text-xs text-zinc-500">
+          <p className="text-xs text-wk-ink3">
             참고할 수 있는 기본 제작 크기: {standard.width_mm}×{standard.height_mm}mm
           </p>
         )}
@@ -180,8 +180,8 @@ function EstimateBlock({ estimate }: { estimate: EstimateSummary }) {
   }
 
   return (
-    <div className="mb-6 rounded-xl border border-blue-500/30 bg-blue-500/5 p-5">
-      <div className="mb-3 flex items-center gap-2 text-blue-700">
+    <div className="mb-6 rounded-xl border border-wk-cta/30 bg-wk-blue/5 p-5">
+      <div className="mb-3 flex items-center gap-2 text-wk-ctaActive">
         <Layers size={18} />
         <span className="font-semibold">
           {classification === 'STANDARD_LAYOUT' ? '요청 크기에 가까운 기본 구성을 적용했습니다' : '큰 화면을 구역별로 나누어 구성합니다'}
@@ -189,12 +189,12 @@ function EstimateBlock({ estimate }: { estimate: EstimateSummary }) {
       </div>
 
       {price && (
-        <div className="mb-4 rounded-xl border border-blue-500/40 bg-blue-600/5 p-4 text-center">
-          <div className="text-[11px] uppercase tracking-wider text-zinc-500">예상 범위 견적 (설치비 포함)</div>
-          <div className="text-2xl font-bold text-blue-700">
+        <div className="mb-4 rounded-xl border border-wk-cta/40 bg-wk-cta/5 p-4 text-center">
+          <div className="text-caption uppercase tracking-wider text-wk-ink3">예상 범위 견적 (설치비 포함)</div>
+          <div className="text-2xl font-bold text-wk-ctaActive">
             약 {fmtMan(price.min)} ~ {fmtMan(price.max)}
           </div>
-          <div className="mt-1 text-[11px] text-zinc-500">
+          <div className="mt-1 text-caption text-wk-ink3">
             VAT 별도 · 현장 실측 후 확정되는 예상치이며 확정가가 아닙니다.
           </div>
         </div>
@@ -213,7 +213,7 @@ function EstimateBlock({ estimate }: { estimate: EstimateSummary }) {
       </div>
 
       {bom && (
-        <dl className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs text-zinc-600 sm:grid-cols-3">
+        <dl className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs text-wk-ink3 sm:grid-cols-3">
           <Row k="화면 유형"      v={familyLabel(bom.family_code)} />
           <Row k="화면 구성 단위" v={`${bom.cabinet_count}개`} />
           <Row k="표시 해상도"    v={`${bom.screen_px_w}×${bom.screen_px_h}화소`} />
@@ -225,7 +225,7 @@ function EstimateBlock({ estimate }: { estimate: EstimateSummary }) {
         </dl>
       )}
 
-      <p className="mt-3 border-t border-blue-500/20 pt-3 text-[11px] text-zinc-500">
+      <p className="mt-3 border-t border-wk-cta/20 pt-3 text-caption text-wk-ink3">
         {reasonLabel(classification_reasons[0])}
       </p>
     </div>
@@ -234,10 +234,10 @@ function EstimateBlock({ estimate }: { estimate: EstimateSummary }) {
 
 function SizeBox({ label, w, h, note, subtle }: { label: string; w: number; h: number; note?: string; subtle?: boolean }) {
   return (
-    <div className={`rounded-lg border p-3 ${subtle ? 'border-zinc-200 bg-white/40' : 'border-blue-500/30 bg-blue-500/10'}`}>
-      <div className="mb-1 text-[10px] uppercase tracking-wider text-zinc-500">{label}</div>
-      <div className="text-sm font-semibold text-zinc-800">{w} × {h} mm</div>
-      {note && <div className="mt-0.5 text-[10px] text-zinc-500">{note}</div>}
+    <div className={`rounded-lg border p-3 ${subtle ? 'border-wk-line bg-white/40' : 'border-wk-cta/30 bg-wk-blue/10'}`}>
+      <div className="mb-1 text-caption uppercase tracking-wider text-wk-ink3">{label}</div>
+      <div className="text-sm font-semibold text-wk-ink2">{w} × {h} mm</div>
+      {note && <div className="mt-0.5 text-caption text-wk-ink3">{note}</div>}
     </div>
   )
 }
@@ -245,8 +245,8 @@ function SizeBox({ label, w, h, note, subtle }: { label: string; w: number; h: n
 function Row({ k, v }: { k: string; v: string | number }) {
   return (
     <>
-      <dt className="text-zinc-500">{k}</dt>
-      <dd className="text-zinc-700">{v}</dd>
+      <dt className="text-wk-ink3">{k}</dt>
+      <dd className="text-wk-ink2">{v}</dd>
     </>
   )
 }

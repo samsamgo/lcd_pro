@@ -1,14 +1,17 @@
 import type { Metadata } from 'next'
 import { PublicHero } from '@/components/public/PublicHero'
 import { ProofRow } from '@/components/public/ProofRow'
-import { LightStatement } from '@/components/public/LightStatement'
-import { UseCaseBlock } from '@/components/public/UseCaseBlock'
+import { ScrollProgress } from '@/components/public/ScrollProgress'
+import { LedTicker } from '@/components/public/LedTicker'
+import { StatsBand } from '@/components/public/StatsBand'
+import { ScrollStatement } from '@/components/public/ScrollStatement'
+import { CinematicScene } from '@/components/home/CinematicScene'
 import { ScreenGallery } from '@/components/public/ScreenGallery'
+import { ProductShowcase } from '@/components/public/ProductShowcase'
+import { ProcessTimeline } from '@/components/public/ProcessTimeline'
 import { AfterService } from '@/components/public/AfterService'
-import { DocumentList } from '@/components/public/DocumentList'
-import { SecondaryMarkets } from '@/components/public/SecondaryMarkets'
-import { ContactBlock } from '@/components/public/ContactBlock'
 import { FaqSection } from '@/components/landing/FaqSection'
+import { CtaSection } from '@/components/landing/CtaSection'
 import { NavBar } from '@/components/NavBar'
 import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
@@ -55,52 +58,45 @@ export default function Home() {
       />
       <JsonLd id="ld-home-breadcrumb" data={breadcrumbLd([{ name: '홈', url: absoluteUrl('/') }])} />
 
+      <ScrollProgress />
       <NavBar />
       <main id="main">
         {/* 관공서 담당자가 확인하는 순서대로 배치한다.
             ① 무엇을 하는 회사인가 → ② 믿을 만한가 → ③ 우리 같은 데 쓰나
             → ④ 설치 후는 어떻게 되나 → ⑤ 서류는 있나 → ⑥ 어떻게 연락하나 */}
         <PublicHero />
+        <LedTicker items={[`민원실 대기번호`, `학교 급식·행사 안내`, `지자체 재난 문구`, `강당 행사 화면`, `옥외 전자현수막`, `층별 종합안내`]} />
+
+        {/* ── 라이트: 믿을 만한가 ── */}
         <ProofRow />
-        <LightStatement />
+        <StatsBand />
 
-        <UseCaseBlock
-          id="public-office"
-          grey
-          eyebrow="관공서 · 민원실"
-          title={<>대기번호부터<br />부서 안내까지</>}
-          body="창구 번호를 실시간으로 띄우고, 비는 시간에는 시정 공지를 내보냅니다. 조직 개편으로 부서 이름이 바뀌어도 안내판을 새로 제작할 일이 없습니다."
-          image="/cases/opt/case-04.jpg"
-          imageAlt="공공기관 로비에 설치된 캠페인 안내 LED 스탠드와 접수 창구"
-          tags={['실내 설치', '가까이서도 또렷한 글자', '담당자가 직접 수정']}
-          href="/industries/public-office"
-          cta="관공서 사례 보기"
-          imageRight
+        {/* 라이트 → 다크는 선이 아니라 그라디언트 다리로 잇는다 (벤치마크 §4.2) */}
+        <div
+          aria-hidden="true"
+          className="h-32 bg-gradient-to-b from-wk-bgFaint to-wk-night md:h-40"
         />
 
-        <UseCaseBlock
-          id="school"
-          eyebrow="학교 · 강당 · 전자현수막"
-          title={<>행사 때마다 새로<br />걸지 않아도 됩니다</>}
-          body="급식표, 행사 안내, 귀가 시간을 같은 화면에서 바꿉니다. 강당은 뒷자리에서도 읽혀야 하니 시청거리를 먼저 재고, 기존 현수막 걸이와 부딪히지 않는지도 확인합니다."
-          image="/cases/opt/case-17.jpg"
-          imageAlt="학교·기관 홀에 곡면으로 설치된 구역 안내 LED"
-          tags={['실내·옥외 모두', '밤에는 자동으로 어둡게', '옥외광고물 신고 지원']}
-          href="/industries/school"
-          cta="학교 사례 보기"
-          imageRight={false}
+        {/* ── 다크: 제품을 체험시키는 장 ── */}
+        <ScrollStatement
+          lead="Why"
+          text="안내는 매일 바뀌는데, 매번 새로 만드는 것은 인쇄물입니다."
+          tail="부서가 개편되면 시트지를 다시 뽑고, 행사가 잡히면 현수막을 새로 겁니다. 우강테크는 그 자리를 담당자가 직접 고칠 수 있는 화면으로 바꿉니다."
         />
+        <CinematicScene />
 
+        <div aria-hidden="true" className="h-32 bg-gradient-to-b from-wk-night to-white md:h-40" />
+
+        {/* ── 라이트: 무엇을 어떻게 받는가 ── */}
+        <ProductShowcase />
         <ScreenGallery />
+        <ProcessTimeline />
         <AfterService />
-        <DocumentList />
-
-        {/* 민간·소상공인은 제외하지 않고 2차 영역으로 남긴다 (요청자 지시) */}
-        <SecondaryMarkets />
-
         <FaqSection />
-        <ContactBlock />
-      </main>
+
+        {/* ── near-black 최종 전환 ── */}
+        <CtaSection />
+        </main>
       <Footer />
       <MobileCtaBar />
     </>

@@ -1,47 +1,58 @@
-'use client'
-
-import { motion } from 'framer-motion'
+import { Reveal, SplitText } from '@/components/motion'
 
 /**
- * 브랜드 매니페스토 — 거대 편집형 타이포 + 넉넉한 여백 (Apple 톤).
+ * 선언 섹션 — 회사 소개 한가운데의 다크 장면.
+ *
+ * 카피 규칙 — 실적을 지어내지 않는다. 동시에 **약점을 자진 신고하지도 않는다.**
+ * 묻지 않은 결점을 먼저 꺼내면 읽는 사람은 그 결점만 기억한다.
+ * 검증 가능한 사실 중에서 우리가 실제로 다르게 하는 것만 고른다.
+ *
+ * 라이트 → 다크 → 라이트 전환은 선이 아니라 그라디언트 다리로 잇는다.
  */
+const LINES = [
+  '실측 없이 확정가를 부르지 않습니다.',
+  '규격서 없이 견적서만 내밀지 않습니다.',
+  '설치하고 사라지지 않습니다.',
+]
+
 export function Manifesto() {
-  const words = '빛은, 대기업의 것이 아니다.'
   return (
-    <section className="bg-black px-6 py-32 sm:py-44">
-      <div className="mx-auto max-w-4xl text-center">
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6 }}
-          className="mb-8 text-sm font-medium uppercase tracking-[0.3em] text-cyan-400/80"
-        >
-          Our Belief
-        </motion.p>
-        <motion.h2
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          className="text-[clamp(2rem,5.5vw,4rem)] font-bold leading-[1.1] tracking-tight text-white"
-        >
-          {words}
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          className="mx-auto mt-10 max-w-2xl text-lg font-light leading-[1.9] text-zinc-400 sm:text-xl"
-        >
-          작은 카페의 창가에도, 골목 끝 헬스장에도, 오래된 식당의 간판에도
-          공간을 깨우는 빛이 필요합니다. 우리는 그 빛을 표준으로 만들어
-          누구나 가질 수 있게 했습니다. 복잡한 계산은 우리가,
-          사장님께는 <span className="text-zinc-200">사진 3장</span>과
-          <span className="text-zinc-200"> 살아나는 공간</span>만.
-        </motion.p>
-      </div>
-    </section>
+    <>
+      <div className="wk-bridge-down h-24 md:h-32" aria-hidden="true" />
+
+      <section className="wk-sec-xl wk-night" aria-label="우강테크의 원칙">
+        <div className="wk-wrap-read">
+          <Reveal y={0} duration={0.7}>
+            <p className="text-label font-semibold uppercase tracking-widest text-wk-nightMuted">
+              우리가 지키는 것
+            </p>
+          </Reveal>
+
+          <SplitText
+            as="h2"
+            text={LINES[0]}
+            className="wk-display mt-6 text-wk-nightInk"
+            delay={0.08}
+          />
+
+          <div className="mt-8 flex flex-col gap-4">
+            {LINES.slice(1).map((line, i) => (
+              <Reveal key={line} delay={0.12 + i * 0.1} y={18}>
+                <p className="wk-display text-wk-nightMuted">{line}</p>
+              </Reveal>
+            ))}
+          </div>
+
+          <Reveal delay={0.34} y={16}>
+            <p className="wk-lead mt-12 !text-wk-nightMuted">
+              이 사이트에 적힌 수치는 전부 근거가 있습니다.
+              필요하시면 그 근거 문서를 그대로 보내드립니다.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      <div className="wk-bridge-up h-24 md:h-32" aria-hidden="true" />
+    </>
   )
 }

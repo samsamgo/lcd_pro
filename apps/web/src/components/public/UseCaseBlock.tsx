@@ -9,6 +9,7 @@ export interface UseCaseBlockProps {
   body: string
   image: string
   imageAlt: string
+  generated?: boolean
   tags?: string[]
   href: string
   cta: string
@@ -29,6 +30,7 @@ export function UseCaseBlock({
   body,
   image,
   imageAlt,
+  generated,
   tags,
   href,
   cta,
