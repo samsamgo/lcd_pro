@@ -53,13 +53,13 @@ function familyLabel(code: string) {
 }
 
 function reasonLabel(reason?: string) {
-  if (!reason) return '요청하신 조건에 맞춰 기본 제작 구성을 적용했습니다.'
-  if (reason.includes('특수 구조:')) return '일반 직사각형이 아닌 형태여서 구조와 제작 방법을 별도로 검토해야 합니다.'
-  if (reason.includes('ZONE-A')) return '요청 크기가 기본 제작 범위를 넘어 별도 설계가 필요합니다.'
-  if (reason.includes('LAN 포트')) return '화면 제어 장비의 연결 수량을 추가로 검토해야 합니다.'
-  if (reason.includes('다중 컨트롤러')) return '여러 화면 제어 장비의 동기 작동을 설치 전에 확인해야 합니다.'
-  if (reason.includes('표준 레이아웃')) return '요청 크기에 맞는 기본 제작 구성을 적용했습니다.'
-  if (reason.includes('표준 존 반복')) return '큰 화면을 여러 구역으로 나누어 구성하며 설치 전 기술 검수를 진행합니다.'
+  if (!reason) return '보내주신 조건에 맞는 기본 구성으로 잡았습니다.'
+  if (reason.includes('특수 구조:')) return '직사각형이 아닌 형태라 프레임을 어떻게 짤지 따로 봐야 합니다.'
+  if (reason.includes('ZONE-A')) return '요청하신 크기가 표준 구성보다 커서 설계를 따로 잡아야 합니다.'
+  if (reason.includes('LAN 포트')) return '화면이 커서 제어 장비를 몇 대 물릴지 더 봐야 합니다.'
+  if (reason.includes('다중 컨트롤러')) return '제어 장비가 여러 대라 화면이 따로 놀지 않는지 설치 전에 맞춰 봐야 합니다.'
+  if (reason.includes('표준 레이아웃')) return '요청하신 크기에 맞는 기본 구성으로 잡았습니다.'
+  if (reason.includes('표준 존 반복')) return '화면이 커서 구역을 나눠 구성합니다. 설치 전에 기술 검수를 한 번 거칩니다.'
   return reason.replace('엔지니어링', '별도').replace('픽셀 피치', '화소 간격')
 }
 
@@ -78,10 +78,10 @@ export function QuoteSuccess({ estimate }: Props) {
       ? '범위 견적이 산출되었습니다'
       : '견적 요청이 접수되었습니다'
   const subtext = blocked
-    ? '요청하신 사양은 표준 자동 견적 범위를 벗어나, 별도 설계 상담으로 정밀 견적을 안내드립니다.'
+    ? '요청하신 사양은 자동 견적으로 계산되는 범위를 넘습니다. 담당자가 직접 보고 정확한 금액을 알려드리겠습니다.'
     : hasEstimate
       ? '아래는 예상 범위입니다. 정확한 금액은 현장을 보고 다시 알려드립니다.'
-      : '담당자가 입력 정보를 검토한 뒤, 예상 범위 견적과 현장 실측 일정을 안내드립니다.'
+      : '담당자가 보내주신 내용을 보고, 예상 범위와 실측 일정을 알려드리겠습니다.'
 
   return (
     <div className="glass rounded-2xl p-8">
