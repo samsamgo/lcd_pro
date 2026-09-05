@@ -55,14 +55,14 @@ export function SupportHero() {
 
           <Reveal y={18} delay={0.08}>
             <h1 id="support-h" className="wk-h1 max-w-[16em] text-white">
-              화면이 안 나오면 여기로 연락 주십시오
+              화면 고장, 우강테크가 책임집니다
             </h1>
           </Reveal>
 
           <Reveal y={16} delay={0.18}>
             <p className="wk-lead mt-6 !text-white/85">
-              증상과 화면 사진만 보내주시면 됩니다. 원격으로 먼저 확인한 뒤,
-              필요하면 부품을 챙겨 방문합니다.
+              증상과 화면 사진만 보내주시면 됩니다.
+              원격으로 먼저 확인하고, 필요하면 부품을 챙겨 방문합니다.
             </p>
           </Reveal>
 

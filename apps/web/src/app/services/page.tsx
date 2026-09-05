@@ -6,8 +6,6 @@ import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
 import { ServiceHero } from '@/components/services/ServiceHero'
 import { ProcessScroller } from '@/components/solution/ProcessScroller'
-import { ScopeTable } from '@/components/solution/ScopeTable'
-import { DocumentList } from '@/components/solution/DocumentList'
 import { CtaSection } from '@/components/landing/CtaSection'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { breadcrumbLd, serviceLd, howToLd } from '@/lib/seo/jsonld'
@@ -29,8 +27,6 @@ export const metadata: Metadata = buildMetadata({
  *"저희는 뭐든 다 합니다" 는 경쟁사가 그대로 복사할 수 있는 문장이다(안티패턴 2).
  * 이 페이지의 목적은 담당자가 **과업 범위와 일정을 결재 문서로 옮겨 쓸 수 있게** 하는 것이다.
  *   ① 6공정 각각에서 우리가 무엇을 하고 무엇을 내놓는가 (ProcessScroller)
- *   ② 어디까지가 우리 몫이고 어디부터가 기관 몫인가 (ScopeTable)
- *   ③ 결재에 붙일 서류가 무엇이고 언제 받는가 (DocumentList)
  *   ④ 그래서 지금 무엇을 보내면 되는가 (ServiceRequest)
  */
 export default function ServicesPage() {
@@ -81,26 +77,19 @@ export default function ServicesPage() {
           <ProcessScroller />
         </div>
 
-        {/* ② 우리 몫과 기관 몫의 경계 */}
-        <ScopeTable />
-
-        {/* ③ 결재에 붙일 서류 */}
-        <DocumentList />
-
-        {/* ④ 지금 무엇을 보내면 되는가 */}
         {/* A/S 접수 폼은 /support 한 곳에만 둔다. 같은 폼을 두 페이지에 두면
             어디로 접수해야 하는지 고객이 헷갈리고, 문의 경로도 갈린다. */}
         <section aria-labelledby="svc-after-h" className="wk-sec-sm bg-wk-bgFaint">
           <div className="wk-wrap text-center">
             <h2 id="svc-after-h" className="wk-h2 text-wk-ink">
-              설치 후에는
+              고장은 우강테크가 책임집니다
             </h2>
             <p className="wk-lead mx-auto mt-5">
-              고장 나면 원격으로 먼저 보고, 필요하면 가서 모듈만 갈아 끼웁니다.
-              처리 내역은 문서로 남겨 검수와 감사에 쓰실 수 있게 드립니다.
+              화면 전체를 뜯지 않습니다. 원격으로 원인을 먼저 잡고,
+              필요하면 가서 해당 모듈만 갈아 끼웁니다.
             </p>
             <Link href="/support" className="wk-btn-p mt-9 inline-flex">
-              A/S 접수하고 처리 절차 보기
+              A/S 접수하기
             </Link>
           </div>
         </section>

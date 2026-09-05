@@ -55,7 +55,7 @@ export function HeroSlider() {
       <div className="relative z-20 w-full pb-24 pt-36 md:pb-28 md:pt-44">
         <div className="wk-wrap">
           <Reveal y={0} duration={0.6}>
-            <p className="wk-eyebrow !text-white/70">관공서 · 학교 LED 전광판</p>
+            <p className="wk-eyebrow !text-white/70">LED 전광판 · 전자현수막</p>
           </Reveal>
 
           <SplitText

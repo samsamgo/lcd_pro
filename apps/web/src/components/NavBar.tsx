@@ -50,9 +50,9 @@ const NAV: NavGroup[] = [
     label: '공급 범위',
     href: '/services',
     children: [
-      { label: '6공정', desc: '실측부터 사후관리까지', href: '/services#process', icon: Wrench },
-      { label: '우리 몫과 기관 몫', desc: '예산 범위를 가르는 경계', href: '/services#scope', icon: Layers },
-      { label: '제출 서류', desc: '결재에 붙일 문서와 시점', href: '/services#documents', icon: HelpCircle },
+      { label: '설치 공정', desc: '실측부터 사후관리까지 여섯 단계', href: '/services#process', icon: Wrench },
+      { label: 'A/S', desc: '고장 접수와 모듈 교체', href: '/support', icon: Layers },
+      { label: '자주 묻는 질문', desc: '예산·계약·전기·보증', href: '/faq', icon: HelpCircle },
     ],
   },
   {

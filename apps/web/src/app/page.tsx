@@ -19,9 +19,9 @@ import { SITE, absoluteUrl, buildMetadata } from '@/lib/seo/site'
 import { PRICE_RANGE_SCHEMA } from '@/lib/pricing'
 
 export const metadata: Metadata = buildMetadata({
-  title: `${SITE.nameKo} | 관공서·학교 LED 전광판 · 전자현수막`,
+  title: `${SITE.nameKo} | LED 전광판 · 전자현수막 설계·제작·시공`,
   description:
-    '관공서·공공기관·학교 LED 전광판과 전자현수막. 견적서만 드리지 않고 규격서와 설치 도면, 인증이 어디까지 됐는지까지 적어서 같이 보내드립니다. 설계·제작·시공·A/S 직접 수행.',
+    'LED 전광판과 전자현수막을 설계·제작·시공하고 A/S까지 직접 합니다. 실내 안내판부터 옥외 전자현수막까지, 관공서·학교·상업시설 현장에 맞춰 규격을 잡아 드립니다.',
   path: '/',
 })
 
@@ -33,7 +33,7 @@ export default function Home() {
         data={serviceLd({
           name: 'LED 전광판·전자현수막 설계·제작·시공·유지보수',
           description:
-            '관공서·공공기관·학교 LED 전광판과 전자현수막. 실측과 설계, 제작, 시공, A/S까지 한 곳에서 합니다.',
+            'LED 전광판과 전자현수막. 실측과 설계, 제작, 시공, A/S까지 한 곳에서 합니다.',
           serviceType: 'LED 전광판 · 전자현수막',
           priceRange: PRICE_RANGE_SCHEMA,
           url: absoluteUrl('/'),
@@ -42,7 +42,7 @@ export default function Home() {
       <JsonLd
         id="ld-home-howto"
         data={howToLd({
-          name: '관공서·학교 LED 전광판 도입 절차',
+          name: 'LED 전광판 도입 절차',
           description:
             '설치 장소와 규모 확인부터 현장 실측, 제작·시공, 담당자 교육과 A/S까지의 절차.',
           totalTime: 'P30D',
