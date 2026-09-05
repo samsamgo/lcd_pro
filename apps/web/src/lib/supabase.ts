@@ -4,7 +4,7 @@ import type { Database } from '@lcd-pro/db'
 /**
  * Lazy Supabase 클라이언트.
  *
- * MVP 모드(features.quotePersistence/billing OFF)에서는 이 모듈을 임포트해도
+ * MVP 모드(features.quotePersistence OFF)에서는 이 모듈을 임포트해도
  * env 누락으로 throw 하지 않는다. 클라이언트는 실제 호출 시점에만 생성된다.
  * (이전: 모듈 로드 시 process.env...! 평가로 throw)
  */
@@ -13,7 +13,7 @@ function requireEnv(name: string): string {
   const v = process.env[name]
   if (!v) {
     throw new Error(
-      `[supabase] 환경변수 ${name} 누락 — quotePersistence/billing 플래그를 켰다면 .env 설정 필요`,
+      `[supabase] 환경변수 ${name} 누락 — quotePersistence 플래그를 켰다면 .env 설정 필요`,
     )
   }
   return v

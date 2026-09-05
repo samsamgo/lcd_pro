@@ -26,24 +26,20 @@ async function searchCustomers(q?: string) {
 
 async function getStatsByCustomer(customerIds: string[]) {
   if (customerIds.length === 0) return {}
-  const [quotesRes, projectsRes, subsRes] = await Promise.all([
+  const [quotesRes, projectsRes] = await Promise.all([
     adminDb.from('quotes').select('customer_id').in('customer_id', customerIds),
     adminDb.from('projects').select('customer_id, status').in('customer_id', customerIds),
-    adminDb.from('subscriptions').select('customer_id, status').in('customer_id', customerIds),
   ])
 
-  const stats: Record<string, { quotes: number; projects: number; activeSubs: number }> = {}
+  const stats: Record<string, { quotes: number; projects: number }> = {}
   for (const id of customerIds) {
-    stats[id] = { quotes: 0, projects: 0, activeSubs: 0 }
+    stats[id] = { quotes: 0, projects: 0 }
   }
   for (const q of quotesRes.data ?? []) {
     if (q.customer_id) stats[q.customer_id].quotes += 1
   }
   for (const p of projectsRes.data ?? []) {
     if (p.customer_id) stats[p.customer_id].projects += 1
-  }
-  for (const s of subsRes.data ?? []) {
-    if (s.customer_id && s.status === 'active') stats[s.customer_id].activeSubs += 1
   }
   return stats
 }

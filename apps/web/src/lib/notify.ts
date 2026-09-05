@@ -231,3 +231,121 @@ export async function notifyLeadWebhook(data: LeadWebhookData): Promise<{ succes
     return { success: false }
   }
 }
+
+// ─── 카카오워크 봇 알림 ──────────────────────────────────────────
+/**
+ * 견적 문의가 들어오면 카카오워크로 바로 보낸다.
+ *
+ * 왜 이 경로가 필요한가 —
+ * 지금까지는 문의가 Supabase 에 저장만 되고 아무도 알림을 받지 못했다.
+ * 사장이 DB 를 직접 열어보지 않으면 문의가 온 줄 몰랐다는 뜻이다.
+ * 리드는 시간이 생명이라 저장보다 알림이 먼저다.
+ *
+ * conversation_id 대신 send_by_email 을 쓴다. 봇이 대화방을 먼저 만들어 두지 않아도
+ * 워크스페이스 멤버 이메일만 알면 개인 대화로 도착한다.
+ *
+ * 설정: KAKAOWORK_BOT_KEY, KAKAOWORK_ADMIN_EMAIL (apps/web/.env.local)
+ */
+export async function notifyKakaoWork(data: LeadWebhookData): Promise<{ success: boolean; reason?: string }> {
+  const key = process.env.KAKAOWORK_BOT_KEY
+  const email = process.env.KAKAOWORK_ADMIN_EMAIL
+  if (!key || !email) return { success: false, reason: '설정 없음' }
+
+  const urgencyLabel: Record<string, string> = {
+    low: '여유', normal: '보통', high: '빠름', urgent: '긴급',
+  }
+  const fmtMan = (won: number) => `${Math.round(won / 10_000).toLocaleString()}만원`
+  const price =
+    data.priceMin && data.priceMax
+      ? `약 ${fmtMan(data.priceMin)} ~ ${fmtMan(data.priceMax)} (VAT 별도)`
+      : '실측 후 산출'
+
+  const text = `신규 견적 문의 · ${data.businessName}`
+
+  try {
+    const res = await fetch('https://api.kakaowork.com/v1/messages.send_by_email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${key}` },
+      body: JSON.stringify({
+        email,
+        text,
+        blocks: [
+          { type: 'header', text: '신규 견적 문의', style: 'blue' },
+          {
+            type: 'description',
+            term: '기관 · 업체',
+            content: { type: 'text', text: data.businessName, markdown: false },
+            accent: true,
+          },
+          {
+            type: 'description',
+            term: '담당자',
+            content: { type: 'text', text: `${data.contactName} · ${data.phone}`, markdown: false },
+            accent: true,
+          },
+          {
+            type: 'description',
+            term: '설치 지역',
+            content: {
+              type: 'text',
+              text: `${data.region} · ${data.environment === 'indoor' ? '실내' : '옥외'}`,
+              markdown: false,
+            },
+            accent: true,
+          },
+          {
+            type: 'description',
+            term: '긴급도',
+            content: { type: 'text', text: urgencyLabel[data.urgency] ?? data.urgency, markdown: false },
+            accent: true,
+          },
+          {
+            type: 'description',
+            term: '예상 범위',
+            content: { type: 'text', text: price, markdown: false },
+            accent: true,
+          },
+          ...(data.purpose
+            ? [{
+                type: 'text' as const,
+                text: `용도: ${data.purpose}`,
+                markdown: false,
+              }]
+            : []),
+          { type: 'divider' },
+          {
+            type: 'action',
+            elements: [
+              {
+                type: 'button',
+                text: '전화 걸기',
+                style: 'default',
+                action_type: 'call',
+                value: data.phone.replace(/-/g, ''),
+              },
+            ],
+          },
+        ],
+      }),
+    })
+    const json = (await res.json()) as { success?: boolean; error?: { message?: string } }
+    return json.success ? { success: true } : { success: false, reason: json.error?.message ?? '전송 실패' }
+  } catch (e) {
+    return { success: false, reason: e instanceof Error ? e.message : '네트워크 오류' }
+  }
+}
+
+
+// ─── 리드 알림 통합 진입점 ──────────────────────────────────────
+/**
+ * 설정된 알림 경로를 전부 시도한다.
+ * 경로가 하나뿐이면 그게 막히는 순간 리드가 통째로 사라지기 때문에
+ * 카카오워크와 범용 웹훅을 병렬로 보내고, 하나라도 성공하면 성공으로 본다.
+ */
+export async function notifyLead(data: LeadWebhookData): Promise<{ success: boolean; channels: string[] }> {
+  const [kw, hook] = await Promise.allSettled([notifyKakaoWork(data), notifyLeadWebhook(data)])
+  const channels: string[] = []
+  if (kw.status === 'fulfilled' && kw.value.success) channels.push('kakaowork')
+  if (hook.status === 'fulfilled' && hook.value.success) channels.push('webhook')
+  return { success: channels.length > 0, channels }
+}

@@ -1,7 +1,7 @@
-# 기능 플래그 & 복원 로드맵 (MVP 다운그레이드)
+# 기능 플래그
 
-이 웹앱은 **외부 서비스 0으로도 완벽 동작하는 마케팅 + 견적 사이트**로 다운그레이드되어 있다.
-고급 기능은 **삭제하지 않고** 기능 플래그(default OFF) 뒤에 잠가 두었다. 플래그만 켜고 env를 채우면 복원된다.
+이 웹앱은 **외부 서비스 0으로도 동작하는 마케팅 + 견적 사이트**다.
+견적 저장과 알림은 기능 플래그로 제어한다.
 
 - 플래그 정의: [`src/lib/features.ts`](src/lib/features.ts)
 - env 문서: [`.env.example`](.env.example)
@@ -13,9 +13,9 @@
   (`#services`/`#how`/`#products`/`#packages`/`#faq`). NavBar는 앵커 스무스 스크롤.
 - `/services` 라우트는 `/#services`로 redirect (파일 보존). 과거 상세 UI 컴포넌트
   (`ServicesInteractive`, `DetailModal`, `services-data`)는 복원 여지로 파일만 잔존(미렌더).
-- `/blog`(글 목록·상세), `/quote`(폼), `/faq`(전체 FAQ), `/about`, `/privacy`는 라우트 유지.
+- `/quote`(폼), `/faq`(전체 FAQ), `/about`, `/privacy`, `/industries`는 라우트 유지.
 - 카카오 채널/문의 전부 제거. 연락수단 = 전화(실제 번호 확정 시) + 견적 폼.
-- 원격 콘텐츠 관리(CMS) 구독은 "준비중"으로 표기 — 월 구독가 미표기.
+- 원격 콘텐츠 관리(CMS)는 설치 후 운영 지원 범위로 안내한다.
 
 ## 보류(향후) 항목 — 기록만, 미구현
 
@@ -25,7 +25,7 @@
 
 ## MVP 모드에서 동작하는 것 (외부 의존 없음)
 
-- 페이지: `/` (랜딩, 단일 페이지 통합), `/about`, `/blog`, `/blog/[slug]`, `/faq`, `/privacy`, `/quote`
+- 페이지: `/` (랜딩, 단일 페이지 통합), `/about`, `/faq`, `/privacy`, `/quote`, `/industries`, `/industries/[slug]`
 - **견적 폼 → 즉석 화면 견적**: `/quote` 제출 시 순수 로컬 견적엔진(`src/lib/standardBlock.ts`의 `estimateProject`)만 실행 → 결과를 화면에 표시. DB·알림 없이 완전 동작 (`quoteId: null`).
 - SEO/메타: sitemap, robots, llms.txt, opengraph-image, JSON-LD
 
@@ -35,7 +35,6 @@
 |---|---|---|---|---|
 | **quotePersistence** | 견적 폼 제출분을 Supabase에 저장 (고객 upsert, quote insert, 현장사진 Storage 업로드) | `NEXT_PUBLIC_FEAT_QUOTE_PERSISTENCE=on` + Supabase env | `src/lib/features.ts`, `src/app/api/quotes/route.ts`, `src/lib/supabase.ts` | 견적 계산만 하고 결과 반환, DB 미저장 (`quoteId:null`) |
 | **notifications** | 신규 견적 시 카카오 알림톡 / 알리고 SMS / Slack 알림 발송 | `FEAT_NOTIFICATIONS=on` + 알림 env (quotePersistence도 on이어야 의미 있음) | `src/lib/features.ts`, `src/app/api/quotes/route.ts`, `src/lib/notify.ts` | 알림 호출 자체를 건너뜀 (env 없으면 원래도 no-op) |
-| **billing** | 구독·정기결제(Toss): 구독 시작/취소 페이지, billing API, 매일 청구 Cron | `NEXT_PUBLIC_FEAT_BILLING=on` + Supabase + Toss env | `src/lib/features.ts`, `src/app/subscribe/**`, `src/app/account/subscription/**`, `src/app/api/billing/**`, `src/app/api/cron/billing/route.ts`, `src/lib/toss.ts` | 구독/계정 페이지는 `/`로 redirect, billing/cron API는 `404` |
 
 ## 복원 절차
 
@@ -52,13 +51,6 @@
 2. `.env.local`에 알림 env(아래 중 가능한 채널): `ADMIN_SLACK_WEBHOOK`, `ADMIN_PHONE`, `ALIGO_API_KEY`/`ALIGO_USER_ID`/`ALIGO_SENDER_NUMBER`, (선택) `KAKAO_BIZTALK_API_KEY`/`KAKAO_BIZTALK_SENDER_KEY`.
 3. `FEAT_NOTIFICATIONS=on`.
 
-### 3) 구독·결제 (billing)
-1. Supabase + Toss 준비.
-2. `.env.local`에 `NEXT_PUBLIC_TOSS_CLIENT_KEY`, `TOSS_SECRET_KEY`, `TOSS_WEBHOOK_SECRET`, `CRON_SECRET` 및 Supabase env.
-3. `NEXT_PUBLIC_FEAT_BILLING=on`.
-4. 네비/푸터에 구독 링크를 다시 노출하려면 `src/components/NavBar.tsx` / `Footer.tsx`에 링크 추가 (현재 MVP에서는 노출 안 함).
-5. Vercel Cron(`/api/cron/billing`) 스케줄 등록.
-
 ## 새 기능 잠그는 법 (확장 여지)
 
 새로 외부 의존이 생기는 기능을 추가할 때:
@@ -69,5 +61,5 @@
 ## 참고: 테마 / 이미지 / 외부명칭
 
 - **테마**: 라이트(흰색) 테마. 토큰은 `src/app/globals.css`(CSS 변수 + `.glass`/`.input-base`/`.glow`)에서 관리.
-- **이미지**: 전부 `public/curated/` 로컬 스톡 사진. AI 생성 이미지 미사용. 외부 원격 이미지 URL 없음.
+- **이미지**: 업종 페이지는 `public/cases/`의 현장 사진을 사용한다. 외부 원격 이미지 URL 없음.
 - **외부 명칭**: 공개 UI에 제3자(예: TRL) 명칭·로고·제휴 암시 없음. 스펙/수치 등 내용만 일반 표현으로 표기.

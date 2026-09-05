@@ -22,8 +22,8 @@ export function Step4Budget() {
     <div className="space-y-5">
       {/* 예산 */}
       <div>
-        <label className="mb-2.5 block text-sm font-semibold text-zinc-800">
-          예상 예산 범위 <span className="text-zinc-500 text-xs font-normal">(선택)</span>
+        <label className="mb-2.5 block text-sm font-semibold text-wk-ink2">
+          예상 예산 범위 <span className="text-wk-ink3 text-xs font-normal">(선택)</span>
         </label>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
           {BUDGET_OPTIONS.map((o) => (
@@ -33,8 +33,8 @@ export function Step4Budget() {
               onClick={() => setValue('budgetRange', o.value)}
               className={`rounded-xl border px-3 py-2.5 text-xs font-medium transition-all ${
                 budget === o.value
-                  ? 'border-blue-500 bg-blue-600/20 text-blue-700'
-                  : 'border-zinc-200 bg-white text-zinc-600 hover:border-zinc-400'
+                  ? 'border-wk-cta bg-wk-cta/20 text-wk-ctaActive'
+                  : 'border-wk-line bg-white text-wk-ink3 hover:border-wk-line2'
               }`}
             >
               {o.label}
@@ -69,18 +69,18 @@ export function Step4Budget() {
         <input
           type="checkbox"
           {...register('agreePrivacy')}
-          className="mt-0.5 h-4 w-4 rounded border-zinc-300 bg-white text-blue-600 accent-blue-600"
+          className="mt-0.5 h-4 w-4 rounded border-wk-line2 bg-white text-wk-cta accent-wk-cta"
         />
-        <span className="text-sm text-zinc-600">
+        <span className="text-sm text-wk-ink3">
           견적 발송을 위한{' '}
-          <a href="/privacy" target="_blank" rel="noopener noreferrer" className="underline text-blue-600 hover:text-blue-700">
+          <a href="/privacy" target="_blank" rel="noopener noreferrer" className="underline text-wk-cta hover:text-wk-ctaActive">
             개인정보 수집 및 이용
           </a>
           에 동의합니다. (필수)
         </span>
       </label>
       {errors.agreePrivacy && (
-        <p className="text-xs text-red-600">{errors.agreePrivacy.message}</p>
+        <p className="text-xs text-wk-bad">{errors.agreePrivacy.message}</p>
       )}
     </div>
   )

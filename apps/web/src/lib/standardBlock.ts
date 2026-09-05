@@ -261,6 +261,9 @@ export function computeBOM(
   needs_live_input = false,
 ): BOM {
   const F = FAMILIES[family_code]
+  if (!F) {
+    throw new Error(`지원하지 않는 family_code입니다: ${family_code}`)
+  }
   const cabs = layout.cabinet_count
   const modules = cabs * MODULES_PER_CABINET
   const spare = Math.ceil(modules * (SPARE_RATE[packageTier] ?? 0.05))

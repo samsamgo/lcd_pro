@@ -8,7 +8,6 @@ export type DeviceRow = {
   id: string
   created_at: string
   project_id: string
-  subscription_id: string | null
   device_code: string
   product_id: string
   status: 'online' | 'offline' | 'error' | 'maintenance'
@@ -29,7 +28,7 @@ async function fetchDevices(): Promise<DeviceRow[]> {
     const { data, error } = await adminDb
       .from('devices')
       .select(`
-        id, created_at, project_id, subscription_id, device_code, product_id,
+        id, created_at, project_id, device_code, product_id,
         status, last_seen_at, ip_address, location_name, timezone,
         firmware_version, health_score,
         products (sku, display_name),

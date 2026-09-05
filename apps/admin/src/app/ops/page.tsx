@@ -43,16 +43,16 @@ const STRUCTURE: Track[] = [
     depts: [
       { name: '07 디자인·브랜딩', fn: '브랜드·카피', status: 'done', label: '✅ 95%', progress: 95, doing: '우강테크/WK Tech 브랜드·워드마크·톤 확정(DECISION-FINAL)', dir: 'T2-market/07-design-branding' },
       { name: '06 고객·CS', fn: 'AS·카카오', status: 'prog', label: '🟡 80%', progress: 80, doing: 'CS·AS SOP·FAQ 완료 / AS SLA v2 ORDER 재발의 대기', dir: 'T2-market/06-customer-cs' },
-      { name: '03 마케팅·영업', fn: 'SEO·외주', status: 'hold', label: '⏸ 50%', progress: 50, doing: '유료광고 중단 · 블로그/SEO·AEO 우선 ORDER 재발의 대기', dir: 'T2-market/03-marketing-sales' },
+      { name: '03 마케팅·영업', fn: 'SEO·외주', status: 'hold', label: '⏸ 50%', progress: 50, doing: '유료광고 중단 · 공공기관 제안·SEO·AEO 우선 ORDER 재발의 대기', dir: 'T2-market/03-marketing-sales' },
     ],
   },
   {
     name: 'T3 · 소프트웨어',
-    role: 'lcd_pro 웹 · 관리자 · 견적 · 결제 · CMS · 모니터링',
+    role: 'lcd_pro 웹 · 관리자 · 견적 · CMS · 모니터링',
     dot: 'bg-sky-300',
     depts: [
       { name: '01 웹개발 · MVP1', fn: '랜딩·문의·견적', status: 'done', label: '✅ 100%', progress: 100, doing: '랜딩 9섹션 + 견적 마법사 + 카카오/SMS 알림 — 구현 완료', dir: 'T3-software/01-web-development' },
-      { name: '01 웹개발 · MVP2', fn: '관리자·결제', status: 'done', label: '✅ 90%', progress: 90, doing: '견적·파트너·프로젝트 관리 + Toss 정기결제 풀스택' },
+      { name: '01 웹개발 · MVP2', fn: '관리자', status: 'done', label: '✅ 90%', progress: 90, doing: '견적·파트너·프로젝트 관리 화면' },
       { name: '01 웹개발 · MVP3 + 배포', fn: 'CMS·라이브', status: 'gap', label: '🔴 35%', progress: 35, doing: 'CMS 설계만 완료 · Supabase prod 미실행 · 라이브 미배포' },
     ],
   },
@@ -72,7 +72,7 @@ const STRUCTURE: Track[] = [
 const KPIS = [
   { v: '₩0', l: '자체 매출', zero: true },
   { v: '0건', l: '자체 명의 시공', zero: true },
-  { v: '0', l: '유료 구독(MRR)', zero: true },
+  { v: '0건', l: '공공기관 계약', zero: true },
   { v: '미배포', l: '라이브 서비스', zero: true },
   { v: '4종', l: 'KC 인증 모델', zero: false },
   { v: '4건', l: '실증 케이스(인계)', zero: false },
@@ -97,7 +97,7 @@ const PANELS = [
       ['권리', '자산 상당수 TRL 인계분 — 자체실적 0건'],
       ['매출', '시장 검증 0 — "만들고 안 판" 상태'],
       ['공급망', '검증 직거래 다롄 1곳 편중(RMA 4개월)'],
-      ['미점화', 'Supabase prod + Toss MID 미승인'],
+      ['미점화', 'Supabase 운영 DB 미실행'],
     ],
   },
   {
@@ -159,8 +159,8 @@ export default function OpsPage() {
       {/* dual gauge */}
       <div className="mb-6 grid gap-3 lg:grid-cols-2">
         <Gauge name="내부 준비도 (제품·SW·인증·자산)" pct={80} color="from-emerald-400 to-teal-300" tone="text-emerald-300"
-          note="표준·견적·관리자·결제·인증·재고 대부분 확보. '쏠 준비는 된' 상태." />
-        <Gauge name="시장 실행도 (배포·매출·외주·구독)" pct={5} color="from-red-400 to-amber-300" tone="text-red-300"
+          note="표준·견적·관리자·인증·재고 대부분 확보. '쏠 준비는 된' 상태." />
+        <Gauge name="시장 실행도 (배포·매출·외주·계약)" pct={5} color="from-red-400 to-amber-300" tone="text-red-300"
           note="아직 첫 발 미발사 — DB 실행·배포·첫 외주 수주가 남은 핵심 게이트." />
       </div>
 

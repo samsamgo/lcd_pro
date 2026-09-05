@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Search, Phone, MapPin, Briefcase, FileText, CreditCard } from 'lucide-react'
+import { Search, Phone, MapPin, Briefcase, FileText } from 'lucide-react'
 
 type Customer = {
   id: string
@@ -24,6 +24,8 @@ const BUSINESS_TYPE_LABEL: Record<string, string> = {
   retail: '소매',
   academy: '학원',
   hospital: '병원',
+  school: '학교',
+  government: '관공서·공공기관',
   beauty: '미용',
   pharmacy: '약국',
   car_wash: '세차장',
@@ -33,7 +35,7 @@ const BUSINESS_TYPE_LABEL: Record<string, string> = {
 
 interface Props {
   initialCustomers: Customer[]
-  stats: Record<string, { quotes: number; projects: number; activeSubs: number }>
+  stats: Record<string, { quotes: number; projects: number }>
   initialQuery: string
 }
 
@@ -134,9 +136,6 @@ export function CustomersClient({ initialCustomers, stats, initialQuery }: Props
                         </span>
                         <span className="flex items-center gap-1 text-blue-400" title="프로젝트 수">
                           <Briefcase size={11} /> {s.projects}
-                        </span>
-                        <span className="flex items-center gap-1 text-emerald-400" title="활성 구독">
-                          <CreditCard size={11} /> {s.activeSubs}
                         </span>
                       </div>
                     </td>

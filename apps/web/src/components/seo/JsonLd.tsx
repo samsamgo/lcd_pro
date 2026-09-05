@@ -1,6 +1,6 @@
 /**
  * Server Component 안에서 임의 JSON-LD를 inline 삽입.
- * - script type="application/ld+json" 표준 형식
+ * - script type= "application/ld+json" 표준 형식
  * - 다중 스키마는 여러 JsonLd 호출로 누적
  */
 import React from 'react'

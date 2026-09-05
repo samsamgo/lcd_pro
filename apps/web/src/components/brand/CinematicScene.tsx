@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import type { ReactNode } from 'react'
+import { EASE } from '@/components/motion'
 
 export interface CinematicSceneProps {
   eyebrow: string
@@ -12,6 +13,7 @@ export interface CinematicSceneProps {
   body: ReactNode
   image: string
   imageAlt: string
+  generated?: boolean
   /** 'fullbleed' = 배경 이미지 위 텍스트(BMW) · 'split' = 좌우 분할(Apple) */
   layout?: 'fullbleed' | 'split'
   /** split 일 때 이미지 위치 */
@@ -30,6 +32,7 @@ export function CinematicScene({
   body,
   image,
   imageAlt,
+  generated,
   layout = 'split',
   imageSide = 'right',
   theme = 'light',
@@ -64,20 +67,20 @@ export function CinematicScene({
             initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.9, ease: EASE.entrance }}
             className={align === 'center' ? 'mx-auto max-w-3xl' : 'max-w-2xl'}
           >
             <p className="mb-4 text-sm font-medium uppercase tracking-[0.25em] text-cyan-300">{eyebrow}</p>
             <h2 className="text-[clamp(2.25rem,6vw,4.5rem)] font-bold leading-[1.02] tracking-tight text-white">
               {title}
             </h2>
-            <p className="mt-6 max-w-xl text-lg font-light leading-relaxed text-zinc-300">{body}</p>
+            <p className="mt-6 max-w-xl text-lg font-light leading-relaxed text-wk-ink4">{body}</p>
             {stats && (
               <div className={`mt-10 flex flex-wrap gap-x-12 gap-y-6 ${align === 'center' ? 'justify-center' : ''}`}>
                 {stats.map((s) => (
                   <div key={s.label}>
                     <p className="text-3xl font-extrabold text-white sm:text-4xl">{s.value}</p>
-                    <p className="mt-1 text-sm text-zinc-400">{s.label}</p>
+                    <p className="mt-1 text-sm text-wk-ink4">{s.label}</p>
                   </div>
                 ))}
               </div>
@@ -99,30 +102,30 @@ export function CinematicScene({
 
   // split
   return (
-    <section className={dark ? 'bg-zinc-950 py-24 sm:py-32' : 'bg-white py-24 sm:py-32'}>
+    <section className={dark ? 'bg-wk-night py-24 sm:py-32' : 'bg-white py-24 sm:py-32'}>
       <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 lg:grid-cols-2 lg:gap-16">
         <motion.div
           initial={{ opacity: 0, x: imageSide === 'right' ? -30 : 30 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.8, ease: EASE.entrance }}
           className={imageSide === 'right' ? 'lg:order-1' : 'lg:order-2'}
         >
-          <p className={`mb-4 text-sm font-semibold uppercase tracking-[0.2em] ${dark ? 'text-cyan-400' : 'text-blue-600'}`}>
+          <p className={`mb-4 text-sm font-semibold uppercase tracking-[0.2em] ${dark ? 'text-cyan-400' : 'text-wk-cta'}`}>
             {eyebrow}
           </p>
-          <h2 className={`text-[clamp(2rem,4.5vw,3.4rem)] font-bold leading-[1.08] tracking-tight ${dark ? 'text-white' : 'text-zinc-900'}`}>
+          <h2 className={`text-[clamp(2rem,4.5vw,3.4rem)] font-bold leading-[1.08] tracking-tight ${dark ? 'text-white' : 'text-wk-ink'}`}>
             {title}
           </h2>
-          <p className={`mt-6 text-lg font-light leading-relaxed ${dark ? 'text-zinc-400' : 'text-zinc-600'}`}>
+          <p className={`mt-6 text-lg font-light leading-relaxed ${dark ? 'text-wk-ink4' : 'text-wk-ink3'}`}>
             {body}
           </p>
           {stats && (
             <div className="mt-8 flex flex-wrap gap-x-10 gap-y-5">
               {stats.map((s) => (
                 <div key={s.label}>
-                  <p className={`text-3xl font-extrabold ${dark ? 'text-white' : 'text-zinc-900'}`}>{s.value}</p>
-                  <p className={`mt-0.5 text-sm ${dark ? 'text-zinc-500' : 'text-zinc-500'}`}>{s.label}</p>
+                  <p className={`text-3xl font-extrabold ${dark ? 'text-white' : 'text-wk-ink'}`}>{s.value}</p>
+                  <p className={`mt-0.5 text-sm ${dark ? 'text-wk-ink3' : 'text-wk-ink3'}`}>{s.label}</p>
                 </div>
               ))}
             </div>
@@ -130,7 +133,7 @@ export function CinematicScene({
           {href && cta && (
             <Link
               href={href}
-              className={`group mt-9 inline-flex items-center gap-1.5 text-base font-semibold ${dark ? 'text-cyan-400 hover:text-cyan-300' : 'text-blue-600 hover:text-blue-500'}`}
+              className={`group mt-9 inline-flex items-center gap-1.5 text-base font-semibold ${dark ? 'text-cyan-400 hover:text-cyan-300' : 'text-wk-cta hover:text-wk-cta'}`}
             >
               {cta}
               <ArrowRight size={17} className="transition-transform group-hover:translate-x-1" />
@@ -142,7 +145,7 @@ export function CinematicScene({
           initial={{ opacity: 0, scale: 0.96 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.9, ease: EASE.entrance }}
           className={`relative overflow-hidden rounded-3xl shadow-2xl ${imageSide === 'right' ? 'lg:order-2' : 'lg:order-1'}`}
         >
           <div className="relative aspect-[4/3]">

@@ -23,8 +23,8 @@ export function Step2InstallInfo() {
     <div className="space-y-5">
       {/* 실내/옥외 */}
       <div>
-        <label className="mb-2.5 block text-sm font-semibold text-zinc-800">
-          설치 환경 <span className="text-blue-600">*</span>
+        <label className="mb-2.5 block text-sm font-semibold text-wk-ink2">
+          설치 환경 <span className="text-wk-cta">*</span>
         </label>
         <div className="grid grid-cols-2 gap-3">
           {(['indoor', 'outdoor'] as const).map((e) => (
@@ -34,26 +34,26 @@ export function Step2InstallInfo() {
               onClick={() => setValue('environment', e)}
               className={`rounded-xl border py-4 text-sm font-semibold transition-all ${
                 env === e
-                  ? 'border-blue-500 bg-blue-600/20 text-blue-700'
-                  : 'border-zinc-200 bg-white text-zinc-600 hover:border-zinc-400'
+                  ? 'border-wk-cta bg-wk-cta/20 text-wk-ctaActive'
+                  : 'border-wk-line bg-white text-wk-ink3 hover:border-wk-line2'
               }`}
             >
               {e === 'indoor' ? '실내' : '옥외'}
-              <span className="ml-2 text-xs font-normal text-zinc-500">
-                {e === 'indoor' ? '(P2.5~P4)' : '(P4~P6)'}
+              <span className="ml-2 text-xs font-normal text-wk-ink3">
+                {e === 'indoor' ? '(건물 안)' : '(건물 밖)'}
               </span>
             </button>
           ))}
         </div>
         {errors.environment && (
-          <p className="mt-1.5 text-xs text-red-600">{errors.environment.message}</p>
+          <p className="mt-1.5 text-xs text-wk-bad">{errors.environment.message}</p>
         )}
       </div>
 
       {/* 크기 */}
       <div>
-        <label className="mb-2.5 block text-sm font-semibold text-zinc-800">
-          희망 크기 <span className="text-zinc-500 text-xs font-normal">(대략적인 수치도 괜찮아요)</span>
+        <label className="mb-2.5 block text-sm font-semibold text-wk-ink2">
+          희망 크기 <span className="text-wk-ink3 text-xs font-normal">(대략적인 수치도 괜찮아요)</span>
         </label>
         <div className="flex items-center gap-2">
           <input
@@ -61,7 +61,7 @@ export function Step2InstallInfo() {
             placeholder="가로 (cm)"
             className="input-base w-full"
           />
-          <span className="shrink-0 text-zinc-500">×</span>
+          <span className="shrink-0 text-wk-ink3">×</span>
           <input
             {...register('desiredHeight')}
             placeholder="세로 (cm)"
@@ -71,26 +71,26 @@ export function Step2InstallInfo() {
       </div>
 
       {/* 표준 적용 안내 */}
-      <div className="rounded-xl border border-zinc-200 bg-white/60 p-4 text-xs text-zinc-600">
-        <p className="mb-1 font-semibold text-zinc-800">표준 사이즈 안내</p>
-        <p>요청 크기에 가장 가까운 표준 캐비닛 사이즈로 제안드립니다. 납기 단축, 가격 안정,
+      <div className="rounded-xl border border-wk-line bg-white/60 p-4 text-xs text-wk-ink3">
+        <p className="mb-1 font-semibold text-wk-ink2">제작 크기 안내</p>
+        <p>요청하신 크기에 가장 가까운 기본 제작 단위로 제안드립니다. 납기 단축, 가격 안정,
           유지보수·예비부품 호환성이 좋아집니다.</p>
       </div>
 
       {/* 옵션: 고해상도 / 라이브 입력 / 정확치수 (실내만 노출) */}
       {env === 'indoor' && (
         <div className="space-y-2">
-          <label className="flex items-center gap-2 text-sm text-zinc-700">
+          <label className="flex items-center gap-2 text-sm text-wk-ink2">
             <input type="checkbox" {...register('highRes')} className="h-4 w-4" />
-            근거리 고해상도 (P2.5) 권장 — 회의실·바·로비
+            가까이서 보는 자리 — 민원실·로비·회의실
           </label>
-          <label className="flex items-center gap-2 text-sm text-zinc-700">
+          <label className="flex items-center gap-2 text-sm text-wk-ink2">
             <input type="checkbox" {...register('needsLiveInput')} className="h-4 w-4" />
             HDMI 라이브 입력 필요 (방송/실시간 미러링)
           </label>
         </div>
       )}
-      <label className="flex items-center gap-2 text-sm text-zinc-700">
+      <label className="flex items-center gap-2 text-sm text-wk-ink2">
         <input type="checkbox" {...register('exactSizeRequired')} className="h-4 w-4" />
         반드시 정확한 치수로 제작 필요 (표준 사이즈 적용 불가)
       </label>
@@ -116,14 +116,14 @@ export function Step2InstallInfo() {
         <textarea
           {...register('purpose')}
           rows={3}
-          placeholder="예: 매장 입구 홍보, 메뉴판 교체, 행사 광고, 원내 공지 등"
+          placeholder="예: 민원실 대기번호 표시, 학교 행사·급식 안내, 재난 문구 게시, 층별 종합안내 등"
           className="input-base resize-none"
         />
       </FormField>
 
       {/* 설치 급urgency */}
       <div>
-        <label className="mb-2.5 block text-sm font-semibold text-zinc-800">설치 일정</label>
+        <label className="mb-2.5 block text-sm font-semibold text-wk-ink2">설치 일정</label>
         <div className="grid grid-cols-2 gap-2">
           {URGENCY_OPTIONS.map((o) => (
             <button
@@ -132,8 +132,8 @@ export function Step2InstallInfo() {
               onClick={() => setValue('urgency', o.value as QuoteFormData['urgency'])}
               className={`rounded-xl border px-3 py-2.5 text-xs font-medium transition-all ${
                 urgency === o.value
-                  ? 'border-blue-500 bg-blue-600/20 text-blue-700'
-                  : 'border-zinc-200 bg-white text-zinc-600 hover:border-zinc-400'
+                  ? 'border-wk-cta bg-wk-cta/20 text-wk-ctaActive'
+                  : 'border-wk-line bg-white text-wk-ink3 hover:border-wk-line2'
               }`}
             >
               {o.label}

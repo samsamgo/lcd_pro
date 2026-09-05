@@ -48,7 +48,7 @@ function calcEstimate(product: any, pkg: any) {
   const install = product.install_price_krw
   const min = Math.round((base + install) * 0.9)
   const max = Math.round((base + install) * 1.3)
-  return { min, max, monthly: product.monthly_cms_krw }
+  return { min, max }
 }
 
 export function QuoteDetailClient({ quote, products }: Props) {
@@ -183,7 +183,6 @@ export function QuoteDetailClient({ quote, products }: Props) {
                   <p className="mt-1 font-semibold text-white">
                     ₩{(autoEstimate.min / 10000).toFixed(0)}만 ~ ₩{(autoEstimate.max / 10000).toFixed(0)}만
                   </p>
-                  <p className="text-xs text-blue-400">+ CMS 월 {(autoEstimate.monthly / 10000).toFixed(0)}만원</p>
                   <button
                     type="button"
                     onClick={() => { setEstimateMin(String(autoEstimate.min)); setEstimateMax(String(autoEstimate.max)) }}

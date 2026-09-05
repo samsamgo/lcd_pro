@@ -6,7 +6,7 @@ import { Camera, X, Upload } from 'lucide-react'
 import type { QuoteFormData } from '../QuoteWizard'
 
 const PHOTO_GUIDES = [
-  '매장 전경 (정면)',
+  '설치 예정 위치 전경',
   '설치 예정 위치 전체',
   '설치 위치 클로즈업',
 ]
@@ -43,20 +43,23 @@ export function Step3PhotoUpload() {
   return (
     <div className="space-y-5">
       <div>
-        <p className="mb-1 text-sm font-semibold text-zinc-800">
-          현장 사진 업로드 <span className="text-blue-600">*</span>
+        <p className="mb-1 text-label font-semibold text-wk-ink">
+          현장 사진 <span className="font-medium text-wk-ink3">(선택)</span>
         </p>
-        <p className="text-xs text-zinc-600">최소 3장, 최대 10장. JPG/PNG/HEIC, 장당 20MB 이하.</p>
+        <p className="wk-cap">
+          지금 사진이 없으셔도 됩니다. 넣어주시면 견적 범위를 더 좁혀 드릴 수 있습니다.
+          최대 10장 · JPG/PNG/HEIC · 장당 20MB 이하.
+        </p>
       </div>
 
       {/* 권장 사진 가이드 */}
       <div className="grid grid-cols-3 gap-2">
         {PHOTO_GUIDES.map((g, i) => (
-          <div key={g} className="flex items-center gap-2 rounded-lg border border-zinc-200 bg-white p-2.5">
-            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-600/20 text-[10px] font-bold text-blue-600">
+          <div key={g} className="flex items-center gap-2 rounded-lg border border-wk-line bg-white p-2.5">
+            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-wk-cta/20 text-caption font-bold text-wk-cta">
               {i + 1}
             </span>
-            <span className="text-[11px] text-zinc-600">{g}</span>
+            <span className="text-caption text-wk-ink3">{g}</span>
           </div>
         ))}
       </div>
@@ -75,11 +78,11 @@ export function Step3PhotoUpload() {
             inputRef.current?.click()
           }
         }}
-        className="cursor-pointer rounded-2xl border-2 border-dashed border-zinc-300 p-8 text-center transition-all hover:border-blue-500/50 hover:bg-blue-500/5"
+        className="cursor-pointer rounded-2xl border-2 border-dashed border-wk-line2 p-8 text-center transition-all hover:border-wk-cta/50 hover:bg-wk-blue/5"
       >
-        <Upload size={28} className="mx-auto mb-3 text-zinc-600" aria-hidden="true" />
-        <p className="text-sm text-zinc-700">클릭하거나 사진을 여기에 드래그하세요</p>
-        <p className="mt-1 text-xs text-zinc-600">스마트폰 사진도 바로 업로드 가능합니다</p>
+        <Upload size={28} className="mx-auto mb-3 text-wk-ink3" aria-hidden="true" />
+        <p className="text-sm text-wk-ink2">클릭하거나 사진을 여기에 드래그하세요</p>
+        <p className="mt-1 text-xs text-wk-ink3">스마트폰 사진도 바로 업로드 가능합니다</p>
       </div>
 
       {/* 모바일 우선: 사진 촬영 / 앨범 선택 버튼 (엄지 영역, 큰 탭 타깃) */}
@@ -87,17 +90,17 @@ export function Step3PhotoUpload() {
         <button
           type="button"
           onClick={() => cameraRef.current?.click()}
-          className="flex items-center justify-center gap-2 rounded-xl border border-zinc-300 py-3 text-sm font-semibold text-zinc-700 transition-all hover:bg-zinc-50 active:scale-95"
+          className="flex items-center justify-center gap-2 rounded-xl border border-wk-line2 py-3 text-sm font-semibold text-wk-ink2 transition-all hover:bg-wk-bgFaint active:scale-95"
         >
-          <Camera size={16} className="text-blue-600" />
+          <Camera size={16} className="text-wk-cta" />
           사진 촬영
         </button>
         <button
           type="button"
           onClick={() => inputRef.current?.click()}
-          className="flex items-center justify-center gap-2 rounded-xl border border-zinc-300 py-3 text-sm font-semibold text-zinc-700 transition-all hover:bg-zinc-50 active:scale-95"
+          className="flex items-center justify-center gap-2 rounded-xl border border-wk-line2 py-3 text-sm font-semibold text-wk-ink2 transition-all hover:bg-wk-bgFaint active:scale-95"
         >
-          <Upload size={16} className="text-blue-600" />
+          <Upload size={16} className="text-wk-cta" />
           앨범에서 선택
         </button>
       </div>
@@ -141,7 +144,7 @@ export function Step3PhotoUpload() {
             <button
               type="button"
               onClick={() => inputRef.current?.click()}
-              className="flex aspect-square items-center justify-center rounded-xl border-2 border-dashed border-zinc-200 text-zinc-500 hover:border-zinc-400"
+              className="flex aspect-square items-center justify-center rounded-xl border-2 border-dashed border-wk-line text-wk-ink3 hover:border-wk-line2"
             >
               <Camera size={20} />
             </button>
@@ -149,12 +152,14 @@ export function Step3PhotoUpload() {
         </div>
       )}
 
-      <p className={`text-xs ${photos.length >= 3 ? 'text-green-700' : 'text-zinc-600'}`}>
-        {photos.length}/3장 업로드됨{photos.length >= 3 ? ' — 충분합니다' : ' (최소 3장)'}
+      <p className={`wk-cap ${photos.length > 0 ? '!text-wk-ok' : ''}`}>
+        {photos.length > 0
+          ? `${photos.length}장 첨부됨`
+          : '사진 없이 다음 단계로 넘어가셔도 됩니다.'}
       </p>
 
       {errors.photos && (
-        <p role="alert" className="text-xs text-red-600">{errors.photos.message as string}</p>
+        <p role="alert" className="text-label text-wk-bad">{errors.photos.message as string}</p>
       )}
     </div>
   )
@@ -170,7 +175,7 @@ function PhotoPreview({ file, alt }: { file: File; alt: string }) {
   }, [file])
 
   if (!src) {
-    return <div className="h-full w-full rounded-xl bg-zinc-100" />
+    return <div className="h-full w-full rounded-xl bg-wk-bg" />
   }
 
   return (
