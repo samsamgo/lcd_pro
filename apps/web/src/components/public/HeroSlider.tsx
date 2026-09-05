@@ -60,16 +60,14 @@ export function HeroSlider() {
 
           <SplitText
             as="h1"
-            text="서류까지 챙겨서 드립니다"
+            text="설계부터 유지보수까지"
             className="wk-hero text-white"
             gap={0.06}
           />
 
           <Reveal y={18} delay={0.22}>
             <p className="wk-lead mt-6 !text-white/85">
-              견적서만 드리지 않습니다. 규격서와 설치 도면,
-              <br className="hidden sm:block" />
-              인증이 어디까지 됐는지까지 적어서 같이 보내드립니다.
+              제작 · 설치 · A/S까지, 우강테크가 책임집니다.
             </p>
           </Reveal>
 
