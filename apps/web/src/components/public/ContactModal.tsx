@@ -72,7 +72,7 @@ export function ContactModal({ open, onClose }: { open: boolean; onClose: () => 
           견적·규격서 요청
         </Link>
         <p className="wk-cap mt-3">
-          설치 장소와 크기만 알려주시면 개략 견적과 사양서를 보내드립니다.
+          설치 장소와 크기를 알려주시면 공간에 맞는 규격과 예상 견적을 정리해드립니다.
         </p>
       </div>
     </Modal>

@@ -67,9 +67,7 @@ export function HeroSlider() {
 
           <Reveal y={18} delay={0.22}>
             <p className="wk-lead mt-6 !text-white/85">
-              만드는 것도, 다는 것도, 고장 났을 때 오는 것도 우강테크입니다.
-              <br className="hidden md:block" />
-              중간에 하청으로 넘기지 않습니다.
+              제작 · 설치 · A/S까지, 우강테크가 책임집니다.
             </p>
           </Reveal>
 
@@ -88,7 +86,7 @@ export function HeroSlider() {
               </Link>
             </div>
             <p className="mt-4 max-w-[34em] text-label text-white/65">
-              설치 장소랑 대략적인 크기만 알려주시면 됩니다. 개략 견적과 규격서를 보내드립니다.
+              설치 장소와 크기만 알려주시면 맞춤 규격과 예상 견적을 안내드립니다.
             </p>
           </Reveal>
         </div>

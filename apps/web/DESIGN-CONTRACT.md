@@ -1,7 +1,7 @@
 # 우강테크 웹 설계 계약서 (v4 — 2026-09-02)
 
 > 이 문서는 홈페이지를 손대는 모든 작업자(사람·에이전트)가 지켜야 하는 **강제 규격**이다.
-> 근거 문서: `D:\전광판\COO\research\web-benchmark-2026.md` (Apple/Toss/Linear/Stripe 실측 스펙)
+> 근거 문서: `D:\전광판\teams\blog\research\web-benchmark-2026.md` (Apple/Toss/Linear/Stripe 실측 스펙)
 > 목표: 국내 사이니지 업체 평균 대비 3배. Apple·Toss와 나란히 놓아도 밀리지 않을 것.
 
 ---

@@ -19,10 +19,10 @@ export function CtaSection() {
             <h2 className="wk-display text-wk-nightInk">
               설치 장소와 크기를 알려주시면
               <br />
-              개략 견적과 규격서를 보내드립니다
+              공간에 맞는 규격과 예상 견적을 정리해드립니다
             </h2>
             <p className="wk-lead mx-auto mt-5 text-wk-nightMuted">
-              설치 장소와 대략적인 크기만 알려주시면 됩니다. 사진은 있으면 좋고, 없어도 괜찮습니다.
+              설치 장소와 대략적인 크기만 알려주셔도 됩니다. 현장 사진까지 보내주시면 더 정확한 제안이 가능합니다.
             </p>
 
             <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">

@@ -39,16 +39,16 @@ export function CompanyHero() {
 
           <SplitText
             as="h1"
-            text="안내가 바뀌는 자리에 있습니다"
+            text="정보가 오가는 곳에 있습니다"
             className="wk-h1 mt-5 max-w-[11ch] text-wk-nightInk"
             delay={0.1}
           />
 
           <Reveal delay={0.34} y={18}>
             <p className="wk-lead mt-7 text-wk-nightMuted">
-              군청 앞 사거리, 학교 정문, 읍사무소 민원실. 안내는 계속 바뀌는데
-              매번 새로 만드는 것은 인쇄물이었습니다. 우강테크는 그 자리를
-              담당자가 직접 고칠 수 있는 화면으로 바꿉니다.
+              군청 앞 사거리, 학교 정문, 읍사무소 민원실.
+              현수막과 안내판이 있던 자리에 우강테크가
+              필요한 정보를 더 빠르고 편하게 전달할 수 있는 화면을 만듭니다.
             </p>
           </Reveal>
         </div>

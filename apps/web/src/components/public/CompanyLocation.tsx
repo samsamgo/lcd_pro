@@ -73,7 +73,7 @@ export function CompanyLocation() {
                   </a>
                 </div>
                 <p className="wk-cap mt-4">
-                  방문 전 연락 주시면 담당자가 안내해 드립니다.
+                  방문 전 담당자에게 연락 주십시오.
                 </p>
               </div>
             </div>
