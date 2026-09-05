@@ -78,7 +78,10 @@ export default function IndustriesPage() {
           </div>
         </section>
 
-        <CtaSection />
+        <CtaSection
+          title={['우리 기관은 어떤지', '물어보십시오']}
+          sub={'비슷한 자리에 어떤 구성이 들어갔는지 정리해 보내드립니다.'}
+        />
       </main>
       <Footer />
       <MobileCtaBar />

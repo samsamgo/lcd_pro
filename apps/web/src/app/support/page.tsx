@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { NavBar } from '@/components/NavBar'
 import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
@@ -40,8 +41,21 @@ export default function SupportPage() {
         <SupportHero />
         <ServiceRequest />
         <AfterService />
-        <div id="faq">
-        </div>
+
+        {/* FAQ 본문은 /faq 한 곳에만 둔다. 같은 17문항을 세 페이지에 반복하지 않는다. */}
+        <section id="faq" aria-labelledby="support-faq-h" className="wk-sec-sm bg-wk-bgFaint">
+          <div className="wk-wrap text-center">
+            <h2 id="support-faq-h" className="wk-h2 text-wk-ink">
+              그 밖의 질문
+            </h2>
+            <p className="wk-lead mx-auto mt-5">
+              예산 과목, 계약 방식, 전기 인입처럼 결재 전에 걸리는 것들을 따로 정리해 두었습니다.
+            </p>
+            <Link href="/faq" className="wk-btn-p mt-9 inline-flex">
+              자주 묻는 질문 보기
+            </Link>
+          </div>
+        </section>
       </main>
       <Footer />
       <MobileCtaBar />

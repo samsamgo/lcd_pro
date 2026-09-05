@@ -36,7 +36,10 @@ export default function FaqPage() {
           crumbs={[{ name: '홈', href: '/' }, { name: 'FAQ' }]}
         />
         <FaqSection hideHeader />
-        <CtaSection />
+        <CtaSection
+          title={['여기 없는 것은', '직접 답하겠습니다']}
+          sub={'전화든 견적 요청이든 편한 쪽으로 남겨 주시면 담당자가 확인합니다.'}
+        />
       </main>
       <Footer />
     </>

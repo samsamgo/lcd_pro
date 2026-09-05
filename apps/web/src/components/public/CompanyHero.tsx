@@ -39,7 +39,7 @@ export function CompanyHero() {
 
           <SplitText
             as="h1"
-            text="정보가 오가는 곳에 있습니다"
+            text="LED 사이니지 한 가지만 합니다"
             className="wk-h1 mt-5 max-w-[11ch] text-wk-nightInk"
             delay={0.1}
           />
@@ -47,8 +47,8 @@ export function CompanyHero() {
           <Reveal delay={0.34} y={18}>
             <p className="wk-lead mt-7 text-wk-nightMuted">
               군청 앞 사거리, 학교 정문, 읍사무소 민원실.
-              현수막과 안내판이 있던 자리에 우강테크가
-              필요한 정보를 더 빠르고 편하게 전달할 수 있는 화면을 만듭니다.
+              현수막과 안내판이 있던 자리에 화면을 답니다.
+              품목을 늘리지 않고 이것만 합니다.
             </p>
           </Reveal>
         </div>

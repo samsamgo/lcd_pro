@@ -74,7 +74,10 @@ export default function ProductsPage() {
           <PackagesSection hideHeader />
         </div>
 
-        <CtaSection />
+        <CtaSection
+          title={['어느 제품이 맞는지', '같이 정하겠습니다']}
+          sub={'보는 거리와 설치 자리만 알려주시면 맞는 규격을 골라 드립니다.'}
+        />
       </main>
       <Footer />
       <MobileCtaBar />

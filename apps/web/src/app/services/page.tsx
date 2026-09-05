@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 
 import { NavBar } from '@/components/NavBar'
 import { Footer } from '@/components/Footer'
@@ -7,7 +8,6 @@ import { ServiceHero } from '@/components/services/ServiceHero'
 import { ProcessScroller } from '@/components/solution/ProcessScroller'
 import { ScopeTable } from '@/components/solution/ScopeTable'
 import { DocumentList } from '@/components/solution/DocumentList'
-import { ServiceRequest } from '@/components/public/ServiceRequest'
 import { CtaSection } from '@/components/landing/CtaSection'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { breadcrumbLd, serviceLd, howToLd } from '@/lib/seo/jsonld'
@@ -88,9 +88,27 @@ export default function ServicesPage() {
         <DocumentList />
 
         {/* ④ 지금 무엇을 보내면 되는가 */}
-        <ServiceRequest />
+        {/* A/S 접수 폼은 /support 한 곳에만 둔다. 같은 폼을 두 페이지에 두면
+            어디로 접수해야 하는지 고객이 헷갈리고, 문의 경로도 갈린다. */}
+        <section aria-labelledby="svc-after-h" className="wk-sec-sm bg-wk-bgFaint">
+          <div className="wk-wrap text-center">
+            <h2 id="svc-after-h" className="wk-h2 text-wk-ink">
+              설치 후에는
+            </h2>
+            <p className="wk-lead mx-auto mt-5">
+              고장 나면 원격으로 먼저 보고, 필요하면 가서 모듈만 갈아 끼웁니다.
+              처리 내역은 문서로 남겨 검수와 감사에 쓰실 수 있게 드립니다.
+            </p>
+            <Link href="/support" className="wk-btn-p mt-9 inline-flex">
+              A/S 접수하고 처리 절차 보기
+            </Link>
+          </div>
+        </section>
 
-        <CtaSection />
+        <CtaSection
+          title={['현장부터', '보겠습니다']}
+          sub={'실측은 무상입니다. 보고 나서 확정 견적과 도면을 드립니다.'}
+        />
       </main>
       <Footer />
       <MobileCtaBar />
