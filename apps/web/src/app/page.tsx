@@ -35,7 +35,7 @@ export default function Home() {
         data={serviceLd({
           name: 'LED 전광판·전자현수막 설계·제작·시공·유지보수',
           description:
-            '관공서·공공기관·학교를 위한 LED 전광판과 전자현수막. 설계·제작·시공·A/S를 하나의 절차로 제공합니다.',
+            '관공서·공공기관·학교 LED 전광판과 전자현수막. 실측과 설계, 제작, 시공, A/S까지 한 곳에서 합니다.',
           serviceType: 'LED 전광판 · 전자현수막',
           priceRange: PRICE_RANGE_SCHEMA,
           url: absoluteUrl('/'),

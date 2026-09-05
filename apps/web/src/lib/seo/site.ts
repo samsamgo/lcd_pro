@@ -17,7 +17,7 @@ export const SITE = {
   shortName: 'WOOKANG TECH',
   sloganKo: '관공서·학교 전광판, 설치부터 A/S까지',
   sloganEn: 'We build with light.',
-  taglineKo: '관공서·공공기관·학교 LED 전광판·전자현수막 — 설계·제작·시공·A/S를 직접 수행합니다',
+  taglineKo: '관공서·공공기관·학교 LED 전광판·전자현수막 — 실측부터 A/S까지 직접 합니다',
 
   // URL·연락
   url: RAW_URL,

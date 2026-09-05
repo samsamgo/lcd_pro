@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     template: `%s | ${SITE.nameKo}`,
   },
   description:
-    '우강테크(WK Tech)는 관공서·공공기관·학교에 LED 전광판과 전자현수막을 공급합니다. 설계·제작·시공·A/S를 자사에서 직접 수행합니다.',
+    '우강테크(WK Tech)는 관공서·공공기관·학교에 LED 전광판과 전자현수막을 공급합니다. 실측부터 제작, 시공, A/S까지 하청 없이 직접 합니다.',
   applicationName: SITE.nameKo,
   authors: [{ name: SITE.nameKo }],
   generator: 'Next.js',
