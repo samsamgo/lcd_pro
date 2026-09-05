@@ -60,16 +60,16 @@ export function HeroSlider() {
 
           <SplitText
             as="h1"
-            text="화면보다 서류가 먼저입니다"
+            text="서류까지 챙겨서 드립니다"
             className="wk-hero text-white"
             gap={0.06}
           />
 
           <Reveal y={18} delay={0.22}>
             <p className="wk-lead mt-6 !text-white/85">
-              규격서 · 설치도면 · 인증 범위를 문서로 드립니다.
+              견적서만 드리지 않습니다. 규격서와 설치 도면,
               <br className="hidden sm:block" />
-              담당자가 결재와 검수에 그대로 쓰실 수 있게.
+              인증이 어디까지 됐는지까지 적어서 같이 보내드립니다.
             </p>
           </Reveal>
 
@@ -88,7 +88,7 @@ export function HeroSlider() {
               </Link>
             </div>
             <p className="mt-4 max-w-[34em] text-label text-white/65">
-              설치 장소와 대략적인 크기만 알려주셔도 됩니다. 규격서와 개략 견적을 먼저 보내드립니다.
+              어디에 얼마만 한 걸 놓을지만 알려주시면 됩니다. 예산 잡기 전이어도 괜찮습니다.
             </p>
           </Reveal>
         </div>

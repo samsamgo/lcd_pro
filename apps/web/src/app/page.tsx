@@ -23,7 +23,7 @@ import { PRICE_RANGE_SCHEMA } from '@/lib/pricing'
 export const metadata: Metadata = buildMetadata({
   title: `${SITE.nameKo} | 관공서·학교 LED 전광판 · 전자현수막`,
   description:
-    '관공서·공공기관·학교 LED 전광판과 전자현수막. 규격서·설치도면·인증 범위를 문서로 드려 결재와 검수에 그대로 쓰실 수 있습니다. 설계·제작·시공·A/S 직접 수행. 규격서와 개략 견적 무상.',
+    '관공서·공공기관·학교 LED 전광판과 전자현수막. 견적서만 드리지 않고 규격서와 설치 도면, 인증이 어디까지 됐는지까지 적어서 같이 보내드립니다. 설계·제작·시공·A/S 직접 수행.',
   path: '/',
 })
 
