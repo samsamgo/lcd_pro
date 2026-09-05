@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { PublicHero } from '@/components/public/PublicHero'
 import { ProofRow } from '@/components/public/ProofRow'
 import { ScrollProgress } from '@/components/public/ScrollProgress'
-import { LedTicker } from '@/components/public/LedTicker'
+import { LedBoard } from '@/components/public/LedBoard'
 import { ScrollStatement } from '@/components/public/ScrollStatement'
 import { CinematicScene } from '@/components/home/CinematicScene'
 import { ScreenGallery } from '@/components/public/ScreenGallery'
@@ -64,7 +64,7 @@ export default function Home() {
             ① 무엇을 하는 회사인가 → ② 믿을 만한가 → ③ 우리 같은 데 쓰나
             → ④ 설치 후는 어떻게 되나 → ⑤ 서류는 있나 → ⑥ 어떻게 연락하나 */}
         <PublicHero />
-        <LedTicker items={[`민원실 대기번호`, `학교 급식·행사 안내`, `지자체 재난 문구`, `강당 행사 화면`, `옥외 전자현수막`, `층별 종합안내`]} />
+        <LedBoard />
 
         {/* ── 라이트: 믿을 만한가 ── */}
         <ProofRow />

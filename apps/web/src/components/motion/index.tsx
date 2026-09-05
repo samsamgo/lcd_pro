@@ -19,6 +19,7 @@ import {
   useInView,
   useMotionValue,
   useReducedMotion,
+  AnimatePresence,
   useScroll,
   useSpring,
   useTransform,
@@ -521,5 +522,43 @@ export function ScrollScale({
         {children}
       </motion.div>
     </div>
+  )
+}
+
+/* ────────────────────────────────────────────────────────────
+   LedSwap — 전광판이 문구를 바꿔 다는 순간
+
+   실제 LED 사이니지는 문구가 흐르지 않고 "갈린다".
+   그래서 슬라이드가 아니라 (1) 순간 어두워졌다가 (2) 새 문구가 밝아지는
+   방식으로 만든다. 화면 리프레시처럼 보이게 filter brightness 를 함께 쓴다.
+
+   transform / opacity / filter 만 건드린다 (설계계약서 §0-6).
+   reduced-motion 에서는 전환 없이 현재 문구만 보여준다.
+   ──────────────────────────────────────────────────────────── */
+export function LedSwap({
+  index,
+  children,
+}: {
+  /** 현재 보여줄 항목의 인덱스. 바뀌면 갈아 낀다 */
+  index: number
+  children: ReactNode
+}) {
+  const reduce = useReducedMotion()
+
+  if (reduce) return <div>{children}</div>
+
+  return (
+    <AnimatePresence mode="wait" initial={false}>
+      <motion.div
+        key={index}
+        initial={{ opacity: 0, y: 6, filter: 'brightness(0.35)' }}
+        animate={{ opacity: 1, y: 0, filter: 'brightness(1)' }}
+        exit={{ opacity: 0, y: -6, filter: 'brightness(0.35)' }}
+        transition={{ duration: DUR.state * 2, ease: EASE.entrance }}
+        className="will-change-transform"
+      >
+        {children}
+      </motion.div>
+    </AnimatePresence>
   )
 }
