@@ -60,14 +60,16 @@ export function HeroSlider() {
 
           <SplitText
             as="h1"
-            text="설계부터 유지보수까지"
+            text="화면보다 서류가 먼저입니다"
             className="wk-hero text-white"
             gap={0.06}
           />
 
           <Reveal y={18} delay={0.22}>
             <p className="wk-lead mt-6 !text-white/85">
-              제작 · 설치 · A/S까지, 우강테크가 책임집니다.
+              규격서 · 설치도면 · 인증 범위를 문서로 드립니다.
+              <br className="hidden sm:block" />
+              담당자가 결재와 검수에 그대로 쓰실 수 있게.
             </p>
           </Reveal>
 
@@ -86,7 +88,7 @@ export function HeroSlider() {
               </Link>
             </div>
             <p className="mt-4 max-w-[34em] text-label text-white/65">
-              설치 장소와 크기만 알려주시면 맞춤 규격과 예상 견적을 안내드립니다.
+              설치 장소와 대략적인 크기만 알려주셔도 됩니다. 규격서와 개략 견적을 먼저 보내드립니다.
             </p>
           </Reveal>
         </div>

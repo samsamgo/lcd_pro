@@ -17,12 +17,13 @@ export function CtaSection() {
           <Reveal>
             <p className="wk-eyebrow justify-center">문의</p>
             <h2 className="wk-display text-wk-nightInk">
-              설치 장소와 크기를 알려주시면
+              예산 세우기 전에
               <br />
-              공간에 맞는 규격과 예상 견적을 정리해드립니다
+              규격서부터 받아보십시오
             </h2>
             <p className="wk-lead mx-auto mt-5 text-wk-nightMuted">
               설치 장소와 대략적인 크기만 알려주셔도 됩니다. 현장 사진까지 보내주시면 더 정확한 제안이 가능합니다.
+              검토용 자료로 쓰실 수 있게 개략 견적과 함께 문서로 보내드립니다.
             </p>
 
             <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
