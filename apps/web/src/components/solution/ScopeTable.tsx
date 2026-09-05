@@ -76,8 +76,7 @@ export function ScopeTable() {
         <Reveal>
           <p className="wk-eyebrow">공급 범위</p>
           <h2 id="scope-h" className="wk-h2 text-wk-ink">
-            어디까지가 우리 몫인지
-            <br className="hidden sm:block" /> 먼저 긋습니다
+            우리 몫과 기관 몫
           </h2>
           <p className="wk-lead mt-5">
             결재를 올릴 때 가장 먼저 막히는 것은 예산 범위입니다. 그대로 과업 범위 항목으로

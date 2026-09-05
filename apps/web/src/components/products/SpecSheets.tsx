@@ -52,7 +52,7 @@ export function SpecSheets() {
     <section className="wk-sec bg-white">
       <div className="wk-wrap">
         <p className="wk-eyebrow">규격서</p>
-        <h2 className="wk-h2 max-w-xl text-wk-ink">한 화면씩 자세히 보기</h2>
+        <h2 className="wk-h2 max-w-xl text-wk-ink">규격표</h2>
         <p className="wk-lead mt-5">
           결재 문서에 옮겨 적을 수 있도록 항목과 단위를 그대로 적었습니다. 확정되지 않은
           항목은 비워 두고 실측 후 채웁니다.

@@ -98,7 +98,7 @@ export function ProductShowcase() {
         <p className="wk-eyebrow">제품 구성</p>
         <SplitText
           as="h2"
-          text="쓰는 자리부터 정합니다"
+          text="자리에 따라 네 가지"
           className="wk-h2 max-w-[16ch] text-wk-ink"
         />
         <Reveal y={16} delay={0.12}>

@@ -51,9 +51,7 @@ export function AfterService() {
           <div>
             <p className="wk-eyebrow">설치 후</p>
             <h2 id="after-h" className="wk-h2 text-wk-ink">
-              고장 나면
-              <br />
-              이렇게 진행됩니다
+              고장 났을 때 처리 순서
             </h2>
             <p className="wk-lead mt-5">
               설치는 한 번이고 고장은 언제 날지 모릅니다. 하필 감사 앞두고 꺼지는 게 제일 곤란하죠.

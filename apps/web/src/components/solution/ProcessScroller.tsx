@@ -136,7 +136,7 @@ export function ProcessScroller() {
       <div className="wk-wrap">
         <Reveal y={16}>
           <p className="wk-eyebrow">공급 범위</p>
-          <h2 className="wk-h2 max-w-[13ch] text-wk-ink">여섯 공정에서 우리가 하는 일</h2>
+          <h2 className="wk-h2 max-w-[13ch] text-wk-ink">여섯 공정</h2>
           <p className="wk-lead mt-5">
             공정마다 무엇을 하고, 얼마나 걸리고, 무엇을 서류로 드리고, 누가 담당하는지
             적었습니다.

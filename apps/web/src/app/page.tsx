@@ -8,7 +8,6 @@ import { CinematicScene } from '@/components/home/CinematicScene'
 import { ScreenGallery } from '@/components/public/ScreenGallery'
 import { ProductShowcase } from '@/components/public/ProductShowcase'
 import { ProcessTimeline } from '@/components/public/ProcessTimeline'
-import { AfterService } from '@/components/public/AfterService'
 import { FaqSection } from '@/components/landing/FaqSection'
 import { CtaSection } from '@/components/landing/CtaSection'
 import { NavBar } from '@/components/NavBar'
@@ -89,8 +88,7 @@ export default function Home() {
         <ProductShowcase />
         <ScreenGallery />
         <ProcessTimeline />
-        <AfterService />
-        <FaqSection />
+        <FaqSection limit={6} />
 
         {/* ── near-black 최종 전환 ── */}
         <CtaSection />

@@ -112,11 +112,24 @@ const FAQS: Faq[] = [
 /** JSON-LD 및 외부 참조용 평면 목록 */
 export const HOME_FAQS = FAQS.map((f) => ({ question: f.q, answer: f.a }))
 
-export function FaqSection({ hideHeader = false }: { hideHeader?: boolean }) {
+export function FaqSection({
+  hideHeader = false,
+  limit,
+}: {
+  hideHeader?: boolean
+  /**
+   * 보여줄 문항 수. 홈처럼 요약만 필요한 자리에서 쓴다.
+   * 전체 목록의 정본은 `/faq` 한 곳이다 — 같은 17문항을 세 페이지에 반복하지 않는다.
+   */
+  limit?: number
+}) {
   const [cat, setCat] = useState<Cat | '전체'>('전체')
   const [open, setOpen] = useState<string | null>(FAQS[0].q)
 
-  const list = useMemo(() => (cat === '전체' ? FAQS : FAQS.filter((f) => f.cat === cat)), [cat])
+  const list = useMemo(() => {
+    const byCat = cat === '전체' ? FAQS : FAQS.filter((f) => f.cat === cat)
+    return limit ? byCat.slice(0, limit) : byCat
+  }, [cat, limit])
 
   return (
     <section id="faq" aria-labelledby="faq-h" className="wk-sec scroll-mt-20 bg-white">
@@ -129,9 +142,7 @@ export function FaqSection({ hideHeader = false }: { hideHeader?: boolean }) {
               <div>
                 <p className="wk-eyebrow">FAQ</p>
                 <h2 id="faq-h" className="wk-h2 text-wk-ink">
-                  결재 전에
-                  <br />
-                  가장 많이 묻는 것
+                  자주 묻는 것
                 </h2>
                 <p className="wk-lead mt-5">
                   예산 과목부터 사후 관리까지, 담당자가 실제로 막히는 지점만 모았습니다.
@@ -206,13 +217,27 @@ export function FaqSection({ hideHeader = false }: { hideHeader?: boolean }) {
           </div>
 
           <p className="wk-cap mt-8">
-            여기 없는 내용은 직접 물어보시는 편이 빠릅니다.{' '}
-            <Link
-              href="/quote"
-              className="font-semibold text-wk-cta underline underline-offset-4"
-            >
-              설치 조건 남기고 상담 요청하기 →
-            </Link>
+            {limit ? (
+              <>
+                나머지 질문도 정리해 두었습니다.{' '}
+                <Link
+                  href="/faq"
+                  className="font-semibold text-wk-cta underline underline-offset-4"
+                >
+                  자주 묻는 질문 전체 보기 →
+                </Link>
+              </>
+            ) : (
+              <>
+                여기 없는 내용은 직접 물어보시는 편이 빠릅니다.{' '}
+                <Link
+                  href="/quote"
+                  className="font-semibold text-wk-cta underline underline-offset-4"
+                >
+                  설치 조건 남기고 상담 요청하기 →
+                </Link>
+              </>
+            )}
           </p>
         </div>
       </div>

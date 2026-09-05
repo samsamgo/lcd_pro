@@ -43,7 +43,7 @@ export function SpecScale() {
       <div className="wk-wrap">
         <Reveal>
           <p className="wk-eyebrow">규격 비교</p>
-          <h2 className="wk-h2 max-w-xl text-wk-ink">숫자보다 거리가 먼저입니다</h2>
+          <h2 className="wk-h2 max-w-xl text-wk-ink">화소 간격</h2>
           <p className="wk-lead mt-5">
             화소 간격은 화면의 등급이 아니라 시청 거리의 함수입니다. 아래 두 축에서
             현장 조건과 만나는 지점을 찾으십시오.

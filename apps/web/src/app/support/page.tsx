@@ -5,7 +5,6 @@ import { MobileCtaBar } from '@/components/MobileCtaBar'
 import { SupportHero } from '@/components/public/SupportHero'
 import { AfterService } from '@/components/public/AfterService'
 import { ServiceRequest } from '@/components/public/ServiceRequest'
-import { FaqSection } from '@/components/landing/FaqSection'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { breadcrumbLd } from '@/lib/seo/jsonld'
 import { absoluteUrl, buildMetadata } from '@/lib/seo/site'
@@ -42,7 +41,6 @@ export default function SupportPage() {
         <ServiceRequest />
         <AfterService />
         <div id="faq">
-          <FaqSection />
         </div>
       </main>
       <Footer />

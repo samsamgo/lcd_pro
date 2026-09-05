@@ -79,7 +79,7 @@ export function ProcessTimeline() {
       <div className="wk-wrap">
         <p className="wk-eyebrow">도입 절차</p>
         <h2 id="process-h" className="wk-h2 max-w-[16ch] text-wk-ink">
-          문의부터 유지보수까지
+          진행 순서
         </h2>
         <p className="wk-lead mt-5">
           단계마다 나오는 문서를 미리 적어 두었습니다. 공정별로 업체가 바뀌지 않고, 담당자 한 명이

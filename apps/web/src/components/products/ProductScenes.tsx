@@ -45,7 +45,7 @@ export function ProductScenes() {
           <Reveal>
             <p className="wk-eyebrow !text-wk-nightMuted">설치 환경</p>
             <h2 className="wk-h2 max-w-xl text-wk-nightInk">
-              같은 화면도 놓이는 자리가 규격을 바꿉니다
+              놓이는 자리
             </h2>
             <p className="wk-lead mt-5 !text-wk-nightMuted">
               아래 네 자리는 우리가 견적 단계에서 서로 다른 항목을 확인하는 대표적인

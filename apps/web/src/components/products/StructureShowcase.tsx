@@ -39,7 +39,7 @@ export function StructureShowcase() {
         <Reveal>
           <p className="wk-eyebrow">구조</p>
           <h2 className="wk-h2 max-w-xl text-wk-ink">
-            고장 났을 때 어디를 여는지 먼저 봅니다
+            정비 방식
           </h2>
           <p className="wk-lead mt-5">
             화면은 한 덩어리가 아닙니다. 모듈 단위로 분리되기 때문에 고장 난 부분만

@@ -119,7 +119,7 @@ export function CinematicScene() {
   return (
     <section aria-labelledby="cine-h" className="wk-night-glow relative">
       <h2 id="cine-h" className="sr-only">
-        LED 화면을 결정하는 세 가지 규격
+        화소, 밝기, 그리고 고장
       </h2>
 
       <StickyScene length={length}>

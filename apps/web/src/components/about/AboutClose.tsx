@@ -15,7 +15,7 @@ export function AboutClose() {
     <section className="wk-sec-sm bg-wk-bg">
       <div className="wk-wrap-read text-center">
         <Reveal y={16}>
-          <h2 className="wk-h2 text-wk-ink">검토에 필요한 자료를 드립니다</h2>
+          <h2 className="wk-h2 text-wk-ink">드리는 자료</h2>
           <p className="wk-lead mx-auto mt-5">
             설치 위치 사진과 대략적인 화면 크기만 알려 주시면 실측 일정과
             개략 규격서를 먼저 보내 드립니다. 견적 전 단계입니다.

@@ -46,7 +46,7 @@ export function ProductsHero() {
           <SplitText
             as="h1"
             className="wk-h1 max-w-2xl text-white"
-            text="어디에 걸고 얼마나 멀리서 보십니까"
+            text="보는 거리로 고릅니다"
           />
 
           <Reveal delay={0.25} y={16}>

@@ -39,8 +39,7 @@ export function DocumentList() {
         <Reveal>
           <p className="wk-eyebrow">제출 서류</p>
           <h2 id="docs-h" className="wk-h2 text-wk-ink">
-            결재에 붙일 서류를
-            <br className="hidden sm:block" /> 미리 적어 둡니다
+            드리는 서류
           </h2>
           <p className="wk-lead mt-5">
             어떤 문서를 언제 받을 수 있는지 알아야 기안 일정을 잡으실 수 있습니다.

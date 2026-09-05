@@ -57,7 +57,7 @@ export function EnvironmentTracks() {
         <Reveal>
           <p className="wk-eyebrow">환경 우선</p>
           <h2 className="wk-h2 max-w-xl text-wk-ink">
-            모델명이 아니라 설치 조건으로 나눕니다
+            네 가지 구성
           </h2>
           <p className="wk-lead mt-5">
             보는 거리와 햇빛 조건이 정해지면 화소 간격과 밝기는 계산으로 따라옵니다.

@@ -92,7 +92,7 @@ export function ScreenGallery() {
       <div className="wk-wrap-wide">
         <p className="wk-eyebrow">화면 용도</p>
         <h2 id="screens-h" className="wk-h2 text-wk-ink">
-          어디에, 무엇을 띄우나
+          설치 예시
         </h2>
         <p className="wk-lead mt-5">
           기관에서 실제로 바뀌는 정보는 대기번호, 층별 안내, 행사 일정, 재난 문구입니다.
