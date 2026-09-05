@@ -45,7 +45,7 @@ const STEPS: { n: string; title: string; desc: string; who: string }[] = [
 
 export function AfterService() {
   return (
-    <section id="after" aria-labelledby="after-h" className="wk-sec bg-wk-bgFaint">
+    <section id="after" aria-labelledby="after-h" className="wk-sec-sm bg-wk-bgFaint">
       <div className="wk-wrap grid items-start gap-12 lg:grid-cols-[5fr_7fr] lg:gap-16">
         <Reveal className="lg:sticky lg:top-28 lg:self-start">
           <div>

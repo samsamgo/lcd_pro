@@ -88,8 +88,8 @@ export function ScreenGallery() {
   }, [open, close, move])
 
   return (
-    <section id="screens" aria-labelledby="screens-h" className="wk-sec bg-wk-bg">
-      <div className="wk-wrap">
+    <section id="screens" aria-labelledby="screens-h" className="wk-sec-lg bg-wk-bg">
+      <div className="wk-wrap-wide">
         <p className="wk-eyebrow">화면 용도</p>
         <h2 id="screens-h" className="wk-h2 text-wk-ink">
           어디에, 무엇을 띄우나

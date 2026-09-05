@@ -3,7 +3,6 @@ import { PublicHero } from '@/components/public/PublicHero'
 import { ProofRow } from '@/components/public/ProofRow'
 import { ScrollProgress } from '@/components/public/ScrollProgress'
 import { LedTicker } from '@/components/public/LedTicker'
-import { StatsBand } from '@/components/public/StatsBand'
 import { ScrollStatement } from '@/components/public/ScrollStatement'
 import { CinematicScene } from '@/components/home/CinematicScene'
 import { ScreenGallery } from '@/components/public/ScreenGallery'
@@ -69,7 +68,6 @@ export default function Home() {
 
         {/* ── 라이트: 믿을 만한가 ── */}
         <ProofRow />
-        <StatsBand />
 
         {/* 라이트 → 다크는 선이 아니라 그라디언트 다리로 잇는다 (벤치마크 §4.2) */}
         <div
