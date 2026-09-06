@@ -13,7 +13,7 @@ export const dynamic = 'force-static'
 export const metadata: Metadata = buildMetadata({
   title: '자주 묻는 질문',
   description:
-    '관공서·학교 LED 전광판 도입 전 가장 많이 묻는 질문. 예산 과목 계상, 계약 방법, 전기 인입, 옥외광고물 신고, 담당자 직접 조작, 보증과 A/S 절차를 정리했습니다.',
+    'LED 전광판 도입 전 가장 많이 묻는 질문. 가격을 바꾸는 조건, 계약 방법, 전기 인입, 옥외광고물 신고, 직접 화면 바꾸기, 보증과 A/S를 정리했습니다.',
   path: '/faq',
 })
 
@@ -32,7 +32,7 @@ export default function FaqPage() {
         <PageHero
           eyebrow="FAQ"
           title="자주 묻는 질문"
-          description="예산 과목 계상부터 계약·전기 인입·사후 관리까지, 담당자가 결재 전에 실제로 막히는 지점만 모았습니다."
+          description="가격, 계약, 전기, 설치, 고장. 문의 주신 분들이 실제로 가장 많이 물어본 것부터 답했습니다."
           crumbs={[{ name: '홈', href: '/' }, { name: 'FAQ' }]}
         />
         <FaqSection hideHeader />

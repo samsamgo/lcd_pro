@@ -115,6 +115,14 @@ export const IMAGES = {
   productsHero: G('gen-20'),
   /** lib/products.ts 의 제품 카드 6종. 전에는 그 파일이 경로를 직접 적어(§0-3 위반)
    *  중복 검사도 우회하고 있었다. 2026-09-06 레지스트리로 끌어왔다. */
+  /** /products 환경 묶음 3개의 좌측 칼럼 사진 (2026-09-06 증량) */
+  productTracks: {
+    'indoor-near': G('gen-22'),
+    'outdoor-near': G('gen-29'),
+    'outdoor-far': G('gen-5'),
+  } as Record<string, string>,
+  /** /support 사후관리 — 모듈을 앞에서 빼내는 장면 */
+  afterService: G('gen-42'),
   productCards: {
     'IN-S': G('gen-16'),
     'IN-M': G('gen-14'),

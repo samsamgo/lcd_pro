@@ -1,3 +1,6 @@
+import Image from 'next/image'
+
+import { IMAGES } from '@/lib/imageAssets'
 import { Reveal, Stagger } from '@/components/motion'
 
 /**
@@ -38,7 +41,7 @@ const STEPS: { n: string; title: string; desc: string; who: string }[] = [
   {
     n: '05',
     title: '결과 보고',
-    desc: '처리 내역을 문서로 드립니다. 검수나 감사 때 그대로 붙이시면 됩니다.',
+    desc: '처리 내역을 문서로 드립니다. 필요하시면 그대로 제출하셔도 됩니다.',
     who: '우강테크 → 담당자',
   },
 ]
@@ -54,9 +57,20 @@ export function AfterService() {
               고장 났을 때 처리 순서
             </h2>
             <p className="wk-lead mt-5">
-              설치는 한 번이고 고장은 언제 날지 모릅니다. 하필 감사 앞두고 꺼지는 게 제일 곤란하죠.
-              그래서 누가 무엇을 하는지 미리 적어 둡니다.
+              누가 무엇을 하는지 미리 적어 둡니다. 설치는 한 번이지만
+              고장은 언제 날지 모르고, 급할 때 절차부터 찾으면 늦습니다.
             </p>
+            {/* "모듈만 갈아 끼운다"를 글로 설명하는 대신 보여준다 */}
+            <div className="relative mt-7 aspect-[4/3] overflow-hidden rounded-card-m">
+              <Image
+                src={IMAGES.afterService}
+                alt="장갑을 낀 손이 전광판 앞면에서 모듈 한 장을 빼내고 있다"
+                fill
+                sizes="(min-width:1024px) 34vw, 100vw"
+                className="object-cover"
+              />
+            </div>
+
             <p className="wk-cap mt-6">
               하드웨어 무상보증 기간과 예비부품 보유 조건은 계약 시 규격서에 명시합니다.
             </p>

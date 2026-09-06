@@ -1,4 +1,7 @@
+import Image from 'next/image'
+
 import { PRODUCTS } from '@/lib/products'
+import { IMAGES } from '@/lib/imageAssets'
 import type { Sku } from '@/lib/pricing'
 import { ProductGrid } from '@/components/landing/ProductGrid'
 import { Reveal } from '@/components/motion'
@@ -20,12 +23,15 @@ type Track = {
   desc: string
   /** 이 묶음에서 판단이 갈리는 지점 — 담당자가 현장에서 확인할 것 */
   check: string
+  /** 그 환경이 실제로 어떤 자리인지 보여주는 사진 */
+  alt: string
   skus: Sku[]
 }
 
 const TRACKS: Track[] = [
   {
     id: 'indoor-near',
+    alt: '민원실 창구 위에 설치된 가로형 화면이 민원 안내 문구를 표시하고 있다',
     eyebrow: '건물 안 · 2~4m',
     title: '가까이에서 글자를 읽는 실내 화면',
     desc: '민원실 창구, 로비, 회의실처럼 사람이 화면 앞까지 걸어오는 자리입니다. 글자와 표가 많고, 실내 조명 아래에서 봅니다.',
@@ -34,6 +40,7 @@ const TRACKS: Track[] = [
   },
   {
     id: 'outdoor-near',
+    alt: '청사 진입 차단기 옆 화면이 방문 차량 정차 안내를 표시하고 있다',
     eyebrow: '건물 밖 · 5m~',
     title: '정문과 주차장에서 보는 옥외 화면',
     desc: '건물 밖이지만 보행자와 진입 차량이 비교적 가까이에서 보는 자리입니다. 직사광선과 비, 먼지를 함께 견뎌야 합니다.',
@@ -42,6 +49,7 @@ const TRACKS: Track[] = [
   },
   {
     id: 'outdoor-far',
+    alt: '가로수가 늘어선 도로변 지주형 전광판이 재난 안전 안내 문구를 표시하고 있다',
     eyebrow: '건물 밖 · 30m 이상',
     title: '도로변과 외벽에서 멀리 읽는 화면',
     desc: '전자현수막 게시대, 청사 외벽처럼 이동 중인 사람과 차량이 보는 자리입니다. 읽을 수 있는 시간이 몇 초뿐이라 글자 크기가 규격을 결정합니다.',
@@ -118,6 +126,17 @@ export function EnvironmentTracks() {
                     <b className="mb-1 block font-semibold text-wk-ink">현장에서 먼저 확인할 것</b>
                     {t.check}
                   </p>
+
+                  {/* 이 환경이 실제로 어떤 자리인지 — 글보다 사진이 빠르다 */}
+                  <div className="relative mt-6 aspect-[4/3] overflow-hidden rounded-card-m">
+                    <Image
+                      src={IMAGES.productTracks[t.id]}
+                      alt={t.alt}
+                      fill
+                      sizes="(min-width:1024px) 40vw, 100vw"
+                      className="object-cover"
+                    />
+                  </div>
                 </Reveal>
 
                 <div className="lg:col-span-7">
