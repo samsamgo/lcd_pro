@@ -4,6 +4,9 @@ import Image from 'next/image'
 import { NavBar } from '@/components/NavBar'
 import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
+import { IndustryCompare } from '@/components/public/IndustryCompare'
+import { IndustryScenes } from '@/components/public/IndustryScenes'
+import { IndustryChecks } from '@/components/public/IndustryChecks'
 import { IndustryGrid } from '@/components/public/IndustryGrid'
 import { CtaSection } from '@/components/landing/CtaSection'
 import { JsonLd } from '@/components/seo/JsonLd'
@@ -77,6 +80,15 @@ export default function IndustriesPage() {
             <IndustryGrid />
           </div>
         </section>
+
+        {/* 카드 뒤 모달에 숨어 있던 판단 근거를 표로 꺼낸다 */}
+        <IndustryCompare />
+
+        {/* "걸면 뭐가 뜨나" — 글보다 사진이 빠른 질문 */}
+        <IndustryScenes />
+
+        {/* 업종과 무관하게 일정이 갈리는 네 지점 */}
+        <IndustryChecks />
 
         <CtaSection
           title={['우리 기관은 어떤지', '물어보십시오']}

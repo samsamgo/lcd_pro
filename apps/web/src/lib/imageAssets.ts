@@ -121,6 +121,8 @@ export const IMAGES = {
     'outdoor-near': G('gen-29'),
     'outdoor-far': G('gen-5'),
   } as Record<string, string>,
+  /** /industries "걸면 뭐가 뜨나" 4장 — 전부 화면에 한국어 문구가 떠 있다 */
+  industryShowing: [G('gen-17'), G('gen-2'), G('gen-31'), G('gen-32')],
   /** /support 사후관리 — 모듈을 앞에서 빼내는 장면 */
   afterService: G('gen-42'),
   productCards: {
