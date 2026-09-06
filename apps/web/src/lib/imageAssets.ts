@@ -123,6 +123,8 @@ export const IMAGES = {
   } as Record<string, string>,
   /** /industries "걸면 뭐가 뜨나" 4장 — 전부 화면에 한국어 문구가 떠 있다 */
   industryShowing: [G('gen-17'), G('gen-2'), G('gen-31'), G('gen-32')],
+  /** /services 취부 방식 — 크레인으로 외벽에 캐비닛을 올리는 장면 */
+  mountScene: G('gen-44'),
   /** /support 사후관리 — 모듈을 앞에서 빼내는 장면 */
   afterService: G('gen-42'),
   productCards: {

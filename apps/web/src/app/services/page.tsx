@@ -5,6 +5,7 @@ import { NavBar } from '@/components/NavBar'
 import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
 import { ServiceHero } from '@/components/services/ServiceHero'
+import { MountTypes } from '@/components/solution/MountTypes'
 import { ProcessScroller } from '@/components/solution/ProcessScroller'
 import { CtaSection } from '@/components/landing/CtaSection'
 import { JsonLd } from '@/components/seo/JsonLd'
@@ -76,6 +77,9 @@ export default function ServicesPage() {
         <div id="process">
           <ProcessScroller />
         </div>
+
+        {/* 금액을 가르는 건 화면 크기가 아니라 어디에 어떻게 거느냐다 */}
+        <MountTypes />
 
         {/* A/S 접수 폼은 /support 한 곳에만 둔다. 같은 폼을 두 페이지에 두면
             어디로 접수해야 하는지 고객이 헷갈리고, 문의 경로도 갈린다. */}

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { NavBar } from '@/components/NavBar'
 import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
+import { SymptomGuide } from '@/components/public/SymptomGuide'
 import { SupportHero } from '@/components/public/SupportHero'
 import { AfterService } from '@/components/public/AfterService'
 import { ServiceRequest } from '@/components/public/ServiceRequest'
@@ -41,6 +42,9 @@ export default function SupportPage() {
         <SupportHero />
         <ServiceRequest />
         <AfterService />
+
+        {/* 전화 걸기 전에 스스로 가늠할 수 있게 — 출동이 줄고 접수 정확도가 오른다 */}
+        <SymptomGuide />
 
         {/* FAQ 본문은 /faq 한 곳에만 둔다. 같은 17문항을 세 페이지에 반복하지 않는다. */}
         <section id="faq" aria-labelledby="support-faq-h" className="wk-sec-sm bg-wk-bgFaint">
