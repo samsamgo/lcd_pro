@@ -16,7 +16,8 @@ import { Magnetic, Parallax, Reveal, SplitText } from '@/components/motion'
  * 사례 사진은 아래 ScreenGallery 에서 사용자가 직접 연다.
  *
  * 연출
- * - 사진: A5 광장 세로형 전광판 두 대(블루아워) 한 장. priority + sizes= "100vw".
+ * - 사진: A1 도심 대형 미디어 파사드(블루아워) 한 장. priority + sizes= "100vw".
+ *   "딱 봐도 전광판 업체"로 읽혀야 한다(CEO 2026-09-06). 은은한 현장 스냅샷은 갤러리로 내렸다.
  * - 아주 약한 Parallax(0.12). 사진 컨테이너를 위아래로 넘겨 잡아 여백이 뜨지 않게 한다.
  * - .wk-scrim-l 로 좌측 텍스트 영역만 눌러 대비를 만든다(전면 검정 40% 오버레이 금지).
  * - .wk-grain 으로 생성 이미지의 매끈함을 죽인다.
@@ -34,7 +35,7 @@ export function HeroSlider() {
         <div className="relative w-full" style={{ height: '126%', marginTop: '-13%' }}>
           <Image
             src={IMAGES.home.hero}
-            alt="군청 출입구 위 캐노피에 설치된 가로형 LED 전자현수막이 주민 설명회 안내를 표시하고 있다"
+            alt="해질 무렵 도심 건물 외벽에 설치된 대형 LED 미디어 파사드가 밝게 켜져 있고 아래 도로에 차량 불빛이 흐르고 있다"
             fill
             priority
             sizes="100vw"

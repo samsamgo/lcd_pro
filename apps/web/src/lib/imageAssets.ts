@@ -29,7 +29,7 @@ export const IMAGES = {
   /* ── 홈 ────────────────────────────────────────────── */
   home: {
     /** 히어로 주연 한 장. 자동 슬라이드는 쓰지 않는다(메시지가 스스로 사라진다) */
-    hero: W('K02_county-hall-granite-morning'),
+    hero: W('A1_downtown-tower-bluehour'),
     /** 히어로 마스크 리빌의 두 번째 층 */
     heroReveal: W('A4_curved-media-facade-day'),
     /** 스크롤 문장 섹션 배경 */
@@ -98,7 +98,7 @@ export const IMAGES = {
   servicesHero: W('A2_rooftop-rain-night'),
 
   /* ── 제품 ──────────────────────────────────────────── */
-  productsHero: W('K06_fire-safety-building-flatlight'),
+  productsHero: W('A5_twin-vertical-plaza'),
   /** 제품 상세 쇼케이스 — 구조·배선·방열·마감 */
   showcase: [
     W('G6_exploded-layers'),
@@ -131,9 +131,9 @@ export const IMAGES = {
 
   /** 남는 장면 — 사례 더보기·블로그 썸네일 등 자유 배치 */
   spare: [
-    S('A1_downtown-tower-bluehour'),
+    S('K02_county-hall-granite-morning'),
     S('A3_roadside-pylon-dusk'),
-    S('A5_twin-vertical-plaza'),
+    S('K06_fire-safety-building-flatlight'),
     S('B1_village-community-center'),
     S('B3_bus-stop-arrival'),
     S('B4_elementary-school-gate'),
