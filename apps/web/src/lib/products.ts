@@ -1,4 +1,5 @@
 import type { Sku } from './pricing'
+import { IMAGES } from '@/lib/imageAssets'
 
 export interface ProductInfo {
   sku: Sku
@@ -28,7 +29,7 @@ export const PRODUCTS: ProductInfo[] = [
     env: 'indoor',
     pitch: 'P3',
     brightness: '800 nit',
-    img: '/cases/gen/gen-16.jpg',
+    img: IMAGES.productCards['IN-S'],
     imgAlt: '한국 공공 민원실 대기 공간 벽면의 대기 순번 안내 화면',
     generated: true,
     highlights: ['창구·대기 안내 수정', '작은 글자도 또렷하게 표시', '실내 밝기에 맞춘 화면'],
@@ -43,7 +44,7 @@ export const PRODUCTS: ProductInfo[] = [
     env: 'indoor',
     pitch: 'P3',
     brightness: '1000 nit',
-    img: '/cases/gen/gen-14.jpg',
+    img: IMAGES.productCards['IN-M'],
     imgAlt: '한국 공공 도서관 로비 벽면의 세로형 이용·운영시간·시설 안내 화면',
     generated: true,
     highlights: ['공지와 일정 한곳에 표시', '안내 영상 재생', '시간대별 화면 예약'],
@@ -58,7 +59,7 @@ export const PRODUCTS: ProductInfo[] = [
     env: 'outdoor',
     pitch: 'P4',
     brightness: '5000 nit',
-    img: '/cases/gen/gen-15.jpg',
+    img: IMAGES.productCards['IN-L'],
     imgAlt: '비 오는 저녁 한국 공공시설 진입로의 기둥형 호우 주의 LED 안내 화면',
     generated: true,
     highlights: ['햇빛 아래에서도 읽기 쉬움', '비와 먼지에 견디는 구조', '안내 내용 원격 변경'],
@@ -73,7 +74,7 @@ export const PRODUCTS: ProductInfo[] = [
     env: 'outdoor',
     pitch: 'P5',
     brightness: '6000 nit',
-    img: '/cases/gen/gen-11.jpg',
+    img: IMAGES.productCards['OUT-S'],
     imgAlt: '비 오는 저녁 한국 도로 위 전자현수막에 표시된 호우 안전 안내',
     generated: true,
     highlights: ['낮에도 읽기 쉬운 밝기', '약 30m 거리에서 내용 확인', '옥외 환경에 맞춘 내구성'],
@@ -88,7 +89,7 @@ export const PRODUCTS: ProductInfo[] = [
     env: 'outdoor',
     pitch: 'P6',
     brightness: '7000 nit',
-    img: '/cases/gen/gen-10.jpg',
+    img: IMAGES.productCards['OUT-M'],
     imgAlt: '한국 공공 체육시설 외벽에 설치된 대형 옥외 LED 안내 화면',
     generated: true,
     highlights: ['넓은 외벽에 맞춘 시공', '약 50m 이상 거리에서 내용 확인', '점검·유지보수 계획 제공'],
@@ -103,7 +104,7 @@ export const PRODUCTS: ProductInfo[] = [
     env: 'indoor',
     pitch: 'P2.5',
     brightness: '1200 nit',
-    img: '/cases/gen/gen-1.jpg',
+    img: IMAGES.productCards['OUT-L'],
     imgAlt: '한국 공공 민원실 창구 상단에서 대기번호와 작은 창구명을 표시하는 정밀 안내 화면',
     generated: true,
     highlights: ['가까운 거리에서도 또렷한 글자', '도표와 세부 이미지 표현', '회의 자료와 안내 영상 재생'],

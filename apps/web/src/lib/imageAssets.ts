@@ -20,8 +20,18 @@
  *   F 교통 · G 제품/모듈 · H 시공 현장 · I 운영/관제 · J 브랜드 추상
  */
 
+/**
+ *   gen 2026-09 v4 — `public/cases/gen/` 58장.
+ *     화면에 **한국어 안내 문구**가 떠 있고 배경이 국내 관공서·학교다.
+ *     CEO 판정 기준(2026-09-06): 화면 내용이 추상 그라데이션이면 AI 티가 난다.
+ *     그래서 히어로처럼 화면이 크게 보이는 자리는 이 세트를 우선한다.
+ *     A~J 시리즈는 화면이 그라데이션이라 대형 자리에서 뺐다(작은 카드는 무방).
+ */
+
 /** 원본(최대 1600px 급) — 히어로·대형 장면용 */
 const W = (name: string) => `/wk/${name}.jpg`
+/** 한국어 문구가 뜬 국내 현장 세트 — 화면이 크게 보이는 자리에 쓴다 */
+const G = (name: string) => `/cases/gen/${name}.jpg`
 /** 축소본 — 카드·썸네일 격자용. 원본을 격자에 쓰면 첫 로드가 무거워진다 */
 const S = (name: string) => `/wk/sm/${name}.jpg`
 
@@ -29,7 +39,7 @@ export const IMAGES = {
   /* ── 홈 ────────────────────────────────────────────── */
   home: {
     /** 히어로 주연 한 장. 자동 슬라이드는 쓰지 않는다(메시지가 스스로 사라진다) */
-    hero: W('A1_downtown-tower-bluehour'),
+    hero: G('gen-18'),
     /** 히어로 마스크 리빌의 두 번째 층 */
     heroReveal: W('A4_curved-media-facade-day'),
     /** 스크롤 문장 섹션 배경 */
@@ -51,6 +61,10 @@ export const IMAGES = {
     S('B8_agricultural-coop'),
     S('K22_public-auditorium-meeting'),
     S('K12_gym-stage-overcast-day'),
+    // 2026-09-06 증량 — 화면에 한국어 문구가 뜬 국내 현장 (CEO 기준)
+    G('gen-26'),
+    G('gen-3'),
+    S('B3_bus-stop-arrival'),
   ],
 
   /* ── 업종 ──────────────────────────────────────────── */
@@ -95,10 +109,20 @@ export const IMAGES = {
     W('K32_school-gate-frame-install'),
     W('K30_parts-layout-service-bench'),
   ],
-  servicesHero: W('A2_rooftop-rain-night'),
+  servicesHero: G('gen-45'),
 
   /* ── 제품 ──────────────────────────────────────────── */
-  productsHero: W('A5_twin-vertical-plaza'),
+  productsHero: G('gen-20'),
+  /** lib/products.ts 의 제품 카드 6종. 전에는 그 파일이 경로를 직접 적어(§0-3 위반)
+   *  중복 검사도 우회하고 있었다. 2026-09-06 레지스트리로 끌어왔다. */
+  productCards: {
+    'IN-S': G('gen-16'),
+    'IN-M': G('gen-14'),
+    'IN-L': G('gen-15'),
+    'OUT-S': G('gen-11'),
+    'OUT-M': G('gen-10'),
+    'OUT-L': G('gen-1'),
+  } as Record<string, string>,
   /** 제품 상세 쇼케이스 — 구조·배선·방열·마감 */
   showcase: [
     W('G6_exploded-layers'),
@@ -126,7 +150,7 @@ export const IMAGES = {
 
   /* ── 고객센터 · FAQ · 견적 ─────────────────────────── */
   support: W('K24_civic-center-reception-morning'),
-  faqHero: W('F3_airport-fids'),
+  faqHero: G('gen-28'),
   quoteHero: W('F4_parking-availability'),
 
   /** 남는 장면 — 사례 더보기·블로그 썸네일 등 자유 배치 */
@@ -135,7 +159,6 @@ export const IMAGES = {
     S('A3_roadside-pylon-dusk'),
     S('K06_fire-safety-building-flatlight'),
     S('B1_village-community-center'),
-    S('B3_bus-stop-arrival'),
     S('B4_elementary-school-gate'),
     S('B5_senior-center'),
     S('B7_fire-station-emergency'),

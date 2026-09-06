@@ -57,6 +57,24 @@ const SCREENS: Screen[] = [
     meta: '체육관 · 무대 배경형',
     alt: '학교 체육관 무대 위에 설치된 화면이 졸업식 안내를 표시하고 있다',
   },
+  {
+    src: IMAGES.homeGallery[6],
+    title: '민원 서류 발급 시간',
+    meta: '청사 앞 · 독립 지주형',
+    alt: '청사 앞 지주형 전광판이 행정 안내와 민원 서류 발급 시간 09:00~18:00을 표시하고 있다',
+  },
+  {
+    src: IMAGES.homeGallery[7],
+    title: '급식 · 체육행사 안내',
+    meta: '학교 정문 · 담장 부착형',
+    alt: '학교 담장에 설치된 두 칸짜리 화면이 오늘의 급식 안내와 가을 체육행사 안내를 나란히 표시하고 있다',
+  },
+  {
+    src: IMAGES.homeGallery[8],
+    title: '버스 도착 정보',
+    meta: '정류장 · 소형 실시간',
+    alt: '시골 버스정류장 안에 설치된 소형 화면이 버스 도착까지 남은 시간을 표시하고 있다',
+  },
 ]
 
 export function ScreenGallery() {
