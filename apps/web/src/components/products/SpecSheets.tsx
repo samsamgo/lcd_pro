@@ -163,15 +163,17 @@ export function SpecSheets() {
               <p className="wk-cap mt-3">{PRICE_DISCLAIMER}</p>
             </div>
 
-            <div className="mt-5 flex flex-col gap-2 sm:flex-row">
+            {/* 🔴 2026-09-07 접점 정리 — 옆에 있던 '규격서 요청·문의' → /support 버튼을 없앴다.
+                두 가지가 겹쳐 있었다. ① 목적지가 틀렸다(규격 문의를 A/S 창구로 보냈다)
+                ② 문서 제공 약속이었다(CEO 지시로 사이트 전체에서 걷어냈다).
+                이 페이지의 견적 경로는 히어로 · 이 버튼 · PackagesSection · 하단 CtaSection
+                네 곳이 남고, /support 는 상단 메뉴와 푸터에 그대로 있다. */}
+            <div className="mt-5">
               <Link
                 href={`/quote?type=${p.env === 'indoor' ? 'institution' : 'outdoor'}`}
-                className="wk-btn-p sm:flex-1"
+                className="wk-btn-p"
               >
                 이 조건으로 견적 요청
-              </Link>
-              <Link href="/support" className="wk-btn-w sm:flex-1">
-                규격서 요청·문의
               </Link>
             </div>
           </div>

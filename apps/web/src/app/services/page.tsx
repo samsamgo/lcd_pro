@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 
 import { NavBar } from '@/components/NavBar'
 import { Footer } from '@/components/Footer'
@@ -32,6 +31,9 @@ export const metadata: Metadata = buildMetadata({
  *   ② 공정마다 실제로 무엇을 하는가 (ProcessOverview 아코디언)
  *   ③ 금액을 가르는 건 크기가 아니라 취부 방식이다 (MountTypes)
  *   ④ 그래서 지금 무엇을 보내면 되는가 (CtaSection)
+ *
+ * 🔴 이 페이지의 본문 CTA 는 견적 하나로 모은다. A/S 유도 블록을 다시 넣지 말 것.
+ *    A/S 는 /support 소관이고, 이 페이지에서는 NavBar 드롭다운과 푸터가 그 길을 맡는다.
  *
  * 🔴 JSON-LD 의 HowTo 스텝은 화면과 같은 배열(lib/serviceProcess.ts)에서 나온다.
  *    2026-09-07 이전에는 여기에 6공정을 손으로 한 번 더 적어 뒀고, 화면 문구를
@@ -78,23 +80,18 @@ export default function ServicesPage() {
         {/* 금액을 가르는 건 화면 크기가 아니라 어디에 어떻게 거느냐다 */}
         <MountTypes />
 
-        {/* A/S 접수 폼은 /support 한 곳에만 둔다. 같은 폼을 두 페이지에 두면
-            어디로 접수해야 하는지 고객이 헷갈리고, 문의 경로도 갈린다. */}
-        <section aria-labelledby="svc-after-h" className="wk-sec-sm bg-white">
-          <div className="wk-wrap text-center">
-            <h2 id="svc-after-h" className="wk-h2 text-wk-ink">
-              고장은 우강테크가 책임집니다
-            </h2>
-            <p className="wk-lead mx-auto mt-5">
-              화면 전체를 뜯지 않습니다. 원격으로 원인을 먼저 잡고,
-              필요하면 가서 해당 모듈만 갈아 끼웁니다.
-            </p>
-            <Link href="/support" className="wk-btn-p mt-9 inline-flex">
-              A/S 접수하기
-            </Link>
-          </div>
-        </section>
+        {/* 🔴 2026-09-07 접점 정리 (CEO 육안 확인) —
+            여기 있던 A/S 유도 섹션('고장은 우강테크가 책임집니다' + 'A/S 접수하기' → /support)을
+            없앴다. 바로 아래 CtaSection 과 붙어서 전폭 CTA 블록 두 개가 한 화면에 연달아 떴고,
+            목적지도 서로 달라(/support vs /quote) 어디를 눌러야 하는지 갈렸다.
+            A/S 는 /support 한 곳이 맡는다(지시③ 원칙).
 
+            리드 경로가 남아 있다는 증명 —
+            ① A/S : 이 페이지 상단 NavBar '공급 범위' 드롭다운에 'A/S — 고장 접수와 모듈 교체'
+                    → /support 가 그대로 있고, 푸터에도 'A/S 신청' → /support#as 가 있다.
+            ② 견적 : 히어로 '무상 실측 신청' → /quote (첫 화면) 과 아래 CtaSection → /quote,
+                    그리고 NavBar·MobileCtaBar 의 상시 '견적 요청' 이 남는다.
+            즉 이 섹션을 없애도 /services 에서 A/S 로도 견적으로도 갈 길이 남는다. */}
         <CtaSection
           title={['현장부터', '보겠습니다']}
           sub={'실측은 무상입니다. 보고 나서 확정 견적과 도면을 드립니다.'}

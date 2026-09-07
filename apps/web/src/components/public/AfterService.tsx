@@ -77,12 +77,13 @@ export function AfterService() {
           </div>
         </Reveal>
 
-        <Stagger className="m-0 list-none p-0" y={14} gap={0.06}>
+        {/* 🔴 구분선은 Stagger 의 직접 자식(래퍼)에 divide-y 로 건다.
+            Stagger 는 자식을 하나씩 <motion.div> 로 감싸므로 항목 div 에 붙인
+            first:/last: 는 전 항목에서 참이 된다 — 이전 코드는 그 탓에 구분선이
+            전부 지워지고 첫 항목 패딩도 잘못 먹었다. (2026-09-07 MountTypes 와 동일 수리) */}
+        <Stagger className="m-0 list-none divide-y divide-wk-line p-0" y={14} gap={0.06}>
           {STEPS.map((s) => (
-            <div
-              key={s.n}
-              className="flex gap-5 border-b border-wk-line py-6 last:border-b-0 first:pt-0"
-            >
+            <div key={s.n} className="flex gap-5 py-6">
               <span className="wk-metric w-8 shrink-0 pt-1 text-label font-bold text-wk-cta">
                 {s.n}
               </span>

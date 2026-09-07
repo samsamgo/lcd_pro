@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { FileText, Hammer, ShieldCheck, Wrench } from 'lucide-react'
 
 import { Stagger } from '@/components/motion'
@@ -9,6 +8,10 @@ import { Stagger } from '@/components/motion'
  * ⚠️ 우강테크는 아직 첫 수주 전이다. 실적 숫자·고객 로고· "만족도 99%" 를 쓰지 않는다.
  *    (설계계약서 §0-7, 벤치마크 §6 안티패턴 7·15)
  *    여기에는 지금 이 순간 문서로 확인되는 사실만 넣는다.
+ *
+ * 🔴 2026-09-07 CEO 지시("드리는 서류도 빼")로 '검토 자료' 카드에서
+ *    "규격서, 설치 도면을 드립니다" 를 뺐다. 주지 않을 문서를 약속하지 않는다.
+ *    같은 자리를 실제로 하는 일(현장에서 규격 확정)로 바꿨다.
  *
  * KC 표기에 대해 — "전 제품 KC 인증" 이라고 단정하지 않는다.
  * 전원공급장치 2건은 적합등록을 마쳤고(TA-2607130 / TA-2607131),
@@ -31,10 +34,10 @@ const PROOFS = [
   },
   {
     icon: FileText,
-    label: '검토 자료',
-    title: '도면에 현장을 같이 그립니다',
-    desc: '실측한 뒤 확정 견적과 함께 규격서, 설치 도면을 드립니다.',
-    foot: '결재나 시방서에 그대로 붙이실 수 있습니다',
+    label: '규격 확정',
+    title: '규격은 현장에서 확정합니다',
+    desc: '바닥에서 몇 미터인지, 무엇에 붙일지, 전기를 어디서 끌어오는지를 보고 정합니다.',
+    foot: '사진만 보고 규격을 정하지 않습니다',
   },
   {
     icon: Wrench,
@@ -71,12 +74,12 @@ export function ProofRow() {
           ))}
         </Stagger>
 
+        {/* 2026-09-07 CEO: "드리는 서류도 빼. 그런 거 안 줘."
+            원래 "근거 서류가 필요하시면 고객센터로 요청해 주세요" 였다. 두 가지가 틀렸다 —
+            ①주지 않을 서류를 준다고 약속했고 ②그 요청을 A/S 창구(/support)로 보냈다.
+            등록번호는 발급 기관에서 직접 조회되므로 서류를 건네지 않아도 확인은 된다. */}
         <p className="wk-cap mt-4">
-          위 내용은 문서로 확인 가능한 사실만 적었습니다. 근거 서류가 필요하시면{' '}
-          <Link href="/support" className="font-semibold text-wk-cta underline underline-offset-4">
-            고객센터
-          </Link>
-          로 요청해 주세요.
+          위 내용은 발급 기관에서 직접 조회되는 사실만 적었습니다.
         </p>
       </div>
     </section>

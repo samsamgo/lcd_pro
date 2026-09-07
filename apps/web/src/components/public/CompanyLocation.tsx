@@ -7,13 +7,16 @@ import { SITE } from '@/lib/seo/site'
  * 주소가 없거나 모호하면 실체가 없는 업체로 읽힌다(벤치마크 §8.1-6).
  * 지도는 API 키가 필요 없는 임베드를 lazy 로 붙이고,
  * 컨테이너에 고정 aspect-ratio 를 줘서 로드 전후 레이아웃이 밀리지 않게 한다(CLS 0).
+ *
+ * 🔴 2026-09-07 접점 정리 — 이 카드에서 '연락처' 행을 뺐다. 바로 다음 섹션인
+ *    AboutContact 가 전화·이메일·문의 폼을 전부 갖는다. 같은 페이지에서 전화번호를
+ *    두 번 보여 줄 이유가 없다. 이 카드는 '장소 정보'(주소·업무시간·길찾기)만 맡는다.
  */
 export function CompanyLocation() {
   const q = encodeURIComponent(SITE.addressFull)
   const naver = `https://map.naver.com/p/search/${q}`
   const kakao = `https://map.kakao.com/?q=${q}`
   const embed = `https://maps.google.com/maps?q=${q}&hl=ko&z=16&output=embed`
-  const tel = SITE.phone.replace(/[^0-9+]/g, '')
 
   return (
     <section id="location" className="wk-sec bg-white">
@@ -50,18 +53,6 @@ export function CompanyLocation() {
                   {SITE.openingHours}
                 </span>
               </div>
-              {SITE.phone && (
-                <div className="wk-row items-start">
-                  <span className="w-20 shrink-0 pt-0.5 text-label font-medium text-wk-ink3">연락처</span>
-                  <a
-                    href={`tel:${tel}`}
-                    className="wk-metric flex-1 text-label font-semibold text-wk-cta underline underline-offset-4"
-                  >
-                    {SITE.phone}
-                  </a>
-                </div>
-              )}
-
               <div className="py-6">
                 <p className="wk-cap">길찾기</p>
                 <div className="mt-3 flex flex-col gap-2 sm:flex-row">

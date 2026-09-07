@@ -233,29 +233,21 @@ export function FaqSection({
             })}
           </div>
 
-          <p className="wk-cap mt-8">
-            {limit ? (
-              <>
-                나머지 질문도 정리해 두었습니다.{' '}
-                <Link
-                  href="/faq"
-                  className="font-semibold text-wk-cta underline underline-offset-4"
-                >
-                  자주 묻는 질문 전체 보기 →
-                </Link>
-              </>
-            ) : (
-              <>
-                여기 없는 내용은 직접 물어보시는 편이 빠릅니다.{' '}
-                <Link
-                  href="/quote"
-                  className="font-semibold text-wk-cta underline underline-offset-4"
-                >
-                  설치 조건 남기고 상담 요청하기 →
-                </Link>
-              </>
-            )}
-          </p>
+          {/* 🔴 2026-09-07 접점 정리 — limit 이 없는 전체 목록(/faq)에서는 아무것도 붙이지 않는다.
+              이전에는 "여기 없는 내용은 직접 물어보시는 편이 빠릅니다 → /quote" 를 달았는데,
+              /faq 는 이 섹션 바로 아래가 CtaSection("여기 없는 것은 / 직접 답하겠습니다" → /quote)라
+              같은 말과 같은 목적지가 한 화면에 두 번 나왔다. 리드 경로는 그대로 남는다. */}
+          {limit && (
+            <p className="wk-cap mt-8">
+              나머지 질문도 정리해 두었습니다.{' '}
+              <Link
+                href="/faq"
+                className="font-semibold text-wk-cta underline underline-offset-4"
+              >
+                자주 묻는 질문 전체 보기 →
+              </Link>
+            </p>
+          )}
         </div>
       </div>
     </section>
