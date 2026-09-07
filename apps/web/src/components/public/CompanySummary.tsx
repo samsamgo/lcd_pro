@@ -24,8 +24,12 @@ type Credential = {
   verify?: { label: string; href: string }
 }
 
-/** 취득 완료 — 번호로 공식 조회가 가능한 것만 올린다 */
-const HELD: Credential[] = [
+/**
+ * 취득 완료 — 번호로 공식 조회가 가능한 것만 올린다.
+ * CompanyHero 의 사실 띠가 이 배열에서 KC 건수(TA- 로 시작하는 항목)를 세어 쓴다.
+ * 그래서 여기에 인증이 추가되면 히어로 숫자도 자동으로 따라 오른다. 손으로 세지 말 것.
+ */
+export const HELD_CREDENTIALS: Credential[] = [
   {
     title: 'KC 적합등록 · 전원공급장치',
     detail: '모델 LH-200-5P',
@@ -69,9 +73,10 @@ export function CompanySummary() {
         <Reveal y={16}>
           <p className="wk-eyebrow">확인 가능한 사실</p>
           <h2 className="wk-h2 max-w-[14ch] text-wk-ink">법인 정보와 인증</h2>
+          {/* 2026-09-07 — "숨기지 않고 적습니다"(부정형 방어문)를 선언형으로 교체 */}
           <p className="wk-lead mt-5">
-            결재 문서에 그대로 옮겨 쓸 수 있도록 등기 정보와 인증 번호를
-            숨기지 않고 적습니다. 번호는 발급 기관에서 직접 조회하실 수 있습니다.
+            결재 문서에 그대로 옮겨 쓰실 수 있게 등기 정보와 인증 번호를 전부 적습니다.
+            번호는 발급 기관에서 직접 조회하실 수 있습니다.
           </p>
         </Reveal>
 
@@ -98,7 +103,7 @@ export function CompanySummary() {
           {/* 인증 */}
           <div className="lg:col-span-7">
             <Stagger className="flex flex-col gap-3" y={14}>
-              {HELD.map((c) => (
+              {HELD_CREDENTIALS.map((c) => (
                 <div
                   key={c.no}
                   className="rounded-card-m border border-wk-line bg-white p-5 shadow-wk-1 sm:p-6"

@@ -93,20 +93,46 @@ export const IMAGES = {
   ],
 
   /* ── 회사 소개 ─────────────────────────────────────── */
+  /**
+   * 2026-09-07 교체 — 육안 판독으로 해외 생성컷 3장을 뺐다.
+   *   hero     A6_smalltown-mainstreet  → 화면 문구가 영문 'NEW BEGINNINGS START HERE'
+   *   chapter2 H1_facade-install-crew   → 미국 픽업트럭·미국식 도로·해외 인물
+   *   chapter3 I3_monitoring-room-fleet → 관제 지도가 미국 걸프연안, 화면 텍스트 전부 뭉개짐
+   * 대체는 전부 `cases/gen/` 국내 세트다. 관공서 담당자가 보는 페이지라
+   * 화면에 한국어가 떠 있는지를 1순위 기준으로 골랐다(구조정본 §13 AI 티 판정 기준).
+   */
   company: {
-    hero: W('A6_smalltown-mainstreet'),
+    /** 눈 온 학교 앞, 전광판에 '안전한 겨울 보내세요' — 히어로 유일 priority */
+    hero: G('gen-57'),
+    /** 모듈에 '점검중', 옆에 한국어 점검 체크시트 */
     chapter1: W('K28_gloved-module-inspection'),
-    chapter2: W('H1_facade-install-crew'),
-    chapter3: W('I3_monitoring-room-fleet'),
+    /** 국내 관공서 로비, 안전콘·비계 두고 캐비닛 취부 중 */
+    chapter2: G('gen-8'),
+    /** 흡착판으로 전면에서 모듈을 빼내는 국내 기술자 */
+    chapter3: G('gen-9'),
   },
 
   /* ── 솔루션(공급 범위) 6공정 ───────────────────────── */
+  /**
+   * 2026-09-07 교체 2건 (COO 실물 판독 지시).
+   *  [0] I1_tablet-diagnostic → gen-6
+   *      I1 은 미국식 스트립몰 주차장·픽업트럭·해외 작업자에 화면은 추상 그라데이션이었다.
+   *      (구조정본 §13 "그라데이션(히어로 금지)" 목록에도 I1 이 들어 있다)
+   *      gen-6 은 국내 공공시설 로비에서 레이저 거리계와 태블릿으로 실측하는 장면이라
+   *      01 공정(현장 실측)과 그림이 맞는다.
+   *  [4] K32_school-gate-frame-install → gen-50
+   *      K32 는 학교 정문 캐노피에 프레임을 다는 사진이라 03(취부)이지 05(시운전)가 아니다.
+   *      gen-50 은 국내 청사 앞에서 태블릿 제어 화면(밝기·온도 게이지)을 띄우고
+   *      점등한 화면을 확인하는 장면이라 05(제어 설정·시운전)와 맞는다.
+   *      세로 2:3 원본이지만 4:3 중앙 크롭에서 태블릿이 온전히 남는다(실측 확인).
+   * 빠진 두 장은 삭제하지 않고 배선만 풀었다. 다른 자리에 다시 쓸 수 있다.
+   */
   service: [
-    W('I1_tablet-diagnostic'),
+    G('gen-6'),
     W('K29_cabinet-test-pattern'),
     W('K34_roadside-hbeam-crane'),
     W('K35_cabinet-cabling-fluorescent'),
-    W('K32_school-gate-frame-install'),
+    G('gen-50'),
     W('K30_parts-layout-service-bench'),
   ],
   servicesHero: G('gen-45'),

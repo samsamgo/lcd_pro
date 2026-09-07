@@ -2,57 +2,137 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
-import { EASE } from '@/components/motion'
-import { IMAGES } from '@/lib/imageAssets'
+import { ChevronRight } from 'lucide-react'
 
-const JUMP = [
-  { label: '표준 시공', href: '#install' },
-  { label: '컨트롤러', href: '#controller' },
-  { label: 'CMS 운영', href: '#cms' },
-  { label: '인증·인허가', href: '#cert' },
-  { label: '공공조달', href: '#b2b' },
+import { IMAGES } from '@/lib/imageAssets'
+import { Magnetic, Reveal, Stagger } from '@/components/motion'
+import { OUTPUT_COUNT, SERVICE_STEPS, TOTAL_DURATION } from '@/lib/serviceProcess'
+
+/**
+ * /services 히어로.
+ *
+ * 2026-09-07 재작성 — COO 실물 판독으로 결함 3건이 잡혔다.
+ *
+ * ① 리드가 빈 문장이었다.
+ *    "설계·시공·컨트롤러·CMS·AS·인허가·공공조달까지 — 모든 영역을 하나의 표준으로 끝냅니다."
+ *    이건 경쟁사가 그대로 복사해도 아무 손해가 없는 문장이고(안티패턴 2),
+ *    중점 나열 금지 규칙(카피-슬롯규칙 §문체)도 어겼다.
+ *    지금은 **아래 표에서 확인되는 사실**만 쓴다 — 공정 수, 서류 종수, 표준 소요.
+ *    숫자는 손으로 적지 않고 SERVICE_STEPS 에서 뽑는다. 본문과 어긋날 수가 없다.
+ *
+ * ② 칩 5개(표준 시공/컨트롤러/CMS/인증·인허가/공공조달)가 본문 6공정과 달랐다.
+ *    한 페이지에 목차가 두 개였다. 칩을 6공정 앵커로 바꿨다.
+ *
+ * ③ 칩 아래로 한 화면 가까이 검은 여백이었다.
+ *    min-h-[72svh] + items-center 조합이 원인이다. 다른 히어로(ProductsHero)와 같이
+ *    items-end + 콘텐츠가 높이를 정하는 방식으로 바꾸고, 하단에 사실 3줄을 놓아 채웠다.
+ */
+
+/** 히어로 하단 사실 띠 — 전부 이 페이지 안에서 확인되는 값만 쓴다 */
+const FACTS = [
+  { k: '표준 공정 소요', v: TOTAL_DURATION, n: '실측 후 확정' },
+  { k: '드리는 서류', v: `${OUTPUT_COUNT}종`, n: '공정마다 3종' },
+  { k: '현장 실측 비용', v: '0원', n: '보고 나서 확정 견적' },
 ]
 
 export function ServiceHero() {
   return (
     <section
-      data-wk-dark-hero className="relative flex min-h-[72svh] items-center overflow-hidden bg-black px-6 pt-28 pb-16">
-      <div className="absolute inset-0" aria-hidden="true">
-        <Image src={IMAGES.servicesHero} alt="한국 공공시설 로비 벽면에 LED 프레임과 모듈을 설치하는 기술자들" fill priority sizes="100vw" className="object-cover opacity-40" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/55 to-black" />
-        <div className="absolute right-1/4 top-1/4 h-[440px] w-[440px] rounded-full bg-cyan-500/15 blur-[150px]" />
+      data-wk-dark-hero
+      className="relative isolate flex items-end overflow-hidden bg-wk-night"
+    >
+      <div className="wk-grain absolute inset-0" aria-hidden="true">
+        <Image
+          src={IMAGES.servicesHero}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          quality={82}
+          className="object-cover object-[62%_50%] lg:object-center"
+        />
+        <div className="wk-scrim-l absolute inset-0" />
+        <div className="wk-scrim-b absolute inset-0" />
       </div>
-      <div className="relative z-10 mx-auto w-full max-w-5xl">
-        <motion.p
-          initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
-          className="mb-5 text-sm font-medium uppercase tracking-[0.25em] text-cyan-300"
-        >
-          Services
-        </motion.p>
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.06, ease: EASE.entrance }}
-          className="max-w-3xl text-[clamp(2.4rem,6vw,4.6rem)] font-extrabold leading-[1.02] tracking-tight text-white"
-        >
-          실측부터 사후관리까지<br />여섯 단계
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.16, ease: EASE.entrance }}
-          className="mt-6 max-w-2xl text-lg font-light leading-relaxed text-wk-ink4"
-        >
-          설계·시공·컨트롤러·CMS·AS·인허가·공공조달까지 —
-          LED 디스플레이에 필요한 모든 영역을 하나의 표준으로 끝냅니다.
-        </motion.p>
-        <motion.div
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.3 }}
-          className="mt-9 flex flex-wrap gap-2"
-        >
-          {JUMP.map((j) => (
-            <Link key={j.href} href={j.href} className="rounded-full border border-white/20 bg-white/5 px-4 py-2 text-sm font-medium text-wk-nightMuted backdrop-blur transition-all hover:bg-white/10">
-              {j.label}
+
+      <div className="relative z-10 w-full pb-14 pt-32 lg:pb-20 lg:pt-40">
+        <div className="wk-wrap">
+          <nav aria-label="위치" className="mb-6 flex items-center gap-1.5 text-caption text-white/70">
+            <Link href="/" className="hover:text-white">
+              홈
             </Link>
-          ))}
-        </motion.div>
+            <ChevronRight size={12} aria-hidden="true" className="text-white/40" />
+            <span className="font-semibold text-white">공급 범위</span>
+          </nav>
+
+          <Reveal y={16}>
+            <p className="wk-eyebrow !text-white/70">공급 범위</p>
+            <h1 className="wk-h1 max-w-[16ch] text-white">
+              실측부터 사후관리까지 여섯 공정
+            </h1>
+          </Reveal>
+
+          <Reveal delay={0.12} y={16}>
+            <p className="wk-lead mt-6 !text-white/85">
+              공정마다 며칠 걸리고 무슨 서류가 나오는지 아래 표에 다 적었습니다.
+            </p>
+            <p className="mt-3 max-w-[34rem] text-body text-wk-nightMuted">
+              그대로 과업 범위에 옮겨 쓰셔도 됩니다. 확정 일정은 실측하고 견적서에 적어
+              드립니다.
+            </p>
+          </Reveal>
+
+          <Reveal delay={0.22} y={14}>
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <Magnetic>
+                <Link href="/quote" className="wk-btn-p sm:px-8">
+                  무상 실측 신청
+                </Link>
+              </Magnetic>
+              <a
+                href="#process"
+                className="wk-btn-sm w-full justify-center border border-white/25 text-white hover:bg-white/10 sm:w-auto"
+              >
+                공정 요약표 보기
+              </a>
+            </div>
+          </Reveal>
+
+          {/* 6공정 앵커. 본문 목차와 같은 배열에서 나온다 */}
+          <nav aria-label="공정 바로가기">
+            <Stagger className="mt-10 flex flex-wrap gap-2" y={10} gap={0.04}>
+              {SERVICE_STEPS.map((s) => (
+                <a
+                  key={s.id}
+                  href={`#${s.id}`}
+                  className="inline-flex items-baseline gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-2 text-label font-medium text-wk-nightMuted backdrop-blur transition-colors duration-state ease-state hover:bg-white/10 hover:text-white"
+                >
+                  <span className="wk-metric text-caption font-semibold text-white/60">
+                    {s.no}
+                  </span>
+                  {s.chip}
+                </a>
+              ))}
+            </Stagger>
+          </nav>
+
+          {/* 여백이던 자리 — 결재 문서에 그대로 옮겨 쓸 수 있는 값만 */}
+          <Reveal delay={0.3} y={12}>
+            <dl className="mt-12 grid gap-px overflow-hidden rounded-card-m border border-white/10 bg-white/10 sm:grid-cols-3">
+              {FACTS.map((f) => (
+                <div key={f.k} className="bg-wk-night2/90 px-5 py-4 backdrop-blur">
+                  <dt className="text-caption text-white/60">{f.k}</dt>
+                  <dd className="wk-metric mt-1 text-body-lg font-bold text-white">
+                    {f.v}
+                    <span className="ml-2 text-caption font-medium text-wk-nightMuted">
+                      {f.n}
+                    </span>
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </Reveal>
+        </div>
       </div>
     </section>
   )

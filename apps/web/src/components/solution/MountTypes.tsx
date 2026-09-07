@@ -37,7 +37,7 @@ const TYPES = [
 
 export function MountTypes() {
   return (
-    <section aria-labelledby="mount-h" className="wk-sec-lg bg-white">
+    <section aria-labelledby="mount-h" className="wk-sec-lg bg-wk-bgFaint">
       <div className="wk-wrap-wide">
         <Reveal>
           <p className="wk-eyebrow">취부 방식</p>
