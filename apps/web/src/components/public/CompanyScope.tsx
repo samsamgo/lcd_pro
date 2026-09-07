@@ -1,4 +1,4 @@
-import { Reveal, Stagger } from '@/components/motion'
+import { Reveal, RiseMask, Stagger } from '@/components/motion'
 import {
   CABINET_SIZE,
   CONTROLLER_MAX_PX,
@@ -45,13 +45,15 @@ export function CompanyScope() {
     <>
       <section className="wk-sec-lg wk-night" aria-labelledby="scope-h">
         <div className="wk-wrap-wide">
-          <Reveal y={16}>
+          <Reveal y={10} duration={0.6}>
             <p className="text-label font-semibold uppercase tracking-widest text-wk-blue">
               취급 범위
             </p>
-            <h2 id="scope-h" className="wk-h2 mt-5 max-w-[14ch] text-wk-nightInk">
-              다루는 규격
-            </h2>
+          </Reveal>
+          <h2 id="scope-h" className="wk-h2 mt-5 max-w-[14ch] text-wk-nightInk">
+            <RiseMask delay={0.06}>다루는 규격</RiseMask>
+          </h2>
+          <Reveal y={14} delay={0.16}>
             <p className="wk-lead mt-6 !text-wk-nightMuted">
               규격서에 그대로 옮겨 쓰실 수 있게, 우리가 다루는 범위를 숫자로 적습니다.
             </p>

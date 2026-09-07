@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { motion, useReducedMotion, useScroll, useSpring } from 'framer-motion'
 
 import { IMAGES } from '@/lib/imageAssets'
-import { Reveal } from '@/components/motion'
+import { EASE, Reveal, RiseMask } from '@/components/motion'
 
 /**
  * 도입 절차 타임라인.
@@ -75,14 +75,18 @@ export function ProcessTimeline() {
   return (
     <section id="process" aria-labelledby="process-h" className="wk-sec bg-white">
       <div className="wk-wrap">
-        <p className="wk-eyebrow">도입 절차</p>
+        <Reveal y={10} duration={0.6}>
+          <p className="wk-eyebrow">도입 절차</p>
+        </Reveal>
         <h2 id="process-h" className="wk-h2 max-w-[16ch] text-wk-ink">
-          진행 순서
+          <RiseMask delay={0.06}>진행 순서</RiseMask>
         </h2>
-        <p className="wk-lead mt-5">
-          단계마다 얼마나 걸리는지 미리 적어 두었습니다. 공정별로 업체가 바뀌지 않고, 담당자 한 명이
-          끝까지 응대합니다.
-        </p>
+        <Reveal y={14} delay={0.16}>
+          <p className="wk-lead mt-5">
+            단계마다 얼마나 걸리는지 미리 적어 두었습니다. 공정별로 업체가 바뀌지 않고, 담당자 한
+            명이 끝까지 응대합니다.
+          </p>
+        </Reveal>
 
         <div ref={ref} className="relative mt-14 pl-9 md:pl-16">
           {/* 진행선 — scaleY 하나만 움직인다 */}
@@ -100,16 +104,7 @@ export function ProcessTimeline() {
           <ol className="m-0 list-none space-y-12 p-0 md:space-y-16">
             {STEPS.map((s, i) => (
               <li key={s.title} className="relative">
-                {/* 마디 */}
-                <span
-                  aria-hidden="true"
-                  className="absolute -left-9 top-1 flex h-[23px] w-[23px] items-center justify-center rounded-full border-2 border-wk-cta bg-white md:-left-16 md:h-[39px] md:w-[39px]"
-                >
-                  <span className="wk-metric hidden text-caption font-bold text-wk-cta md:block">
-                    {i + 1}
-                  </span>
-                  <span className="h-1.5 w-1.5 rounded-full bg-wk-cta md:hidden" />
-                </span>
+                <StepNode index={i} />
 
                 <Reveal y={16} duration={0.7}>
                   <div className="grid gap-5 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:items-center lg:gap-12">
@@ -122,7 +117,7 @@ export function ProcessTimeline() {
                       </div>
                       <p className="wk-body mt-3 !text-wk-ink3">{s.body}</p>                    </div>
 
-                    <div className="relative aspect-[16/10] overflow-hidden rounded-card-m bg-wk-bg shadow-wk-1 lg:aspect-[4/3]">
+                    <div className="wk-hov-media relative aspect-[16/10] overflow-hidden rounded-card-m border border-transparent bg-wk-bg shadow-wk-1 lg:aspect-[4/3]">
                       <Image
                         src={s.img}
                         alt={s.alt}
@@ -144,5 +139,42 @@ export function ProcessTimeline() {
         </p>
       </div>
     </section>
+  )
+}
+
+/**
+ * 진행선의 마디.
+ *
+ * 🔴 이 마디만 `once: false` 다. 홈의 다른 등장은 전부 한 번 들어오고 끝나는데,
+ *    그래서 등장이 끝난 뒤로는 화면이 스크롤에 아무 반응도 하지 않았다.
+ *    여기서는 진행선의 머리가 지나갈 때마다 마디가 켜지고, 되돌아가면 다시 꺼진다.
+ *    장식이 아니라 "지금 어느 단계를 읽고 있는가" 를 말하는 신호다.
+ *
+ * viewport margin 의 -28% 는 진행선(offset `start 0.72`)의 머리 위치와 같은 지점이다.
+ * 두 값이 어긋나면 선은 이미 지나갔는데 마디가 안 켜진다.
+ *
+ * 변형은 scale / opacity 뿐이다. 색이나 테두리를 애니메이션하지 않는다(설계계약서 §0-6).
+ */
+function StepNode({ index }: { index: number }) {
+  const reduce = useReducedMotion()
+
+  return (
+    <motion.span
+      aria-hidden="true"
+      className="absolute -left-9 top-1 flex h-[23px] w-[23px] items-center justify-center rounded-full border-2 border-wk-cta bg-white will-change-transform md:-left-16 md:h-[39px] md:w-[39px]"
+      initial={reduce ? false : 'off'}
+      whileInView="on"
+      viewport={{ once: false, margin: '0px 0px -28% 0px' }}
+      variants={{
+        off: { scale: 0.82, opacity: 0.45 },
+        on: { scale: 1, opacity: 1 },
+      }}
+      transition={{ duration: 0.45, ease: EASE.entrance }}
+    >
+      <span className="wk-metric hidden text-caption font-bold text-wk-cta md:block">
+        {index + 1}
+      </span>
+      <span className="h-1.5 w-1.5 rounded-full bg-wk-cta md:hidden" />
+    </motion.span>
   )
 }

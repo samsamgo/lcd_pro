@@ -55,14 +55,15 @@ export function SupportHero() {
 
           <Reveal y={18} delay={0.08}>
             <h1 id="support-h" className="wk-h1 max-w-[16em] text-white">
-              화면 고장, 우강테크가 책임집니다
+              화면이 안 나오면 바로 연락 주십시오
             </h1>
           </Reveal>
 
           <Reveal y={16} delay={0.18}>
             <p className="wk-lead mt-6 !text-white/85">
-              증상과 화면 사진만 보내주시면 됩니다.
-              원격으로 먼저 확인하고, 필요하면 부품을 챙겨 방문합니다.
+              전화를 주셔도 되고, 아래 접수 폼에 증상만 적어 주셔도 됩니다.
+              화면을 찍은 사진이 한 장 있으면 원인 찾는 시간이 크게 줄어듭니다.
+              먼저 원격으로 들여다보고, 모듈을 갈아야 하는 건이면 부품을 챙겨 나갑니다.
             </p>
           </Reveal>
 

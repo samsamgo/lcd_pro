@@ -6,7 +6,7 @@ import { ChevronDown } from 'lucide-react'
 
 import { JsonLd } from '@/components/seo/JsonLd'
 import { faqPageLd } from '@/lib/seo/jsonld'
-import { Reveal } from '@/components/motion'
+import { Reveal, RiseMask } from '@/components/motion'
 
 /**
  * 자주 묻는 질문.
@@ -155,17 +155,19 @@ export function FaqSection({
       <div className="wk-wrap grid gap-12 lg:grid-cols-[4fr_8fr] lg:gap-16">
         <div className="lg:sticky lg:top-28 lg:self-start">
           {!hideHeader && (
-            <Reveal>
-              <div>
+            <div>
+              <Reveal y={10} duration={0.6}>
                 <p className="wk-eyebrow">FAQ</p>
-                <h2 id="faq-h" className="wk-h2 text-wk-ink">
-                  자주 묻는 것
-                </h2>
+              </Reveal>
+              <h2 id="faq-h" className="wk-h2 text-wk-ink">
+                <RiseMask delay={0.06}>자주 묻는 것</RiseMask>
+              </h2>
+              <Reveal y={14} delay={0.16}>
                 <p className="wk-lead mt-5">
                   예산 과목부터 사후 관리까지, 담당자가 실제로 막히는 지점만 모았습니다.
                 </p>
-              </div>
-            </Reveal>
+              </Reveal>
+            </div>
           )}
         </div>
 
@@ -203,7 +205,7 @@ export function FaqSection({
                       type="button"
                       onClick={() => setOpen(isOpen ? null : item.q)}
                       aria-expanded={isOpen}
-                      className="flex w-full items-start justify-between gap-6 py-6 text-left"
+                      className="-mx-3 flex w-full items-start justify-between gap-6 rounded-btn px-3 py-6 text-left transition-colors duration-state ease-state hover:bg-wk-bgFaint"
                     >
                       <span className="text-body-lg font-semibold text-wk-ink">{item.q}</span>
                       <span

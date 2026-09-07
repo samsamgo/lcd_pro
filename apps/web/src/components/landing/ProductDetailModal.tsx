@@ -101,7 +101,7 @@ export function ProductDetailModal({
               onClick={onClose}
               className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-wk-cta px-5 py-3 text-sm font-bold text-white transition-all hover:bg-wk-blue active:scale-95"
             >
-              이 모델로 견적받기
+              이 모델로 견적 요청
               <ArrowRight size={16} />
             </Link>
             <button

@@ -112,7 +112,7 @@ export function ProductShowcase() {
           {PRODUCTS.map((p) => (
             <article
               key={p.env}
-              className="flex h-full flex-col overflow-hidden rounded-card border border-wk-line bg-white shadow-wk-1"
+              className="wk-hov-media flex h-full flex-col overflow-hidden rounded-card border border-wk-line bg-white shadow-wk-1"
             >
               {/* 사진 — aspect-ratio 고정으로 CLS 0 */}
               <div className="relative aspect-[16/10] overflow-hidden bg-wk-bg">

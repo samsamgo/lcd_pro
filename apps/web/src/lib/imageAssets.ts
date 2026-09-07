@@ -193,8 +193,19 @@ export const IMAGES = {
   } as Record<string, string>,
   /** /industries "걸면 뭐가 뜨나" 4장 — 전부 화면에 한국어 문구가 떠 있다 */
   industryShowing: [G('gen-17'), G('gen-2'), G('gen-31'), G('gen-32')],
-  /** /services 취부 방식 — 크레인으로 외벽에 캐비닛을 올리는 장면 */
-  mountScene: G('gen-44'),
+  /**
+   * 🔴 2026-09-07 `mountScene: G('gen-44')` 를 여기서 뺐다 (CEO 지시).
+   *
+   * /services 취부 방식 섹션은 **사진을 한 장도 쓰지 않는 도해 섹션으로 전환**했다.
+   * 이유 — 벽부형·지주형·천장 행잉 각각의 **진짜 시공 사진이 우리에게 없다.**
+   * `cases/gen/*` 는 전량 AI 연출컷이고 `curated/` 는 19/21 이 해외 스톡이다(§13-B/§13-C).
+   * 연출컷을 "이렇게 설치됩니다" 자리에 넣으면 그게 곧 날조다.
+   * 취부 구조는 원래 도면으로 설명하는 대상이라 도해가 사진보다 정확하기도 하다.
+   * → `components/solution/MountTypes.tsx` 의 `MountDiagram` 참조.
+   *
+   * gen-44(크레인으로 외벽에 캐비닛을 올리는 컷, 100% 확대 검사 통과)는 폐기가 아니라
+   * 아래 `spare` 로 되돌렸다. 실사 시공 사진이 확보되면 이 자리를 다시 열면 된다.
+   */
   /** /support 사후관리 — 모듈을 앞에서 빼내는 장면 */
   afterService: G('gen-42'),
   productCards: {
@@ -243,6 +254,9 @@ export const IMAGES = {
 
   /** 남는 장면 — 사례 더보기·블로그 썸네일 등 자유 배치 */
   spare: [
+    /** 2026-09-07 /services 취부 방식이 도해 섹션으로 바뀌면서 풀린 컷.
+     *  확대 검사는 통과한 자산이라 삭제하지 않고 여기 둔다(위 mountScene 주석 참조). */
+    G('gen-44'),
     S('A8_cabinet-edge-louvre'),
     S('B2_city-hall-wall'),
     S('B6_park-info-kiosk'),

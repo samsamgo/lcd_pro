@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { ArrowRight, Phone } from 'lucide-react'
 import { SITE } from '@/lib/seo/site'
-import { Reveal, Magnetic } from '@/components/motion'
+import { Reveal, Magnetic, RiseMask, ScrollBridge } from '@/components/motion'
 
 /**
  * 전역 CTA 섹션 — 페이지 하단, 라이트→다크 전환의 종착지.
@@ -18,16 +18,23 @@ export function CtaSection({
 } = {}) {
   return (
     <section className="relative">
-      <div className="wk-bridge-down h-32 md:h-44" aria-hidden="true" />
+      {/* 사이트의 마지막 라이트→다크 전환. 이 다리에서 화소가 켜진다.
+          CtaSection 은 여러 페이지가 공유하므로 이 한 곳을 고치면 어휘가 전 페이지로 퍼진다. */}
+      <ScrollBridge direction="down" className="wk-bridge-down h-32 md:h-44" />
       <div className="wk-night-glow wk-sec-lg">
         <div className="wk-wrap text-center">
-          <Reveal>
+          <Reveal y={10} duration={0.6}>
             <p className="wk-eyebrow justify-center">문의</p>
-            <h2 className="wk-display text-wk-nightInk">
-              {title[0]}
-              <br />
-              {title[1]}
-            </h2>
+          </Reveal>
+
+          {/* 🔴 제목은 Reveal 밖에 둔다. 움직이는 부모 안에서 마스크를 올리면
+              두 움직임이 겹쳐 어느 쪽도 읽히지 않는다. 마감 문장은 두 줄이 차례로 올라온다. */}
+          <h2 className="wk-display text-wk-nightInk">
+            <RiseMask>{title[0]}</RiseMask>
+            <RiseMask delay={0.1}>{title[1]}</RiseMask>
+          </h2>
+
+          <Reveal y={16} delay={0.24}>
             <p className="wk-lead mx-auto mt-5 text-wk-nightMuted">
               {sub}
             </p>

@@ -535,6 +535,55 @@ export function ScrollScale({
    transform / opacity / filter 만 건드린다 (설계계약서 §0-6).
    reduced-motion 에서는 전환 없이 현재 문구만 보여준다.
    ──────────────────────────────────────────────────────────── */
+/* ────────────────────────────────────────────────────────────
+   SceneStack — 한 자리에서 장면을 갈아 끼운다 (한 번에 하나)
+
+   왜 AnimatePresence 가 아니라 겹쳐 쌓는가 —
+   AnimatePresence(mode="wait") 는 나가는 장면이 DOM 에서 빠진 뒤 다음 장면이
+   들어온다. 그 사이 컨테이너 높이가 0 으로 무너져 아래 내용이 위아래로 뛴다.
+   장면마다 글 길이가 다르면 이 흔들림이 반드시 생긴다.
+
+   그래서 세 장면을 모두 같은 그리드 칸(col-start-1 row-start-1)에 겹쳐 두고
+   opacity 만 바꾼다. 컨테이너 높이는 항상 "가장 긴 장면" 기준으로 고정되므로
+   전환 중 레이아웃 이동이 0 이다. 임의 높이값(min-h-[...])을 지어낼 필요도 없다.
+
+   🔴 안 보이는 장면도 DOM 에는 남는다. 그래서
+     - 조작 요소(버튼·링크)를 이 안에 넣지 말 것. 숨은 층의 버튼에 탭 포커스가 간다.
+     - 사진을 넣으면 세 장이 모두 요청된다. 장면 수를 늘리지 말 것.
+   ──────────────────────────────────────────────────────────── */
+export function SceneStack({
+  active,
+  className = '',
+  children,
+}: {
+  /** 보여줄 장면의 인덱스 */
+  active: number
+  className?: string
+  children: ReactNode
+}) {
+  const reduce = useReducedMotion()
+
+  return (
+    <div className={`grid ${className}`}>
+      {Children.map(children, (child, i) => {
+        const on = i === active
+        return (
+          <motion.div
+            key={i}
+            className={`col-start-1 row-start-1 ${on ? '' : 'pointer-events-none'}`}
+            aria-hidden={!on}
+            initial={false}
+            animate={reduce ? { opacity: on ? 1 : 0 } : { opacity: on ? 1 : 0, scale: on ? 1 : 0.985 }}
+            transition={{ duration: reduce ? 0.2 : DUR.enter, ease: EASE.entrance }}
+          >
+            {child}
+          </motion.div>
+        )
+      })}
+    </div>
+  )
+}
+
 export function LedSwap({
   index,
   children,
@@ -560,5 +609,117 @@ export function LedSwap({
         {children}
       </motion.div>
     </AnimatePresence>
+  )
+}
+
+/* ────────────────────────────────────────────────────────────
+   11. RiseMask — 제목이 덮개 밖으로 밀려 올라온다
+
+   왜 SplitText 와 따로 두는가 —
+   SplitText 는 어절마다 motion 요소를 만든다. 강하지만 비싸고, 그래서
+   설계계약서 §4 가 페이지당 2회로 묶어 뒀다. 그 결과 홈의 나머지 제목 네 개는
+   **아무 등장도 갖지 못했다.** 섹션마다 제목이 그냥 켜져 있으니 위계가 없다.
+
+   RiseMask 는 요소가 하나뿐이다(마스크 + 안쪽 한 겹). 어절 단위가 아니라
+   덩어리로 올라오므로 SplitText 보다 조용하고, 섹션마다 써도 놀이공원이 되지 않는다.
+   → 히어로·대표 섹션은 SplitText(강), 나머지 섹션 제목은 RiseMask(중), 본문은 Reveal(약).
+
+   🔴 마스크가 descender(g·y·ᆼ 아래 삐침)를 자른다. 그래서 아래쪽에 0.14em 을
+      패딩으로 벌리고 같은 값을 음수 마진으로 회수한다. 레이아웃은 그대로다.
+   ──────────────────────────────────────────────────────────── */
+
+export function RiseMask({
+  children,
+  delay = 0,
+  duration = 0.9,
+  className = '',
+  once = true,
+}: {
+  children: ReactNode
+  delay?: number
+  duration?: number
+  className?: string
+  once?: boolean
+}) {
+  const reduce = useReducedMotion()
+
+  if (reduce) return <span className={`block ${className}`}>{children}</span>
+
+  return (
+    <span
+      className={`block overflow-hidden ${className}`}
+      style={{ paddingBottom: '0.14em', marginBottom: '-0.14em' }}
+    >
+      <motion.span
+        className="block will-change-transform"
+        initial={{ y: '112%' }}
+        whileInView={{ y: '0%' }}
+        viewport={{ once, margin: '-8% 0px -6% 0px' }}
+        transition={{ duration, delay, ease: EASE.entrance }}
+      >
+        {children}
+      </motion.span>
+    </span>
+  )
+}
+
+/* ────────────────────────────────────────────────────────────
+   12. ScrollBridge — 라이트↔다크 사이의 다리에서 화소가 켜진다
+
+   이 자리는 원래 그냥 그라디언트 <div> 였다. 페이지에서 가장 눈에 띄는 전환부인데
+   아무 일도 일어나지 않아, 밝은 장과 어두운 장이 그냥 "붙어" 있었다.
+
+   여기에 사진을 넣을 수는 없다(실사가 없다). 대신 **코드로 그린다** —
+   화소 격자가 다리 한가운데에서 가장 밝게 켜졌다가 다시 꺼진다.
+   전광판 회사에서 화소가 켜지는 장면은 장식이 아니라 제품 은유다.
+   전송량 0바이트, 이미지 진위 문제 0.
+
+   변형은 opacity / translateY / scale 뿐이다(설계계약서 §0-6).
+   reduced-motion 에서는 스크럽을 끄고 격자를 옅게 고정한다 — 질감은 남고 움직임만 사라진다.
+   ──────────────────────────────────────────────────────────── */
+
+export function ScrollBridge({
+  direction = 'down',
+  className = '',
+  /** 격자 한 칸(px). 크면 성기고 굵은 화소가 된다 */
+  cell = 13,
+}: {
+  direction?: 'down' | 'up'
+  className?: string
+  cell?: number
+}) {
+  const ref = useRef<HTMLDivElement>(null)
+  const reduce = useReducedMotion()
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
+  const p = useSpring(scrollYProgress, { stiffness: 110, damping: 28, mass: 0.4 })
+
+  // 다리 한가운데에서 최대. 어두운 쪽 끝에 잔광을 조금 남긴다.
+  const opacity = useTransform(
+    p,
+    [0, 0.5, 1],
+    direction === 'down' ? [0, 0.95, 0.2] : [0.2, 0.95, 0],
+  )
+  const y = useTransform(p, [0, 1], direction === 'down' ? ['16%', '-16%'] : ['-16%', '16%'])
+  const scale = useTransform(p, [0, 0.5, 1], [0.92, 1, 0.92])
+
+  const grid: CSSProperties = {
+    backgroundImage: 'radial-gradient(rgba(49,130,246,0.85) 1.15px, transparent 1.15px)',
+    backgroundSize: `${cell}px ${cell}px`,
+    WebkitMaskImage:
+      'linear-gradient(to bottom, transparent 0%, #000 34%, #000 66%, transparent 100%)',
+    maskImage: 'linear-gradient(to bottom, transparent 0%, #000 34%, #000 66%, transparent 100%)',
+  }
+
+  return (
+    <div ref={ref} aria-hidden="true" className={`relative overflow-hidden ${className}`}>
+      {reduce ? (
+        <div className="absolute inset-0 opacity-30" style={grid} />
+      ) : (
+        <motion.div
+          className="absolute inset-0 will-change-transform"
+          style={{ ...grid, opacity, y, scale }}
+        />
+      )}
+    </div>
   )
 }

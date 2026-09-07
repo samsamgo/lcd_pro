@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
 
 import { IMAGES } from '@/lib/imageAssets'
-import { Stagger } from '@/components/motion'
+import { Reveal, RiseMask, Stagger } from '@/components/motion'
 
 /**
  * 화면 용도 갤러리.
@@ -108,14 +108,20 @@ export function ScreenGallery() {
   return (
     <section id="screens" aria-labelledby="screens-h" className="wk-sec-lg bg-wk-bg">
       <div className="wk-wrap-wide">
-        <p className="wk-eyebrow">화면 용도</p>
+        {/* 섹션 머리는 eyebrow(약) → 제목(중, 마스크 상승) → 리드(약) 순으로 들어온다.
+            제목만 다른 등장을 갖게 해서 섹션 안에서도 위계가 보이게 한다. */}
+        <Reveal y={10} duration={0.6}>
+          <p className="wk-eyebrow">화면 용도</p>
+        </Reveal>
         <h2 id="screens-h" className="wk-h2 text-wk-ink">
-          설치 예시
+          <RiseMask delay={0.06}>설치 예시</RiseMask>
         </h2>
-        <p className="wk-lead mt-5">
-          기관에서 실제로 바뀌는 정보는 대기번호, 층별 안내, 행사 일정, 재난 문구입니다.
-          인쇄물로는 매번 다시 만들어야 하는 것들입니다.
-        </p>
+        <Reveal y={14} delay={0.16}>
+          <p className="wk-lead mt-5">
+            기관에서 실제로 바뀌는 정보는 대기번호, 층별 안내, 행사 일정, 재난 문구입니다.
+            인쇄물로는 매번 다시 만들어야 하는 것들입니다.
+          </p>
+        </Reveal>
 
         <Stagger
           className="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
@@ -128,8 +134,7 @@ export function ScreenGallery() {
                 type="button"
                 onClick={() => setOpen(n)}
                 aria-label={`${s.title} 사진 크게 보기`}
-                className="group block w-full overflow-hidden rounded-card bg-white text-left shadow-wk-1
- transition-shadow duration-state ease-state hover:shadow-wk-2"
+                className="wk-hov-card group block w-full overflow-hidden rounded-card bg-white text-left shadow-wk-1"
               >
                 <span className="relative block aspect-[4/3] overflow-hidden bg-wk-bg">
                   <Image
@@ -137,8 +142,7 @@ export function ScreenGallery() {
                     alt={s.alt}
                     fill
                     sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                    className="object-cover transition-transform duration-cine ease-entrance
- motion-safe:group-hover:scale-[1.03]"
+                    className="object-cover"
                   />
                 </span>
                 <span className="block px-5 py-4">

@@ -89,7 +89,7 @@ export function QuickConsultModal({
   }
 
   return (
-    <Modal open={open} onClose={close} title={done ? '접수되었습니다' : '문의하기'} size="sm">
+    <Modal open={open} onClose={close} title={done ? '접수되었습니다' : '빠른 상담'} size="sm">
       {done ? (
         <div>
           <p className="text-body text-wk-ink2">
@@ -142,12 +142,13 @@ export function QuickConsultModal({
             />
           </label>
 
-          <label className="flex cursor-pointer items-start gap-2.5 text-label text-wk-ink3">
+          {/* 탭 타깃 44px — 16px 체크박스는 손가락으로 못 누른다(이 프로젝트에서 이미 적발한 결함) */}
+          <label className="flex min-h-[44px] cursor-pointer items-start gap-2.5 py-1 text-label text-wk-ink3">
             <input
               type="checkbox"
               checked={agree}
               onChange={(e) => setAgree(e.target.checked)}
-              className="mt-0.5 h-4 w-4 shrink-0 accent-wk-blue"
+              className="mt-0.5 h-5 w-5 shrink-0 accent-wk-blue"
             />
             <span>
               문의 응대를 위한 개인정보(성함·연락처) 수집·이용에 동의합니다.

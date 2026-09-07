@@ -29,7 +29,7 @@ const PACKAGES = [
     ],
     missing: ['예비 부품 제공', '정기 현장 점검', '긴급 AS 우선 처리'],
     recommended: true,
-    cta: '스탠다드 견적 받기',
+    cta: '스탠다드 견적 요청',
   },
   {
     tier: 'premium',
@@ -46,7 +46,7 @@ const PACKAGES = [
     ],
     missing: [],
     recommended: false,
-    cta: '프리미엄 견적 받기',
+    cta: '프리미엄 견적 요청',
   },
 ]
 

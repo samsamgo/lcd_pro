@@ -62,7 +62,7 @@ export function ProofRow() {
           gap={0.06}
         >
           {PROOFS.map((p) => (
-            <div key={p.title} className="flex h-full flex-col bg-white p-6 lg:p-7">
+            <div key={p.title} className="wk-hov-cell flex h-full flex-col bg-white p-6 lg:p-7">
               <p.icon size={20} strokeWidth={1.8} className="text-wk-blue" aria-hidden="true" />
               <p className="mt-4 text-caption font-semibold uppercase tracking-[0.14em] text-wk-ink3">
                 {p.label}

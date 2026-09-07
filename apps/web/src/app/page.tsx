@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { PublicHero } from '@/components/public/PublicHero'
 import { ProofRow } from '@/components/public/ProofRow'
 import { ScrollProgress } from '@/components/public/ScrollProgress'
-import { SceneSlider } from '@/components/public/SceneSlider'
 import { ScrollStatement } from '@/components/public/ScrollStatement'
 import { CinematicScene } from '@/components/home/CinematicScene'
 import { ScreenGallery } from '@/components/public/ScreenGallery'
@@ -10,6 +9,7 @@ import { ProductShowcase } from '@/components/public/ProductShowcase'
 import { ProcessTimeline } from '@/components/public/ProcessTimeline'
 import { FaqSection } from '@/components/landing/FaqSection'
 import { CtaSection } from '@/components/landing/CtaSection'
+import { ScrollBridge } from '@/components/motion'
 import { NavBar } from '@/components/NavBar'
 import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
@@ -63,16 +63,24 @@ export default function Home() {
             ① 무엇을 하는 회사인가 → ② 믿을 만한가 → ③ 우리 같은 데 쓰나
             → ④ 설치 후는 어떻게 되나 → ⑤ 서류는 있나 → ⑥ 어떻게 연락하나 */}
         <PublicHero />
-        {/* 2026-09-07 CEO 지시 — CSS 시뮬레이션 LedBoard 를 걷어내고 사진 슬라이더로 교체.
-            섹션 수는 그대로 10개. LedBoard.tsx 파일은 되돌릴 수 있게 남겨뒀다(참조만 끊음). */}
-        <SceneSlider />
+        {/* 2026-09-07 — 이 자리는 두 번 비웠다.
+            ① CSS 로 전광판 화면을 흉내 내던 LedBoard → CEO 두 번째 반려로 제거.
+            ② 그 자리에 넣은 SceneSlider(사진 크로스페이드) → CEO: "메인에 슬라이더가 왜 두 개냐."
+            맞는 지적이었다. 히어로가 이미 사진을 3장 돌리는데 바로 아래에서 같은 장치를 또 쓰면
+            같은 말을 두 번 하는 것이고, 게다가 아래 ScreenGallery 가 이미 "제품 용도 예시 사진"을
+            담당한다 — 그쪽은 사용자가 눌러서 여는 방식이라 자동 전환보다 낫다(벤치마크 §6 안티패턴 1).
+            섹션을 하나 줄여 히어로 다음에 곧바로 근거(ProofRow)가 오게 했다.
+            SceneSlider.tsx · LedBoard.tsx 는 되돌릴 수 있게 남겨뒀다(참조 0건 = 번들 제외). */}
 
         {/* ── 라이트: 믿을 만한가 ── */}
         <ProofRow />
 
-        {/* 라이트 → 다크는 선이 아니라 그라디언트 다리로 잇는다 (벤치마크 §4.2) */}
-        <div
-          aria-hidden="true"
+        {/* 라이트 → 다크는 선이 아니라 그라디언트 다리로 잇는다 (벤치마크 §4.2)
+            2026-09-07 — 이 다리는 페이지에서 가장 눈에 띄는 전환부인데 그냥 색면이었다.
+            스크롤에 맞춰 화소 격자가 켜졌다 꺼지게 했다(ScrollBridge). 코드로 그리므로
+            전송량 0, 이미지 진위 문제 0. 사진이 필요한 자리가 아니다. */}
+        <ScrollBridge
+          direction="down"
           className="h-32 bg-gradient-to-b from-wk-bgFaint to-wk-night md:h-40"
         />
 
@@ -84,7 +92,10 @@ export default function Home() {
         />
         <CinematicScene />
 
-        <div aria-hidden="true" className="h-32 bg-gradient-to-b from-wk-night to-white md:h-40" />
+        <ScrollBridge
+          direction="up"
+          className="h-32 bg-gradient-to-b from-wk-night to-white md:h-40"
+        />
 
         {/* ── 라이트: 무엇을 어떻게 받는가 ── */}
         <ProductShowcase />
