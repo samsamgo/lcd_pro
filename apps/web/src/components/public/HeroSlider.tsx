@@ -132,7 +132,7 @@ export function HeroSlider() {
                 className="absolute inset-0 will-change-[opacity,transform]"
                 style={{
                   opacity: active ? 1 : 0,
-                  transform: reduce || !active ? 'scale(1)' : `scale(${ZOOM})`,
+                  transform: reduce || !active || !zooming ? 'scale(1)' : `scale(${ZOOM})`,
                   transition: reduce
                     ? undefined
                     : `opacity ${FADE}ms cubic-bezier(0.4,0,0.2,1), transform ${HOLD + FADE}ms linear`,

@@ -5,7 +5,7 @@ import { PRODUCTS } from '@/lib/products'
 import { Reveal, Stagger } from '@/components/motion'
 
 /**
- * 업종별 한눈에 비교.
+ * 설치 자리별 한눈에 비교.
  *
  * 왜 만들었나 — /industries 가 히어로 + 카드 6장 + CTA 뿐이라 알맹이가 없었다.
  * 정작 업종마다의 판단 근거(무엇이 문제고, 어떤 규격으로 가고, 왜 그 규격인가)는
@@ -48,7 +48,7 @@ export function IndustryCompare() {
           </h2>
           <p className="wk-lead mt-5">
             같은 전광판이라도 민원실과 도로변은 필요한 화소 간격이 다릅니다.
-            업종을 고르는 게 아니라 <b>보는 거리를 고르는 것</b>에 가깝습니다.
+            시설을 고르는 게 아니라 <b>보는 거리를 고르는 것</b>에 가깝습니다.
           </p>
         </Reveal>
 
@@ -57,7 +57,7 @@ export function IndustryCompare() {
           <table className="w-full border-collapse text-left">
             <thead>
               <tr className="border-b border-wk-line2">
-                {['업종', '설치 환경', '화소 간격', '보는 거리', '가장 많이 듣는 고민'].map((h) => (
+                {['설치 자리', '설치 환경', '화소 간격', '보는 거리', '가장 많이 듣는 고민'].map((h) => (
                   <th key={h} className="pb-3 pr-6 text-caption font-semibold text-wk-ink3">
                     {h}
                   </th>
@@ -69,7 +69,7 @@ export function IndustryCompare() {
                 <tr key={r.slug} className="border-b border-wk-line">
                   <th scope="row" className="py-4 pr-6 align-top">
                     <Link
-                      href={`/industries#${r.slug}`}
+                      href={`/industries?type=${r.slug}`}
                       className="font-semibold text-wk-ink underline-offset-4 hover:underline"
                     >
                       {r.name}

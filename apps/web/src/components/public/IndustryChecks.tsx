@@ -3,10 +3,10 @@ import { Zap, Building2, FileCheck, Wrench } from 'lucide-react'
 import { Reveal, Stagger } from '@/components/motion'
 
 /**
- * 업종과 무관하게 걸리는 것.
+ * 설치 자리와 무관하게 걸리는 것.
  *
- * 왜 만들었나 — 업종 카드는 "무엇을 띄우나"만 말한다.
- * 그런데 실제로 일정이 밀리는 지점은 업종과 상관없이 늘 같은 넷이다.
+ * 왜 만들었나 — 사례 카드는 "무엇을 띄우나"만 말한다.
+ * 그런데 실제로 일정이 밀리는 지점은 시설과 상관없이 늘 같은 넷이다.
  * 전기 용량, 붙일 자리, 신고 대상 여부, 정비 접근.
  * 이건 계약 전에 알면 준비되고, 계약 후에 알면 공사가 멈춘다.
  *
@@ -42,7 +42,7 @@ export function IndustryChecks() {
     <section aria-labelledby="ind-checks-h" className="wk-sec bg-wk-bgFaint">
       <div className="wk-wrap">
         <Reveal>
-          <p className="wk-eyebrow">업종과 무관하게</p>
+          <p className="wk-eyebrow">시설과 무관하게</p>
           <h2 id="ind-checks-h" className="wk-h2 text-wk-ink">
             네 가지에서 일정이 갈립니다
           </h2>

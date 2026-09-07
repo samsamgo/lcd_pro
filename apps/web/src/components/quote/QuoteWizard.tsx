@@ -71,6 +71,17 @@ const PREFILL: Record<string, Partial<QuoteFormData>> = {
   'public-office': { businessType: 'government', environment: 'indoor' },
   banner: { businessType: 'government', environment: 'outdoor' },
   institution: { businessType: 'government', environment: 'indoor' },
+  // 2026-09-07 /industries 사례 확충분. lib/industries.ts 의 quoteType 과 1:1.
+  // 키가 없으면 prefill 만 비고 폼은 그대로 뜬다(리드 경로는 안 끊긴다).
+  'health-center': { businessType: 'hospital', environment: 'outdoor' },
+  'fire-safety': { businessType: 'government', environment: 'outdoor' },
+  'meeting-room': { businessType: 'government', environment: 'indoor' },
+  auditorium: { businessType: 'school', environment: 'indoor' },
+  daycare: { businessType: 'academy', environment: 'indoor' },
+  traffic: { businessType: 'government', environment: 'outdoor' },
+  parking: { businessType: 'government', environment: 'outdoor' },
+  transit: { businessType: 'government', environment: 'outdoor' },
+  apartment: { businessType: 'other', environment: 'outdoor' },
 }
 
 export function QuoteWizard({ defaultType }: { defaultType?: string }) {
