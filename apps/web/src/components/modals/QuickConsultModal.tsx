@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Modal } from '@/components/ui/Modal'
 import { SITE } from '@/lib/seo/site'
+import { readApiError, validatePhone } from '@/lib/phone'
 
 /**
  * 간단 문의 모달.
@@ -33,8 +34,9 @@ export function QuickConsultModal({
     e.preventDefault()
     setError('')
 
-    if (!phone.trim()) {
-      setError('연락처를 입력해 주십시오.')
+    const phoneError = validatePhone(phone)
+    if (phoneError) {
+      setError(phoneError)
       return
     }
     if (!agree) {
@@ -55,7 +57,15 @@ export function QuickConsultModal({
           source: source ?? 'quick-consult',
         }),
       })
-      if (!res.ok) throw new Error('failed')
+      if (!res.ok) {
+        setError(
+          await readApiError(
+            res,
+            `접수 중 문제가 발생했습니다. ${SITE.email} 으로 보내주시면 확인하겠습니다.`,
+          ),
+        )
+        return
+      }
       setDone(true)
     } catch {
       // 접수 실패를 고객에게 그대로 떠넘기지 않는다. 대체 연락 수단을 안내한다.

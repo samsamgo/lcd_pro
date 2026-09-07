@@ -44,7 +44,16 @@ export function ServiceRequest() {
           source: 'as-request',
         }),
       })
-      if (!res.ok) throw new Error('failed')
+      if (!res.ok) {
+        // 서버가 사유를 말해 줬으면 그대로 띄운다. 뭉개면 담당자는 고칠 방법이 없다.
+        setError(
+          await readApiError(
+            res,
+            `접수 중 문제가 발생했습니다. ${SITE.email} 으로 보내주시면 확인하겠습니다.`,
+          ),
+        )
+        return
+      }
       setDone(true)
     } catch {
       setError(`접수 중 문제가 발생했습니다. ${SITE.email} 으로 보내주시면 확인하겠습니다.`)
