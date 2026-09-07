@@ -168,7 +168,11 @@ function Grid() {
                   src={i.heroImage}
                   alt={i.heroImageAlt ?? `${i.nameKo} 현장의 LED 안내 화면`}
                   fill
-                  sizes={wide ? '(max-width: 1024px) 100vw, 760px' : '(max-width: 640px) 100vw, 380px'}
+                  sizes={
+                    wide && lgSpan > 1
+                      ? '(max-width: 1024px) 100vw, 760px'
+                      : '(max-width: 640px) 100vw, 380px'
+                  }
                   className="object-cover transition-transform duration-cine ease-entrance motion-safe:group-hover:scale-105"
                 />
                 <div className="wk-scrim-card absolute inset-0" />
@@ -181,7 +185,7 @@ function Grid() {
                   <p className="text-caption font-medium text-white/80">{i.eyebrow}</p>
                   <b
                     className={`mt-1 block font-bold tracking-[-0.025em] text-white ${
-                      wide ? 'text-h3' : 'text-body-lg'
+                      wide && lgSpan > 1 ? 'text-h3' : 'text-body-lg'
                     }`}
                   >
                     {i.nameKo}
