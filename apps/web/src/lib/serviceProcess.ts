@@ -9,6 +9,9 @@
  *
  * ⚠️ 소요 기간은 **표준 공정안**이다. 실측 전에는 확정 일정이 아니며 화면에도 그렇게 적는다.
  * ⚠️ 실적 수치·납품처·후기는 여기에 넣지 않는다. 첫 수주 전이다.
+ * 🔴 2026-09-07 CEO 지시로 `outputs`(공정별 산출물 18종)와 OUTPUT_COUNT 를 삭제했다.
+ *    "드리는 서류도 빼. 그런 거 안 줘." — 주지 않을 문서를 종수까지 세어 약속하면
+ *    그게 그대로 클레임 근거가 된다. 이 배열에 문서 목록 필드를 다시 만들지 말 것.
  */
 
 import { IMAGES } from '@/lib/imageAssets'
@@ -25,8 +28,6 @@ export type ProcessStep = {
   body: string
   duration: string
   owner: string
-  /** 발주처에 그대로 넘어가는 문서 */
-  outputs: string[]
   /** 이미지가 없으면 상세는 글 단독 레이아웃으로 떨어진다 */
   image?: string
   alt?: string
@@ -41,7 +42,6 @@ export const SERVICE_STEPS: ProcessStep[] = [
     body: '얼마나 떨어져서 보는지, 바닥에서 몇 미터인지, 전기를 어디서 끌어오는지를 직접 가서 잽니다. 사진만 보고 규격을 정하지 않습니다.',
     duration: '방문 1일 · 조서 3~5영업일',
     owner: '우강테크 기술팀',
-    outputs: ['현장 실측 조서', '설치 위치 도면', '개략 규격서'],
     image: IMAGES.service[0],
     alt: '공공시설 로비의 빈 벽면을 레이저 거리계와 태블릿으로 실측하는 기술자 두 명',
   },
@@ -53,7 +53,6 @@ export const SERVICE_STEPS: ProcessStep[] = [
     body: '실측값으로 화소 간격과 화면 크기, 밝기, 방수 등급을 확정합니다. 조립한 뒤 화면을 다 켜서 색이 고른지 보고, 여기서 걸리면 현장에 안 내보냅니다.',
     duration: '2~4주 (모듈 발주 리드타임 포함)',
     owner: '우강테크 기술팀 · 모듈 공급사',
-    outputs: ['제품 규격서', '캐비닛 조립도', '자재 내역서'],
     image: IMAGES.service[1],
     alt: '출고 전 캐비닛에 한국어 화면 테스트 패턴을 띄워 색과 밝기를 확인하는 장면',
   },
@@ -65,7 +64,6 @@ export const SERVICE_STEPS: ProcessStep[] = [
     body: '붙일 자리에 맞는 취부 철물을 만들어 고정하고 화면을 올려 정렬합니다. 높은 데 달아야 하면 어떤 장비를 쓸지, 안전 계획을 어떻게 잡을지 미리 협의합니다.',
     duration: '1~3일 (화면 크기 · 작업 높이에 따라 변동)',
     owner: '우강테크 시공팀 · 고소작업 협력사',
-    outputs: ['취부 상세도', '구조 검토 의견서', '시공 사진 대장'],
     image: IMAGES.service[2],
     alt: '도로변 H빔 지주에 카고크레인으로 전광판 본체를 올려 고정하는 시공 현장',
   },
@@ -77,7 +75,6 @@ export const SERVICE_STEPS: ProcessStep[] = [
     body: '제어함에서 화면까지 배선하고 접지와 차단기 용량을 잡습니다. 건물 분전반에서 제어함까지는 기관에서 준비하시는 범위이고, 그 경계를 도면에 그려 드립니다.',
     duration: '1~2일',
     owner: '우강테크 시공팀 · 전기공사업 등록업체',
-    outputs: ['전기 계통도', '배선도', '접지 · 차단기 사양서'],
     image: IMAGES.service[3],
     alt: '청사 로비 화면 뒤편을 열고 전원과 신호 케이블을 배선하는 작업',
   },
@@ -89,7 +86,6 @@ export const SERVICE_STEPS: ProcessStep[] = [
     body: '제어기와 미디어플레이어를 달고 화면을 켭니다. 밝기와 균일도를 재서 성적서로 남기는데, 그대로 준공 서류에 붙이시면 됩니다.',
     duration: '1일',
     owner: '우강테크 기술팀',
-    outputs: ['작동 검사 성적서', '밝기 · 균일도 측정 기록', '시운전 확인서'],
     image: IMAGES.service[4],
     alt: '청사 앞에서 태블릿 제어 화면으로 밝기와 온도를 확인하며 점등한 전광판을 대조하는 장면',
   },
@@ -101,17 +97,10 @@ export const SERVICE_STEPS: ProcessStep[] = [
     body: '담당자분께 화면 바꾸는 법을 현장에서 알려드립니다. 이후 고장이 나면 원격으로 먼저 보고, 필요하면 가서 모듈만 갈고 처리 내역을 문서로 드립니다.',
     duration: '인계 1일 · 이후 상시',
     owner: '우강테크 기술팀 (A/S 접수 창구)',
-    outputs: ['운영 매뉴얼', '유지보수 계획서', '장애 처리 결과 보고서'],
     image: IMAGES.service[5],
     alt: '정비 작업대에 교체용 LED 모듈과 부품을 번호대로 펼쳐 놓고 점검·수리 기록표를 쓰는 모습',
   },
 ]
-
-/**
- * 발주처에 넘어가는 문서 종수.
- * 화면에 숫자로 적히므로 손으로 세지 않고 배열에서 뽑는다.
- */
-export const OUTPUT_COUNT = SERVICE_STEPS.reduce((n, s) => n + s.outputs.length, 0)
 
 /**
  * 표준 공정안 총 소요.

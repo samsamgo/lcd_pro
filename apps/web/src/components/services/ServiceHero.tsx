@@ -6,7 +6,7 @@ import { ChevronRight } from 'lucide-react'
 
 import { IMAGES } from '@/lib/imageAssets'
 import { Magnetic, Reveal, Stagger } from '@/components/motion'
-import { OUTPUT_COUNT, SERVICE_STEPS, TOTAL_DURATION } from '@/lib/serviceProcess'
+import { SERVICE_STEPS, TOTAL_DURATION } from '@/lib/serviceProcess'
 
 /**
  * /services 히어로.
@@ -17,7 +17,7 @@ import { OUTPUT_COUNT, SERVICE_STEPS, TOTAL_DURATION } from '@/lib/serviceProces
  *    "설계·시공·컨트롤러·CMS·AS·인허가·공공조달까지 — 모든 영역을 하나의 표준으로 끝냅니다."
  *    이건 경쟁사가 그대로 복사해도 아무 손해가 없는 문장이고(안티패턴 2),
  *    중점 나열 금지 규칙(카피-슬롯규칙 §문체)도 어겼다.
- *    지금은 **아래 표에서 확인되는 사실**만 쓴다 — 공정 수, 서류 종수, 표준 소요.
+ *    지금은 **아래 표에서 확인되는 사실**만 쓴다 — 공정 수, 표준 소요, 실측 비용.
  *    숫자는 손으로 적지 않고 SERVICE_STEPS 에서 뽑는다. 본문과 어긋날 수가 없다.
  *
  * ② 칩 5개(표준 시공/컨트롤러/CMS/인증·인허가/공공조달)가 본문 6공정과 달랐다.
@@ -31,7 +31,9 @@ import { OUTPUT_COUNT, SERVICE_STEPS, TOTAL_DURATION } from '@/lib/serviceProces
 /** 히어로 하단 사실 띠 — 전부 이 페이지 안에서 확인되는 값만 쓴다 */
 const FACTS = [
   { k: '표준 공정 소요', v: TOTAL_DURATION, n: '실측 후 확정' },
-  { k: '드리는 서류', v: `${OUTPUT_COUNT}종`, n: '공정마다 3종' },
+  // 🔴 2026-09-07 CEO 지시로 '드리는 서류 N종' 지표를 뺐다. 주지 않을 문서를
+  //    종수로 세어 약속하지 않는다. 자리는 공정 수(확인 가능한 사실)로 채운다.
+  { k: '공정 수', v: `${SERVICE_STEPS.length}단계`, n: '전 공정 직접 수행' },
   { k: '현장 실측 비용', v: '0원', n: '보고 나서 확정 견적' },
 ]
 
@@ -74,11 +76,11 @@ export function ServiceHero() {
 
           <Reveal delay={0.12} y={16}>
             <p className="wk-lead mt-6 !text-white/85">
-              공정마다 며칠 걸리고 무슨 서류가 나오는지 아래 표에 다 적었습니다.
+              공정마다 누가 며칠 동안 무엇을 하는지 아래 표에 다 적었습니다.
             </p>
             <p className="mt-3 max-w-[34rem] text-body text-wk-nightMuted">
-              그대로 과업 범위에 옮겨 쓰셔도 됩니다. 확정 일정은 실측하고 견적서에 적어
-              드립니다.
+              그대로 과업 범위에 옮겨 쓰셔도 됩니다. 확정 일정은 실측한 뒤 견적서에
+              적습니다.
             </p>
           </Reveal>
 

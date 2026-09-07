@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { IMAGES } from '@/lib/imageAssets'
-import { Parallax, Reveal, RevealImage, SplitText, Stagger } from '@/components/motion'
+import { Parallax, Reveal, RevealImage, SplitText } from '@/components/motion'
 
 /**
  * 회사 소개 본문 — 공정 3장(章). 연혁 나열 대신 "어디까지 직접 하는가".
@@ -14,6 +14,14 @@ import { Parallax, Reveal, RevealImage, SplitText, Stagger } from '@/components/
  *    번호 순서와 어긋난다. 셋 다 텍스트 5열 + 사진 7열로 고정한다.
  * ③ 02의 라벨("직접 올리는 부분")과 제목("근거 있는 견적")이 서로 다른 얘기였다.
  *    셋 다 "무엇을 어떻게 한다"는 같은 형식의 선언문으로 통일했다.
+ *
+ * 2026-09-07 (3차) — CEO 지시 "드리는 서류도 빼. 그런 거 안 줘."
+ * 각 장 아래 붙어 있던 산출물 목록 9개(조립 규격서·실측 조서·설치 도면·취부 상세도·
+ * 장애 처리 결과 보고서 등)와 섹션 리드의 "산출물을 함께 둡니다" 문장을 전부 없앴다.
+ * 🔴 주지도 않을 문서를 목록으로 적어 두면 그게 그대로 클레임 근거가 된다.
+ *    이 자리에 다시 문서 목록을 붙이지 말 것. 세 장은 "무엇을 직접 하는가"만 말한다.
+ * 목록이 빠지면서 3장 좌측 열이 1·2장보다 짧아지므로 3장에도 note 를 하나 붙여
+ * 세 장의 좌우 균형을 맞췄다.
  *
  * ⚠️ 카피 규칙 — 우리는 아직 첫 수주 전이다.
  *    가동 중인 공장·시공 실적·고객사를 문장으로 만들지 않는다.
@@ -34,7 +42,6 @@ type Chapter = {
   label: string
   title: string
   body: string
-  points: string[]
   note?: string
   src: string
   alt: string
@@ -47,7 +54,6 @@ const CHAPTERS: Chapter[] = [
     title: '직접 설계하고, 직접 검사합니다',
     body:
       '어떤 모듈을 쓸지, 어떤 프레임에 올릴지, 어떤 검사를 거칠지를 우리가 정합니다. 남이 만든 것을 받아다 파는 방식이 아닙니다.',
-    points: ['모듈·프레임 사양 선정', '조립 규격서 작성', '작동·성능 검사 기준'],
     note: 'KC 기준에 맞는 부품을 쓰고, 조립부터 검사까지 직접 봅니다. 그래야 문제가 생겼을 때 어디서 났는지 압니다.',
     src: IMAGES.company.chapter1,
     alt: '작업대 위에서 점검중 문구가 뜬 LED 모듈을 장갑 낀 손으로 들고 점검 체크시트와 대조하는 장면',
@@ -58,7 +64,6 @@ const CHAPTERS: Chapter[] = [
     title: '규격은 현장에서 확정합니다',
     body:
       '바닥에서 몇 미터인지, 붙일 구조물이 무엇인지, 전기를 어디서 끌어오는지를 현장에서 확인한 뒤 규격을 확정합니다. 사진만으로 정하지 않습니다.',
-    points: ['현장 실측 조서', '설치 도면(기존 구조물·지상고 포함)', '취부 상세도'],
     note: '구조와 전기 수치는 임의로 확정하지 않습니다. 구조기술사와 전기 검토를 거친 값만 도면에 올립니다.',
     src: IMAGES.company.chapter2,
     alt: '관공서 로비에서 안전콘과 비계를 두고 벽면 프레임에 LED 캐비닛을 취부하는 시공 인력 두 명',
@@ -68,8 +73,8 @@ const CHAPTERS: Chapter[] = [
     label: '운영 · 유지보수',
     title: '설치 다음 날부터가 본론입니다',
     body:
-      '다는 데는 하루면 끝나지만 쓰는 것은 몇 년입니다. 원격으로 먼저 보고, 가서 점검하고, 모듈을 갈고, 결과를 문서로 남깁니다.',
-    points: ['모듈 단위 교체', '원격 상태 확인', '장애 처리 결과 보고서'],
+      '다는 데는 하루면 끝나지만 쓰는 것은 몇 년입니다. 원격으로 먼저 보고, 가서 점검하고, 문제 있는 모듈만 갈아 끼웁니다.',
+    note: '화면을 통째로 뜯지 않습니다. 무상보증 기간과 예비 부품 조건은 계약할 때 정합니다.',
     src: IMAGES.company.chapter3,
     alt: '실내 LED 월 앞에서 흡착판으로 모듈 한 장을 전면에서 빼내고 내부 기판을 점검하는 기술자',
   },
@@ -95,7 +100,7 @@ export function CompanyChapters() {
           />
           <Reveal delay={0.2} y={16}>
             <p className="wk-lead mt-6 !text-wk-nightMuted">
-              세 장면으로 나눠 적었습니다. 장면마다 우리가 만드는 산출물을 함께 둡니다.
+              세 장면으로 나눠 적었습니다. 남에게 넘기는 구간이 어디인지도 같이 적습니다.
             </p>
           </Reveal>
         </div>
@@ -129,20 +134,9 @@ export function CompanyChapters() {
                   <p className="wk-body mt-6 !text-wk-nightMuted">{c.body}</p>
                 </Reveal>
 
-                <Stagger className="mt-8 flex flex-col" y={10}>
-                  {c.points.map((p) => (
-                    <span
-                      key={p}
-                      className="border-t border-white/10 py-3 text-label font-medium text-wk-nightInk"
-                    >
-                      {p}
-                    </span>
-                  ))}
-                </Stagger>
-
                 {c.note && (
                   <Reveal delay={0.2} y={10}>
-                    <p className="mt-7 max-w-[38rem] border-l-2 border-white/20 pl-3.5 text-caption text-wk-nightMuted">
+                    <p className="mt-8 max-w-[38rem] border-l-2 border-white/20 pl-3.5 text-caption text-wk-nightMuted">
                       {c.note}
                     </p>
                   </Reveal>

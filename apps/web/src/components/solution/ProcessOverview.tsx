@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { ChevronDown } from 'lucide-react'
 
 import { Reveal } from '@/components/motion'
-import { OUTPUT_COUNT, SERVICE_STEPS, TOTAL_DURATION } from '@/lib/serviceProcess'
+import { SERVICE_STEPS, TOTAL_DURATION } from '@/lib/serviceProcess'
 
 /**
  * 6공정 — 요약표(먼저) + 상세 아코디언(뒤).
@@ -11,7 +11,7 @@ import { OUTPUT_COUNT, SERVICE_STEPS, TOTAL_DURATION } from '@/lib/serviceProces
  *
  * ① 스크롤 비용. 공정 하나가 뷰포트 하나를 먹어서 범위 하나 확인하는 데 6화면을 넘겼다.
  *    이 페이지 독자는 과업 범위를 결재 문서로 옮겨 적는 담당자다. 그 사람에게 필요한 건
- *    연출이 아니라 **공정 × 소요기간 × 산출물을 한 화면에서 비교하는 표**다.
+ *    연출이 아니라 **공정 × 소요기간 × 담당을 한 화면에서 비교하는 표**다.
  *    표를 먼저 주고, 서사와 사진은 아코디언으로 내렸다.
  *
  * ② 좌측 스티키 레일이 데스크톱에서 폭 1/3 을 쓰면서 목록 6줄만 담아 거의 비어 있었다.
@@ -21,6 +21,10 @@ import { OUTPUT_COUNT, SERVICE_STEPS, TOTAL_DURATION } from '@/lib/serviceProces
  * 6개 상세가 DOM 에 한 번에 없어서 검색·복사·키보드 탐색이 망가진다.
  * 아코디언은 네이티브 <details> 라 JS 없이 열리고, 브라우저 페이지 내 검색이
  * 닫힌 패널도 펼쳐서 찾아준다.
+ *
+ * 🔴 2026-09-07 CEO 지시("드리는 서류도 빼")로 '발주처에 드리는 산출물' 열을 없앴다.
+ *    표는 공정 / 소요 기간 / 담당 3열이다. 문서 목록 열을 다시 만들지 말 것.
+ *    데이터 쪽(lib/serviceProcess.ts)의 outputs 필드도 함께 삭제됐다.
  *
  * ⚠️ 소요 기간은 표준 공정안이다. 확정 일정이 아니라고 화면에도 적는다.
  * 데이터는 lib/serviceProcess.ts 하나만 읽는다(히어로 칩·JSON-LD 와 같은 배열).
@@ -33,7 +37,7 @@ export function ProcessOverview() {
           <p className="wk-eyebrow">공급 범위</p>
           <h2 className="wk-h2 text-wk-ink">여섯 공정</h2>
           <p className="wk-lead mt-5">
-            어느 공정을 누가 맡고, 며칠 걸리고, 무슨 서류가 남는지 한 표에 넣었습니다.
+            어느 공정을 누가 맡고 며칠 걸리는지 한 표에 넣었습니다. 중간에 업체가 바뀌지 않습니다.
           </p>
         </Reveal>
 
@@ -43,19 +47,14 @@ export function ProcessOverview() {
             내용을 두 번 적지 않으므로 스크린리더에도 중복이 없다. */}
         <Reveal y={18} delay={0.06}>
           <table className="mt-12 w-full border-collapse text-left lg:mt-14">
-            <caption className="sr-only">
-              공정별 소요 기간과 발주처에 드리는 산출물
-            </caption>
+            <caption className="sr-only">공정별 소요 기간과 담당</caption>
             <thead className="hidden md:table-header-group">
               <tr className="border-b-2 border-wk-ink">
-                <th scope="col" className="w-[26%] py-3 pr-4 text-label font-semibold text-wk-ink">
+                <th scope="col" className="w-[38%] py-3 pr-4 text-label font-semibold text-wk-ink">
                   공정
                 </th>
-                <th scope="col" className="w-[22%] py-3 pr-4 text-label font-semibold text-wk-ink">
-                  소요 기간
-                </th>
                 <th scope="col" className="w-[30%] py-3 pr-4 text-label font-semibold text-wk-ink">
-                  발주처에 드리는 산출물
+                  소요 기간
                 </th>
                 <th scope="col" className="py-3 text-label font-semibold text-wk-ink">
                   담당
@@ -92,26 +91,6 @@ export function ProcessOverview() {
                     </span>
                   </td>
 
-                  <td className="block py-1 align-top md:table-cell md:py-5 md:pr-4">
-                    <span className="wk-cap mr-2 inline-block w-[5.5rem] align-top md:hidden">
-                      산출물
-                    </span>
-                    <ul className="inline-flex flex-col gap-1 align-top">
-                      {s.outputs.map((o) => (
-                        <li
-                          key={o}
-                          className="flex items-baseline gap-2 text-label text-wk-ink2"
-                        >
-                          <span
-                            aria-hidden="true"
-                            className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-wk-blue"
-                          />
-                          {o}
-                        </li>
-                      ))}
-                    </ul>
-                  </td>
-
                   <td className="block py-1 align-top md:table-cell md:py-5">
                     <span className="wk-cap mr-2 inline-block w-[5.5rem] md:hidden">담당</span>
                     <span className="text-label text-wk-ink2">{s.owner}</span>
@@ -124,9 +103,9 @@ export function ProcessOverview() {
 
         <Reveal y={12}>
           <p className="wk-cap mt-6 max-w-[42rem] border-l-2 border-wk-line2 pl-3.5">
-            표준 공정안 기준 전체 {TOTAL_DURATION}, 서류 {OUTPUT_COUNT}종입니다. 확정 일정은
-            현장 실측 후 견적서에 적습니다. 구조 검토 의견서의 수치는 구조기술사 검토를
-            거쳐 확정되며, 그 전 값은 초안으로 표기합니다.
+            표준 공정안 기준 전체 {TOTAL_DURATION}입니다. 확정 일정은 현장 실측 후
+            견적서에 적습니다. 구조·전기 수치는 구조기술사와 전기 검토를 거쳐 확정되며,
+            그 전 값은 초안으로 표기합니다.
           </p>
         </Reveal>
 

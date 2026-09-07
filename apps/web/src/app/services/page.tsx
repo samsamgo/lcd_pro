@@ -19,7 +19,7 @@ export const dynamic = 'force-static'
 export const metadata: Metadata = buildMetadata({
   title: '공급 범위',
   description:
-    '실측부터 사후관리까지 여섯 공정을 우강테크가 직접 합니다. 공정마다 얼마나 걸리고 무엇이 나오는지, 그리고 기관에서 준비하실 게 어디까지인지 미리 적어 뒀습니다.',
+    '실측부터 사후관리까지 여섯 공정을 우강테크가 직접 합니다. 공정마다 얼마나 걸리고 누가 맡는지, 그리고 기관에서 준비하실 게 어디까지인지 미리 적어 뒀습니다.',
   path: '/services',
 })
 
@@ -55,7 +55,7 @@ export default function ServicesPage() {
         id="ld-services-howto"
         data={howToLd({
           name: 'LED 전광판 공급 6공정',
-          description: '공정마다 얼마나 걸리고, 누가 하고, 무슨 서류가 남는지.',
+          description: '공정마다 얼마나 걸리고 누가 하는지.',
           totalTime: TOTAL_DURATION_ISO,
           steps: SERVICE_STEPS.map((s) => ({ name: s.title, text: s.body })),
         })}

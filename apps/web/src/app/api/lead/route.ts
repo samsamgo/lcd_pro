@@ -34,6 +34,15 @@ export async function POST(req: NextRequest) {
   const agreePrivacy = body.agreePrivacy === true || body.agreePrivacy === 'true'
   // 장애 접수는 이미 설치된 화면이 멈춘 상황이라 신규 상담보다 먼저 봐야 한다.
   // source 를 여기서 읽지 않으면 알림 제목이 전부 "신규 견적 문의" 로 와서 그 구분이 사라진다.
+  //
+  // 현재 들어오는 source 와 kind 매핑 (2026-09-07 기준) —
+  //   as-request      (/support ServiceRequest)     → 'as'      긴급도 high
+  //   about-contact   (/about  AboutContact 폼)     → 'consult' 긴급도 normal
+  //   quick-consult · navbar · mobile-bar · product-* · quote-success
+  //                   (QuickConsultModal)           → 'consult' 긴급도 normal
+  // about-contact 를 별도 kind 로 가르지 않는 이유 — 알림 제목이 갈려야 하는 기준은
+  // "지금 화면이 멈췄는가"뿐이다. 일반 문의는 빠른 상담과 처리 순서가 같다.
+  // 기관명은 businessName 으로, 문의 내용은 message→purpose 로 알림에 그대로 실린다.
   const source = String(body.source ?? '').trim()
   const kind = source === 'as-request' ? 'as' : 'consult'
 
