@@ -23,12 +23,19 @@ export async function POST(req: NextRequest) {
   logLead('received')
 
   const phone = String(body.phone ?? '').trim()
-  const businessType = String(body.businessType ?? '').trim()
+  // A/S 폼은 설치 장소를 businessName 으로, 빠른 상담 모달은 업종을 businessType 으로 보낸다.
+  // 하나만 읽으면 다른 쪽 값이 통째로 버려진다.
+  const businessType =
+    String(body.businessName ?? '').trim() || String(body.businessType ?? '').trim()
   const contactName = String(body.contactName ?? '').trim()
   const region = String(body.region ?? '').trim()
   const message = String(body.message ?? '').trim()
   const environment = body.environment === 'outdoor' ? 'outdoor' : 'indoor'
   const agreePrivacy = body.agreePrivacy === true || body.agreePrivacy === 'true'
+  // 장애 접수는 이미 설치된 화면이 멈춘 상황이라 신규 상담보다 먼저 봐야 한다.
+  // source 를 여기서 읽지 않으면 알림 제목이 전부 "신규 견적 문의" 로 와서 그 구분이 사라진다.
+  const source = String(body.source ?? '').trim()
+  const kind = source === 'as-request' ? 'as' : 'consult'
 
   // 최소 검증: 연락처 + 개인정보 동의
   const digits = phone.replace(/[^\d]/g, '')
@@ -41,14 +48,16 @@ export async function POST(req: NextRequest) {
 
   try {
     const result = await notifyLead({
-      businessName: businessType || '(빠른 상담)',
+      businessName: businessType || (kind === 'as' ? '(설치 장소 미기재)' : '(빠른 상담)'),
       contactName: contactName || '-',
       phone,
       region: region || '-',
       environment: environment as 'indoor' | 'outdoor',
-      urgency: 'normal',
+      // 장애는 이미 쓰던 화면이 멈춘 것이라 기본 긴급도를 올린다.
+      urgency: kind === 'as' ? 'high' : 'normal',
       quoteId: 'lead',
-      purpose: message || '빠른 상담 요청',
+      purpose: message || (kind === 'as' ? '증상 미기재' : '빠른 상담 요청'),
+      kind,
     })
     if (!result.success) logLead('webhook-unsent')
   } catch {

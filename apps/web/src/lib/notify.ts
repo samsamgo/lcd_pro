@@ -193,7 +193,20 @@ export interface LeadWebhookData extends QuoteNotifyData {
   priceMin?: number | null
   priceMax?: number | null
   purpose?: string
+  /**
+   * 리드의 성격. 알림 제목이 여기서 갈린다.
+   * A/S 는 이미 설치된 화면이 멈춘 상황이라 신규 견적보다 먼저 봐야 한다.
+   * 제목이 전부 "신규 견적 문의" 로 오면 그 구분이 사라진다.
+   */
+  kind?: 'quote' | 'as' | 'consult'
 }
+
+const LEAD_TITLE: Record<NonNullable<LeadWebhookData['kind']>, string> = {
+  quote: '신규 견적 문의',
+  as: 'A/S 장애 접수',
+  consult: '빠른 상담 요청',
+}
+const leadTitle = (kind?: LeadWebhookData['kind']) => LEAD_TITLE[kind ?? 'quote']
 
 export async function notifyLeadWebhook(data: LeadWebhookData): Promise<{ success: boolean }> {
   const webhook =
@@ -211,8 +224,9 @@ export async function notifyLeadWebhook(data: LeadWebhookData): Promise<{ succes
       ? `\n예상 범위: 약 ${fmtMan(data.priceMin)} ~ ${fmtMan(data.priceMax)} (VAT 별도)`
       : ''
 
+  const emoji = data.kind === 'as' ? '🚨' : '📩'
   const message =
-    `📩 신규 견적 문의\n` +
+    `${emoji} ${leadTitle(data.kind)}\n` +
     `업체: ${data.businessName}\n` +
     `담당자: ${data.contactName} · ${data.phone}\n` +
     `지역: ${data.region} · ${data.environment === 'indoor' ? '실내' : '옥외'}\n` +
@@ -260,7 +274,7 @@ export async function notifyKakaoWork(data: LeadWebhookData): Promise<{ success:
       ? `약 ${fmtMan(data.priceMin)} ~ ${fmtMan(data.priceMax)} (VAT 별도)`
       : '실측 후 산출'
 
-  const text = `신규 견적 문의 · ${data.businessName}`
+  const text = `${leadTitle(data.kind)} · ${data.businessName}`
 
   try {
     const res = await fetch('https://api.kakaowork.com/v1/messages.send_by_email', {
@@ -270,7 +284,11 @@ export async function notifyKakaoWork(data: LeadWebhookData): Promise<{ success:
         email,
         text,
         blocks: [
-          { type: 'header', text: '신규 견적 문의', style: 'blue' },
+          {
+            type: 'header',
+            text: leadTitle(data.kind),
+            style: data.kind === 'as' ? 'red' : 'blue',
+          },
           {
             type: 'description',
             term: '기관 · 업체',

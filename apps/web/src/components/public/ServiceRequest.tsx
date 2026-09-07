@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { SITE } from '@/lib/seo/site'
+import { readApiError, validatePhone } from '@/lib/phone'
 
 /**
  * A/S 신청 폼.
@@ -24,7 +25,8 @@ export function ServiceRequest() {
   async function submit(e: React.FormEvent) {
     e.preventDefault()
     setError('')
-    if (!phone.trim()) return setError('연락처를 입력해 주십시오.')
+    const phoneError = validatePhone(phone)
+    if (phoneError) return setError(phoneError)
     if (!symptom.trim()) return setError('증상을 입력해 주십시오.')
     if (!agree) return setError('개인정보 수집·이용에 동의해 주십시오.')
 
