@@ -63,6 +63,28 @@ export const IMAGES = {
     W('K26_module-front-workbench'),
   ],
 
+  /**
+   * 홈 — 히어로 바로 아래 활용 예시 슬라이더 4장 (`components/public/SceneSlider.tsx`).
+   *
+   * 2026-09-07 CEO 지시로 CSS 시뮬레이션(`LedBoard`)을 걷어내고 사진으로 바꾼 자리다.
+   * 4장 모두 §13 2단 판정 + **원본 확대 검사**를 통과했다(작은 글씨 붕괴 없음, 문자·상호·얼굴 없음).
+   * 톤을 갈랐다 — 주간 실외 / 실내 대형 / 가을 석양 실외 / 실내 세로형.
+   *
+   * 🔴 여기 사진은 전부 AI 연출컷이다. 캡션은 `제품 활용 예시` 로 고정한다.
+   *    `시공 사례`·`납품처`·기관명·건수를 붙이면 날조다.
+   * 🔴 `gen-51`(우천 광장)은 확대 검사에서 탈락시켰다 — 배경 가옥이 일본식 기와지붕이다.
+   */
+  homeScenes: [
+    /** 1 · 초등학교 정문 도트매트릭스 '등하원 안내 / 천천히 운전해 주세요' */
+    G('gen-34'),
+    /** 2 · 강당 무대 대형 LED '행사 안내' */
+    G('gen-13'),
+    /** 3 · 가을 청사 앞 광장 세로형 사인(화면=배치도, 문자 없음) */
+    G('gen-55'),
+    /** 4 · 도서관 로비 세로형 스탠드 '이용 안내' */
+    G('gen-25'),
+  ],
+
   /** 홈 — 설치 장면 갤러리 (격자라 축소본을 쓴다) */
   homeGallery: [
     S('K03_community-center-cloudy'),
@@ -268,6 +290,7 @@ if (process.env.NODE_ENV !== 'production') {
   const all: string[] = [
     ...Object.values(IMAGES.home),
     ...IMAGES.cinematic,
+    ...IMAGES.homeScenes,
     ...IMAGES.homeGallery,
     ...Object.values(IMAGES.industry),
     IMAGES.industriesHero,

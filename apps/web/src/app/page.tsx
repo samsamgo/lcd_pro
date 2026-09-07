@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { PublicHero } from '@/components/public/PublicHero'
 import { ProofRow } from '@/components/public/ProofRow'
 import { ScrollProgress } from '@/components/public/ScrollProgress'
-import { LedBoard } from '@/components/public/LedBoard'
+import { SceneSlider } from '@/components/public/SceneSlider'
 import { ScrollStatement } from '@/components/public/ScrollStatement'
 import { CinematicScene } from '@/components/home/CinematicScene'
 import { ScreenGallery } from '@/components/public/ScreenGallery'
@@ -63,7 +63,9 @@ export default function Home() {
             ① 무엇을 하는 회사인가 → ② 믿을 만한가 → ③ 우리 같은 데 쓰나
             → ④ 설치 후는 어떻게 되나 → ⑤ 서류는 있나 → ⑥ 어떻게 연락하나 */}
         <PublicHero />
-        <LedBoard />
+        {/* 2026-09-07 CEO 지시 — CSS 시뮬레이션 LedBoard 를 걷어내고 사진 슬라이더로 교체.
+            섹션 수는 그대로 10개. LedBoard.tsx 파일은 되돌릴 수 있게 남겨뒀다(참조만 끊음). */}
+        <SceneSlider />
 
         {/* ── 라이트: 믿을 만한가 ── */}
         <ProofRow />
