@@ -46,7 +46,7 @@ export default function SupportPage() {
         {/* 전화 걸기 전에 스스로 가늠할 수 있게 — 출동이 줄고 접수 정확도가 오른다 */}
         <SymptomGuide />
 
-        {/* FAQ 본문은 /faq 한 곳에만 둔다. 같은 17문항을 세 페이지에 반복하지 않는다. */}
+        {/* FAQ 본문은 /faq 한 곳에만 둔다. 같은 문항을 세 페이지에 반복하지 않는다. */}
         <section id="faq" aria-labelledby="support-faq-h" className="wk-sec-sm bg-wk-bgFaint">
           <div className="wk-wrap text-center">
             <h2 id="support-faq-h" className="wk-h2 text-wk-ink">

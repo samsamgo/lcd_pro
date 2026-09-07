@@ -32,7 +32,7 @@ export default function FaqPage() {
         <PageHero
           eyebrow="FAQ"
           title="자주 묻는 질문"
-          description="가격, 계약, 전기, 설치, 고장. 문의 주신 분들이 실제로 가장 많이 물어본 것부터 답했습니다."
+          description="예산 과목, 계약 방식, 전기 인입, 설치, 고장. 결재를 올리기 전에 확인해야 하는 것부터 답했습니다."
           crumbs={[{ name: '홈', href: '/' }, { name: 'FAQ' }]}
         />
         <FaqSection hideHeader />

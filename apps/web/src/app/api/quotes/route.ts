@@ -43,7 +43,13 @@ function recommendPackageTier(env: Environment, areaM2: number): PackageTier {
 }
 
 export async function POST(req: NextRequest) {
-  const formData = await req.formData()
+  // 본문 파싱이 깨지면 여기서 예외가 나 500 이 되고, 리드는 로그에도 안 남는다.
+  let formData: FormData
+  try {
+    formData = await req.formData()
+  } catch {
+    return NextResponse.json({ error: '요청을 읽지 못했습니다. 다시 시도해주세요.' }, { status: 400 })
+  }
 
   const phone = formData.get('phone') as string
   const businessName = formData.get('businessName') as string
@@ -53,10 +59,18 @@ export async function POST(req: NextRequest) {
   const environment = formData.get('environment') as Environment
   const purpose = formData.get('purpose') as string
   const urgency = (formData.get('urgency') ?? 'normal') as UrgencyLevel
-  const desiredWidth = formData.get('desiredWidth') as string | null
-  const desiredHeight = formData.get('desiredHeight') as string | null
-  const viewingDistance = formData.get('viewingDistance') as string | null
-  const additionalNotes = formData.get('additionalNotes') as string | null
+  // 빈 선택값이 문자열 "undefined"/"null" 로 넘어오면 그대로 DB에 저장되고
+  // parseFloat 은 NaN 을 낸다. 여기서 한 번 걸러 낸다.
+  const optional = (k: string): string | null => {
+    const v = formData.get(k)
+    if (typeof v !== 'string') return null
+    const t = v.trim()
+    return t === '' || t === 'undefined' || t === 'null' ? null : t
+  }
+  const desiredWidth = optional('desiredWidth')
+  const desiredHeight = optional('desiredHeight')
+  const viewingDistance = optional('viewingDistance')
+  const additionalNotes = optional('additionalNotes')
   const familyCodeInput = formData.get('familyCode')
   const highResFlag = formData.get('highRes') === 'true'
   const needsLiveInput = formData.get('needsLiveInput') === 'true'
@@ -65,11 +79,27 @@ export async function POST(req: NextRequest) {
   const photos = formData.getAll('photos') as File[]
   const agreePrivacy = formData.get('agreePrivacy')
 
-  // ── 서버측 필수 입력 검증 (quotePersistence ON/OFF 무관하게 항상) ───
-  if (photos.length < 3) {
-    return NextResponse.json({ error: '사진을 3장 이상 첨부해주세요.' }, { status: 400 })
+  // ── 리드 최후 보루 (검증보다 먼저 정의한다) ─────────────────────────
+  // 웹훅도 DB도 실패하면 리드가 통째로 증발한다(실제로 그렇게 소실됐다).
+  // 어떤 경로가 실패하든 리드 원문을 stderr에 남긴다 — Vercel 로그에서 회수 가능.
+  const leadRecord = {
+    businessName, contactName, phone, region, businessType,
+    environment, urgency, purpose,
+    widthMmRaw: desiredWidth, heightMmRaw: desiredHeight,
+    viewingDistance, additionalNotes,
+    photoCount: photos.length,
+    at: new Date().toISOString(),
   }
+  const logLead = (why: string) =>
+    console.error('[LEAD-FALLBACK]', why, JSON.stringify(leadRecord))
+
+  // ── 서버측 필수 입력 검증 (quotePersistence ON/OFF 무관하게 항상) ───
+  // 🔴 사진은 필수가 아니다. 예전에는 3장 미만이면 400 을 던졌는데,
+  //    폼 화면은 "(선택) 사진 없이 넘어가셔도 됩니다" 라고 안내한다.
+  //    안내와 계약이 어긋나면 담당자는 이유도 모른 채 제출에 실패하고 리드가 사라진다.
   if (agreePrivacy !== 'true' && agreePrivacy !== '1' && agreePrivacy !== 'on') {
+    // 400 을 돌려주더라도 남겨진 연락처는 회수할 수 있어야 한다.
+    logLead('agree-privacy-missing')
     return NextResponse.json({ error: '개인정보 수집 동의가 필요합니다.' }, { status: 400 })
   }
 
@@ -120,19 +150,6 @@ export async function POST(req: NextRequest) {
             : null,
       }
     : null
-
-  // ── 리드 최후 보루 ────────────────────────────────────────────────
-  // 웹훅도 DB도 실패하면 리드가 통째로 증발한다(실제로 그렇게 소실됐다).
-  // 어떤 경로가 실패하든 리드 원문을 stderr에 남긴다 — Vercel 로그에서 회수 가능.
-  const leadRecord = {
-    businessName, contactName, phone, region, businessType,
-    environment, urgency, purpose,
-    widthMm, heightMm, viewingDistance, additionalNotes,
-    photoCount: photos.length,
-    at: new Date().toISOString(),
-  }
-  const logLead = (why: string) =>
-    console.error('[LEAD-FALLBACK]', why, JSON.stringify(leadRecord))
 
   // ── 리드 웹훅 알림 (DB 저장과 독립 · 항상 시도) ───────────────────
   // ADMIN_LEAD_WEBHOOK(또는 Slack/Kakao 웹훅)만 있으면 Supabase 없이도
@@ -207,7 +224,10 @@ export async function POST(req: NextRequest) {
     urgency,
     desired_width_mm: widthMm,
     desired_height_mm: heightMm,
-    viewing_distance_m: viewingDistance ? parseFloat(viewingDistance) : null,
+    // "예: 3m" 처럼 단위가 섞여 들어온다. 숫자로 못 읽으면 NaN 을 넣지 말고 비운다.
+    viewing_distance_m: Number.isFinite(parseFloat(viewingDistance ?? ''))
+      ? parseFloat(viewingDistance as string)
+      : null,
     additional_notes: additionalNotes ?? null,
     status: 'pending' as const,
   }
@@ -278,6 +298,11 @@ export async function POST(req: NextRequest) {
       file_name: file.name,
       sort_order: i,
     })
+  }
+
+  // 사진이 일부라도 유실되면 견적을 낼 때 알아야 한다. 조용히 넘기지 않는다.
+  if (uploadErrors.length > 0) {
+    console.error('[QUOTE-PHOTO-UPLOAD-FAILED]', quote.id, JSON.stringify(uploadErrors))
   }
 
   // 고객 + 관리자 알림 (features.notifications ON 일 때만 · 실패해도 접수에 영향 없음)

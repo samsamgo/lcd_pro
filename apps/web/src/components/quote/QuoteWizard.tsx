@@ -37,8 +37,14 @@ const quoteSchema = z.object({
   needsLiveInput: z.boolean().default(false),
   exactSizeRequired: z.boolean().default(false),
 
-  // Step 3 — 정확한 범위 견적을 위해 최소 3장 (카피와 일치)
-  photos: z.array(z.instanceof(File)).min(3, '사진을 최소 3장 업로드해주세요.').max(10),
+  // Step 3 — 사진은 선택이다.
+  // 🔴 2026-09-07 이전에는 `.min(3)` 이었다. 3단계 화면은 "(선택) 사진 없이 넘어가셔도 됩니다"
+  // 라고 안내하고 getStepFields(2) 도 검증을 건너뛰는데, 제출 시 전체 스키마 검증에서
+  // photos 가 걸려 handleSubmit 의 onValid 가 아예 실행되지 않았다.
+  // 오류 문구는 렌더되지 않는 3단계에 붙어 있어 화면에도 안 뜬다 →
+  // 사진 없는 담당자가 '견적 요청 보내기' 를 눌러도 아무 일도 일어나지 않고 리드가 사라졌다.
+  // 서버(`/api/quotes`)도 같은 이유로 400 을 던지고 있었다. 셋을 "선택"으로 맞춘다.
+  photos: z.array(z.instanceof(File)).max(10, '사진은 10장까지 첨부하실 수 있습니다.'),
 
   // Step 4
   budgetRange: z.string().optional(),
@@ -94,6 +100,8 @@ export function QuoteWizard({ defaultType }: { defaultType?: string }) {
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
   const [estimate, setEstimate] = useState<EstimateSummary | null>(null)
+  const [restored, setRestored] = useState(false)
+  const stepRef = useRef(0)
 
   const prefill = defaultType ? PREFILL[defaultType] : undefined
 
@@ -123,29 +131,91 @@ export function QuoteWizard({ defaultType }: { defaultType?: string }) {
     panelRef.current?.focus()
   }, [step])
 
-  const handleSubmit = methods.handleSubmit(async (data) => {
-    setSubmitting(true)
-    setSubmitError('')
-    try {
-      const formData = new FormData()
-      Object.entries(data).forEach(([key, val]) => {
-        if (key === 'photos') {
-          ;(val as File[]).forEach((f) => formData.append('photos', f))
-        } else {
-          formData.append(key, String(val))
-        }
-      })
-      const res = await fetch('/api/quotes', { method: 'POST', body: formData })
-      if (!res.ok) throw new Error('제출 실패')
-      const json = (await res.json()) as { estimate?: EstimateSummary | null }
-      setEstimate(json.estimate ?? null)
-      setSubmitted(true)
-    } catch {
-      setSubmitError('제출 중 오류가 발생했습니다. 네트워크를 확인하고 다시 시도해주세요.')
-    } finally {
-      setSubmitting(false)
+  // 초안 복원 — 첫 렌더에서 읽으면 서버 HTML 과 어긋나므로 마운트 후에 되돌린다
+  useEffect(() => {
+    const draft = readDraft()
+    if (!draft?.values) return
+    methods.reset({ ...methods.getValues(), ...draft.values, photos: [] })
+    if (typeof draft.step === 'number') {
+      setStep(Math.min(Math.max(draft.step, 0), STEPS.length - 1))
     }
-  })
+    setRestored(true)
+    // 마운트 시 1회만
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // 초안 저장 — 값이 바뀔 때마다
+  useEffect(() => {
+    const sub = methods.watch((value) => {
+      const { photos: _photos, ...rest } = value as QuoteFormData
+      writeDraft({ step: stepRef.current, values: rest as Partial<QuoteFormData> })
+    })
+    return () => sub.unsubscribe()
+  }, [methods])
+
+  // 단계 이동도 함께 기록한다
+  useEffect(() => {
+    stepRef.current = step
+    const draft = readDraft()
+    if (draft) writeDraft({ ...draft, step })
+  }, [step])
+
+  const handleSubmit = methods.handleSubmit(
+    async (data) => {
+      setSubmitting(true)
+      setSubmitError('')
+      try {
+        const formData = new FormData()
+        Object.entries(data).forEach(([key, val]) => {
+          if (key === 'photos') {
+            ;(val as File[]).forEach((f) => formData.append('photos', f))
+            return
+          }
+          // 빈 선택값을 String() 으로 감싸면 문자열 "undefined" 가 그대로 서버에 넘어가
+          // 추가 요청사항·예산 칸에 "undefined" 가 저장된다. 값이 있을 때만 보낸다.
+          if (val === undefined || val === null || val === '') return
+          formData.append(key, String(val))
+        })
+        const res = await fetch('/api/quotes', { method: 'POST', body: formData })
+        const json = (await res.json().catch(() => null)) as
+          | { estimate?: EstimateSummary | null; error?: string }
+          | null
+        if (!res.ok) {
+          // 서버가 무엇이 잘못됐는지 알려주면 그대로 보여준다. 전부 "네트워크 오류" 로
+          // 뭉뚱그리면 담당자는 고칠 방법을 알 수 없다.
+          throw new Error(json?.error ?? '')
+        }
+        setEstimate(json?.estimate ?? null)
+        setSubmitted(true)
+        clearDraft()
+      } catch (e) {
+        const msg = e instanceof Error ? e.message : ''
+        setSubmitError(
+          msg ||
+            '제출 중 오류가 발생했습니다. 네트워크를 확인하고 다시 시도해주세요. 계속 안 되면 전화로 접수하실 수 있습니다.',
+        )
+      } finally {
+        setSubmitting(false)
+      }
+    },
+    // 🔴 검증 실패 경로. 이게 없으면 제출 버튼이 아무 반응도 하지 않는다 —
+    // 못 채운 칸이 지금 화면에 없으면 오류 문구도 렌더되지 않기 때문이다.
+    // 어느 단계가 비었는지 말해 주고 그 단계로 되돌린다.
+    (errors) => {
+      const firstField = Object.keys(errors)[0]
+      const target = STEP_OF_FIELD[firstField ?? '']
+      const message =
+        (errors as Record<string, { message?: string }>)[firstField ?? '']?.message ??
+        '입력하지 않은 항목이 있습니다.'
+      if (typeof target === 'number' && target !== step) {
+        setDir(-1)
+        setStep(target)
+        setSubmitError(`${STEPS[target]} 단계를 확인해 주세요 — ${message}`)
+      } else {
+        setSubmitError(message)
+      }
+    },
+  )
 
   if (submitted) return <QuoteSuccess estimate={estimate} />
 
@@ -153,6 +223,12 @@ export function QuoteWizard({ defaultType }: { defaultType?: string }) {
     <FormProvider {...methods}>
       <div className="rounded-card border border-wk-line bg-white p-6 shadow-wk-2 sm:p-9">
         <ProgressBar current={step} total={STEPS.length} labels={STEPS} />
+
+        {restored && (
+          <p className="mt-5 rounded-btn border border-wk-line bg-wk-bgFaint px-4 py-3 text-label text-wk-ink3">
+            작성하시던 내용을 그대로 불러왔습니다. 사진은 다시 첨부해 주셔야 합니다.
+          </p>
+        )}
 
         <div className="relative mt-9 overflow-hidden">
           <AnimatePresence mode="wait" initial={false} custom={dir}>
@@ -230,5 +306,45 @@ function getStepFields(step: number): string[] {
     case 2: return []   // 사진은 선택이라 검증하지 않는다
     case 3: return ['agreePrivacy']
     default: return []
+  }
+}
+
+/** 어느 칸이 어느 단계에 있는지. 제출 검증이 실패했을 때 그 단계로 되돌리는 데 쓴다. */
+const STEP_OF_FIELD: Record<string, number> = {
+  businessType: 0, businessName: 0, contactName: 0, phone: 0, region: 0,
+  environment: 1, desiredWidth: 1, desiredHeight: 1, viewingDistance: 1,
+  purpose: 1, urgency: 1, familyCode: 1, highRes: 1, needsLiveInput: 1, exactSizeRequired: 1,
+  photos: 2,
+  budgetRange: 3, additionalNotes: 3, agreePrivacy: 3,
+}
+
+// ── 작성 중이던 내용 보존 ───────────────────────────────────────────
+// 관공서 담당자는 예산 과목이나 설치 위치를 확인하러 창을 떠났다 돌아온다.
+// 그 사이 새로고침·뒤로가기 한 번에 4단계를 다시 채우게 하면 그대로 이탈한다.
+// 사진(File)은 직렬화할 수 없어 제외한다. 같은 탭 안에서만 남는다(sessionStorage).
+const DRAFT_KEY = 'wk-quote-draft-v1'
+
+function readDraft(): { step?: number; values?: Partial<QuoteFormData> } | null {
+  try {
+    const raw = window.sessionStorage.getItem(DRAFT_KEY)
+    return raw ? JSON.parse(raw) : null
+  } catch {
+    return null
+  }
+}
+
+function writeDraft(payload: { step?: number; values?: Partial<QuoteFormData> }) {
+  try {
+    window.sessionStorage.setItem(DRAFT_KEY, JSON.stringify(payload))
+  } catch {
+    /* 시크릿 모드 등 저장 불가 — 폼은 그대로 동작한다 */
+  }
+}
+
+function clearDraft() {
+  try {
+    window.sessionStorage.removeItem(DRAFT_KEY)
+  } catch {
+    /* noop */
   }
 }
