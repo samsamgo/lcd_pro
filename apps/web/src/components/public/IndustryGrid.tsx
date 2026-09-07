@@ -34,7 +34,14 @@ import { EASE } from '@/components/motion'
 
 /** lg(3열)에서 마지막 줄이 비지 않도록 첫 카드가 차지할 칸 수 */
 export function spanFor(count: number, cols: number): number {
-  if (count <= 1) return 1
+  /**
+   * 🔴 2026-09-07 QC 실측 — 카드가 1장인 조합에서 구멍이 남았다.
+   * `생활·상업 + 실내` = 1장. 전에는 여기서 1 을 반환해 카드가 lg 3열 중 1칸(32%)만
+   * 채우고 오른쪽 2칸이 통째로 비었다(sm 2열에서는 49%). 위 주석이 약속한
+   * "카드가 몇 장이든 마지막 줄을 채운다"가 이 경우에만 성립하지 않았다.
+   * 1장이면 그 한 장이 줄 전체를 차지해야 한다.
+   */
+  if (count <= 1) return cols
   // (count - 1 + s) % cols === 0 을 만족하는 최소 s (1..cols)
   const s = (((1 - count) % cols) + cols) % cols
   return s === 0 ? cols : s

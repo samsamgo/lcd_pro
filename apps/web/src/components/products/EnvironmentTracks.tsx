@@ -104,9 +104,10 @@ export function EnvironmentTracks() {
               {/* ── 묶음 머리말: 글 + 사진을 한 줄에 두어 세로 낭비를 없앤다 ── */}
               <div className="grid items-start gap-8 lg:grid-cols-12 lg:gap-10">
                 <Reveal className="lg:col-span-7">
-                  {/* wk-eyebrow 는 uppercase 라 단위 m 이 M 으로 뒤집힌다("2~4M").
-                      단위가 들어가는 eyebrow 는 normal-case 로 되돌린다. */}
-                  <p className="wk-eyebrow normal-case tracking-[0.06em]">{t.eyebrow}</p>
+                  {/* wk-eyebrow 는 uppercase 라 단위 m 이 M 으로 뒤집힌다("2~4M" → 메가로 읽힌다).
+                      wk-eyebrow 가 globals.css 의 utilities 레이어에 있어 같은 레이어의
+                      normal-case 는 소스 순서에서 밀린다. 그래서 ! 로 강제한다. */}
+                  <p className="wk-eyebrow !normal-case !tracking-[0.06em]">{t.eyebrow}</p>
                   <h3 className="wk-h3 text-wk-ink">{t.title}</h3>
                   <p className="wk-body mt-4 max-w-xl">{t.desc}</p>
 

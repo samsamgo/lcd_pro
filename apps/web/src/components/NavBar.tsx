@@ -376,9 +376,17 @@ export function NavBar() {
         role="dialog"
         aria-modal="true"
         aria-label="주요 메뉴"
+        aria-hidden={!open}
         ref={mobilePanelRef}
-        className={`fixed inset-0 z-[60] flex flex-col bg-white transition-opacity duration-200 ease-entrance md:hidden ${
-          open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
+        /**
+         * 🔴 닫혔을 때 `opacity-0` 만 주면 안 된다(2026-09-07 QC 실측).
+         * 투명할 뿐 여전히 렌더되므로 내부 링크·버튼 9개가 그대로 탭 순서에 남고
+         * `aria-modal="true"` 인 dialog 가 상시 접근성 트리에 노출된다.
+         * `invisible`(visibility:hidden)까지 걸어야 탭 순서와 AT 양쪽에서 빠진다.
+         * visibility 는 전이 가능한 속성이라 페이드아웃 200ms 는 그대로 유지된다.
+         */
+        className={`fixed inset-0 z-[60] flex flex-col bg-white transition-[opacity,visibility] duration-200 ease-entrance md:hidden ${
+          open ? 'pointer-events-auto visible opacity-100' : 'pointer-events-none invisible opacity-0'
         }`}
       >
         <div className="flex h-16 shrink-0 items-center justify-between border-b border-wk-line px-4">
