@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { IMAGES } from '@/lib/imageAssets'
 import { Reveal, SplitText } from '@/components/motion'
 import { SITE } from '@/lib/seo/site'
+import { PITCH_RANGE } from '@/lib/companyScope'
 import { HELD_CREDENTIALS } from './CompanySummary'
 
 /**
@@ -16,14 +17,18 @@ import { HELD_CREDENTIALS } from './CompanySummary'
  *
  * 하단 사실 띠 3칸은 전부 코드·등기에서 나온 값이다.
  *   설립      SITE.founded
- *   화소 간격  lib/standardBlock.ts(P1.86~P5) ∪ lib/products.ts(P2.5~P6)
+ *   화소 간격  lib/companyScope.ts 가 견적엔진 ∪ 제품 카탈로그에서 계산
  *   KC 적합등록 CompanySummary 의 HELD_CREDENTIALS 길이 — 목록이 늘면 숫자도 같이 는다
  * 실적·수상·고객사 같은 미확보 수치는 자리를 만들지 않는다.
+ *
+ * 2026-09-07 (2차) — CEO 지시 "LED 사이니지 그룹처럼".
+ * ① 상단에 기관 문서식 표제 줄(회사 소개 / WOOKANG TECH + 가로 괘선)을 붙였다.
+ *    큰 회사의 소개 페이지는 첫 줄에서 이미 "문서"의 형식을 갖춘다.
+ * ② 사실 띠의 괘선을 wk-wrap 밖으로 빼 화면 폭을 가로지르게 했다.
+ *    같은 내용이라도 선이 화면 끝까지 가면 판이 커 보인다. 띠는 화면 바닥에 붙인다.
+ * ③ 손으로 박아 두었던 'P1.86 – P6' 문자열을 파생값으로 교체했다.
+ *    카탈로그가 늘어도 문자열은 따라오지 않아 언젠가 반드시 틀린 값이 된다.
  */
-
-/** 취급 화소 간격 — 견적엔진 패밀리와 제품 카드에 실제로 존재하는 범위의 합집합 */
-const PITCH_RANGE = 'P1.86 – P6'
-
 export function CompanyHero() {
   const facts = [
     { k: '법인 설립', v: SITE.founded },
@@ -49,18 +54,23 @@ export function CompanyHero() {
         <div className="wk-scrim-b absolute inset-0" />
       </div>
 
-      <div className="relative z-10 w-full pb-14 pt-32 md:pb-20 lg:pb-24">
+      <div className="relative z-10 w-full pt-28 md:pt-32">
         <div className="wk-wrap">
           <Reveal y={0} duration={0.7}>
-            <p className="text-label font-semibold uppercase tracking-widest text-wk-blue">
-              회사 소개
-            </p>
+            <div className="flex items-center justify-between gap-4 border-b border-white/20 pb-4">
+              <p className="text-label font-semibold uppercase tracking-widest text-wk-blue">
+                회사 소개
+              </p>
+              <p className="text-caption font-medium uppercase tracking-widest text-wk-nightMuted">
+                {SITE.nameEn}
+              </p>
+            </div>
           </Reveal>
 
           <SplitText
             as="h1"
             text="관공서와 학교의 화면을 짓습니다"
-            className="wk-hero mt-6 text-wk-nightInk"
+            className="wk-hero mt-9 text-wk-nightInk md:mt-12"
             delay={0.1}
           />
 
@@ -69,20 +79,25 @@ export function CompanyHero() {
               설계 · 제작 · 시공 · 유지보수. 네 공정을 한 회사가 맡습니다.
             </p>
           </Reveal>
-
-          <Reveal delay={0.46} y={14}>
-            <dl className="mt-12 grid gap-5 border-t border-white/15 pt-6 sm:grid-cols-3 sm:gap-8 md:mt-16">
-              {facts.map((f) => (
-                <div key={f.k}>
-                  <dt className="text-caption font-medium uppercase tracking-widest text-wk-nightMuted">
-                    {f.k}
-                  </dt>
-                  <dd className="wk-metric mt-1.5 text-h3 font-semibold text-wk-nightInk">{f.v}</dd>
-                </div>
-              ))}
-            </dl>
-          </Reveal>
         </div>
+
+        {/* 사실 띠 — 괘선이 화면 폭을 가로지른다. 안쪽 내용만 wk-wrap 을 따른다 */}
+        <Reveal delay={0.46} y={14}>
+          <div className="mt-14 border-t border-white/20 md:mt-20">
+            <div className="wk-wrap">
+              <dl className="grid gap-5 py-7 sm:grid-cols-3 sm:gap-8 md:py-9">
+                {facts.map((f) => (
+                  <div key={f.k}>
+                    <dt className="text-caption font-medium uppercase tracking-widest text-wk-nightMuted">
+                      {f.k}
+                    </dt>
+                    <dd className="wk-metric mt-2 text-h3 font-semibold text-wk-nightInk">{f.v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   )

@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { IMAGES } from '@/lib/imageAssets'
-import { Parallax, Reveal, RevealImage, Stagger } from '@/components/motion'
+import { Parallax, Reveal, RevealImage, SplitText, Stagger } from '@/components/motion'
 
 /**
  * 회사 소개 본문 — 공정 3장(章). 연혁 나열 대신 "어디까지 직접 하는가".
@@ -19,6 +19,15 @@ import { Parallax, Reveal, RevealImage, Stagger } from '@/components/motion'
  *    가동 중인 공장·시공 실적·고객사를 문장으로 만들지 않는다.
  *    지금 사실인 것(기준·절차·책임 범위)만 쓴다.
  *    2026-09-07 에 1장 본문의 "10년의 경험을 바탕으로"를 뺐다. 출처를 댈 수 없다.
+ *
+ * 2026-09-07 (2차) — "그룹사처럼" 지시 반영.
+ * ④ 섹션 머리(공정 / 어디까지 직접 하는가 / 리드)를 붙였다. 고정 장면 다음에 곧바로
+ *    '01' 이 나와서 세 장이 무엇의 목록인지 여는 문장이 없었다.
+ * ⑤ 장 번호를 text-h1 → text-display-xl 로 올렸다. 번호가 이 섹션의 유일한 색인이므로
+ *    제목보다 커야 색인으로 읽힌다.
+ * ⑥ 각 장 제목을 h2 → h3 으로 내렸다. 섹션 h2 가 생겨 문서 구조가 한 단 깊어졌다.
+ * ⑦ 라이트로 넘어가는 `.wk-bridge-up` 을 여기서 뺐다. 이제 다크 구간의 끝은
+ *    CompanyScope 이고, 다리는 그쪽이 소유한다.
  */
 type Chapter = {
   no: string
@@ -70,7 +79,28 @@ export function CompanyChapters() {
   return (
     <>
       <section className="wk-sec-lg wk-night" aria-label="우강테크가 직접 하는 일">
-        <div className="wk-wrap-wide flex flex-col gap-24 md:gap-32 lg:gap-40">
+        {/* 2026-09-07(2차) 섹션 머리를 붙였다. 이전에는 고정 장면 다음에 곧바로 '01' 이 나와서
+            세 장이 무엇의 목록인지 알려 주는 문장이 없었다. 큰 회사 소개일수록
+            챕터 앞에 그 챕터를 여는 한 문장이 있다. SplitText 는 여기가 페이지의 두 번째이자
+            마지막 사용이다(히어로 h1 과 합해 2 = 설계계약서 §4 상한). */}
+        <div className="wk-wrap-wide">
+          <Reveal y={0} duration={0.7}>
+            <p className="text-label font-semibold uppercase tracking-widest text-wk-blue">공정</p>
+          </Reveal>
+          <SplitText
+            as="h2"
+            text="어디까지 직접 하는가"
+            className="wk-h1 mt-5 text-wk-nightInk"
+            delay={0.08}
+          />
+          <Reveal delay={0.2} y={16}>
+            <p className="wk-lead mt-6 !text-wk-nightMuted">
+              세 장면으로 나눠 적었습니다. 장면마다 우리가 만드는 산출물을 함께 둡니다.
+            </p>
+          </Reveal>
+        </div>
+
+        <div className="wk-wrap-wide mt-20 flex flex-col gap-24 md:mt-28 md:gap-32 lg:gap-40">
           {CHAPTERS.map((c) => (
             <article
               key={c.no}
@@ -80,7 +110,7 @@ export function CompanyChapters() {
               <div className="lg:col-span-5">
                 <Reveal y={16}>
                   <div className="flex items-baseline gap-4 border-b border-white/10 pb-4">
-                    <span className="wk-metric text-h1 font-bold leading-none text-white/45">
+                    <span className="wk-metric text-display-xl font-bold leading-none text-white/40">
                       {c.no}
                     </span>
                     <span className="text-label font-semibold uppercase tracking-widest text-wk-blue">
@@ -90,9 +120,9 @@ export function CompanyChapters() {
                 </Reveal>
 
                 <Reveal delay={0.06}>
-                  <h2 id={`chapter-${c.no}`} className="wk-h2 mt-7 max-w-[14em] text-wk-nightInk">
+                  <h3 id={`chapter-${c.no}`} className="wk-h2 mt-7 max-w-[14em] text-wk-nightInk">
                     {c.title}
-                  </h2>
+                  </h3>
                 </Reveal>
 
                 <Reveal delay={0.14}>
@@ -136,9 +166,6 @@ export function CompanyChapters() {
           ))}
         </div>
       </section>
-
-      {/* 다크 3연장 → 법인 정보(라이트)로 넘어가는 다리 */}
-      <div className="wk-bridge-up h-20 md:h-28" aria-hidden="true" />
     </>
   )
 }
