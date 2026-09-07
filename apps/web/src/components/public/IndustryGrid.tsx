@@ -36,20 +36,48 @@ import { EASE } from '@/components/motion'
 export function spanFor(count: number, cols: number): number {
   if (count <= 1) return 1
   // (count - 1 + s) % cols === 0 을 만족하는 최소 s (1..cols)
-  const s = ((1 - count) % cols + cols) % cols
+  const s = (((1 - count) % cols) + cols) % cols
   return s === 0 ? cols : s
 }
 
-type Filter = 'all' | IndustryGroup
+/**
+ * span 클래스는 반드시 문자열 리터럴로 적는다.
+ * `lg:col-span-${n}` 처럼 조립하면 Tailwind 스캐너가 못 찾아 클래스가 사라진다.
+ */
+function spanClass(smSpan: number, lgSpan: number): string {
+  const sm = smSpan === 2 ? 'sm:col-span-2 sm:aspect-[16/7]' : ''
+  const lg =
+    lgSpan === 3
+      ? 'lg:col-span-3 lg:aspect-[16/5]'
+      : lgSpan === 2
+        ? 'lg:col-span-2 lg:aspect-[11/4]'
+        : 'lg:col-span-1 lg:aspect-[4/3]'
+  return `${sm} ${lg}`
+}
 
-const FILTERS: { key: Filter; label: string }[] = [
+type GroupFilter = 'all' | IndustryGroup
+type EnvFilter = 'all' | 'indoor' | 'outdoor'
+
+const GROUP_FILTERS: { key: GroupFilter; label: string }[] = [
   { key: 'all', label: '전체' },
-  ...INDUSTRY_GROUPS.map((g) => ({ key: g.key as Filter, label: g.label })),
+  ...INDUSTRY_GROUPS.map((g) => ({ key: g.key as GroupFilter, label: g.label })),
 ]
+
+const ENV_FILTERS: { key: EnvFilter; label: string }[] = [
+  { key: 'all', label: '전체' },
+  { key: 'indoor', label: '실내' },
+  { key: 'outdoor', label: '옥외' },
+]
+
+const chipClass = (on: boolean) =>
+  `h-10 rounded-full px-4 text-label font-semibold transition-colors duration-state ease-state ${
+    on ? 'bg-wk-ink text-white' : 'bg-white text-wk-ink3 hover:bg-wk-line'
+  }`
 
 function Grid() {
   const [active, setActive] = useState<Industry | null>(null)
-  const [filter, setFilter] = useState<Filter>('all')
+  const [group, setGroup] = useState<GroupFilter>('all')
+  const [env, setEnv] = useState<EnvFilter>('all')
   const params = useSearchParams()
   const reduce = useReducedMotion()
 
@@ -62,8 +90,11 @@ function Grid() {
   }, [params])
 
   const list = useMemo(
-    () => (filter === 'all' ? INDUSTRIES : INDUSTRIES.filter((i) => i.group === filter)),
-    [filter],
+    () =>
+      INDUSTRIES.filter(
+        (i) => (group === 'all' || i.group === group) && (env === 'all' || i.environment === env),
+      ),
+    [group, env],
   )
 
   const lgSpan = spanFor(list.length, 3)
@@ -71,24 +102,49 @@ function Grid() {
 
   return (
     <>
-      {/* 현장 묶음 필터 */}
-      <div className="mb-7 flex flex-wrap gap-2">
-        {FILTERS.map((f) => (
-          <button
-            key={f.key}
-            type="button"
-            onClick={() => setFilter(f.key)}
-            aria-pressed={filter === f.key}
-            className={`h-10 rounded-full px-4 text-label font-semibold transition-colors duration-state ease-state ${
-              filter === f.key
-                ? 'bg-wk-ink text-white'
-                : 'bg-white text-wk-ink3 hover:bg-wk-line'
-            }`}
-          >
-            {f.label}
-          </button>
-        ))}
+      {/* 두 축으로 좁힌다 — 어떤 시설인가 / 실내인가 옥외인가 */}
+      <div className="mb-7 space-y-3">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="mr-1 text-caption font-semibold text-wk-ink3">시설</span>
+          {GROUP_FILTERS.map((f) => (
+            <button
+              key={f.key}
+              type="button"
+              onClick={() => setGroup(f.key)}
+              aria-pressed={group === f.key}
+              className={chipClass(group === f.key)}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="mr-1 text-caption font-semibold text-wk-ink3">환경</span>
+          {ENV_FILTERS.map((f) => (
+            <button
+              key={f.key}
+              type="button"
+              onClick={() => setEnv(f.key)}
+              aria-pressed={env === f.key}
+              className={chipClass(env === f.key)}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
       </div>
+
+      {/* 두 축을 겹치면 결과가 0인 조합이 생긴다(예: 학교·교육시설 + 옥외).
+          그때 빈 격자만 남기면 또 흰 여백이 된다. */}
+      {list.length === 0 && (
+        <div className="rounded-card border border-wk-line bg-white p-8 text-center">
+          <p className="text-body font-semibold text-wk-ink">이 조합에 해당하는 자리가 아직 없습니다</p>
+          <p className="wk-cap mt-2">
+            필터를 <b>전체</b>로 돌리시거나, 찾으시는 현장을 알려 주시면 비슷한 자리의 구성을 정리해
+            보내드립니다.
+          </p>
+        </div>
+      )}
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
         {list.map((i, n) => {

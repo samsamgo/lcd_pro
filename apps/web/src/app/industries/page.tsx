@@ -16,14 +16,14 @@ import { absoluteUrl, buildMetadata } from '@/lib/seo/site'
 export const dynamic = 'force-static'
 
 export const metadata: Metadata = buildMetadata({
-  title: '업종별 LED 전광판',
+  title: 'LED 전광판 설치 사례',
   description:
-    '관공서·민원실, 학교·강당, 전자현수막, 공공기관·시설관리. 현장마다 보는 거리와 운영 내용이 다릅니다. 설치 장소에 맞는 화면 구성을 안내합니다.',
+    '관공서·민원실, 학교·강당, 보건소, 도로·교차로, 주차장, 아파트까지. 자리마다 보는 거리와 운영 내용이 다릅니다. 설치 자리별로 어떤 구성이 들어가는지 정리했습니다.',
   path: '/industries',
 })
 
 /**
- * 업종별.
+ * 설치 사례.
  *
  * 어두운 히어로로 시작해 카드 그리드로 이어진다.
  * 카드에서 업종을 고르면 모달로 상세가 열린다(페이지 이동 없음).
@@ -36,7 +36,7 @@ export default function IndustriesPage() {
         id="ld-breadcrumb-industries"
         data={breadcrumbLd([
           { name: '홈', url: absoluteUrl('/') },
-          { name: '업종별', url: absoluteUrl('/industries') },
+          { name: '설치 사례', url: absoluteUrl('/industries') },
         ])}
       />
       <NavBar />
@@ -74,7 +74,7 @@ export default function IndustriesPage() {
           </div>
         </section>
 
-        {/* 업종 카드 */}
+        {/* 설치 사례 카드 */}
         <section className="wk-sec bg-wk-bg">
           <div className="wk-wrap">
             <IndustryGrid />

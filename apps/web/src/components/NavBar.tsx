@@ -56,7 +56,7 @@ const NAV: NavGroup[] = [
     ],
   },
   {
-    label: '업종별',
+    label: '설치 사례',
     href: '/industries',
     children: [
       { label: '관공서 · 민원실', desc: '창구 안내, 부서 이전, 시정 소식', href: '/industries?type=public-office', icon: Building2 },

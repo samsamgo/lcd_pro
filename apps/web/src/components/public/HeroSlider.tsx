@@ -66,6 +66,18 @@ export function HeroSlider() {
    * 첫 페인트가 끝난 뒤에 마운트해야 LCP 경쟁이 실제로 사라진다.
    */
   const [restMounted, setRestMounted] = useState(false)
+  /**
+   * Ken Burns 시동 플래그.
+   * 첫 렌더에서 곧바로 scale(1.04) 을 적으면 transition 이 걸릴 시작값이 없어
+   * 1번 슬라이드만 확대된 채 멈춰 있다. 한 프레임 뒤에 켜야 실제로 움직인다.
+   */
+  const [zooming, setZooming] = useState(false)
+
+  useEffect(() => {
+    if (reduce) return
+    const raf = requestAnimationFrame(() => setZooming(true))
+    return () => cancelAnimationFrame(raf)
+  }, [reduce])
 
   useEffect(() => {
     if (reduce || SLIDES.length < 2) return
