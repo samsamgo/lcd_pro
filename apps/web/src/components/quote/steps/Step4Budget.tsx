@@ -31,7 +31,7 @@ export function Step4Budget() {
               key={o.value}
               type="button"
               onClick={() => setValue('budgetRange', o.value)}
-              className={`rounded-xl border px-3 py-2.5 text-xs font-medium transition-all ${
+              className={`min-h-[44px] rounded-xl border px-3 py-3 text-xs font-medium transition-all ${
                 budget === o.value
                   ? 'border-wk-cta bg-wk-cta/20 text-wk-ctaActive'
                   : 'border-wk-line bg-white text-wk-ink3 hover:border-wk-line2'
@@ -65,11 +65,11 @@ export function Step4Budget() {
       </div>
 
       {/* 개인정보 동의 */}
-      <label className="flex cursor-pointer items-start gap-3">
+      <label className="flex min-h-[44px] cursor-pointer items-start gap-3 py-1">
         <input
           type="checkbox"
           {...register('agreePrivacy')}
-          className="mt-0.5 h-4 w-4 rounded border-wk-line2 bg-white text-wk-cta accent-wk-cta"
+          className="mt-0.5 h-5 w-5 shrink-0 rounded border-wk-line2 bg-white text-wk-cta accent-wk-cta"
         />
         <span className="text-sm text-wk-ink3">
           견적 발송을 위한{' '}

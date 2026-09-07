@@ -80,18 +80,18 @@ export function Step2InstallInfo() {
       {/* 옵션: 고해상도 / 라이브 입력 / 정확치수 (실내만 노출) */}
       {env === 'indoor' && (
         <div className="space-y-2">
-          <label className="flex items-center gap-2 text-sm text-wk-ink2">
-            <input type="checkbox" {...register('highRes')} className="h-4 w-4" />
+          <label className="flex min-h-[44px] cursor-pointer items-center gap-2.5 py-1 text-sm text-wk-ink2">
+            <input type="checkbox" {...register('highRes')} className="h-5 w-5 shrink-0 accent-wk-cta" />
             가까이서 보는 자리 — 민원실·로비·회의실
           </label>
-          <label className="flex items-center gap-2 text-sm text-wk-ink2">
-            <input type="checkbox" {...register('needsLiveInput')} className="h-4 w-4" />
+          <label className="flex min-h-[44px] cursor-pointer items-center gap-2.5 py-1 text-sm text-wk-ink2">
+            <input type="checkbox" {...register('needsLiveInput')} className="h-5 w-5 shrink-0 accent-wk-cta" />
             HDMI 라이브 입력 필요 (방송/실시간 미러링)
           </label>
         </div>
       )}
-      <label className="flex items-center gap-2 text-sm text-wk-ink2">
-        <input type="checkbox" {...register('exactSizeRequired')} className="h-4 w-4" />
+      <label className="flex min-h-[44px] cursor-pointer items-center gap-2.5 py-1 text-sm text-wk-ink2">
+        <input type="checkbox" {...register('exactSizeRequired')} className="h-5 w-5 shrink-0 accent-wk-cta" />
         반드시 정확한 치수로 제작 필요 (표준 사이즈 적용 불가)
       </label>
       {(highRes || needsLiveInput || exactSizeRequired) && (
@@ -130,7 +130,7 @@ export function Step2InstallInfo() {
               key={o.value}
               type="button"
               onClick={() => setValue('urgency', o.value as QuoteFormData['urgency'])}
-              className={`rounded-xl border px-3 py-2.5 text-xs font-medium transition-all ${
+              className={`min-h-[44px] rounded-xl border px-3 py-3 text-xs font-medium transition-all ${
                 urgency === o.value
                   ? 'border-wk-cta bg-wk-cta/20 text-wk-ctaActive'
                   : 'border-wk-line bg-white text-wk-ink3 hover:border-wk-line2'
