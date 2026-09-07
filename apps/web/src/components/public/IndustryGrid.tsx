@@ -4,12 +4,18 @@ import { Suspense, useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
 import { motion, useReducedMotion } from 'framer-motion'
-import { INDUSTRIES, getIndustry, type Industry } from '@/lib/industries'
+import {
+  INDUSTRIES,
+  INDUSTRY_GROUPS,
+  getIndustry,
+  type Industry,
+  type IndustryGroup,
+} from '@/lib/industries'
 import { IndustryModal } from './IndustryModal'
 import { EASE } from '@/components/motion'
 
 /**
- * 업종 카드 그리드.
+ * 설치 사례 카드 그리드.
  *
  * 담당자는 설명을 읽고 찾는 게 아니라 자기 현장을 눈으로 찾는다.
  * 카드에는 사진과 이름, 판단에 바로 쓰이는 정보(실내/옥외, 대표 용도)만 둔다.
@@ -18,17 +24,27 @@ import { EASE } from '@/components/motion'
  * 네비게이션 하위 메뉴는 `?type=<slug>` 로 들어온다. 그 값이 있으면 해당
  * 모달을 열어준다 — 메뉴를 눌렀는데 변화가 없으면 고장으로 읽힌다.
  *
- * 레이아웃: 첫 카드가 2칸을 차지해 시선의 출발점을 만든다.
- * 카드는 순서대로 어긋나게 등장한다.
+ * 🔴 2026-09-07 흰 여백 수정.
+ *   전에는 "첫 카드는 무조건 2칸"이었다. 카드가 6장이면 lg(3열)에서
+ *   셀이 7개가 되어 마지막 줄에 빈 칸 2개가 남았고, 그 아래 섹션 상하 여백
+ *   128px+128px 이 붙어 화면 하나가 통째로 빈 것처럼 보였다(COO 실물 확인).
+ *   이제 첫 카드 span 을 개수에서 역산해 마지막 줄을 항상 채운다.
+ *   `spanFor` 는 카드가 몇 장이든, 어떤 필터를 눌러도 성립한다.
  */
 
+/** lg(3열)에서 마지막 줄이 비지 않도록 첫 카드가 차지할 칸 수 */
+export function spanFor(count: number, cols: number): number {
+  if (count <= 1) return 1
+  // (count - 1 + s) % cols === 0 을 만족하는 최소 s (1..cols)
+  const s = ((1 - count) % cols + cols) % cols
+  return s === 0 ? cols : s
+}
 
-type Filter = 'all' | 'indoor' | 'outdoor'
+type Filter = 'all' | IndustryGroup
 
 const FILTERS: { key: Filter; label: string }[] = [
   { key: 'all', label: '전체' },
-  { key: 'indoor', label: '실내' },
-  { key: 'outdoor', label: '옥외' },
+  ...INDUSTRY_GROUPS.map((g) => ({ key: g.key as Filter, label: g.label })),
 ]
 
 function Grid() {
@@ -46,13 +62,16 @@ function Grid() {
   }, [params])
 
   const list = useMemo(
-    () => (filter === 'all' ? INDUSTRIES : INDUSTRIES.filter((i) => i.environment === filter)),
+    () => (filter === 'all' ? INDUSTRIES : INDUSTRIES.filter((i) => i.group === filter)),
     [filter],
   )
 
+  const lgSpan = spanFor(list.length, 3)
+  const smSpan = spanFor(list.length, 2)
+
   return (
     <>
-      {/* 실내/옥외 필터 */}
+      {/* 현장 묶음 필터 */}
       <div className="mb-7 flex flex-wrap gap-2">
         {FILTERS.map((f) => (
           <button
@@ -73,7 +92,7 @@ function Grid() {
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
         {list.map((i, n) => {
-          const wide = filter === 'all' && n === 0
+          const wide = n === 0 && (lgSpan > 1 || smSpan > 1)
           return (
             <motion.button
               key={i.slug}
@@ -84,8 +103,8 @@ function Grid() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true, margin: '-60px' }}
               transition={{ duration: reduce ? 0.2 : 0.6, delay: Math.min(n, 4) * 0.07, ease: EASE.entrance }}
-              className={`group relative block w-full overflow-hidden rounded-card-m bg-wk-ink p-0 text-left ring-1 ring-black/5 transition-shadow duration-state ease-state hover:shadow-wk-3 sm:rounded-card ${
-                wide ? 'aspect-[16/10] lg:col-span-2 lg:aspect-[11/4]' : 'aspect-[4/3]'
+              className={`group relative block w-full overflow-hidden rounded-card-m bg-wk-ink p-0 text-left ring-1 ring-black/5 transition-shadow duration-state ease-state hover:shadow-wk-3 sm:rounded-card aspect-[4/3] ${
+                wide ? spanClass(smSpan, lgSpan) : ''
               }`}
             >
               <div className="absolute inset-0">

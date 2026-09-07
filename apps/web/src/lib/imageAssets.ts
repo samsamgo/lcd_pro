@@ -76,6 +76,18 @@ export const IMAGES = {
     institution: W('K07_library-plaza-overcast'),
     retail: W('D1_cafe-storefront-night'),
     'outdoor-ad': W('A7_aerial-night-block'),
+    // 2026-09-07 설치 사례 확충 9건.
+    // 전부 화면에 한국어 안내 문구가 떠 있는 컷만 골랐다(§13 AI 티 판정 기준).
+    // 앞의 5장은 `spare` 에서 옮겨왔다 — 같은 파일을 두 자리에 두면 중복검사가 경고한다.
+    'health-center': S('K04_health-center-drizzle'),
+    'fire-safety': S('K06_fire-safety-building-flatlight'),
+    traffic: S('K15_intersection-electronic-board-cloudy'),
+    parking: S('K18_parking-entry-grayday'),
+    transit: S('K19_bus-terminal-dusk'),
+    apartment: G('gen-24'),
+    auditorium: G('gen-4'),
+    'meeting-room': G('gen-27'),
+    daycare: G('gen-33'),
   } as Record<string, string>,
 
   /** 업종 페이지 히어로 */
@@ -195,7 +207,6 @@ export const IMAGES = {
   spare: [
     S('K02_county-hall-granite-morning'),
     S('A3_roadside-pylon-dusk'),
-    S('K06_fire-safety-building-flatlight'),
     S('B1_village-community-center'),
     S('B4_elementary-school-gate'),
     S('B5_senior-center'),
@@ -223,13 +234,9 @@ export const IMAGES = {
     S('I4_rooftop-laptop'),
     S('J2_lowangle-stormy'),
     S('J3_floating-module-studio'),
-    S('K04_health-center-drizzle'),
     S('K10_highschool-entrance-winter'),
     S('K11_school-auditorium-fluorescent'),
     S('K14_rural-school-gate-misty'),
-    S('K15_intersection-electronic-board-cloudy'),
-    S('K18_parking-entry-grayday'),
-    S('K19_bus-terminal-dusk'),
     S('K20_snow-road-night-warning'),
     S('K23_school-multipurpose-hall-day'),
     S('K25_local-theater-rehearsal-light'),
