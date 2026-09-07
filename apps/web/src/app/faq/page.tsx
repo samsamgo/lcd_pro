@@ -13,7 +13,7 @@ export const dynamic = 'force-static'
 export const metadata: Metadata = buildMetadata({
   title: '자주 묻는 질문',
   description:
-    'LED 전광판 도입 전 가장 많이 묻는 질문. 가격을 바꾸는 조건, 계약 방법, 전기 인입, 옥외광고물 신고, 직접 화면 바꾸기, 보증과 A/S를 정리했습니다.',
+    'LED 전광판 도입 전에 확인해야 하는 것들. 가격을 바꾸는 조건, 계약 방법, 전기 인입, 옥외광고물 신고, 담당자 직접 조작, 보증과 A/S를 정리했습니다.',
   path: '/faq',
 })
 

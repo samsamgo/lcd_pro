@@ -2,7 +2,7 @@
 
 import { useCallback, useRef, useState } from 'react'
 
-import { Reveal, SceneStack } from '@/components/motion'
+import { Reveal, RiseMask, SceneStack } from '@/components/motion'
 
 /**
  * 취부 방식 — 어디에 어떻게 거는가.
@@ -340,11 +340,16 @@ export function MountTypes() {
   return (
     <section aria-labelledby="mount-h" className="wk-sec-lg bg-wk-bgFaint">
       <div className="wk-wrap-wide">
-        <Reveal>
+        {/* 섹션 머리 3박자(§16-C). RiseMask 는 Reveal 밖 형제(§16-D) */}
+        <Reveal y={10}>
           <p className="wk-eyebrow">취부 방식</p>
+        </Reveal>
+        <RiseMask delay={0.06}>
           <h2 id="mount-h" className="wk-h2 text-wk-ink">
             어디에 어떻게 거느냐가 금액을 가릅니다
           </h2>
+        </RiseMask>
+        <Reveal y={14} delay={0.16}>
           <p className="wk-lead mt-5">
             견적을 비교할 때 금액을 가장 많이 움직이는 건 화면 크기가 아닙니다.
             기존 벽을 쓰면 추가 공사가 없고, 지주를 세우면 기초 공사가 붙습니다.

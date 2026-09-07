@@ -3,6 +3,7 @@ import { NavBar } from '@/components/NavBar'
 import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
 import { CompanyHero } from '@/components/public/CompanyHero'
+import { CompanyAtAGlance } from '@/components/public/CompanyAtAGlance'
 import { CompanyChapters } from '@/components/public/CompanyChapters'
 import { CompanySummary } from '@/components/public/CompanySummary'
 import { CompanyLocation } from '@/components/public/CompanyLocation'
@@ -60,13 +61,42 @@ import { absoluteUrl, buildMetadata } from '@/lib/seo/site'
  * 모션 예산 — StickyScene **0**(1→0, Manifesto 해제) · SplitText 2(히어로 h1 · 공정 h2) ·
  * Magnetic 0. 예산을 쓰지 않고 남겼다. 화려함으로 때우지 않는다.
  * priority 이미지는 히어로 1장뿐이고 이번 개정에서 이미지를 한 장도 늘리지 않았다.
+ *
+ * ─────────────────────────────────────────────────────────────
+ * 2026-09-07 (4차) — CEO 지시 *"회사 소개에 우리 사이니지 업체라고. 아니 왜 이렇게 관공서하고
+ * 학교에 집착해… 그리고 한눈에 보기도 좀 더 보기 쉽게 만들고."*
+ *
+ * ① **정체성 = LED 사이니지 업체.** h1·메타·JSON-LD 슬로건에서 고객군(관공서·학교)을 빼고
+ *    무엇을 만드는 회사인지로 바꿨다. 🔴 지운 것이 아니라 **자리를 옮긴 것**이다 —
+ *    관공서·학교는 `CompanyAtAGlance` 의 '설치 분야' 행에서 `INDUSTRY_GROUPS` 4군 중
+ *    두 군으로 나온다. 조달·KC 관련 사실 표기는 한 글자도 건드리지 않았다.
+ * ② **`CompanyAtAGlance` 신설(5→6 섹션).** 3차에서 7→5 로 줄였는데 다시 하나를 늘렸다.
+ *    🔴 그때 뺀 둘(`Manifesto`·`CompanyScope`)은 **새 서사·새 형식**이었고, 이건 반대다 —
+ *    아래에 이미 있는 값을 위로 당긴 **답변지 겸 목차**다. 새 정보 0, 화면 1장 미만.
+ *    담당자가 10초 안에 얻어야 하는 네 가지(무슨 회사·무엇을·실재하는가·어떻게 연락)가
+ *    3차까지는 하나만 첫 화면에 있었다.
+ * ③ `CompanyChapters` 세 장의 제목이 h1 의 세 동사(만들고·달고·고칩니다)를 받는다.
+ *    제목만 훑어도 페이지가 파악되게 하려는 구조다.
+ *
+ * 명암 — Hero(다크) → AtAGlance(**다크 보조면 #111218**) → Chapters(다크) → Summary(라이트)
+ *        → Location(라이트) → Contact(다크). 🔴 **명암 전환 수는 그대로 3곳이다.**
+ *        다크→다크 사이에는 다리를 놓지 않는다(전환이 아니다).
+ *        `.wk-bridge-up` 소유자도 `CompanyChapters` 그대로다.
+ *
+ * 모션 예산(4차) — StickyScene 0 · SplitText **2**(상한) · Magnetic 0 ·
+ *   RiseMask 3(AtAGlance · Summary · Location — **섹션당 1** 규칙 준수) ·
+ *   ScrollBridge 1(Chapters→Summary 다리. "장 전환 다리마다 1") ·
+ *   Parallax 3(상한) · `once:false` 0.
+ *   🔴 이미지는 이번에도 **한 장도 늘리지 않았다.** 늘어난 연출은 전부 CSS·코드 그림이다
+ *      (`.wk-emit` 베젤 · `.wk-emit-text` · ScrollBridge 화소 격자 · 행 호버).
+ *      /about 자리에 쓸 수 있는 검증된 미배선 실사가 없기 때문이다(구조정본 §13-B~§13-E).
  */
 export const dynamic = 'force-static'
 
 export const metadata: Metadata = buildMetadata({
   title: '회사 소개',
   description:
-    '주식회사 우강테크는 관공서·학교 LED 전광판을 설계·제작·시공·유지보수합니다. 법인 등기 정보와 KC 적합등록 번호를 그대로 공개합니다.',
+    '주식회사 우강테크는 LED 전광판·전자현수막을 설계·제작·시공하고 유지보수하는 LED 사이니지 업체입니다. 법인 등기 정보와 KC 적합등록 번호를 그대로 공개합니다.',
   path: '/about',
 })
 
@@ -84,6 +114,7 @@ export default function AboutPage() {
       <NavBar />
       <main id="main">
         <CompanyHero />
+        <CompanyAtAGlance />
         <CompanyChapters />
         <CompanySummary />
         <CompanyLocation />

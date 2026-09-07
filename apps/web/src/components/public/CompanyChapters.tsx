@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { IMAGES } from '@/lib/imageAssets'
-import { Parallax, Reveal, RevealImage, SplitText } from '@/components/motion'
+import { Parallax, Reveal, RevealImage, ScrollBridge, SplitText } from '@/components/motion'
 
 /**
  * 회사 소개 본문 — 공정 3장(章). 연혁 나열 대신 "어디까지 직접 하는가".
@@ -47,13 +47,38 @@ import { Parallax, Reveal, RevealImage, SplitText } from '@/components/motion'
  * ⑥ 각 장 제목을 h2 → h3 으로 내렸다. 섹션 h2 가 생겨 문서 구조가 한 단 깊어졌다.
  * ⑦ 라이트로 넘어가는 `.wk-bridge-up` 을 여기서 뺐다. 이제 다크 구간의 끝은
  *    CompanyScope 이고, 다리는 그쪽이 소유한다.
+ *
+ * ─────────────────────────────────────────────────────────────
+ * 2026-09-07 (4차) CEO 지시 *"한눈에 보기도 좀 더 보기 쉽게. 각 페이지 좀 더 업그레이드."*
+ *
+ * ⑪ **제목만 훑으면 페이지가 파악되게 바꿨다.** 이전 세 제목은
+ *    "직접 설계하고, 직접 검사합니다 / 규격은 현장에서 확정합니다 / 설치 다음 날부터가 본론입니다"
+ *    — 셋 다 좋은 문장이지만 **무슨 공정인지 제목만으로는 안 잡혔다.** 공정명은 옆의
+ *    작은 파란 라벨에만 있었다. 세 제목을 히어로 h1 의 세 동사에 맞춰 짧게 다시 썼다:
+ *      h1  LED 전광판을 만들고, 달고, 고칩니다
+ *      01  직접 만듭니다   02  현장에서 재고 답니다   03  모듈만 갈아 고칩니다
+ *    🔴 이 대응이 이 페이지의 구조다. 한쪽만 고치면 깨진다.
+ * ⑫ **각 장의 `note` 산문을 라벨 표로 바꿨다.** 인용부호 한 덩어리는 스캔이 안 된다.
+ *    문장은 그대로 두고 앞에 라벨(부품·검사·구조·전기·점검·교체·보증)을 붙여 행으로 쪼갰다.
+ *    🔴 새 주장을 만든 것이 아니다. 기존 note 문장을 나눠 담았을 뿐이다.
+ *    🔴 이 표에 산출물·서류 항목을 다시 넣지 마라(3차에 걷어낸 것이다).
+ * ⑬ 장 간격을 gap-24/32/40 → gap-16/20/24 로 줄였다. 새 정보 없이 스크롤만 먹던 구간이다.
+ * ⑭ `.wk-bridge-up` 을 `ScrollBridge` 로 승격했다 — 페이지에서 가장 큰 전환부인데
+ *    지금까지 그냥 그라디언트 <div> 였다. 화소 격자가 다리에서 켜졌다 꺼진다.
+ *    이미지 0장·전송량 0B, 예산은 "장 전환 다리마다 1"(설계계약서 §4) 안이다.
+ * ⑮ 사진에 `.wk-emit`(베젤 + 상단 스페큘러)을 얹었다. 다크 면 위 미디어를
+ *    "인쇄된 사각형" 이 아니라 "켜져 있는 화면" 으로 읽히게 한다. CSS ::after 하나, 0B.
+ *    🔴 사진에 호버 확대는 걸지 않았다 — `<Image>` 에 `scale-125` 가 이미 걸려 있어
+ *       `.wk-hov-media` 의 `scale(1.03)` 이 그걸 덮어쓰고 패럴랙스 가장자리가 터진다.
+ * ⑯ 섹션에 `id="process"` 를 붙였다. 요약표(`CompanyAtAGlance`) 1행이 여기를 가리킨다.
  */
 type Chapter = {
   no: string
   label: string
   title: string
   body: string
-  note?: string
+  /** 라벨 + 한 줄. 산문 대신 스캔되는 형태로 적는다 */
+  facts: { k: string; v: string }[]
   src: string
   alt: string
 }
@@ -62,30 +87,40 @@ const CHAPTERS: Chapter[] = [
   {
     no: '01',
     label: '설계 · 제작',
-    title: '직접 설계하고, 직접 검사합니다',
+    title: '직접 만듭니다',
     body:
       '어떤 모듈을 쓸지, 어떤 프레임에 올릴지, 어떤 검사를 거칠지를 우리가 정합니다. 남이 만든 것을 받아다 파는 방식이 아닙니다.',
-    note: 'KC 기준에 맞는 부품을 쓰고, 조립부터 검사까지 직접 봅니다. 그래야 문제가 생겼을 때 어디서 났는지 압니다.',
+    facts: [
+      { k: '부품', v: 'KC 기준에 맞는 부품을 씁니다' },
+      { k: '검사', v: '조립부터 검사까지 직접 봅니다. 그래야 문제가 생겼을 때 어디서 났는지 압니다' },
+    ],
     src: IMAGES.company.chapter1,
     alt: '작업대 위에서 점검중 문구가 뜬 LED 모듈을 장갑 낀 손으로 들고 점검 체크시트와 대조하는 장면',
   },
   {
     no: '02',
     label: '실측 · 시공',
-    title: '규격은 현장에서 확정합니다',
+    title: '현장에서 재고 답니다',
     body:
       '바닥에서 몇 미터인지, 붙일 구조물이 무엇인지, 전기를 어디서 끌어오는지를 현장에서 확인한 뒤 규격을 확정합니다. 사진만으로 정하지 않습니다.',
-    note: '구조와 전기 수치는 임의로 확정하지 않습니다. 구조기술사와 전기 검토를 거친 값만 도면에 올립니다.',
+    facts: [
+      { k: '구조', v: '구조기술사 검토를 거친 값만 도면에 올립니다' },
+      { k: '전기', v: '전기 검토를 거치지 않은 수치는 임의로 확정하지 않습니다' },
+    ],
     src: IMAGES.company.chapter2,
     alt: '관공서 로비에서 안전콘과 비계를 두고 벽면 프레임에 LED 캐비닛을 취부하는 시공 인력 두 명',
   },
   {
     no: '03',
     label: '운영 · 유지보수',
-    title: '설치 다음 날부터가 본론입니다',
+    title: '모듈만 갈아 고칩니다',
     body:
-      '다는 데는 하루면 끝나지만 쓰는 것은 몇 년입니다. 원격으로 먼저 보고, 가서 점검하고, 문제 있는 모듈만 갈아 끼웁니다.',
-    note: '화면을 통째로 뜯지 않습니다. 무상보증 기간과 예비 부품 조건은 계약할 때 정합니다.',
+      '다는 데는 하루면 끝나지만 쓰는 것은 몇 년입니다. 설치 다음 날부터가 본론입니다.',
+    facts: [
+      { k: '점검', v: '원격으로 먼저 보고, 필요하면 가서 점검합니다' },
+      { k: '교체', v: '문제 있는 모듈만 갈아 끼웁니다. 화면을 통째로 뜯지 않습니다' },
+      { k: '보증', v: '무상보증 기간과 예비 부품 조건은 계약할 때 정합니다' },
+    ],
     src: IMAGES.company.chapter3,
     alt: '실내 LED 월 앞에서 흡착판으로 모듈 한 장을 전면에서 빼내고 내부 기판을 점검하는 기술자',
   },
@@ -94,7 +129,7 @@ const CHAPTERS: Chapter[] = [
 export function CompanyChapters() {
   return (
     <>
-      <section className="wk-sec-lg wk-night" aria-label="우강테크가 직접 하는 일">
+      <section id="process" className="wk-sec-lg wk-night" aria-label="우강테크가 직접 하는 일">
         {/* 2026-09-07(2차) 섹션 머리를 붙였다. 이전에는 고정 장면 다음에 곧바로 '01' 이 나와서
             세 장이 무엇의 목록인지 알려 주는 문장이 없었다. 큰 회사 소개일수록
             챕터 앞에 그 챕터를 여는 한 문장이 있다. SplitText 는 여기가 페이지의 두 번째이자
@@ -117,7 +152,7 @@ export function CompanyChapters() {
           </Reveal>
         </div>
 
-        <div className="wk-wrap-wide mt-20 flex flex-col gap-24 md:mt-28 md:gap-32 lg:gap-40">
+        <div className="wk-wrap-wide mt-16 flex flex-col gap-16 md:mt-20 md:gap-20 lg:gap-24">
           {CHAPTERS.map((c) => (
             <article
               key={c.no}
@@ -146,17 +181,25 @@ export function CompanyChapters() {
                   <p className="wk-body mt-6 !text-wk-nightMuted">{c.body}</p>
                 </Reveal>
 
-                {c.note && (
-                  <Reveal delay={0.2} y={10}>
-                    <p className="mt-8 max-w-[38rem] border-l-2 border-white/20 pl-3.5 text-caption text-wk-nightMuted">
-                      {c.note}
-                    </p>
-                  </Reveal>
-                )}
+                {/* 산문 대신 라벨 표. 🔴 Stagger 를 쓰지 않는다 —
+                    Stagger 는 자식을 래퍼로 감싸 first:/last: 를 전부 참으로 만든다(구조정본 §15).
+                    Reveal 은 자신이 컨테이너라 divide-y 가 정상 동작한다. */}
+                <Reveal delay={0.2} y={10}>
+                  <dl className="mt-8 max-w-[38rem] divide-y divide-white/10 border-y border-white/10">
+                    {c.facts.map((f) => (
+                      <div key={f.k} className="flex gap-4 py-3">
+                        <dt className="w-14 shrink-0 text-caption font-semibold uppercase tracking-widest text-wk-blue">
+                          {f.k}
+                        </dt>
+                        <dd className="break-keep text-caption text-wk-nightMuted">{f.v}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </Reveal>
               </div>
 
               <div className="lg:col-span-7">
-                <RevealImage className="overflow-hidden rounded-card-m sm:rounded-card">
+                <RevealImage className="wk-emit overflow-hidden rounded-card-m sm:rounded-card">
                   <Parallax strength={0.14} className="relative aspect-[4/3]">
                     <Image
                       src={c.src}
@@ -173,8 +216,11 @@ export function CompanyChapters() {
         </div>
       </section>
 
-      {/* 다크 구간 끝 → 법인 정보(라이트)로 넘어가는 다리. 설계계약서 §3 */}
-      <div className="wk-bridge-up h-20 md:h-28" aria-hidden="true" />
+      {/* 다크 구간 끝 → 법인 정보(라이트)로 넘어가는 다리. 설계계약서 §3.
+          2026-09-07(4차) 그냥 그라디언트 <div> 였던 것을 ScrollBridge 로 승격했다 —
+          이 페이지에서 가장 큰 전환부인데 아무 일도 일어나지 않아 두 장이 그냥 붙어 있었다.
+          코드로 그리므로 이미지 0장·전송량 0B. reduced-motion 은 부품이 자체 처리한다. */}
+      <ScrollBridge direction="up" className="wk-bridge-up h-20 md:h-28" cell={16} />
     </>
   )
 }

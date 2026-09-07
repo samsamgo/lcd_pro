@@ -157,7 +157,7 @@ export function CinematicScene() {
 
       <p className="wk-wrap wk-cap pb-14 !text-wk-nightMuted">
         권장 최소 시청거리는 화소 간격 1mm를 1m로 보는 업계 통용 기준입니다. 수치는 제품 규격서
-        기준값이며 모델·현장 조건에 따라 달라집니다. 확정 사양은 현장 실측 후 규격서로 제공합니다.
+        기준값이며 모델·현장 조건에 따라 달라집니다. 확정 사양은 현장을 실측한 뒤에 정해집니다.
       </p>
     </section>
   )
@@ -224,7 +224,11 @@ function ActPanel({
         </span>
       </div>
 
-      <h3 className="wk-display mt-4 max-w-[13ch] text-wk-nightInk">{act.title}</h3>
+      {/* 2026-09-07 — 다크 면 위 디스플레이 활자에는 .wk-emit-text 를 건다(§17-B).
+          색을 바꾸지 않는 미세 글로우라 대비비는 그대로다. 이 규칙이 ScreenGallery ·
+          /products ProductScenes · /industries IndustryScenes 에 다 들어갔는데
+          정작 홈에서 가장 큰 다크 활자인 여기만 빠져 있었다. */}
+      <h3 className="wk-display wk-emit-text mt-4 max-w-[13ch] text-wk-nightInk">{act.title}</h3>
       <p className="wk-body mt-5 max-w-[34ch] !text-wk-nightMuted">{act.body}</p>
 
       <MetricRow act={act} progress={progress} />
@@ -298,7 +302,7 @@ function StaticScene() {
         ))}
         <p className="wk-cap !text-wk-nightMuted">
           권장 최소 시청거리는 화소 간격 1mm를 1m로 보는 업계 통용 기준입니다. 수치는 제품 규격서
-          기준값이며 모델·현장 조건에 따라 달라집니다. 확정 사양은 현장 실측 후 규격서로 제공합니다.
+          기준값이며 모델·현장 조건에 따라 달라집니다. 확정 사양은 현장을 실측한 뒤에 정해집니다.
         </p>
       </div>
     </section>

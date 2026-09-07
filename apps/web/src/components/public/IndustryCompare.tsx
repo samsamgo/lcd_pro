@@ -2,7 +2,8 @@ import Link from 'next/link'
 
 import { INDUSTRIES } from '@/lib/industries'
 import { PRODUCTS } from '@/lib/products'
-import { Reveal, Stagger } from '@/components/motion'
+import { Reveal, RiseMask, Stagger } from '@/components/motion'
+import { PitchDots } from './PitchDots'
 
 /**
  * 설치 자리별 한눈에 비교.
@@ -30,6 +31,8 @@ export function IndustryCompare() {
 
     return {
       slug: i.slug,
+      /** 도해용 대표 피치(가장 촘촘한 값). 값이 없으면 그리지 않는다 */
+      pitchMin: pitches.length ? Math.min(...pitches) : null,
       name: i.nameKo,
       env: i.environment === 'indoor' ? '실내' : '옥외',
       pitch,
@@ -41,11 +44,16 @@ export function IndustryCompare() {
   return (
     <section aria-labelledby="ind-compare-h" className="wk-sec bg-wk-bgFaint">
       <div className="wk-wrap">
-        <Reveal>
+        {/* 섹션 머리 3박자(§16-C). RiseMask 는 Reveal 밖 형제(§16-D) */}
+        <Reveal y={10}>
           <p className="wk-eyebrow">한눈에 비교</p>
+        </Reveal>
+        <RiseMask delay={0.06}>
           <h2 id="ind-compare-h" className="wk-h2 text-wk-ink">
             어디에 놓느냐가 규격을 정합니다
           </h2>
+        </RiseMask>
+        <Reveal y={14} delay={0.16}>
           <p className="wk-lead mt-5">
             같은 전광판이라도 민원실과 도로변은 필요한 화소 간격이 다릅니다.
             시설을 고르는 게 아니라 <b>보는 거리를 고르는 것</b>에 가깝습니다.
@@ -69,7 +77,7 @@ export function IndustryCompare() {
             </thead>
             <tbody>
               {rows.map((r) => (
-                <tr key={r.slug} className="border-b border-wk-line">
+                <tr key={r.slug} className="wk-hov-cell wk-hov-cell-faint border-b border-wk-line bg-wk-bgFaint">
                   <th scope="row" className="py-4 pr-6 align-top">
                     <Link
                       href={`/industries?type=${r.slug}`}
@@ -79,8 +87,18 @@ export function IndustryCompare() {
                     </Link>
                   </th>
                   <td className="py-4 pr-6 align-top text-body text-wk-ink2">{r.env}</td>
-                  <td className="wk-metric py-4 pr-6 align-top text-body font-semibold text-wk-ink">
-                    {r.pitch}
+                  {/* 숫자 옆에 그 간격을 **같은 배율로 그린 화소 도해**를 나란히 둔다.
+                      "3mm 와 6mm 가 얼마나 다른가" 는 숫자보다 격자가 빠르다.
+                      사진이 아니라 코드라 전송량 0 · 진위 문제 0 이다. */}
+                  <td className="py-4 pr-6 align-top">
+                    <span className="flex items-center gap-2.5">
+                      {r.pitchMin !== null && (
+                        <PitchDots pitchMm={r.pitchMin} pxPerMm={2.2} className="h-7 w-14 shrink-0 rounded-btn" />
+                      )}
+                      <span className="wk-metric text-body font-semibold text-wk-ink">
+                        {r.pitch}
+                      </span>
+                    </span>
                   </td>
                   <td className="py-4 pr-6 align-top text-body text-wk-ink2">{r.distance}</td>
                   <td className="py-4 align-top text-label leading-relaxed text-wk-ink3">
@@ -118,7 +136,7 @@ export function IndustryCompare() {
 
         <p className="wk-cap mt-8">
           표의 화소 간격과 보는 거리는 제품 규격서 기준값입니다. 현장 조건에 따라 달라지며,
-          확정 사양은 실측 후 규격서로 드립니다.
+          확정 사양은 현장을 실측한 뒤에 정해집니다.
         </p>
       </div>
     </section>

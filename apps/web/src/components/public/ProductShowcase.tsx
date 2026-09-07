@@ -181,7 +181,7 @@ export function ProductShowcase() {
           </Link>
           <p className="wk-cap">
             화소 간격·밝기 범위는 제품 규격서 기준값이며 모델에 따라 다릅니다. 확정 사양은 현장 실측
-            후 규격서로 제공합니다.
+            후에 정해집니다.
           </p>
         </div>
       </div>

@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Check } from 'lucide-react'
 import { PRODUCTS, MAX_W_PER_M2_BY_PITCH } from '@/lib/products'
+import { LedSwap, Reveal, RiseMask } from '@/components/motion'
 import { SKU_PRICE_FROM, PRICE_DISCLAIMER } from '@/lib/pricing'
 
 /**
@@ -65,15 +66,23 @@ export function SpecSheets() {
   return (
     <section className="wk-sec bg-white">
       <div className="wk-wrap">
-        <p className="wk-eyebrow">규격서</p>
-        <h2 className="wk-h2 max-w-2xl text-wk-ink">
-          제품 하나씩, 결재 문서에 옮겨 적는 순서대로
-        </h2>
-        <p className="wk-lead mt-5">
-          위 비교표에서 후보를 좁혔다면 여기서 한 제품씩 확인하십시오. 항목과 단위를
-          결재 문서에 쓰는 그대로 적었고, 확정되지 않은 항목은 지어내지 않고 비워 둔 채
-          실측 후 채웁니다.
-        </p>
+        {/* 2026-09-07 — 이 섹션에는 등장 모션이 하나도 없었다(구조정본 §16-A 진단 ③).
+            섹션 머리 3박자를 붙인다. RiseMask 는 Reveal 밖 형제(§16-D). */}
+        <Reveal y={10}>
+          <p className="wk-eyebrow">규격서</p>
+        </Reveal>
+        <RiseMask delay={0.06}>
+          <h2 className="wk-h2 max-w-2xl text-wk-ink">
+            제품 하나씩, 결재 문서에 옮겨 적는 순서대로
+          </h2>
+        </RiseMask>
+        <Reveal y={14} delay={0.16}>
+          <p className="wk-lead mt-5">
+            위 비교표에서 후보를 좁혔다면 여기서 한 제품씩 확인하십시오. 항목과 단위를
+            결재 문서에 쓰는 그대로 적었고, 확정되지 않은 항목은 지어내지 않고 비워 둔 채
+            실측 후 채웁니다.
+          </p>
+        </Reveal>
 
         {/* 탭 — 색 + 밑줄 + 굵기 */}
         <div className="mt-10 -mx-5 overflow-x-auto px-5 md:-mx-8 md:px-8 lg:-mx-12 lg:px-12">
@@ -110,15 +119,28 @@ export function SpecSheets() {
         >
           {/* 사진 + 요약 */}
           <div className="lg:col-span-5">
-            <div className="wk-card-img relative aspect-[4/3]">
-              <Image
-                key={p.sku}
-                src={p.img}
-                alt={p.imgAlt}
-                fill
-                sizes="(min-width:1024px) 42vw, 100vw"
-                className="object-cover"
-              />
+            {/* 탭을 바꾸면 사진이 **갈아 끼워진다** — LedSwap 은 밝기를 한 번 떨궜다
+                올리는 전환이라 화면이 바뀌는 물건에 맞는다.
+                🔴 패널 전체가 아니라 사진에만 건다. AnimatePresence(mode="wait") 는
+                   나가는 요소가 빠진 뒤 들어오므로, 글 길이가 다른 패널에 걸면
+                   높이가 무너져 아래가 튄다(§14 함정). 사진틀은 aspect 고정이라 안전하다. */}
+            <div className="wk-card-img wk-hov-media relative aspect-[4/3]">
+              {/* 🔴 자리는 바깥 틀(aspect-[4/3])이 **먼저** 잡는다.
+                  LedSwap 은 AnimatePresence(mode="wait") 라 나가는 사진이 빠진 뒤 들어오는데,
+                  그 사이 프레임에 내용이 비어 부모 높이가 무너지면 아래 글이 튄다(§14 함정).
+                  틀이 높이를 이미 갖고 있고 안쪽은 absolute 라 레이아웃 이동이 0 이다. */}
+              <LedSwap index={PRODUCTS.findIndex((x) => x.sku === p.sku)}>
+                <div className="absolute inset-0">
+                  <Image
+                    key={p.sku}
+                    src={p.img}
+                    alt={p.imgAlt}
+                    fill
+                    sizes="(min-width:1024px) 42vw, 100vw"
+                    className="object-cover"
+                  />
+                </div>
+              </LedSwap>
             </div>
             <p className="wk-body mt-5">{p.summary}</p>
 

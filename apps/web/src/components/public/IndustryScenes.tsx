@@ -1,7 +1,7 @@
 import Image from 'next/image'
 
 import { IMAGES } from '@/lib/imageAssets'
-import { Reveal, Stagger } from '@/components/motion'
+import { Reveal, RiseMask, ScrollBridge, Stagger } from '@/components/motion'
 
 /**
  * 설치 자리별 실제 화면 예시.
@@ -51,49 +51,77 @@ const SCENES: Scene[] = [
 
 export function IndustryScenes() {
   return (
-    <section aria-labelledby="ind-scenes-h" className="wk-sec-lg bg-white">
-      <div className="wk-wrap-wide">
-        <Reveal>
-          <p className="wk-eyebrow">화면 예시</p>
-          <h2 id="ind-scenes-h" className="wk-h2 text-wk-ink">
-            걸면 무엇이 뜨나
-          </h2>
-          <p className="wk-lead mt-5">
-            기관마다 띄우는 내용이 다릅니다. 학교는 급식과 행사, 청사는 민원 안내,
-            도로변은 재난 문구입니다. 화면 내용은 담당자가 직접 바꿉니다.
+    <>
+      {/* 🔴 2026-09-07 명암 재설계.
+          /industries 는 다크 히어로 뒤로 **연속 라이트 네 섹션**이었다(카드→비교표→화면예시→검토사항).
+          홈에서 이미 같은 진단을 했고(구조정본 §17-A ①), 답도 같다 — 전부 뒤집지 않고 **한 섹션만**.
+          그 한 섹션이 여기인 이유는 취향이 아니라 내용이다: 이 섹션의 사진 4장은
+          전부 '켜져 있는 화면' 이고, 발광체는 어두운 면 위에서만 발광체로 보인다.
+          비교표(근거)와 검토사항(서류)은 라이트가 맞다.
+          다리 높이는 h-24/32 — 페이지 최대 전환인 히어로보다 낮게 둔다(위계). */}
+      <ScrollBridge
+        direction="down"
+        className="h-24 bg-gradient-to-b from-wk-bgFaint to-wk-night md:h-32"
+        cell={16}
+      />
+      <section
+        aria-labelledby="ind-scenes-h"
+        className="wk-night wk-sec-lg wk-pixelgrid wk-pixelgrid-top wk-pixelgrid-coarse relative overflow-hidden"
+      >
+        <div className="wk-wrap-wide relative">
+          <Reveal y={10}>
+            <p className="wk-eyebrow !text-wk-nightMuted">화면 예시</p>
+          </Reveal>
+          <RiseMask delay={0.06}>
+            <h2 id="ind-scenes-h" className="wk-display wk-emit-text text-wk-nightInk">
+              걸면 무엇이 뜨나
+            </h2>
+          </RiseMask>
+          <Reveal y={14} delay={0.16}>
+            <p className="wk-lead mt-5 !text-wk-nightMuted">
+              기관마다 띄우는 내용이 다릅니다. 학교는 급식과 행사, 청사는 민원 안내,
+              도로변은 재난 문구입니다. 화면 내용은 담당자가 직접 바꿉니다.
+            </p>
+          </Reveal>
+
+          <Stagger
+            className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4"
+            y={14}
+            gap={0.06}
+          >
+            {SCENES.map((s) => (
+              <figure key={s.where} className="m-0">
+                {/* .wk-emit(베젤+스페큘러) + .wk-emit-spill(새어 나오는 빛) +
+                    .wk-hov-emit-media(누를 수 없으므로 뜨지 않는 호버) — §17-B */}
+                <div className="wk-emit wk-emit-spill wk-hov-emit-media relative aspect-[4/3] overflow-hidden rounded-card bg-wk-night2">
+                  <Image
+                    src={s.src}
+                    alt={s.alt}
+                    fill
+                    sizes="(min-width:1024px) 24vw, (min-width:640px) 48vw, 100vw"
+                    className="object-cover"
+                  />
+                </div>
+                <figcaption className="mt-4">
+                  <p className="text-caption font-semibold uppercase tracking-widest text-wk-nightMuted">
+                    {s.where}
+                  </p>
+                  <p className="mt-1.5 text-body-lg font-semibold text-wk-nightInk">{s.showing}</p>
+                </figcaption>
+              </figure>
+            ))}
+          </Stagger>
+
+          <p className="mt-8 text-caption leading-relaxed text-wk-nightMuted">
+            화면에 띄우는 문구와 이미지는 인수 시 담당자분께 바꾸는 방법을 알려드립니다.
           </p>
-        </Reveal>
-
-        <Stagger
-          className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4"
-          y={14}
-          gap={0.06}
-        >
-          {SCENES.map((s) => (
-            <figure key={s.where} className="m-0">
-              <div className="relative aspect-[4/3] overflow-hidden rounded-card">
-                <Image
-                  src={s.src}
-                  alt={s.alt}
-                  fill
-                  sizes="(min-width:1024px) 24vw, (min-width:640px) 48vw, 100vw"
-                  className="object-cover"
-                />
-              </div>
-              <figcaption className="mt-4">
-                <p className="text-caption font-semibold uppercase tracking-widest text-wk-ink3">
-                  {s.where}
-                </p>
-                <p className="mt-1.5 text-body-lg font-semibold text-wk-ink">{s.showing}</p>
-              </figcaption>
-            </figure>
-          ))}
-        </Stagger>
-
-        <p className="wk-cap mt-8">
-          화면에 띄우는 문구와 이미지는 인수 시 담당자분께 바꾸는 방법을 알려드립니다.
-        </p>
-      </div>
-    </section>
+        </div>
+      </section>
+      <ScrollBridge
+        direction="up"
+        className="h-24 bg-gradient-to-b from-wk-night to-wk-bgFaint md:h-32"
+        cell={16}
+      />
+    </>
   )
 }

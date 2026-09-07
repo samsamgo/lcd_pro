@@ -1,6 +1,6 @@
 import { Zap, Building2, FileCheck, Wrench } from 'lucide-react'
 
-import { Reveal, Stagger } from '@/components/motion'
+import { Reveal, RiseMask, Stagger } from '@/components/motion'
 
 /**
  * 설치 자리와 무관하게 걸리는 것.
@@ -41,11 +41,15 @@ export function IndustryChecks() {
   return (
     <section aria-labelledby="ind-checks-h" className="wk-sec bg-wk-bgFaint">
       <div className="wk-wrap">
-        <Reveal>
+        <Reveal y={10}>
           <p className="wk-eyebrow">시설과 무관하게</p>
+        </Reveal>
+        <RiseMask delay={0.06}>
           <h2 id="ind-checks-h" className="wk-h2 text-wk-ink">
             네 가지에서 일정이 갈립니다
           </h2>
+        </RiseMask>
+        <Reveal y={14} delay={0.16}>
           <p className="wk-lead mt-5">
             어느 기관이든 막히는 지점은 비슷합니다. 계약 전에 보면 준비할 수 있고,
             계약 후에 알면 공사가 멈춥니다.
@@ -60,7 +64,7 @@ export function IndustryChecks() {
           {CHECKS.map((c) => {
             const Icon = c.icon
             return (
-              <div key={c.title} className="bg-white p-6">
+              <div key={c.title} className="wk-hov-cell bg-white p-6">
                 <Icon size={22} strokeWidth={1.8} className="text-wk-blue" aria-hidden="true" />
                 <p className="mt-4 text-body-lg font-semibold text-wk-ink">{c.title}</p>
                 <p className="wk-cap mt-2 leading-relaxed !text-wk-ink3">{c.body}</p>

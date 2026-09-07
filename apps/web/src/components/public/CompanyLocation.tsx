@@ -1,4 +1,4 @@
-import { Reveal } from '@/components/motion'
+import { Reveal, RiseMask } from '@/components/motion'
 import { SITE } from '@/lib/seo/site'
 
 /**
@@ -21,10 +21,15 @@ export function CompanyLocation() {
   return (
     <section id="location" className="wk-sec bg-white">
       <div className="wk-wrap">
-        <Reveal y={16}>
+        {/* 2026-09-07(4차) 섹션 머리를 계약서 §4 3박자로 맞췄다.
+            🔴 RiseMask 를 Reveal 안에 넣지 않는다 — 부모가 움직이는 중에 마스크를 올리면
+               둘 다 안 읽힌다(구조정본 §16-D). 제목은 Reveal 밖 형제로 꺼낸다. */}
+        <Reveal y={10} duration={0.6}>
           <p className="wk-eyebrow">찾아오시는 길</p>
-          <h2 className="wk-h2 text-wk-ink">회사 위치</h2>
         </Reveal>
+        <h2 className="wk-h2 text-wk-ink">
+          <RiseMask delay={0.06}>회사 위치</RiseMask>
+        </h2>
 
         <div className="mt-10 grid gap-5 lg:grid-cols-12 lg:gap-8">
           <Reveal className="lg:col-span-7" y={18}>

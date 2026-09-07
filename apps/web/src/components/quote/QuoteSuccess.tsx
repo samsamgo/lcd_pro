@@ -103,7 +103,7 @@ export function QuoteSuccess({ estimate }: Props) {
         <ResponsePromise
           detail={
             <>
-              남겨주신 연락처로 먼저 전화드리고, 요청하시면 개략 견적 범위와 제품 규격서를
+              남겨주신 연락처로 먼저 전화드리고, 요청하시면 개략 견적 범위를
               문서로 보내드립니다. 예산 요구서에 그대로 첨부하실 수 있는 형식입니다.
             </>
           }

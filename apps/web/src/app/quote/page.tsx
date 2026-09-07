@@ -16,7 +16,7 @@ import { SITE, buildMetadata } from '@/lib/seo/site'
 export const metadata: Metadata = buildMetadata({
   title: '견적 요청',
   description:
-    '설치 장소와 화면 크기, 현장 사진만 남겨주시면 개략 견적 범위와 제품 규격서를 보내드립니다. 예산을 잡기 전 단계에서도 요청하실 수 있습니다.',
+    '설치 장소와 화면 크기, 현장 사진만 남겨주시면 개략 견적 범위를 잡아 연락드립니다. 예산을 잡기 전 단계에서도 요청하실 수 있습니다.',
   path: '/quote',
 })
 
@@ -46,7 +46,7 @@ export default function QuotePage({
               <br className="hidden sm:block" /> 알려주시면 됩니다
             </h1>
             <p className="wk-lead mt-5">
-              보내주신 내용으로 개략 견적 범위와 제품 규격서를 작성해 드립니다.
+              보내주신 내용으로 개략 견적 범위를 잡아 연락드립니다.
               확정 견적은 현장 실측 후에 나옵니다.
             </p>
           </div>

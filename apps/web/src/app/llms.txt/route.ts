@@ -13,8 +13,8 @@ export const revalidate = 3600
 export async function GET() {
   const body = `# ${SITE.nameKo} / ${SITE.nameEn}
 
-> ${SITE.nameKo}(${SITE.nameEn})는 관공서·공공기관·학교에 LED 전광판과 전자현수막을 공급하는 한국 기업이다.
-> 설계·제작·시공·유지보수를 한 창구에서 맡는다.
+> ${SITE.nameKo}(${SITE.nameEn})는 LED 사이니지(전광판·전자현수막) 전문 기업이다. 설계·제작·시공·유지보수를 한 창구에서 맡는다.
+> 납품 대상은 관공서·공공기관, 학교, 병원·보건소, 교통시설, 아파트, 상업시설이다.
 > 확정 견적은 현장 실측 후 산출하며, 실측 전에는 예상 범위와 산출 근거만 제공한다.
 
 ## 회사

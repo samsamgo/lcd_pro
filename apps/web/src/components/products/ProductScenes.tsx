@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { IMAGES } from '@/lib/imageAssets'
-import { Reveal } from '@/components/motion'
+import { Reveal, RiseMask, ScrollBridge } from '@/components/motion'
 
 /**
  * 환경별 장면.
@@ -48,14 +48,25 @@ const SCENES = [
 export function ProductScenes() {
   return (
     <>
-      <div className="wk-bridge-down h-24 md:h-32" aria-hidden="true" />
-      <section className="wk-night wk-sec">
-        <div className="wk-wrap">
-          <Reveal>
+      {/* 2026-09-07 — 그냥 색면이던 다리를 ScrollBridge 로 바꿨다.
+          이 페이지에서 라이트↔다크가 갈리는 유일한 지점인데 아무 일도 일어나지 않아
+          두 장이 그냥 "붙어" 있었다(구조정본 §16-A 진단 ①). 화소가 켜졌다 꺼진다. */}
+      <ScrollBridge direction="down" className="wk-bridge-down h-24 md:h-32" cell={16} />
+
+      {/* 발광 어휘(§17-B). 이 섹션은 다크 면 위에 **켜져 있는 화면 사진 4장**이 걸리는
+          자리라 홈 ScreenGallery 와 성격이 같다. 같은 재료에는 같은 표현을 준다.
+          화소 격자는 섹션 위 모서리에서 시작해 본문 쪽으로 사라진다(다크 구간의 입구 표시). */}
+      <section className="wk-night wk-sec wk-pixelgrid wk-pixelgrid-top wk-pixelgrid-coarse relative overflow-hidden">
+        <div className="wk-wrap relative">
+          <Reveal y={10}>
             <p className="wk-eyebrow !text-wk-nightMuted">설치 환경</p>
-            <h2 className="wk-h2 max-w-2xl text-wk-nightInk">
+          </Reveal>
+          <RiseMask delay={0.06}>
+            <h2 className="wk-display wk-emit-text max-w-3xl text-wk-nightInk">
               자리가 바뀌면 확인할 항목이 바뀝니다
             </h2>
+          </RiseMask>
+          <Reveal y={14} delay={0.16}>
             <p className="wk-lead mt-5 !text-wk-nightMuted">
               같은 화면이라도 청사 출입구와 도로변은 견적 단계에서 보는 것이 다릅니다.
               아래 네 자리는 그 차이가 가장 크게 갈리는 경우입니다.
@@ -66,7 +77,9 @@ export function ProductScenes() {
             {SCENES.map((s, n) => (
               <Reveal key={s.label} y={16} delay={Math.min(n, 4) * 0.07}>
                 <figure className="m-0">
-                  <div className="relative aspect-[4/5] overflow-hidden rounded-card-m bg-wk-night2 sm:rounded-card">
+                  {/* .wk-emit = 안쪽 베젤 + 상단 스페큘러, .wk-emit-spill = 새어 나오는 빛.
+                      호버는 .wk-hov-emit-media — 누를 수 없는 카드라 **뜨지 않는다**(§17-B). */}
+                  <div className="wk-emit wk-emit-spill wk-hov-emit-media relative aspect-[4/5] overflow-hidden rounded-card-m bg-wk-night2 sm:rounded-card">
                     <Image
                       src={s.src}
                       alt={s.alt}
@@ -94,7 +107,7 @@ export function ProductScenes() {
           </p>
         </div>
       </section>
-      <div className="wk-bridge-up h-24 md:h-32" aria-hidden="true" />
+      <ScrollBridge direction="up" className="wk-bridge-up h-24 md:h-32" cell={16} />
     </>
   )
 }

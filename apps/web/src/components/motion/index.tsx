@@ -723,3 +723,47 @@ export function ScrollBridge({
     </div>
   )
 }
+
+/* ────────────────────────────────────────────────────────────
+   13. GrowBar — 막대가 0 에서 제 길이까지 자란다 (2026-09-07 신설)
+
+   왜 필요했나 — `/products` SpecScale 의 두 데이터 축(권장 시청 거리 · 밝기)은
+   이 사이트에서 가장 정보가 많은 그림인데, **막대가 처음부터 완성된 길이로 켜져
+   있었다.** 스크롤해서 도착해도 아무 일이 일어나지 않으니 표와 다를 바가 없었다.
+   막대는 "이만큼"을 말하는 물건이라, 자라는 동작 자체가 값의 크기를 읽게 한다.
+
+   🔴 width 를 애니메이션하지 않는다(설계계약서 §0-6 — 레이아웃 재계산·CLS).
+      최종 폭은 그대로 두고 **scaleX 만** 0→1 로 움직인다. 자리는 처음부터 확정돼 있다.
+   🔴 자식 요소는 가로로 찌그러진다. 글자·숫자를 넣지 말고 **막대 자체**로만 쓴다.
+      라벨은 형제로 두고 Reveal 로 따로 들여보낸다.
+   ──────────────────────────────────────────────────────────── */
+export function GrowBar({
+  className = '',
+  style,
+  delay = 0,
+  duration = 1.0,
+  /** 자라기 시작하는 쪽. 축의 어느 끝이 기준인지에 맞춘다 */
+  from = 'left',
+}: {
+  className?: string
+  style?: CSSProperties
+  delay?: number
+  duration?: number
+  from?: 'left' | 'right'
+}) {
+  const reduce = useReducedMotion()
+
+  if (reduce) return <span aria-hidden="true" className={className} style={style} />
+
+  return (
+    <motion.span
+      aria-hidden="true"
+      className={`${className} will-change-transform`}
+      style={{ ...style, transformOrigin: from === 'left' ? '0% 50%' : '100% 50%' }}
+      initial={{ scaleX: 0 }}
+      whileInView={{ scaleX: 1 }}
+      viewport={{ once: true, margin: '-10% 0px -10% 0px' }}
+      transition={{ duration, delay, ease: EASE.entrance }}
+    />
+  )
+}

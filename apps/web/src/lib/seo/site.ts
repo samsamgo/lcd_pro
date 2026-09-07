@@ -15,9 +15,16 @@ export const SITE = {
   nameEn: 'WOOKANG TECH',
   legalName: '주식회사 우강테크',
   shortName: 'WOOKANG TECH',
-  sloganKo: '관공서·학교 전광판, 설치부터 A/S까지',
+  // 🔴 2026-09-07 (4차) CEO 지시 — *"회사 소개에 우리 사이니지 업체라고. 왜 이렇게 관공서하고 학교에 집착해."*
+  // 이 세 값은 **회사를 소개하는 자리**(layout 제목 · 푸터 · JSON-LD Organization/LocalBusiness)로 나간다.
+  // 그 자리는 "무엇을 만드는 회사인가" 를 말해야 한다. "누구에게 파는가" 는 고객군이지 정체성이 아니다.
+  // before: sloganKo = '관공서·학교 전광판, 설치부터 A/S까지'
+  //         taglineKo = 'LED 전광판 · 전자현수막 — 실측부터 A/S까지 직접 합니다'
+  // 관공서·학교는 없앤 것이 아니라 자리를 옮겼다 — `lib/industries.ts` 의 설치 분야 4군 중
+  // 두 군이고, /about 요약표의 '설치 분야' 행이 그 4군을 그대로 나열한다.
+  sloganKo: 'LED 전광판 설계 · 제작 · 시공 · 유지보수',
   sloganEn: 'We build with light.',
-  taglineKo: 'LED 전광판 · 전자현수막 — 실측부터 A/S까지 직접 합니다',
+  taglineKo: 'LED 전광판·전자현수막을 직접 설계·제작·시공하고 유지보수하는 LED 사이니지 업체입니다.',
 
   // URL·연락
   url: RAW_URL,

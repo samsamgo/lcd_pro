@@ -214,6 +214,25 @@ export const IMAGES = {
     'outdoor-near': G('gen-29'),
     'outdoor-far': G('gen-5'),
   } as Record<string, string>,
+  /**
+   * /products 화소 간격 섹션의 재료 사진 — 2026-09-07 신규 배선.
+   *
+   * §17-D 가 남긴 지시를 그대로 따른 것이다: "`J4` 가 닿지 않는 페이지(/products SpecScale 등)
+   * 에서 꺼내 쓴다." 홈 히어로 슬라이드 4(J4 화소 근접)와 은유가 겹쳐 보류돼 있던 컷인데,
+   * /products 에는 J4 가 없으므로 겹치지 않는다.
+   *
+   * 🔴 원본 확대 재판독(2026-09-07, 1600×2400 원본 + 중앙 50% 크롭 1000px) —
+   *   · **실사다.** 피사계심도가 광학적으로 떨어지고 램프마다 색이 미세하게 다르며
+   *     사각(斜角) 원근이 렌즈 왜곡과 맞는다. AI 생성물의 규칙적 반복이 아니다
+   *   · 화면 문자 **0** · 인물 **0** · 상호·로고 **0** · 국적 단서 **0**
+   *   · 내용은 SMD 도트매트릭스 모듈 표면 = "화소 간격" 그 자체
+   * 🔴 파일명이 `svc-cabinet` 이지만 캐비닛 사진이 아니라 화소 매크로다.
+   *    curated/ 의 파일명 함정(§13-C)이 여기서도 확인됐다 — 이름으로 고르지 마라.
+   * 🔴 **아무 주장도 하지 않는 재료 사진**으로만 쓴다. 시공 실적·납품처로 읽힐 캡션 금지.
+   *    이 사진의 실제 화소 간격은 규격이 확인되지 않았으므로 도해와 축척이 다르다고 화면에 적는다.
+   */
+  productsPitchMacro: C('svc-cabinet'),
+
   /** /industries "걸면 뭐가 뜨나" 4장 — 전부 화면에 한국어 문구가 떠 있다 */
   industryShowing: [G('gen-17'), G('gen-2'), G('gen-31'), G('gen-32')],
   /**
@@ -280,15 +299,9 @@ export const IMAGES = {
     /** 2026-09-07 /services 취부 방식이 도해 섹션으로 바뀌면서 풀린 컷.
      *  확대 검사는 통과한 자산이라 삭제하지 않고 여기 둔다(위 mountScene 주석 참조). */
     G('gen-44'),
-    /**
-     * 2026-09-07 원본 확대 판독 완료 — **결격 0.** SMD 도트매트릭스 사행(斜行) 매크로.
-     * 실사이며 문자 0 · 인물 0 · 상호 0 · 지역성 0, 따뜻한 보케. 화소를 "재료" 로 보여주는
-     * 이 리포 최고의 컷이다. 이번에 배선하지 않은 이유는 자리가 없어서가 아니라
-     * **히어로 슬라이드 4 `J4_pixel-light-wave` 와 역할이 정확히 겹치기 때문**이다
-     * (둘 다 화소 근접 디테일). 한 사이트에 같은 은유를 두 번 걸면 둘 다 약해진다.
-     * → `/products` 화소 간격 설명(SpecScale)처럼 **J4 가 닿지 않는 페이지**에서 꺼내 쓴다.
-     */
-    C('svc-cabinet'),
+    /* 2026-09-07 — `svc-cabinet` 은 여기서 나가 `productsPitchMacro` 로 배선됐다.
+       위 주석이 지시한 자리(/products SpecScale)를 그대로 따랐다. 되돌리려면
+       productsPitchMacro 를 먼저 지워야 한다 — 두 자리에 두면 중복검사가 경고한다. */
     S('A8_cabinet-edge-louvre'),
     S('B2_city-hall-wall'),
     S('B6_park-info-kiosk'),
@@ -345,6 +358,7 @@ if (process.env.NODE_ENV !== 'production') {
     ...IMAGES.service,
     IMAGES.servicesHero,
     IMAGES.productsHero,
+    IMAGES.productsPitchMacro,
     ...IMAGES.showcase,
     ...IMAGES.productScenes,
     ...IMAGES.process,

@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { ChevronDown } from 'lucide-react'
 
-import { Reveal } from '@/components/motion'
+import { Reveal, RiseMask } from '@/components/motion'
 import { SERVICE_STEPS, TOTAL_DURATION } from '@/lib/serviceProcess'
 
 /**
@@ -33,9 +33,15 @@ export function ProcessOverview() {
   return (
     <section id="process" className="wk-sec bg-white">
       <div className="wk-wrap">
-        <Reveal y={16}>
+        {/* 섹션 머리 3박자(§16-C). 이 페이지에는 RiseMask 가 하나도 없어서
+            히어로를 지나면 제목들이 그냥 켜져 있었다. RiseMask 는 Reveal 밖 형제(§16-D). */}
+        <Reveal y={10}>
           <p className="wk-eyebrow">공급 범위</p>
+        </Reveal>
+        <RiseMask delay={0.06}>
           <h2 className="wk-h2 text-wk-ink">여섯 공정</h2>
+        </RiseMask>
+        <Reveal y={14} delay={0.16}>
           <p className="wk-lead mt-5">
             어느 공정을 누가 맡고 며칠 걸리는지 한 표에 넣었습니다. 중간에 업체가 바뀌지 않습니다.
           </p>
@@ -65,7 +71,7 @@ export function ProcessOverview() {
               {SERVICE_STEPS.map((s) => (
                 <tr
                   key={s.id}
-                  className="block border-b border-wk-line py-5 md:table-row md:py-0"
+                  className="wk-hov-cell block border-b border-wk-line bg-white py-5 md:table-row md:py-0"
                 >
                   <th
                     scope="row"
@@ -125,7 +131,7 @@ export function ProcessOverview() {
               open={i === 0}
               className="group scroll-mt-24 border-b border-wk-line"
             >
-              <summary className="flex cursor-pointer list-none items-center gap-3 py-5 text-wk-ink transition-colors duration-state ease-state hover:text-wk-cta [&::-webkit-details-marker]:hidden">
+              <summary className="wk-hov-cell -mx-4 flex cursor-pointer list-none items-center gap-3 rounded-btn bg-white px-4 py-5 text-wk-ink transition-colors duration-state ease-state hover:text-wk-cta [&::-webkit-details-marker]:hidden">
                 <span className="wk-metric text-label font-semibold text-wk-cta">{s.no}</span>
                 <span className="text-body-lg font-bold">{s.title}</span>
                 <ChevronDown
@@ -138,7 +144,7 @@ export function ProcessOverview() {
               <div className="grid gap-6 pb-9 md:grid-cols-12 md:gap-8">
                 {s.image ? (
                   <div className="md:col-span-5">
-                    <div className="relative aspect-[4/3] overflow-hidden rounded-card-m bg-wk-bg">
+                    <div className="wk-hov-media relative aspect-[4/3] overflow-hidden rounded-card-m border border-wk-line bg-wk-bg">
                       <Image
                         src={s.image}
                         alt={s.alt ?? ''}

@@ -20,6 +20,10 @@ const BUSINESS_TYPES = [
   { value: 'hospital', label: '병원 · 보건소' },
   { value: 'academy', label: '학원 · 평생교육' },
   { value: 'gym', label: '체육 · 문화시설' },
+  // 🔴 2026-09-07 신설 — industries.ts 에는 '아파트·공동주택' 이 있는데 이 폼에는 없었다.
+  // 그래서 관리사무소에서 들어온 리드가 전부 '기타' 로 떨어지고 있었다.
+  // 알림에 업종이 '기타' 로 뜨면 어느 현장인지 다시 물어야 한다.
+  { value: 'apartment', label: '아파트 · 공동주택' },
   { value: 'factory', label: '공장 · 물류' },
   { value: 'franchise', label: '프랜차이즈' },
   { value: 'restaurant', label: '음식점' },
@@ -90,7 +94,7 @@ export function Step1BusinessInfo() {
         <Field
           label="연락처"
           error={errors.phone?.message}
-          hint="개략 견적과 규격서를 보내드릴 때만 사용합니다."
+          hint="개략 견적 범위를 안내드릴 때만 사용합니다."
           required
         >
           <TextInput

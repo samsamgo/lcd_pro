@@ -94,7 +94,7 @@ export default function ServicesPage() {
             즉 이 섹션을 없애도 /services 에서 A/S 로도 견적으로도 갈 길이 남는다. */}
         <CtaSection
           title={['현장부터', '보겠습니다']}
-          sub={'실측은 무상입니다. 보고 나서 확정 견적과 도면을 드립니다.'}
+          sub={'실측은 무상입니다. 현장을 보고 나서 확정 견적을 냅니다.'}
         />
       </main>
       <Footer />

@@ -1,7 +1,7 @@
 import { PRODUCTS, MAX_W_PER_M2_BY_PITCH } from '@/lib/products'
 import { SKU_PRICE_FROM } from '@/lib/pricing'
 import { CABINET_W_MM, CABINET_H_MM } from '@/lib/standardBlock'
-import { Reveal } from '@/components/motion'
+import { Reveal, RiseMask } from '@/components/motion'
 
 /**
  * 전 제품 규격 비교표.
@@ -35,18 +35,22 @@ export function SpecCompareTable() {
   return (
     <section id="spec-table" className="wk-sec scroll-mt-24 bg-wk-bgFaint">
       <div className="wk-wrap">
-        <Reveal>
+        <Reveal y={10}>
           <p className="wk-eyebrow">한 장 비교</p>
+        </Reveal>
+        <RiseMask delay={0.06}>
           <h2 className="wk-h2 max-w-2xl text-wk-ink">
             여섯 제품을 한 표에 세웠습니다
           </h2>
+        </RiseMask>
+        <Reveal y={14} delay={0.16}>
           <p className="wk-lead mt-5">
             항목과 단위를 결재 문서에 쓰는 그대로 적었습니다. 이 표만 있으면 사양서
             초안을 쓸 수 있고, 확정되지 않은 값은 채우지 않고 비워 두었습니다.
           </p>
         </Reveal>
 
-        <Reveal delay={0.08}>
+        <Reveal delay={0.08} y={16}>
           <div className="mt-12 overflow-hidden rounded-card border border-wk-line bg-white shadow-wk-1 lg:mt-16">
             <div className="overflow-x-auto">
               <table className="w-full min-w-[56rem] border-collapse text-left">
@@ -81,14 +85,16 @@ export function SpecCompareTable() {
                   </tr>
                 </thead>
                 <tbody>
+                  {/* 행 호버는 tr 이 지고, 좌측 고정 셀은 bg-inherit 로 그 색을 그대로 받는다.
+                      bg-white 를 셀에 직접 주면 그 칸만 하얗게 남아 행이 반쪽만 반응한다. */}
                   {rows.map((p) => {
                     const nit = Number(p.brightness.replace(/[^\d]/g, ''))
                     const watt = MAX_W_PER_M2_BY_PITCH[p.pitch]
                     return (
-                      <tr key={p.sku} className="border-b border-wk-line last:border-b-0">
+                      <tr key={p.sku} className="wk-hov-cell border-b border-wk-line bg-white last:border-b-0">
                         <th
                           scope="row"
-                          className={`${TD} sticky left-0 z-10 bg-white font-semibold`}
+                          className={`${TD} sticky left-0 z-10 bg-inherit font-semibold`}
                         >
                           <span className="block">{p.name}</span>
                           <span className="wk-metric mt-0.5 block text-caption font-normal text-wk-ink3">

@@ -20,6 +20,11 @@ import { SITE } from '@/lib/seo/site'
  *    ① 등기 표의 값 활자를 text-label → text-body 로 올렸다(라벨은 그대로 둬서 대비가 생긴다).
  *    ② 섹션 제목에 RiseMask 를 붙였다(설계계약서 §4 — 섹션 제목의 기본 등장, 섹션당 1회).
  *       Reveal 안에 넣지 않고 형제로 뒀다. 두 움직임이 겹치면 어느 쪽도 읽히지 않는다.
+ *
+ * 2026-09-07 (4차) — 인증 카드 3장에 `.wk-hov-media` 를 걸었다. 사진이 없는 카드라
+ * 테두리 색만 진해진다(`transform` 없음 = reduced-motion 안전, 설계계약서 §16-D).
+ * 🔴 `.wk-hov-card` 를 쓰지 않은 이유 — 카드 자체는 누를 수 없다(안의 조회 링크만 누른다).
+ *    뜨는 카드는 "여기를 누르면 된다" 는 거짓 신호가 된다.
  *    ③ 등기 표에 '설립' 행을 신설했다. CompanyHero 사실 띠에서 '법인 설립 2026' 을
  *       뺐기 때문이다 — 숨긴 것이 아니라 **외치는 자리에서 기록하는 자리로 옮긴 것**이다.
  *       🔴 이 행을 지우지 마라. 지우면 설립 연도가 사이트에서 사라져 은폐가 된다.
@@ -124,7 +129,7 @@ export function CompanySummary() {
               {HELD_CREDENTIALS.map((c) => (
                 <div
                   key={c.no}
-                  className="rounded-card-m border border-wk-line bg-white p-5 shadow-wk-1 sm:p-6"
+                  className="wk-hov-media rounded-card-m border border-wk-line bg-white p-5 shadow-wk-1 sm:p-6"
                 >
                   <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                     <p className="wk-h3 text-wk-ink">{c.title}</p>

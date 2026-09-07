@@ -4,7 +4,7 @@ import { PRODUCTS } from '@/lib/products'
 import { IMAGES } from '@/lib/imageAssets'
 import type { Sku } from '@/lib/pricing'
 import { ProductGrid } from '@/components/landing/ProductGrid'
-import { Reveal } from '@/components/motion'
+import { Reveal, RevealImage, RiseMask } from '@/components/motion'
 
 /**
  * 환경 우선 분류.
@@ -69,11 +69,16 @@ export function EnvironmentTracks() {
   return (
     <section id="lineup" className="wk-sec scroll-mt-24 bg-white">
       <div className="wk-wrap">
-        <Reveal>
+        {/* 섹션 머리 3박자(§16-C). RiseMask 는 Reveal 밖 형제로 둔다(§16-D) */}
+        <Reveal y={10}>
           <p className="wk-eyebrow">환경 우선</p>
+        </Reveal>
+        <RiseMask delay={0.06}>
           <h2 className="wk-h2 max-w-2xl text-wk-ink">
             안에 거는지 밖에 거는지부터 갈립니다
           </h2>
+        </RiseMask>
+        <Reveal y={14} delay={0.16}>
           <p className="wk-lead mt-5">
             보는 거리와 햇빛 조건이 정해지면 화소 간격과 밝기는 계산으로 따라옵니다.
             두 묶음 가운데 현장에 해당하는 곳부터 보십시오. 여섯 제품을 나란히 놓고
@@ -156,8 +161,9 @@ export function EnvironmentTracks() {
                 </Reveal>
 
                 {/* 이 환경이 실제로 어떤 자리인지 — 16:9 로 낮춰 세로를 줄인다 */}
-                <Reveal className="lg:col-span-5" delay={0.08}>
-                  <div className="relative aspect-[16/10] overflow-hidden rounded-card-m">
+                <RevealImage className="lg:col-span-5" delay={0.08}>
+                  {/* 누를 수 없는 사진이므로 .wk-hov-media — 사진만 조금 확대되고 뜨지 않는다 */}
+                  <div className="wk-hov-media relative aspect-[16/10] overflow-hidden rounded-card-m border border-wk-line">
                     <Image
                       src={IMAGES.productTracks[t.photo]}
                       alt={t.alt}
@@ -166,7 +172,7 @@ export function EnvironmentTracks() {
                       className="object-cover"
                     />
                   </div>
-                </Reveal>
+                </RevealImage>
               </div>
 
               {/* ── 카드 3장: 1열 → 3열. 중간에 2열을 두지 않아 빈 칸이 없다 ── */}

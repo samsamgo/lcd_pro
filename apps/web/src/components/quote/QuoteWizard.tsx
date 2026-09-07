@@ -17,9 +17,12 @@ import { validatePhone } from '@/lib/phone'
 
 const quoteSchema = z.object({
   // Step 1
+  // 🔴 값을 추가할 때는 Step1BusinessInfo 의 BUSINESS_TYPES 와 **반드시 같이** 고친다.
+  // 화면 선택지만 늘리면 zod 가 막아 제출이 통째로 실패한다(2026-09-07 실제로 냈던 실수).
+  // 'apartment' 신설 — industries.ts 에는 있는데 폼에 없어 관리사무소 리드가 '기타' 로 떨어졌다.
   businessType: z.enum([
     'cafe', 'restaurant', 'bar', 'hospital', 'academy',
-    'gym', 'franchise', 'school', 'government', 'factory', 'other',
+    'gym', 'franchise', 'school', 'government', 'factory', 'apartment', 'other',
   ], { required_error: '업종을 선택해주세요.' }),
   businessName: z.string().min(1, '상호명을 입력해주세요.'),
   contactName: z.string().min(1, '담당자 이름을 입력해주세요.'),

@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { IMAGES } from '@/lib/imageAssets'
-import { Reveal, RevealImage, ScrollScale } from '@/components/motion'
+import { Reveal, RevealImage, RiseMask, ScrollScale } from '@/components/motion'
 
 /**
  * 구조 쇼케이스.
@@ -44,11 +44,16 @@ export function StructureShowcase() {
   return (
     <section className="wk-sec bg-white">
       <div className="wk-wrap">
-        <Reveal>
+        {/* 섹션 머리 3박자(§16-C). RiseMask 는 Reveal 밖 형제로 둔다(§16-D) */}
+        <Reveal y={10}>
           <p className="wk-eyebrow">구조</p>
+        </Reveal>
+        <RiseMask delay={0.06}>
           <h2 className="wk-h2 max-w-2xl text-wk-ink">
             고장 나면 화면 전체가 아니라 모듈 한 장을 바꿉니다
           </h2>
+        </RiseMask>
+        <Reveal y={14} delay={0.16}>
           <p className="wk-lead mt-5">
             화면은 한 덩어리가 아닙니다. 모듈 단위로 분리되기 때문에 고장 난 부분만
             교체할 수 있고, 그래서 유지보수 비용을 예측할 수 있습니다.
@@ -82,7 +87,7 @@ export function StructureShowcase() {
         {DETAILS.map((d, n) => (
           <RevealImage key={d.title} delay={n * 0.08}>
             <figure className="m-0">
-              <div className="wk-card-img relative aspect-[4/3]">
+              <div className="wk-card-img wk-hov-media relative aspect-[4/3]">
                 <Image
                   src={d.src}
                   alt={d.alt}
