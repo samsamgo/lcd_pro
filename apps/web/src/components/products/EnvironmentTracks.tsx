@@ -32,9 +32,10 @@ type Track = {
   id: string
   /** IMAGES.productTracks 의 키 */
   photo: string
-  eyebrow: string
   title: string
   desc: string
+  /** eyebrow 앞머리. 거리 범위는 데이터에서 계산해 뒤에 붙인다 */
+  place: string
   /** 이 묶음에서 판단이 갈리는 지점 — 담당자가 현장에서 확인할 것 */
   check: string
   alt: string
@@ -46,7 +47,7 @@ const TRACKS: Track[] = [
     id: 'indoor',
     photo: 'indoor-near',
     alt: '한국 관공서 민원실 창구 위에 설치된 가로형 LED 화면에 "민원 안내" 문구가 표시되어 있다',
-    eyebrow: '건물 안 · 2~4m',
+    place: '건물 안',
     title: '실내에서 글자를 읽는 화면',
     desc: '민원실 창구, 로비, 회의실, 학교 복도처럼 사람이 화면 앞까지 걸어오는 자리입니다. 글자와 표가 많고 실내 조명 아래에서 보기 때문에, 밝기보다 화소 간격이 먼저입니다.',
     check: '가장 가까이 보는 사람의 거리를 기준으로 정합니다. 그 거리보다 촘촘하면 비용만 늘고, 성기면 글자 가장자리가 눈에 띕니다. 창가 자리라면 오후 역광이 드는 시간도 함께 봅니다.',
@@ -56,7 +57,7 @@ const TRACKS: Track[] = [
     id: 'outdoor',
     photo: 'outdoor-far',
     alt: '한국 도로변에 지주로 세워진 옥외 LED 화면에 "재난 안전 안내" 문구가 표시되어 있다',
-    eyebrow: '건물 밖 · 5m~50m',
+    place: '건물 밖',
     title: '햇빛과 비를 견디는 옥외 화면',
     desc: '정문 차단기 옆부터 도로변 게시대, 청사 외벽까지. 보는 거리가 5m인지 50m인지에 따라 화소 간격이 갈리고, 그 자리가 바깥이라는 사실 때문에 밝기와 방수 등급이 함께 올라갑니다.',
     check: '설치 높이와 도로에서의 거리를 실측합니다. 햇빛이 화면에 직접 닿는 시간대, 구조 보강 필요 여부, 옥외광고물 신고 대상인지가 이 단계에서 갈립니다.',
@@ -98,6 +99,11 @@ export function EnvironmentTracks() {
               : `${fmt(Math.min(...v))}–${fmt(Math.max(...v))}`
           const pitchText = range(pitches, String)
           const nitText = range(nits, (n) => n.toLocaleString())
+          // 거리 범위와 방수 등급도 손으로 적지 않는다 — 제품 데이터에서 뽑는다
+          const dists = items.map((p) => Number(p.viewingDistance.match(/(\d+)/)?.[1] ?? 0))
+          const distText = range(dists, (n) => `${n}m`)
+          const indoor = items.every((p) => p.env === 'indoor')
+          const ingressText = indoor ? '해당 없음' : (items[0].ingress.match(/IP\d+/)?.[0] ?? '—')
 
           return (
             <div key={t.id} id={t.id} className="wk-wrap scroll-mt-24">
@@ -107,7 +113,7 @@ export function EnvironmentTracks() {
                   {/* wk-eyebrow 는 uppercase 라 단위 m 이 M 으로 뒤집힌다("2~4M" → 메가로 읽힌다).
                       wk-eyebrow 가 globals.css 의 utilities 레이어에 있어 같은 레이어의
                       normal-case 는 소스 순서에서 밀린다. 그래서 ! 로 강제한다. */}
-                  <p className="wk-eyebrow !normal-case !tracking-[0.06em]">{t.eyebrow}</p>
+                  <p className="wk-eyebrow !normal-case !tracking-[0.06em]">{t.place} · {distText}</p>
                   <h3 className="wk-h3 text-wk-ink">{t.title}</h3>
                   <p className="wk-body mt-4 max-w-xl">{t.desc}</p>
 
@@ -129,7 +135,7 @@ export function EnvironmentTracks() {
                     <div>
                       <dt className="text-caption text-wk-ink3">방수 · 방진</dt>
                       <dd className="wk-metric text-h3 font-semibold text-wk-ink">
-                        {items[0].env === 'indoor' ? '해당 없음' : 'IP65'}
+                        {ingressText}
                       </dd>
                     </div>
                     <div>

@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { ArrowRight, Building2, Sun, Check } from 'lucide-react'
 import { Modal } from '@/components/ui/Modal'
 import { SKU_PRICE_FROM, PRICE_DISCLAIMER } from '@/lib/pricing'
-import type { ProductInfo } from '@/lib/products'
+import { MAX_W_PER_M2_BY_PITCH, type ProductInfo } from '@/lib/products'
 import { useSiteModals } from '@/components/modals/SiteModals'
 
 export function ProductDetailModal({
@@ -37,16 +37,24 @@ export function ProductDetailModal({
 
           <p className="mt-5 text-sm leading-relaxed text-wk-ink2">{product.summary}</p>
 
-          <dl className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {/* 6칸이라 2열·3열 어디서도 마지막 줄에 빈 칸이 남지 않는다 */}
+          <dl className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3">
             {[
               { k: '화소 간격', v: `${product.pitch.slice(1)}mm (${product.pitch})` },
               { k: '화면 밝기', v: product.brightness },
-              { k: '보기 좋은 거리', v: product.viewingDistance },
+              { k: '권장 시청 거리', v: product.viewingDistance },
               { k: '설치 환경', v: product.env === 'indoor' ? '실내' : '옥외' },
+              { k: '방수 · 방진', v: product.ingress },
+              {
+                k: '최대 소비전력',
+                v: MAX_W_PER_M2_BY_PITCH[product.pitch]
+                  ? `${MAX_W_PER_M2_BY_PITCH[product.pitch]} W/m² (추정)`
+                  : '사양 확정 후',
+              },
             ].map((s) => (
               <div key={s.k} className="rounded-xl bg-wk-bgFaint p-3">
                 <dt className="text-xs text-wk-ink3">{s.k}</dt>
-                <dd className="mt-0.5 font-semibold text-wk-ink">{s.v}</dd>
+                <dd className="mt-0.5 text-sm font-semibold leading-snug text-wk-ink">{s.v}</dd>
               </div>
             ))}
           </dl>
@@ -84,8 +92,12 @@ export function ProductDetailModal({
           </div>
 
           <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+            {/* 실내 제품의 세그먼트는 institution 이다. 예전에는 cafe 를 보내서
+                견적 폼 업종이 "카페"로 채워졌다 — 이 페이지의 실내 제품은
+                민원실·로비·회의실용이고 SpecSheets 도 institution 을 보낸다.
+                리드가 잘못된 업종으로 들어가면 응대 단계에서 다시 물어야 한다. */}
             <Link
-              href={`/quote?type=${product.env === 'indoor' ? 'cafe' : 'outdoor'}`}
+              href={`/quote?type=${product.env === 'indoor' ? 'institution' : 'outdoor'}`}
               onClick={onClose}
               className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-wk-cta px-5 py-3 text-sm font-bold text-white transition-all hover:bg-wk-blue active:scale-95"
             >
