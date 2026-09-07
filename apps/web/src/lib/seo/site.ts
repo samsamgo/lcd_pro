@@ -52,7 +52,10 @@ export const SITE = {
   // 비즈니스
   industry: 'LED 사이니지 / 디지털 사이니지 / 전광판',
   controllerStandard: 'NovaStar Taurus + VNNOX',
-  cityKo: '서울',
+  // 🔴 2026-09-07 정정 — '서울' 로 박혀 있었다. 법인 소재지는 대전광역시 대덕구다(등기 기준).
+  // 이 값은 JSON-LD 의 addressLocality 로 나가 검색결과 지역 표기를 만든다.
+  // 관공서는 지역 업체를 우선 찾는 경우가 많아, 틀린 도시는 영업 기회를 통째로 날린다.
+  cityKo: '대전',
   countryCode: 'KR',
   founded: '2026',
 } as const

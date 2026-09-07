@@ -57,7 +57,10 @@ export function IndustryCompare() {
           <table className="w-full border-collapse text-left">
             <thead>
               <tr className="border-b border-wk-line2">
-                {['설치 자리', '설치 환경', '화소 간격', '보는 거리', '가장 많이 듣는 고민'].map((h) => (
+                {/* 🔴 2026-09-07 — 원래 '가장 많이 듣는 고민' 이었다. 우리는 첫 수주 전이라
+                    들은 적이 없다. 빈도를 주장하는 표기는 관공서 상대로 실적 허위기재로 읽힌다.
+                    같은 계열('인기'·'추천'·'대부분의 고객이')은 전수로 걷어냈다. [[company-vs-reference]] */}
+                {['설치 자리', '설치 환경', '화소 간격', '보는 거리', '설치 전 검토할 것'].map((h) => (
                   <th key={h} className="pb-3 pr-6 text-caption font-semibold text-wk-ink3">
                     {h}
                   </th>

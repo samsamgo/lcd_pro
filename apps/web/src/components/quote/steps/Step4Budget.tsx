@@ -1,9 +1,10 @@
 'use client'
 
 import { useFormContext } from 'react-hook-form'
-import type { QuoteFormData } from '../QuoteWizard'
-import { FormField } from '../FormField'
 import { AlertCircle } from 'lucide-react'
+
+import type { QuoteFormData } from '../QuoteWizard'
+import { Field, OptionButton, PrivacyConsent, TextArea } from '@/components/form'
 
 const BUDGET_OPTIONS = [
   { value: '~200', label: '200만원 이하' },
@@ -19,69 +20,58 @@ export function Step4Budget() {
   const budget = watch('budgetRange')
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       {/* 예산 */}
-      <div>
-        <label className="mb-2.5 block text-sm font-semibold text-wk-ink2">
-          예상 예산 범위 <span className="text-wk-ink3 text-xs font-normal">(선택)</span>
-        </label>
+      <fieldset>
+        <legend className="mb-2 block text-label font-semibold text-wk-ink">
+          예상 예산 범위
+          <span className="ml-1.5 text-caption font-normal text-wk-ink3">(선택)</span>
+        </legend>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
           {BUDGET_OPTIONS.map((o) => (
-            <button
+            <OptionButton
               key={o.value}
-              type="button"
+              selected={budget === o.value}
               onClick={() => setValue('budgetRange', o.value)}
-              className={`min-h-[44px] rounded-xl border px-3 py-3 text-xs font-medium transition-all ${
-                budget === o.value
-                  ? 'border-wk-cta bg-wk-cta/20 text-wk-ctaActive'
-                  : 'border-wk-line bg-white text-wk-ink3 hover:border-wk-line2'
-              }`}
             >
               {o.label}
-            </button>
+            </OptionButton>
           ))}
         </div>
-      </div>
+      </fieldset>
 
       {/* 추가 메모 */}
-      <FormField label="추가 요청사항" error={undefined}>
-        <textarea
+      <Field label="추가 요청사항">
+        <TextArea
           {...register('additionalNotes')}
-          rows={3}
           placeholder="특이사항, 원하는 설치 일정, 허가 필요 여부 등을 자유롭게 적어주세요."
-          className="input-base resize-none"
         />
-      </FormField>
+      </Field>
 
       {/* 견적 면책 고지 */}
-      <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-4">
+      <div className="rounded-btn border border-amber-500/20 bg-amber-500/5 p-4">
         <div className="flex gap-2.5">
-          <AlertCircle size={16} className="mt-0.5 shrink-0 text-amber-600" />
-          <p className="text-xs leading-relaxed text-amber-700/80">
+          <AlertCircle size={16} className="mt-0.5 shrink-0 text-amber-600" aria-hidden="true" />
+          <p className="text-caption leading-relaxed text-amber-700/90">
             제출하신 견적은 <strong>범위 견적(추정치)</strong>입니다. 최종 금액은 전기·구조·
             허가 조건 등 현장 실사 후 확정됩니다. 계약 전 어떠한 비용도 청구되지 않습니다.
           </p>
         </div>
       </div>
 
-      {/* 개인정보 동의 */}
-      <label className="flex min-h-[44px] cursor-pointer items-start gap-3 py-1">
-        <input
-          type="checkbox"
+      {/* 개인정보 동의 — 문구·체크박스 크기는 폼 4종이 같은 부품을 쓴다 */}
+      <div>
+        <PrivacyConsent
           {...register('agreePrivacy')}
-          className="mt-0.5 h-5 w-5 shrink-0 rounded border-wk-line2 bg-white text-wk-cta accent-wk-cta"
+          purpose="견적 발송"
+          items="담당자명·연락처·기관명"
         />
-        <span className="text-sm text-wk-ink3">
-          견적 발송을 위한{' '}
-          <a href="/privacy" target="_blank" rel="noopener noreferrer" className="underline text-wk-cta hover:text-wk-ctaActive">
-            개인정보 수집 및 이용
-          </a>
-          에 동의합니다. (필수)
-        </span>
-      </label>
-      {errors.agreePrivacy && (
-        <p className="text-xs text-wk-bad">{errors.agreePrivacy.message}</p>
-      )}
+        {errors.agreePrivacy && (
+          <p role="alert" className="mt-1 text-label text-wk-bad">
+            {errors.agreePrivacy.message}
+          </p>
+        )}
+      </div>
     </div>
   )
 }

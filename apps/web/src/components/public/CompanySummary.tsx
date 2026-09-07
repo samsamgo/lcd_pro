@@ -1,4 +1,4 @@
-import { Reveal, Stagger } from '@/components/motion'
+import { Reveal, RiseMask, Stagger } from '@/components/motion'
 import { SITE } from '@/lib/seo/site'
 
 /**
@@ -12,6 +12,17 @@ import { SITE } from '@/lib/seo/site'
  * ⚠️ 여기 적힌 인증은 전부 실제 취득분이다.
  *    SMPS 2건 KC 적합등록 = 2026-08-10 (주)지씨엘 회신으로 확인(COO/projects/WK-KC-SMPS.md).
  *    미취득 항목은 '준비 중' 상태로 분리해 표기한다. 상태를 색으로만 구분하지 않는다.
+ *
+ * 2026-09-07 (3차) — CEO *"회사 소개가 좀 별로야."*
+ * 🔴 이 섹션이 /about 의 **증빙 중심**이 됐다. 첫 수주 전이라 실적이 없는 회사가
+ *    담당 공무원에게 내밀 수 있는 것은 서사가 아니라 조회되는 번호뿐인데,
+ *    그 번호들이 페이지에서 **가장 작은 활자**로 적혀 있었다. 위계가 뒤집혀 있었다.
+ *    ① 등기 표의 값 활자를 text-label → text-body 로 올렸다(라벨은 그대로 둬서 대비가 생긴다).
+ *    ② 섹션 제목에 RiseMask 를 붙였다(설계계약서 §4 — 섹션 제목의 기본 등장, 섹션당 1회).
+ *       Reveal 안에 넣지 않고 형제로 뒀다. 두 움직임이 겹치면 어느 쪽도 읽히지 않는다.
+ *    ③ 등기 표에 '설립' 행을 신설했다. CompanyHero 사실 띠에서 '법인 설립 2026' 을
+ *       뺐기 때문이다 — 숨긴 것이 아니라 **외치는 자리에서 기록하는 자리로 옮긴 것**이다.
+ *       🔴 이 행을 지우지 마라. 지우면 설립 연도가 사이트에서 사라져 은폐가 된다.
  */
 const RRA_SEARCH = 'https://www.rra.go.kr/ko/license/S_c_search.do'
 
@@ -60,6 +71,7 @@ export function CompanySummary() {
   const rows: { k: string; v: string }[] = [
     { k: '상호', v: SITE.legalName },
     { k: '대표자', v: SITE.ceoName },
+    { k: '설립', v: SITE.founded ? `${SITE.founded}년` : '' },
     { k: '사업자등록번호', v: SITE.bizRegNo },
     { k: '법인등록번호', v: SITE.corpRegNo },
     { k: '소재지', v: SITE.addressFull },
@@ -70,10 +82,16 @@ export function CompanySummary() {
   return (
     <section id="company" className="wk-sec bg-wk-bgFaint">
       <div className="wk-wrap">
-        <Reveal y={16}>
+        {/* 섹션 머리는 eyebrow → 제목 → 리드 순으로 0.06 / 0.16 씩 민다(설계계약서 §4).
+            RiseMask 는 Reveal 밖 형제로 둔다 — 움직이는 부모 안에 넣으면 둘 다 안 읽힌다. */}
+        <Reveal y={10} duration={0.6}>
           <p className="wk-eyebrow">확인 가능한 사실</p>
-          <h2 className="wk-h2 max-w-[14ch] text-wk-ink">법인 정보와 인증</h2>
-          {/* 2026-09-07 — "숨기지 않고 적습니다"(부정형 방어문)를 선언형으로 교체 */}
+        </Reveal>
+        <h2 className="wk-h2 max-w-[14ch] text-wk-ink">
+          <RiseMask delay={0.06}>법인 정보와 인증</RiseMask>
+        </h2>
+        {/* 2026-09-07 — "숨기지 않고 적습니다"(부정형 방어문)를 선언형으로 교체 */}
+        <Reveal y={14} delay={0.16}>
           <p className="wk-lead mt-5">
             결재 문서에 그대로 옮겨 쓰실 수 있게 등기 정보와 인증 번호를 전부 적습니다.
             번호는 발급 기관에서 직접 조회하실 수 있습니다.
@@ -92,7 +110,7 @@ export function CompanySummary() {
                   <span className="w-28 shrink-0 pt-0.5 text-label font-medium text-wk-ink3">
                     {r.k}
                   </span>
-                  <span className="wk-metric flex-1 text-label font-semibold text-wk-ink">
+                  <span className="wk-metric flex-1 text-body font-semibold text-wk-ink">
                     {r.v}
                   </span>
                 </div>
@@ -117,7 +135,8 @@ export function CompanySummary() {
                   <dl className="mt-4 grid gap-x-6 gap-y-2 sm:grid-cols-2">
                     <div className="flex gap-2">
                       <dt className="w-20 shrink-0 text-label text-wk-ink3">등록번호</dt>
-                      <dd className="wk-metric text-label font-semibold text-wk-ink">{c.no}</dd>
+                      {/* 등록번호는 이 페이지에서 가장 검증 가능한 값이다. 활자를 한 단 올린다 */}
+                      <dd className="wk-metric text-body font-semibold text-wk-ink">{c.no}</dd>
                     </div>
                     <div className="flex gap-2">
                       <dt className="w-20 shrink-0 text-label text-wk-ink3">발급기관</dt>

@@ -6,6 +6,18 @@ import Link from 'next/link'
 import { Reveal } from '@/components/motion'
 import { SITE } from '@/lib/seo/site'
 import { readApiError, validatePhone } from '@/lib/phone'
+import {
+  Field,
+  FormError,
+  FormSuccess,
+  FormToneProvider,
+  PrivacyConsent,
+  RequiredLegend,
+  SUBMIT_FAILED,
+  SubmitButton,
+  TextArea,
+  TextInput,
+} from '@/components/form'
 
 /**
  * 회사 소개 마무리 — 문의 폼(Contact).
@@ -24,6 +36,8 @@ import { readApiError, validatePhone } from '@/lib/phone'
  *    - 이메일은 서버 스키마에 칸이 없다. 버려지지 않도록 message 앞에 붙여 보낸다
  *      (서버는 message → purpose 로 알림에 그대로 싣는다).
  *
+ * 🔴 이 섹션만 다크 배경(`wk-night`)이다. 폼 부품은 `FormToneProvider tone="dark"` 로
+ *    감싸 색만 갈라 쓴다. 라이트용 `.input-base` 를 쓰면 검은 면 위에 흰 상자가 뜬다.
  * 🔴 전화번호는 SITE.phone 만 참조한다. 하드코딩 금지.
  * 🔴 업무시간은 바로 위 CompanyLocation 카드가 갖는다. 여기서 반복하지 않는다.
  */
@@ -44,9 +58,11 @@ export function AboutContact() {
     e.preventDefault()
     setError('')
 
+    // 🔴 막는 조건은 서버가 실제로 400 을 내는 둘(연락처 형식·동의)뿐이다.
+    //    문의 내용이 비었다고 화면에서 막던 것을 풀었다 — 연락처만 있어도 전화해서
+    //    물어보면 되는 건이라, 여기서 되돌려 보내면 리드 하나를 그냥 잃는다.
     const phoneError = validatePhone(phone)
     if (phoneError) return setError(phoneError)
-    if (!message.trim()) return setError('문의 내용을 입력해 주십시오.')
     if (!agree) return setError('개인정보 수집·이용에 동의해 주십시오.')
 
     setSending(true)
@@ -68,17 +84,12 @@ export function AboutContact() {
         }),
       })
       if (!res.ok) {
-        setError(
-          await readApiError(
-            res,
-            `접수 중 문제가 발생했습니다. ${SITE.email} 으로 보내주시면 확인하겠습니다.`,
-          ),
-        )
+        setError(await readApiError(res, SUBMIT_FAILED))
         return
       }
       setDone(true)
     } catch {
-      setError(`접수 중 문제가 발생했습니다. ${SITE.email} 으로 보내주시면 확인하겠습니다.`)
+      setError(SUBMIT_FAILED)
     } finally {
       setSending(false)
     }
@@ -134,128 +145,89 @@ export function AboutContact() {
 
           <Reveal className="lg:col-span-7" y={16} delay={0.1}>
             <div className="rounded-card-m bg-white/[0.04] p-6 ring-1 ring-white/10 sm:rounded-card sm:p-8">
-              {done ? (
-                <div>
-                  <p className="wk-h3 text-wk-nightInk">문의가 접수되었습니다</p>
-                  <p className="mt-3 text-label text-wk-nightMuted">
-                    남겨주신 연락처로 영업일 기준 1일 안에 담당자가 연락드립니다.
-                    급한 건은 {SITE.phone ? `${SITE.phone} 로 ` : ''}전화 주셔도 됩니다.
-                  </p>
-                </div>
-              ) : (
-                <form onSubmit={submit} className="space-y-4" noValidate>
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <label className="block">
-                      <span className="mb-1.5 block text-sm font-semibold text-wk-nightInk">
-                        기관 · 회사명
-                      </span>
-                      <input
-                        className="wk-input-dark"
-                        value={org}
-                        onChange={(e) => setOrg(e.target.value)}
-                        placeholder="예) ○○구청 총무과"
-                        autoComplete="organization"
-                      />
-                    </label>
-                    <label className="block">
-                      <span className="mb-1.5 block text-sm font-semibold text-wk-nightInk">
-                        담당자
-                      </span>
-                      <input
-                        className="wk-input-dark"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        autoComplete="name"
-                      />
-                    </label>
-                  </div>
+              <FormToneProvider tone="dark">
+                {done ? (
+                  <FormSuccess
+                    title="문의가 접수되었습니다"
+                    detail="남겨주신 연락처로 담당자가 확인 후 연락드립니다."
+                  />
+                ) : (
+                  <form onSubmit={submit} className="space-y-4" noValidate>
+                    <RequiredLegend />
 
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <label className="block">
-                      <span className="mb-1.5 block text-sm font-semibold text-wk-nightInk">
-                        연락처 <span className="text-wk-blue">필수</span>
-                      </span>
-                      <input
-                        className="wk-input-dark"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        inputMode="tel"
-                        autoComplete="tel"
-                        placeholder="042-621-7982"
-                        required
-                      />
-                    </label>
-                    <label className="block">
-                      <span className="mb-1.5 block text-sm font-semibold text-wk-nightInk">
-                        이메일
-                      </span>
-                      <input
-                        type="email"
-                        className="wk-input-dark"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        inputMode="email"
-                        autoComplete="email"
-                      />
-                    </label>
-                  </div>
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <Field label="기관 · 회사명">
+                        <TextInput
+                          value={org}
+                          onChange={(e) => setOrg(e.target.value)}
+                          placeholder="예) ○○구청 총무과"
+                          autoComplete="organization"
+                        />
+                      </Field>
+                      <Field label="담당자">
+                        <TextInput
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          autoComplete="name"
+                        />
+                      </Field>
+                    </div>
 
-                  <label className="block">
-                    <span className="mb-1.5 block text-sm font-semibold text-wk-nightInk">
-                      문의 내용 <span className="text-wk-blue">필수</span>
-                    </span>
-                    <textarea
-                      className="wk-input-dark min-h-[128px] resize-y"
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value)}
-                      placeholder="예) 청사 1층 민원실 벽면에 안내용 화면을 검토 중입니다. 대략 가로 3m 정도 생각하고 있습니다."
-                      required
-                    />
-                  </label>
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <Field label="연락처" required>
+                        <TextInput
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                          inputMode="tel"
+                          autoComplete="tel"
+                          placeholder="010-0000-0000"
+                        />
+                      </Field>
+                      <Field label="이메일">
+                        <TextInput
+                          type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          inputMode="email"
+                          autoComplete="email"
+                        />
+                      </Field>
+                    </div>
 
-                  {/* 탭 타깃 44px 이상 — 체크박스만 20px 이면 손가락으로 못 누른다 */}
-                  <label className="flex min-h-[44px] cursor-pointer items-start gap-3 py-2 text-label text-wk-nightMuted">
-                    <input
-                      type="checkbox"
+                    <Field label="문의 내용">
+                      <TextArea
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        placeholder="예) 청사 1층 민원실 벽면에 안내용 화면을 검토 중입니다. 대략 가로 3m 정도 생각하고 있습니다."
+                      />
+                    </Field>
+
+                    <PrivacyConsent
+                      purpose="문의 응대"
+                      items="담당자명·연락처·이메일"
                       checked={agree}
                       onChange={(e) => setAgree(e.target.checked)}
-                      className="mt-0.5 h-5 w-5 shrink-0 accent-wk-blue"
                     />
-                    <span>
-                      문의 응대를 위한 개인정보(담당자명·연락처·이메일) 수집·이용에 동의합니다.{' '}
+
+                    <FormError>{error}</FormError>
+
+                    <SubmitButton pending={sending}>문의 보내기</SubmitButton>
+
+                    {/* 보조 경로 하나. 버튼이 아니라 문장으로 둔다 —
+                        같은 화면에 주 CTA 버튼이 둘이면 어디를 눌러야 할지 갈린다. */}
+                    <p className="text-caption text-wk-nightMuted">
+                      설치 조건과 사진까지 담아 정식 견적을 받으시려면{' '}
                       <Link
-                        href="/privacy"
-                        className="underline underline-offset-4 hover:text-wk-nightInk"
+                        href="/quote"
+                        className="font-semibold text-wk-blue underline underline-offset-4"
                       >
-                        개인정보처리방침
+                        견적 요청
                       </Link>
-                    </span>
-                  </label>
-
-                  {error && <p className="text-label text-wk-bad">{error}</p>}
-
-                  <button
-                    type="submit"
-                    disabled={sending}
-                    className="wk-btn-p disabled:opacity-45"
-                  >
-                    {sending ? '접수 중…' : '문의 보내기'}
-                  </button>
-
-                  {/* 보조 경로 하나. 버튼이 아니라 문장으로 둔다 —
-                      같은 화면에 주 CTA 버튼이 둘이면 어디를 눌러야 할지 갈린다. */}
-                  <p className="text-caption text-wk-nightMuted">
-                    설치 조건과 사진까지 담아 정식 견적을 받으시려면{' '}
-                    <Link
-                      href="/quote"
-                      className="font-semibold text-wk-blue underline underline-offset-4"
-                    >
-                      견적 요청
-                    </Link>
-                    으로 진행하십시오.
-                  </p>
-                </form>
-              )}
+                      으로 진행하십시오.
+                    </p>
+                  </form>
+                )}
+              </FormToneProvider>
             </div>
           </Reveal>
         </div>

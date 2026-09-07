@@ -2,8 +2,19 @@
 
 import { useState } from 'react'
 import { Modal } from '@/components/ui/Modal'
-import { SITE } from '@/lib/seo/site'
 import { readApiError, validatePhone } from '@/lib/phone'
+import {
+  Field,
+  FormError,
+  FormSuccess,
+  FormToneProvider,
+  PrivacyConsent,
+  RequiredLegend,
+  SUBMIT_FAILED,
+  SubmitButton,
+  TextArea,
+  TextInput,
+} from '@/components/form'
 
 /**
  * 간단 문의 모달.
@@ -12,6 +23,9 @@ import { readApiError, validatePhone } from '@/lib/phone'
  * 겹쳤다. 견적은 /quote 한 곳에서만 받고, 여기서는 연락처와 문의 내용만 받는다.
  *
  * 필수는 연락처 하나뿐이다. 입력 항목이 늘수록 이탈한다.
+ *
+ * 2026-09-07 폼 통일 — 겉모습·동작만 `components/form` 부품으로 바꿨다.
+ * 보내는 항목(contactName/phone/message/source)과 목적지는 그대로다.
  */
 export function QuickConsultModal({
   open,
@@ -58,18 +72,13 @@ export function QuickConsultModal({
         }),
       })
       if (!res.ok) {
-        setError(
-          await readApiError(
-            res,
-            `접수 중 문제가 발생했습니다. ${SITE.email} 으로 보내주시면 확인하겠습니다.`,
-          ),
-        )
+        setError(await readApiError(res, SUBMIT_FAILED))
         return
       }
       setDone(true)
     } catch {
       // 접수 실패를 고객에게 그대로 떠넘기지 않는다. 대체 연락 수단을 안내한다.
-      setError(`접수 중 문제가 발생했습니다. ${SITE.email} 으로 보내주시면 확인하겠습니다.`)
+      setError(SUBMIT_FAILED)
     } finally {
       setSending(false)
     }
@@ -88,81 +97,68 @@ export function QuickConsultModal({
     }, 250)
   }
 
+  // 완료 화면의 제목은 FormSuccess 가 갖는다. 모달 헤더까지 "접수되었습니다" 로
+  // 바꾸면 같은 말이 두 번 뜬다(다른 폼 셋은 헤더가 없어 한 번만 뜬다).
   return (
-    <Modal open={open} onClose={close} title={done ? '접수되었습니다' : '빠른 상담'} size="sm">
-      {done ? (
-        <div>
-          <p className="text-body text-wk-ink2">
-            문의를 접수했습니다. 영업일 기준 1일 이내에 담당자가 연락드립니다.
-          </p>
-          <button type="button" onClick={close} className="wk-btn-p mt-6">
-            확인
-          </button>
-        </div>
-      ) : (
-        <form onSubmit={submit} className="space-y-4">
-          <p className="text-label text-wk-ink3">
-            연락처와 문의 내용만 남겨주시면 담당자가 확인 후 연락드립니다.
-            견적이 필요하시면 견적 요청을 이용해 주십시오.
-          </p>
+    <Modal open={open} onClose={close} title="빠른 상담" size="sm">
+      <FormToneProvider tone="light">
+        {done ? (
+          <FormSuccess
+            title="문의가 접수되었습니다"
+            detail="남겨주신 연락처로 담당자가 확인 후 연락드립니다."
+          >
+            <button type="button" onClick={close} className="wk-btn-p mt-6">
+              확인
+            </button>
+          </FormSuccess>
+        ) : (
+          <form onSubmit={submit} className="space-y-4" noValidate>
+            <p className="text-label text-wk-ink3">
+              연락처와 문의 내용만 남겨주시면 담당자가 확인 후 연락드립니다.
+              견적이 필요하시면 견적 요청을 이용해 주십시오.
+            </p>
 
-          <label className="block">
-            <span className="mb-1.5 block text-sm font-semibold text-wk-ink2">성함</span>
-            <input
-              className="input-base"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="선택 입력"
-              autoComplete="name"
-            />
-          </label>
+            <RequiredLegend />
 
-          <label className="block">
-            <span className="mb-1.5 block text-sm font-semibold text-wk-ink2">
-              연락처 <span className="text-wk-cta">필수</span>
-            </span>
-            <input
-              className="input-base"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="휴대전화 또는 사무실 번호"
-              inputMode="tel"
-              autoComplete="tel"
-              required
-            />
-          </label>
+            <Field label="성함">
+              <TextInput
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                autoComplete="name"
+              />
+            </Field>
 
-          <label className="block">
-            <span className="mb-1.5 block text-sm font-semibold text-wk-ink2">문의 내용</span>
-            <textarea
-              className="input-base min-h-[110px] resize-y"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="설치 장소나 궁금한 점을 자유롭게 적어주십시오."
-            />
-          </label>
+            <Field label="연락처" required>
+              <TextInput
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="010-0000-0000"
+                inputMode="tel"
+                autoComplete="tel"
+              />
+            </Field>
 
-          {/* 탭 타깃 44px — 16px 체크박스는 손가락으로 못 누른다(이 프로젝트에서 이미 적발한 결함) */}
-          <label className="flex min-h-[44px] cursor-pointer items-start gap-2.5 py-1 text-label text-wk-ink3">
-            <input
-              type="checkbox"
+            <Field label="문의 내용">
+              <TextArea
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="설치 장소나 궁금한 점을 자유롭게 적어주십시오."
+              />
+            </Field>
+
+            <PrivacyConsent
+              purpose="문의 응대"
+              items="성함·연락처"
               checked={agree}
               onChange={(e) => setAgree(e.target.checked)}
-              className="mt-0.5 h-5 w-5 shrink-0 accent-wk-blue"
             />
-            <span>
-              문의 응대를 위한 개인정보(성함·연락처) 수집·이용에 동의합니다.
-              문의 처리 후 파기합니다.
-            </span>
-          </label>
 
-          {error && <p className="text-label text-wk-bad">{error}</p>}
+            <FormError>{error}</FormError>
 
-          <button type="submit" disabled={sending} className="wk-btn-p disabled:opacity-45">
-            {sending ? '접수 중…' : '문의 보내기'}
-          </button>
-        </form>
-      )}
+            <SubmitButton pending={sending}>문의 보내기</SubmitButton>
+          </form>
+        )}
+      </FormToneProvider>
     </Modal>
   )
 }

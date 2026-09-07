@@ -17,6 +17,7 @@ import { JsonLd } from '@/components/seo/JsonLd'
 import { serviceLd, howToLd, breadcrumbLd } from '@/lib/seo/jsonld'
 import { SITE, absoluteUrl, buildMetadata } from '@/lib/seo/site'
 import { PRICE_RANGE_SCHEMA } from '@/lib/pricing'
+import { IMAGES } from '@/lib/imageAssets'
 
 export const metadata: Metadata = buildMetadata({
   title: `${SITE.nameKo} | LED 전광판 · 전자현수막 설계·제작·시공`,
@@ -85,10 +86,15 @@ export default function Home() {
         />
 
         {/* ── 다크: 제품을 체험시키는 장 ── */}
+        {/* 2026-09-07 — 이 섹션은 이 페이지의 논지인데 바탕이 그냥 검은 사각형이었다.
+            뒤에 **켜져 있는 LED 월 한 장**을 깔았다(문자 0·얼굴 0·지역성 0 인 실사).
+            캡션 없는 순수 배경 층이라 실적 주장이 아니며, 대비는 사진이 아니라
+            그 위 그라디언트가 보장한다(ScrollStatement 주석의 계산 참조). */}
         <ScrollStatement
           lead="Why"
           text="대한민국에서 한 해 버려지는 현수막만 약 5,400톤."
           tail="약 487만 장의 현수막. 우강테크는 그 정보를 디지털로 전달합니다."
+          bg={IMAGES.home.statementScene}
         />
         <CinematicScene />
 
@@ -97,9 +103,32 @@ export default function Home() {
           className="h-32 bg-gradient-to-b from-wk-night to-white md:h-40"
         />
 
-        {/* ── 라이트: 무엇을 어떻게 받는가 ── */}
+        {/* ── 라이트: 무엇을 어떻게 받는가 ──
+            🔴 2026-09-07 명암 재설계 (CEO 4차 지시 "사이니지 회사처럼").
+            여기서부터 푸터까지가 원래 **연속된 라이트 네 섹션**이었다
+            (ProductShowcase → ScreenGallery → ProcessTimeline → FAQ).
+            페이지에서 가장 긴 구간이 통째로 흰 서류였고, 그것이 "잘 만든 일반 B2B 사이트"
+            의 정체였다. 발광체를 파는 회사의 화면이 절반 넘게 하얗다.
+
+            그렇다고 전부 검게 칠하지 않았다 — 빛은 어둠이 있어야 빛이다.
+            규격표(ProductShowcase)·절차(ProcessTimeline)·FAQ 는 **서류로 읽혀야 하는 것**이라
+            라이트가 맞다. 뒤집은 것은 ScreenGallery **하나**다.
+            근거: 그 섹션에 걸린 사진 9장이 전부 '켜져 있는 화면' 이다. 발광체는 어두운 면 위에서만
+            발광체로 보인다. 내용이 면을 정한 것이지 취향으로 고른 것이 아니다.
+
+            다리 높이는 h-24/32 로 **위쪽 다리(h-32/40)보다 낮게** 잡았다.
+            시네마틱 장으로 들어가는 전환이 이 페이지의 가장 큰 전환이어야 하므로
+            같은 크기로 만들면 위계가 평평해진다. */}
         <ProductShowcase />
+
+        <ScrollBridge
+          direction="down"
+          className="wk-bridge-down h-24 md:h-32"
+          cell={16}
+        />
         <ScreenGallery />
+        <ScrollBridge direction="up" className="wk-bridge-up h-24 md:h-32" cell={16} />
+
         <ProcessTimeline />
         <FaqSection limit={6} />
 

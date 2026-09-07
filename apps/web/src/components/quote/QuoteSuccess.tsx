@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { CheckCircle2, AlertTriangle, Layers, MessageCircle, Phone } from 'lucide-react'
 import { SITE } from '@/lib/seo/site'
 import { useSiteModals } from '@/components/modals/SiteModals'
+import { ResponsePromise } from '@/components/form'
 
 // API → 클라이언트로 돌아오는 견적 요약 (route.ts 와 일치)
 export interface EstimateSummary {
@@ -95,16 +96,18 @@ export function QuoteSuccess({ estimate }: Props) {
 
       {estimate && <EstimateBlock estimate={estimate} />}
 
-      {/* 접수 후 언제·무엇이 오는지. 이게 없으면 담당자는 기다려야 할지 다른 곳을 알아볼지 모른다 */}
-      <div className="mb-6 rounded-xl border border-wk-cta/30 bg-wk-cta/[0.06] p-5 text-left">
-        <p className="text-sm font-semibold text-wk-ink">
-          영업일 기준 1일 안에 담당자가 연락드립니다.
-        </p>
-        <p className="mt-1.5 text-xs leading-relaxed text-wk-ink2">
-          남겨주신 연락처로 먼저 전화드리고, 요청하시면 개략 견적 범위와 제품 규격서를
-          문서로 보내드립니다. 예산 요구서에 그대로 첨부하실 수 있는 형식입니다.
-          {SITE.openingHours && ` 연락 가능 시간은 ${SITE.openingHours}입니다.`}
-        </p>
+      {/* 접수 후 언제·무엇이 오는지. 이게 없으면 담당자는 기다려야 할지 다른 곳을 알아볼지 모른다.
+          🔴 문구는 폼 4종이 공유한다(`components/form/feedback.tsx`) — 완료 화면마다
+          다른 시한을 말하던 것을 한 곳으로 모았다. */}
+      <div className="mb-6">
+        <ResponsePromise
+          detail={
+            <>
+              남겨주신 연락처로 먼저 전화드리고, 요청하시면 개략 견적 범위와 제품 규격서를
+              문서로 보내드립니다. 예산 요구서에 그대로 첨부하실 수 있는 형식입니다.
+            </>
+          }
+        />
       </div>
 
       <div className="mb-6 rounded-xl border border-wk-line bg-white/60 p-5 text-left text-sm text-wk-ink2">

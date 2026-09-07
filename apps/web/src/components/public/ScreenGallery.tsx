@@ -17,6 +17,20 @@ import { Reveal, RiseMask, Stagger } from '@/components/motion'
  *
  * 히어로에서 자동 슬라이드를 걷어낸 대신(벤치마크 §6 안티패턴 1),
  * 사례 사진은 여기서 **사용자가 눌러서 연다.**
+ *
+ * ── 2026-09-07 다크 전환 (CEO 4차 지시 "사이니지 회사처럼") ────────────────
+ * 이 섹션은 원래 `bg-wk-bg`(#F2F4F6) 위의 흰 카드 9장이었다. 그런데 여기 걸린 사진은
+ * 전부 **켜져 있는 화면**이다. 발광체를 밝은 회색 판 위 흰 카드에 담으면
+ * 화면이 아니라 **카탈로그 인쇄물**로 읽힌다. LED 는 어두울수록 잘 보인다.
+ *
+ * 그래서 면을 뒤집었다 — `wk-night` 바닥 + `wk-night-card` 카드 + `.wk-emit` 베젤.
+ * 사진 자체를 손대지 않고 **주변 명도만 바꿔서** 같은 사진이 발광체로 읽히게 한다.
+ * 🔴 사진을 CSS 로 흉내 내는 것이 아니다(LedBoard 의 실패). 사진은 그대로 두고
+ *    사진이 놓이는 **면**을 화면처럼 만든다.
+ *
+ * 🔴 여기 걸린 9장은 여전히 AI 연출컷이다(구조정본 §16-B Ⓑ 자리).
+ *    다크로 바꿨다고 실적처럼 적지 않는다. 하단 고지 한 줄은 그대로 유지한다.
+ *    실사 준공 사진이 나오면 **사진만** 갈아 끼운다. 이 면 설계는 그대로 쓸 수 있다.
  */
 type Screen = { src: string; title: string; meta: string; alt: string }
 
@@ -106,18 +120,27 @@ export function ScreenGallery() {
   }, [open, close, move])
 
   return (
-    <section id="screens" aria-labelledby="screens-h" className="wk-sec-lg bg-wk-bg">
-      <div className="wk-wrap-wide">
-        {/* 섹션 머리는 eyebrow(약) → 제목(중, 마스크 상승) → 리드(약) 순으로 들어온다.
-            제목만 다른 등장을 갖게 해서 섹션 안에서도 위계가 보이게 한다. */}
+    <section
+      id="screens"
+      aria-labelledby="screens-h"
+      className="wk-pixelgrid wk-pixelgrid-top wk-pixelgrid-coarse wk-sec-lg relative overflow-hidden bg-wk-night"
+    >
+      <div className="wk-wrap-wide relative">
+        {/* 섹션 머리는 eyebrow(약) → 제목(강, 마스크 상승) → 리드(약) 순으로 들어온다.
+            🔴 제목만 `wk-display` 다. 화면을 파는 회사는 글자를 크게 쓴다 —
+               라이트 구간 네 섹션이 전부 `wk-h2` 로 같은 목소리를 내던 것이
+               "일반 B2B 사이트" 로 읽히던 이유 중 하나였다.
+            🔴 다크 면에서 색 토큰이 전부 뒤집힌다. wk-eyebrow 의 기본값 wk-cta(#1B64DA)는
+               #0B0B0F 위에서 읽히지 않는다 → wk-blue(#3182F6, 5.29:1) 로 바꾼다.
+               wk-lead 의 기본값 wk-ink2 도 같은 이유로 nightMuted(8.99:1) 로 바꾼다. */}
         <Reveal y={10} duration={0.6}>
-          <p className="wk-eyebrow">화면 용도</p>
+          <p className="wk-eyebrow !text-wk-blue">화면 용도</p>
         </Reveal>
-        <h2 id="screens-h" className="wk-h2 text-wk-ink">
+        <h2 id="screens-h" className="wk-display wk-emit-text text-wk-nightInk">
           <RiseMask delay={0.06}>설치 예시</RiseMask>
         </h2>
         <Reveal y={14} delay={0.16}>
-          <p className="wk-lead mt-5">
+          <p className="wk-lead mt-5 !text-wk-nightMuted">
             기관에서 실제로 바뀌는 정보는 대기번호, 층별 안내, 행사 일정, 재난 문구입니다.
             인쇄물로는 매번 다시 만들어야 하는 것들입니다.
           </p>
@@ -134,9 +157,9 @@ export function ScreenGallery() {
                 type="button"
                 onClick={() => setOpen(n)}
                 aria-label={`${s.title} 사진 크게 보기`}
-                className="wk-hov-card group block w-full overflow-hidden rounded-card bg-white text-left shadow-wk-1"
+                className="wk-hov-emit wk-emit wk-emit-spill group block w-full overflow-hidden rounded-card bg-wk-nightCard text-left"
               >
-                <span className="relative block aspect-[4/3] overflow-hidden bg-wk-bg">
+                <span className="relative block aspect-[4/3] overflow-hidden bg-wk-night2">
                   <Image
                     src={s.src}
                     alt={s.alt}
@@ -146,15 +169,18 @@ export function ScreenGallery() {
                   />
                 </span>
                 <span className="block px-5 py-4">
-                  <b className="block text-body-lg font-semibold text-wk-ink">{s.title}</b>
-                  <span className="wk-cap mt-1 block">{s.meta}</span>
+                  <b className="block text-body-lg font-semibold text-wk-nightInk">{s.title}</b>
+                  {/* wk-cap 기본색(ink3 #66707D)은 #171922 위에서 2.4:1 이다. 반드시 덮어쓴다 */}
+                  <span className="wk-cap mt-1 block !text-wk-nightMuted">{s.meta}</span>
                 </span>
               </button>
             </figure>
           ))}
         </Stagger>
 
-        <p className="wk-cap mt-10">※ 설치 형태와 화면 용도를 보여드리기 위한 예시 이미지입니다.</p>
+        <p className="wk-cap mt-10 !text-wk-nightMuted">
+          ※ 설치 형태와 화면 용도를 보여드리기 위한 예시 이미지입니다.
+        </p>
       </div>
 
       {/* 확대 보기 */}
@@ -171,7 +197,7 @@ export function ScreenGallery() {
             className="relative m-0 w-full max-w-5xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="relative aspect-[4/3] overflow-hidden rounded-surface bg-wk-night2">
+            <div className="wk-emit wk-emit-spill relative aspect-[4/3] overflow-hidden rounded-surface bg-wk-night2">
               <Image
                 src={SCREENS[open].src}
                 alt={SCREENS[open].alt}

@@ -1,10 +1,9 @@
 'use client'
 
 import { useFormContext } from 'react-hook-form'
-import { Check } from 'lucide-react'
 
 import type { QuoteFormData } from '../QuoteWizard'
-import { FormField } from '../FormField'
+import { Field, OptionButton, SelectInput, TextInput } from '@/components/form'
 
 /**
  * 1단계 — 어디에서 오셨는지.
@@ -46,7 +45,7 @@ export function Step1BusinessInfo() {
   return (
     <div className="space-y-7">
       <fieldset>
-        <legend className="mb-3 block text-label font-semibold text-wk-ink">
+        <legend className="mb-2 block text-label font-semibold text-wk-ink">
           기관 · 업종
           <span aria-hidden="true" className="ml-1 text-wk-cta">
             *
@@ -55,24 +54,15 @@ export function Step1BusinessInfo() {
         </legend>
 
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
-          {BUSINESS_TYPES.map((t) => {
-            const on = selected === t.value
-            return (
-              <button
-                key={t.value}
-                type="button"
-                aria-pressed={on}
-                onClick={() => setValue('businessType', t.value, { shouldValidate: true })}
-                className={`flex items-center justify-center gap-1.5 text-center ${
-                  on ? 'wk-chip-on' : 'wk-chip-off'
-                }`}
-              >
-                {/* 선택을 색만으로 알리지 않는다 — 체크 표시와 굵기를 함께 준다 */}
-                {on && <Check size={14} strokeWidth={3} aria-hidden="true" />}
-                {t.label}
-              </button>
-            )
-          })}
+          {BUSINESS_TYPES.map((t) => (
+            <OptionButton
+              key={t.value}
+              selected={selected === t.value}
+              onClick={() => setValue('businessType', t.value, { shouldValidate: true })}
+            >
+              {t.label}
+            </OptionButton>
+          ))}
         </div>
 
         {errors.businessType && (
@@ -83,52 +73,45 @@ export function Step1BusinessInfo() {
       </fieldset>
 
       <div className="grid gap-5 sm:grid-cols-2">
-        <FormField label="기관명 · 상호" error={errors.businessName?.message} required>
-          <input
+        <Field label="기관명 · 상호" error={errors.businessName?.message} required>
+          <TextInput
             {...register('businessName')}
             placeholder="예: OO시청, OO초등학교"
             autoComplete="organization"
-            className="input-base"
           />
-        </FormField>
+        </Field>
 
-        <FormField label="담당자 성함" error={errors.contactName?.message} required>
-          <input
-            {...register('contactName')}
-            placeholder="예: 홍길동"
-            autoComplete="name"
-            className="input-base"
-          />
-        </FormField>
+        <Field label="담당자 성함" error={errors.contactName?.message} required>
+          <TextInput {...register('contactName')} placeholder="예: 홍길동" autoComplete="name" />
+        </Field>
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2">
-        <FormField
+        <Field
           label="연락처"
           error={errors.phone?.message}
           hint="개략 견적과 규격서를 보내드릴 때만 사용합니다."
           required
         >
-          <input
+          <TextInput
             {...register('phone')}
             placeholder="010-0000-0000"
             type="tel"
             inputMode="tel"
             autoComplete="tel"
-            className="input-base"
           />
-        </FormField>
+        </Field>
 
-        <FormField label="설치 지역" error={errors.region?.message} required>
-          <select {...register('region')} className="input-base">
+        <Field label="설치 지역" error={errors.region?.message} required>
+          <SelectInput {...register('region')}>
             <option value="">지역 선택</option>
             {REGIONS.map((r) => (
               <option key={r} value={r}>
                 {r}
               </option>
             ))}
-          </select>
-        </FormField>
+          </SelectInput>
+        </Field>
       </div>
     </div>
   )

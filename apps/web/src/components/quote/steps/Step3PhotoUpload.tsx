@@ -43,8 +43,9 @@ export function Step3PhotoUpload() {
   return (
     <div className="space-y-5">
       <div>
-        <p className="mb-1 text-label font-semibold text-wk-ink">
-          현장 사진 <span className="font-medium text-wk-ink3">(선택)</span>
+        <p className="mb-2 text-label font-semibold text-wk-ink">
+          현장 사진
+          <span className="ml-1.5 text-caption font-normal text-wk-ink3">(선택)</span>
         </p>
         <p className="wk-cap">
           지금 사진이 없으셔도 됩니다. 넣어주시면 견적 범위를 더 좁혀 드릴 수 있습니다.

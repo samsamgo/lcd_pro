@@ -246,17 +246,58 @@
 
   /* LED 픽셀 격자 — 사진 없이 다크 면에 "화면 위" 라는 인상을 만든다.
      실사진이 없는 자리를 이미지로 메우지 않기 위한 장식이다(날조 방지).
-     가운데만 남기고 가장자리로 사라져서 글자를 방해하지 않는다. */
+     가운데만 남기고 가장자리로 사라져서 글자를 방해하지 않는다.
+
+     2026-09-07 — 한 벌짜리 장식이던 것을 **체계**로 바꿨다.
+     칸 크기(--wk-cell) · 점 밝기(--wk-dot) · 사라지는 방향(--wk-pixelmask)을
+     변수로 뺐다. 기본값은 이전과 완전히 같으므로 이미 쓰고 있던 자리(/about 3막,
+     /services MountDiagram)는 렌더가 1px도 바뀌지 않는다.
+     🔴 화소는 장식이 아니라 재료다. 아무 면에나 뿌리지 말고,
+        "여기는 화면의 표면이다" 라고 말할 자리에만 쓴다. */
   .wk-pixelgrid::before {
     content: '';
     position: absolute;
     inset: 0;
     pointer-events: none;
-    background-image: radial-gradient(rgba(255, 255, 255, .13) 1px, transparent 1px);
-    background-size: 22px 22px;
-    -webkit-mask-image: radial-gradient(72% 62% at 50% 38%, #000 0%, transparent 78%);
-    mask-image: radial-gradient(72% 62% at 50% 38%, #000 0%, transparent 78%);
+    background-image: radial-gradient(rgba(255, 255, 255, var(--wk-dot, .13)) 1px, transparent 1px);
+    background-size: var(--wk-cell, 22px) var(--wk-cell, 22px);
+    -webkit-mask-image: var(--wk-pixelmask, radial-gradient(72% 62% at 50% 38%, #000 0%, transparent 78%));
+    mask-image: var(--wk-pixelmask, radial-gradient(72% 62% at 50% 38%, #000 0%, transparent 78%));
   }
+  /* 섹션 위 모서리에서 시작해 본문 쪽으로 사라진다 — 다크 구간의 "입구" 표시 */
+  .wk-pixelgrid-top {
+    --wk-pixelmask: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, .55) 34%, transparent 76%);
+  }
+  /* 성긴 화소 — 큰 면적을 덮을 때. 촘촘한 격자를 넓게 깔면 모아레가 생긴다 */
+  .wk-pixelgrid-coarse { --wk-cell: 34px; --wk-dot: .10; }
+
+  /* ── 발광(luminance) ─────────────────────────────────────────
+     우리가 파는 물건은 스스로 빛을 내는 화면이다. 그래서 다크 면 위의 사진·판은
+     "종이에 인쇄된 사각형" 이 아니라 "켜져 있는 화면" 으로 보여야 한다.
+
+     🔴 과하면 2000년대 네온이 된다. 세 가지만 쓴다 —
+        ①베젤(화면에는 테두리가 있다) ②상단 스페큘러(유리 한 줄) ③빛 번짐(빛은 새어 나간다).
+     🔴 라이트 면에서는 의미가 없다(흰 바탕에 글로우는 안 보이고 그림자만 지저분해진다).
+        `.wk-emit` 계열은 **다크 면 전용**이다. */
+  .wk-emit { position: relative; }
+  .wk-emit::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, .10),
+      inset 0 1px 0 0 rgba(255, 255, 255, .18);
+  }
+  /* 화면에서 새어 나오는 빛. 그림자가 아니라 빛이므로 아래로만 지지 않고 사방으로 퍼진다 */
+  .wk-emit-spill {
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, .06),
+      0 26px 70px -34px rgba(49, 130, 246, .50);
+  }
+  /* 다크 면 위 큰 활자에만. 색은 그대로라 대비비가 바뀌지 않는다(WCAG 유지) */
+  .wk-emit-text { text-shadow: 0 0 34px rgba(120, 170, 255, .26); }
 
   /* 마스크 리빌 — 아래에서 위로 덮개가 걷힌다 */
   .wk-clip-reveal { clip-path: inset(0 0 100% 0); }
@@ -359,16 +400,48 @@
   .wk-hov-cell:hover { background-color: #F9FAFB; }
   .wk-hov-cell svg { transition: transform .3s cubic-bezier(.16,1,.3,1); }
   .wk-hov-cell:hover svg { transform: translate3d(0, -2px, 0); }
+
+  /* 4단 — 다크 면 위의 누를 수 있는 화면 카드.
+     .wk-hov-card 는 그림자로 "뜬다" 를 말하는데, 검은 면 위에서는 그림자가 보이지 않는다.
+     그래서 여기서는 뜨는 신호를 **빛 번짐이 커지는 것**으로 낸다. 화면이 밝아지는 것과 같다. */
+  .wk-hov-emit {
+    transition: transform .34s cubic-bezier(.16,1,.3,1), box-shadow .34s cubic-bezier(.16,1,.3,1);
+  }
+  .wk-hov-emit:hover,
+  .wk-hov-emit:focus-visible,
+  .wk-hov-emit:focus-within {
+    transform: translate3d(0, -5px, 0);
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, .12),
+      0 34px 84px -36px rgba(49, 130, 246, .68);
+  }
+  .wk-hov-emit img { transition: transform .8s cubic-bezier(.16,1,.3,1); }
+  .wk-hov-emit:hover img,
+  .wk-hov-emit:focus-within img { transform: scale(1.045); }
 }
 
+/* 🔴 전역 base 블록은 transition-duration 만 0.01ms 로 줄인다. 그것만으로는
+   transform 이 그대로 남아 "즉시 튀어오르는" 상태가 된다. 새 호버를 만들면
+   반드시 여기에 transform: none 을 같이 적는다(구조정본 §16-D). */
 @media (prefers-reduced-motion: reduce) {
   .wk-hov-card,
   .wk-hov-media,
   .wk-hov-cell,
+  .wk-hov-emit,
   .wk-hov-card img,
   .wk-hov-media img,
+  .wk-hov-emit img,
   .wk-hov-cell svg {
     transition: none !important;
     transform: none !important;
+  }
+  /* 빛 번짐은 움직임이 아니라 재질이므로 **끄지 않는다.** 다만 트랜지션이 없는 상태에서
+     호버로 값이 바뀌면 번쩍이는 점멸이 된다. 그래서 호버값을 기본값과 같게 고정한다. */
+  .wk-hov-emit:hover,
+  .wk-hov-emit:focus-visible,
+  .wk-hov-emit:focus-within {
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, .06),
+      0 26px 70px -34px rgba(49, 130, 246, .50) !important;
   }
 }

@@ -123,13 +123,23 @@ export function ProductShowcase() {
                   sizes="(min-width: 1024px) 50vw, 100vw"
                   className="object-cover"
                 />
-                {/* 화소 밀도 지표 — 카드마다 격자가 성겨진다 */}
+                {/* 화소 밀도 지표 — 카드마다 격자가 성겨진다.
+                    🔴 2026-09-07 수정. 이전 판은 **검은 점**을 사진 위에 40% 로 깔았다.
+                       검은 점 격자는 인쇄 하프톤이다. 스스로 빛을 내는 물건을 파는 회사가
+                       자기 화면 사진에 잉크 망점을 씌우고 있었던 셈이고, 사진이
+                       '발광체' 가 아니라 '인쇄물' 로 읽히는 원인이었다.
+
+                    실제 LED 모듈을 코앞에서 보면 그 반대다 — 화소 사이는 **검은 마스크**이고
+                    화소 자리만 밝다. 그래서 한 칸을 [밝은 중심점 + 어두운 주변]으로 바꿨다.
+                    점 반지름을 칸 크기에 비례(0.16)시켜야 성긴 카드에서 면이 까맣게 죽지 않는다.
+                    격자가 담는 정보(화소 간격 = 밀도)는 그대로다 — 장식이 아니라 지표다. */}
                 <div
                   aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 opacity-40"
+                  className="pointer-events-none absolute inset-0 opacity-[.55] mix-blend-overlay"
                   style={{
-                    backgroundImage:
-                      'radial-gradient(circle at center, rgba(0,0,0,.55) 1px, transparent 1.3px)',
+                    backgroundImage: `radial-gradient(circle at center, rgba(255,255,255,.85) ${(
+                      p.dot * 0.16
+                    ).toFixed(2)}px, rgba(0,0,0,.62) ${(p.dot * 0.16 + 0.45).toFixed(2)}px)`,
                     backgroundSize: `${p.dot}px ${p.dot}px`,
                   }}
                 />

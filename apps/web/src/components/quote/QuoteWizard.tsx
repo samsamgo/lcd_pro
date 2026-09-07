@@ -12,6 +12,8 @@ import { QuoteSuccess, type EstimateSummary } from './QuoteSuccess'
 import { ProgressBar } from './ProgressBar'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { EASE } from '@/components/motion'
+import { FormError, FormToneProvider, SubmitButton } from '@/components/form'
+import { validatePhone } from '@/lib/phone'
 
 const quoteSchema = z.object({
   // Step 1
@@ -21,7 +23,14 @@ const quoteSchema = z.object({
   ], { required_error: '업종을 선택해주세요.' }),
   businessName: z.string().min(1, '상호명을 입력해주세요.'),
   contactName: z.string().min(1, '담당자 이름을 입력해주세요.'),
-  phone: z.string().min(10, '올바른 전화번호를 입력해주세요.'),
+  // 🔴 서버(`/api/lead`·`/api/quotes` 계열)와 같은 규칙을 쓴다. 예전에는 원문 길이 10자
+  // 이상만 봤는데, 서버는 **숫자 9~11자리**를 본다. "02-123-4567"(숫자 9자리)은 서버가
+  // 받는데 화면이 먼저 막았고, 반대로 숫자가 모자란 긴 문자열은 화면을 통과해 서버 400 을
+  // 맞았다. 화면과 서버가 어긋나면 담당자는 이유를 모른 채 이탈한다.
+  phone: z.string().superRefine((v, ctx) => {
+    const msg = validatePhone(v)
+    if (msg) ctx.addIssue({ code: z.ZodIssueCode.custom, message: msg })
+  }),
   region: z.string().min(1, '지역을 선택해주세요.'),
 
   // Step 2
@@ -215,6 +224,7 @@ export function QuoteWizard({ defaultType }: { defaultType?: string }) {
 
   return (
     <FormProvider {...methods}>
+      <FormToneProvider tone="light">
       <div className="rounded-card border border-wk-line bg-white p-6 shadow-wk-2 sm:p-9">
         <ProgressBar current={step} total={STEPS.length} labels={STEPS} />
 
@@ -248,12 +258,9 @@ export function QuoteWizard({ defaultType }: { defaultType?: string }) {
         </div>
 
         {submitError && (
-          <p
-            role="alert"
-            className="mt-5 rounded-btn border border-wk-bad/30 bg-wk-bad/[0.06] px-4 py-3 text-label font-medium text-wk-bad"
-          >
-            {submitError}
-          </p>
+          <div className="mt-5">
+            <FormError>{submitError}</FormError>
+          </div>
         )}
 
         <div className="mt-9 flex flex-col-reverse gap-3 border-t border-wk-line pt-7 sm:flex-row sm:justify-between">
@@ -277,18 +284,14 @@ export function QuoteWizard({ defaultType }: { defaultType?: string }) {
               다음
             </button>
           ) : (
-            <button
-              type="button"
-              onClick={handleSubmit}
-              disabled={submitting}
-              aria-busy={submitting}
-              className="wk-btn-p disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              {submitting ? '제출 중…' : '견적 요청 보내기'}
-            </button>
+            // 전송 중 문구('접수 중…')는 폼 4종이 같은 부품에서 가져온다
+            <SubmitButton type="button" onClick={handleSubmit} pending={submitting}>
+              견적 요청 보내기
+            </SubmitButton>
           )}
         </div>
       </div>
+      </FormToneProvider>
     </FormProvider>
   )
 }

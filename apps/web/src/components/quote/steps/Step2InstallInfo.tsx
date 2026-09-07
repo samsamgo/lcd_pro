@@ -2,7 +2,7 @@
 
 import { useFormContext } from 'react-hook-form'
 import type { QuoteFormData } from '../QuoteWizard'
-import { FormField } from '../FormField'
+import { CheckRow, Field, OptionButton, TextArea, TextInput } from '@/components/form'
 
 const URGENCY_OPTIONS = [
   { value: 'low', label: '여유 있음 (2개월+)' },
@@ -10,6 +10,32 @@ const URGENCY_OPTIONS = [
   { value: 'high', label: '빠르게 (2~4주)' },
   { value: 'urgent', label: '긴급 (2주 이내)' },
 ]
+
+/** 라벨만 있고 입력이 아닌 묶음(선택 버튼 그룹)의 머리. Field 의 라벨과 형식을 맞춘다. */
+function GroupLabel({
+  children,
+  required,
+  note,
+}: {
+  children: React.ReactNode
+  required?: boolean
+  note?: string
+}) {
+  return (
+    <legend className="mb-2 block text-label font-semibold text-wk-ink">
+      {children}
+      {required && (
+        <>
+          <span aria-hidden="true" className="ml-1 text-wk-cta">
+            *
+          </span>
+          <span className="sr-only"> (필수)</span>
+        </>
+      )}
+      {note && <span className="ml-1.5 text-caption font-normal text-wk-ink3">{note}</span>}
+    </legend>
+  )
+}
 
 export function Step2InstallInfo() {
   const { register, watch, setValue, formState: { errors } } = useFormContext<QuoteFormData>()
@@ -20,127 +46,114 @@ export function Step2InstallInfo() {
   const exactSizeRequired = watch('exactSizeRequired')
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-7">
       {/* 실내/옥외 */}
-      <div>
-        <label className="mb-2.5 block text-sm font-semibold text-wk-ink2">
-          설치 환경 <span className="text-wk-cta">*</span>
-        </label>
+      <fieldset>
+        <GroupLabel required>설치 환경</GroupLabel>
         <div className="grid grid-cols-2 gap-3">
           {(['indoor', 'outdoor'] as const).map((e) => (
-            <button
+            <OptionButton
               key={e}
-              type="button"
-              onClick={() => setValue('environment', e)}
-              className={`rounded-xl border py-4 text-sm font-semibold transition-all ${
-                env === e
-                  ? 'border-wk-cta bg-wk-cta/20 text-wk-ctaActive'
-                  : 'border-wk-line bg-white text-wk-ink3 hover:border-wk-line2'
-              }`}
+              selected={env === e}
+              onClick={() => setValue('environment', e, { shouldValidate: true })}
+              hint={e === 'indoor' ? '(건물 안)' : '(건물 밖)'}
+              className="py-3.5"
             >
               {e === 'indoor' ? '실내' : '옥외'}
-              <span className="ml-2 text-xs font-normal text-wk-ink3">
-                {e === 'indoor' ? '(건물 안)' : '(건물 밖)'}
-              </span>
-            </button>
+            </OptionButton>
           ))}
         </div>
         {errors.environment && (
-          <p className="mt-1.5 text-xs text-wk-bad">{errors.environment.message}</p>
+          <p role="alert" className="mt-2.5 text-label text-wk-bad">
+            {errors.environment.message}
+          </p>
         )}
-      </div>
+      </fieldset>
 
       {/* 크기 */}
-      <div>
-        <label className="mb-2.5 block text-sm font-semibold text-wk-ink2">
-          희망 크기 <span className="text-wk-ink3 text-xs font-normal">(대략적인 수치도 괜찮아요)</span>
-        </label>
+      <fieldset>
+        <GroupLabel note="(대략적인 수치도 괜찮습니다)">희망 크기</GroupLabel>
         <div className="flex items-center gap-2">
-          <input
+          <TextInput
             {...register('desiredWidth')}
+            aria-label="희망 가로 크기 (cm)"
             placeholder="가로 (cm)"
-            className="input-base w-full"
+            inputMode="numeric"
           />
-          <span className="shrink-0 text-wk-ink3">×</span>
-          <input
+          <span aria-hidden="true" className="shrink-0 text-wk-ink3">
+            ×
+          </span>
+          <TextInput
             {...register('desiredHeight')}
+            aria-label="희망 세로 크기 (cm)"
             placeholder="세로 (cm)"
-            className="input-base w-full"
+            inputMode="numeric"
           />
         </div>
-      </div>
+      </fieldset>
 
       {/* 표준 적용 안내 */}
-      <div className="rounded-xl border border-wk-line bg-white/60 p-4 text-xs text-wk-ink3">
+      <div className="rounded-btn border border-wk-line bg-white/60 p-4 text-caption text-wk-ink3">
         <p className="mb-1 font-semibold text-wk-ink2">제작 크기 안내</p>
         <p>요청하신 크기에 가장 가까운 기본 제작 단위로 제안드립니다. 납기 단축, 가격 안정,
           유지보수·예비부품 호환성이 좋아집니다.</p>
       </div>
 
       {/* 옵션: 고해상도 / 라이브 입력 / 정확치수 (실내만 노출) */}
-      {env === 'indoor' && (
-        <div className="space-y-2">
-          <label className="flex min-h-[44px] cursor-pointer items-center gap-2.5 py-1 text-sm text-wk-ink2">
-            <input type="checkbox" {...register('highRes')} className="h-5 w-5 shrink-0 accent-wk-cta" />
-            가까이서 보는 자리 — 민원실·로비·회의실
-          </label>
-          <label className="flex min-h-[44px] cursor-pointer items-center gap-2.5 py-1 text-sm text-wk-ink2">
-            <input type="checkbox" {...register('needsLiveInput')} className="h-5 w-5 shrink-0 accent-wk-cta" />
-            HDMI 라이브 입력 필요 (방송/실시간 미러링)
-          </label>
-        </div>
-      )}
-      <label className="flex min-h-[44px] cursor-pointer items-center gap-2.5 py-1 text-sm text-wk-ink2">
-        <input type="checkbox" {...register('exactSizeRequired')} className="h-5 w-5 shrink-0 accent-wk-cta" />
-        반드시 정확한 치수로 제작 필요 (표준 사이즈 적용 불가)
-      </label>
-      {(highRes || needsLiveInput || exactSizeRequired) && (
-        <p className="text-xs text-amber-600">
-          {exactSizeRequired
-            ? '정확치수 요구 시 엔지니어링 설계비가 별도 발생합니다.'
-            : '선택하신 옵션은 컨트롤러/패키지에 반영됩니다.'}
-        </p>
-      )}
+      <div className="space-y-1">
+        {env === 'indoor' && (
+          <>
+            <CheckRow
+              {...register('highRes')}
+              label="가까이서 보는 자리 — 민원실·로비·회의실"
+            />
+            <CheckRow
+              {...register('needsLiveInput')}
+              label="HDMI 라이브 입력 필요 (방송/실시간 미러링)"
+            />
+          </>
+        )}
+        <CheckRow
+          {...register('exactSizeRequired')}
+          label="반드시 정확한 치수로 제작 필요 (표준 사이즈 적용 불가)"
+        />
+        {(highRes || needsLiveInput || exactSizeRequired) && (
+          <p className="text-caption text-amber-600">
+            {exactSizeRequired
+              ? '정확치수 요구 시 엔지니어링 설계비가 별도 발생합니다.'
+              : '선택하신 옵션은 컨트롤러/패키지에 반영됩니다.'}
+          </p>
+        )}
+      </div>
 
       {/* 시청 거리 */}
-      <FormField label="주 시청 거리" error={undefined}>
-        <input
-          {...register('viewingDistance')}
-          placeholder="예: 3m, 10m, 50m"
-          className="input-base"
-        />
-      </FormField>
+      <Field label="주 시청 거리">
+        <TextInput {...register('viewingDistance')} placeholder="예: 3m, 10m, 50m" />
+      </Field>
 
       {/* 목적 */}
-      <FormField label="사용 목적" error={errors.purpose?.message} required>
-        <textarea
+      <Field label="사용 목적" error={errors.purpose?.message} required>
+        <TextArea
           {...register('purpose')}
-          rows={3}
           placeholder="예: 민원실 대기번호 표시, 학교 행사·급식 안내, 재난 문구 게시, 층별 종합안내 등"
-          className="input-base resize-none"
         />
-      </FormField>
+      </Field>
 
-      {/* 설치 급urgency */}
-      <div>
-        <label className="mb-2.5 block text-sm font-semibold text-wk-ink2">설치 일정</label>
+      {/* 설치 일정 */}
+      <fieldset>
+        <GroupLabel>설치 일정</GroupLabel>
         <div className="grid grid-cols-2 gap-2">
           {URGENCY_OPTIONS.map((o) => (
-            <button
+            <OptionButton
               key={o.value}
-              type="button"
+              selected={urgency === o.value}
               onClick={() => setValue('urgency', o.value as QuoteFormData['urgency'])}
-              className={`min-h-[44px] rounded-xl border px-3 py-3 text-xs font-medium transition-all ${
-                urgency === o.value
-                  ? 'border-wk-cta bg-wk-cta/20 text-wk-ctaActive'
-                  : 'border-wk-line bg-white text-wk-ink3 hover:border-wk-line2'
-              }`}
             >
               {o.label}
-            </button>
+            </OptionButton>
           ))}
         </div>
-      </div>
+      </fieldset>
     </div>
   )
 }
