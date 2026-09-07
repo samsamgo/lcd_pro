@@ -24,7 +24,6 @@ export async function GET() {
 ## 제품
 - [설치 환경별 제품](${absoluteUrl('/products')}): 실내 고해상도 / 준실외 / 옥외 고휘도. 모델명이 아니라 설치 환경과 시청 거리로 구분
 - [규격 비교](${absoluteUrl('/products')}#spec): 화소 간격, 밝기(nit), 시야각, 방진·방수 등급
-- [포함 범위와 기준 가격](${absoluteUrl('/products')}#price)
 
 ## 공급 범위
 - [6공정](${absoluteUrl('/services')}#process): 현장 실측 → 규격 확정·제작 → 구조 취부 → 전기·제어 → 인수·교육 → 사후관리. 공정별 소요 기간·담당 명시

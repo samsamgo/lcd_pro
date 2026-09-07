@@ -166,8 +166,10 @@ export function SpecSheets() {
             {/* 🔴 2026-09-07 접점 정리 — 옆에 있던 '규격서 요청·문의' → /support 버튼을 없앴다.
                 두 가지가 겹쳐 있었다. ① 목적지가 틀렸다(규격 문의를 A/S 창구로 보냈다)
                 ② 문서 제공 약속이었다(CEO 지시로 사이트 전체에서 걷어냈다).
-                이 페이지의 견적 경로는 히어로 · 이 버튼 · PackagesSection · 하단 CtaSection
-                네 곳이 남고, /support 는 상단 메뉴와 푸터에 그대로 있다. */}
+                이 페이지의 견적 경로는 히어로 · 이 버튼 · 하단 CtaSection **세 곳**이 남고,
+                /support 는 상단 메뉴와 푸터에 그대로 있다.
+                (2026-09-07 갱신 — PackagesSection 이 CEO 지시로 철수해 네 곳에서 세 곳이 됐다.
+                 이 버튼은 제품별 규격서 옆에 붙는 유일한 견적 진입점이라 지우면 안 된다.) */}
             <div className="mt-5">
               <Link
                 href={`/quote?type=${p.env === 'indoor' ? 'institution' : 'outdoor'}`}

@@ -43,7 +43,6 @@ const NAV: NavGroup[] = [
     children: [
       { label: '설치 환경별', desc: '실내·준실외·옥외로 나눠서', href: '/products#lineup', icon: MonitorSmartphone },
       { label: '규격 비교', desc: '화소 간격·밝기·시야각', href: '/products#spec', icon: Ruler },
-      { label: '포함 범위와 가격', desc: '어디까지 들어가는지', href: '/products#price', icon: Layers },
     ],
   },
   {

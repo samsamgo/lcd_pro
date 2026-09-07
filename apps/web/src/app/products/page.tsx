@@ -10,7 +10,6 @@ import { StructureShowcase } from '@/components/products/StructureShowcase'
 import { ProductScenes } from '@/components/products/ProductScenes'
 import { SpecSheets } from '@/components/products/SpecSheets'
 import { SpecCompareTable } from '@/components/products/SpecCompareTable'
-import { PackagesSection } from '@/components/landing/PackagesSection'
 import { CtaSection } from '@/components/landing/CtaSection'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { breadcrumbLd } from '@/lib/seo/jsonld'
@@ -74,10 +73,11 @@ export default function ProductsPage() {
           <SpecSheets />
         </div>
 
-        {/* ── 포함 범위와 기준 가격 ── */}
-        <div id="price">
-          <PackagesSection hideHeader />
-        </div>
+        {/* 2026-09-07 CEO 지시 — 베이직·스탠다드·프리미엄 패키지 전면 철수.
+            앞서 렌탈(구독) 카드를 내린 데 이어 등급제 자체를 내린다.
+            우리는 현장 조건으로 규격을 잡아 견적하는 회사다. 등급을 먼저 고르게 하면
+            담당자가 자기 현장과 맞지 않는 상자에 먼저 들어가게 된다.
+            PackagesSection.tsx 파일은 되돌릴 수 있게 남겼다(참조 0건 = 번들 미포함). */}
 
         <CtaSection
           title={['어느 제품이 맞는지', '같이 정하겠습니다']}
