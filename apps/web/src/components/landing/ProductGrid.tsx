@@ -20,15 +20,34 @@ import { Reveal } from '@/components/motion'
  */
 const GRID_SIZES = '(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw'
 
-export function ProductGrid({ skus, columns = 3 }: { skus?: Sku[]; columns?: 2 | 3 }) {
+/**
+ * `noMidBreak` — 카드가 3장일 때 sm 구간의 2열 단계를 건너뛴다.
+ * 3장을 2열에 흘리면 마지막 줄에 반드시 빈 칸이 하나 남기 때문이다.
+ * (2026-09-07 /products 에서 이 빈 칸을 실제로 확인해 추가했다)
+ */
+export function ProductGrid({
+  skus,
+  columns = 3,
+  noMidBreak = false,
+}: {
+  skus?: Sku[]
+  columns?: 2 | 3
+  noMidBreak?: boolean
+}) {
   const [active, setActive] = useState<ProductInfo | null>(null)
   const items = skus
     ? skus.map((s) => PRODUCTS.find((p) => p.sku === s)).filter((p): p is ProductInfo => !!p)
     : PRODUCTS
 
+  const cols = noMidBreak
+    ? columns === 3
+      ? 'lg:grid-cols-3'
+      : 'lg:grid-cols-2'
+    : `sm:grid-cols-2 ${columns === 3 ? 'lg:grid-cols-3' : ''}`
+
   return (
     <>
-      <div className={`grid gap-5 sm:grid-cols-2 ${columns === 3 ? 'lg:grid-cols-3' : ''}`}>
+      <div className={`grid gap-5 ${cols}`}>
         {items.map((p, n) => (
           <Reveal key={p.sku} className="h-full" y={16} delay={Math.min(n, 4) * 0.07}>
           <button

@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Check } from 'lucide-react'
-import { PRODUCTS } from '@/lib/products'
+import { PRODUCTS, MAX_W_PER_M2_BY_PITCH } from '@/lib/products'
 import { SKU_PRICE_FROM, PRICE_DISCLAIMER } from '@/lib/pricing'
 
 /**
@@ -43,6 +43,20 @@ export function SpecSheets() {
       ),
     },
     { k: '권장 시청 거리', v: <span className="wk-metric">{p.viewingDistance}</span> },
+    { k: '방수 · 방진', v: p.ingress },
+    {
+      k: '최대 소비전력',
+      v: MAX_W_PER_M2_BY_PITCH[p.pitch] ? (
+        <span className="wk-metric">
+          {MAX_W_PER_M2_BY_PITCH[p.pitch]}
+          <small> W/m²</small>{' '}
+          <span className="text-wk-ink3">설계 상한 · 추정</span>
+        </span>
+      ) : (
+        <span className="text-wk-ink3">공급사 사양서 회수 후 기재</span>
+      ),
+    },
+    { k: '화면 치수 · 무게', v: <span className="text-wk-ink3">캐비닛 구성 확정 후 실측 기재</span> },
     { k: '설치비 기준', v: <span className="wk-metric">{SKU_PRICE_FROM[p.sku]} <span className="text-wk-ink3">VAT 별도</span></span> },
     { k: '주로 쓰이는 자리', v: p.bestFor.join(' · ') },
     { k: '내부 관리 코드', v: <span className="wk-metric text-wk-ink3">{p.sku}</span> },
@@ -52,10 +66,13 @@ export function SpecSheets() {
     <section className="wk-sec bg-white">
       <div className="wk-wrap">
         <p className="wk-eyebrow">규격서</p>
-        <h2 className="wk-h2 max-w-xl text-wk-ink">규격표</h2>
+        <h2 className="wk-h2 max-w-2xl text-wk-ink">
+          제품 하나씩, 결재 문서에 옮겨 적는 순서대로
+        </h2>
         <p className="wk-lead mt-5">
-          결재 문서에 옮겨 적을 수 있도록 항목과 단위를 그대로 적었습니다. 확정되지 않은
-          항목은 비워 두고 실측 후 채웁니다.
+          위 비교표에서 후보를 좁혔다면 여기서 한 제품씩 확인하십시오. 항목과 단위를
+          결재 문서에 쓰는 그대로 적었고, 확정되지 않은 항목은 지어내지 않고 비워 둔 채
+          실측 후 채웁니다.
         </p>
 
         {/* 탭 — 색 + 밑줄 + 굵기 */}

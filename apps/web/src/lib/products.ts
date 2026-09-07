@@ -1,4 +1,5 @@
 import type { Sku } from './pricing'
+import { FAMILIES } from './standardBlock'
 import { IMAGES } from '@/lib/imageAssets'
 
 export interface ProductInfo {
@@ -8,6 +9,8 @@ export interface ProductInfo {
   env: 'indoor' | 'outdoor'
   pitch: string
   brightness: string
+  /** 방수·방진 등급. 실내 제품은 등급 대상이 아니다 */
+  ingress: string
   img: string
   imgAlt: string
   generated?: boolean
@@ -29,6 +32,7 @@ export const PRODUCTS: ProductInfo[] = [
     env: 'indoor',
     pitch: 'P3',
     brightness: '800 nit',
+    ingress: '실내 전용 · 방수 등급 대상 아님',
     img: IMAGES.productCards['IN-S'],
     imgAlt: '한국 공공 민원실 대기 공간 벽면의 대기 순번 안내 화면',
     generated: true,
@@ -44,6 +48,7 @@ export const PRODUCTS: ProductInfo[] = [
     env: 'indoor',
     pitch: 'P3',
     brightness: '1000 nit',
+    ingress: '실내 전용 · 방수 등급 대상 아님',
     img: IMAGES.productCards['IN-M'],
     imgAlt: '한국 공공 도서관 로비 벽면의 세로형 이용·운영시간·시설 안내 화면',
     generated: true,
@@ -59,6 +64,7 @@ export const PRODUCTS: ProductInfo[] = [
     env: 'outdoor',
     pitch: 'P4',
     brightness: '5000 nit',
+    ingress: 'IP65 (전면·후면)',
     img: IMAGES.productCards['IN-L'],
     imgAlt: '비 오는 저녁 한국 공공시설 진입로의 기둥형 호우 주의 LED 안내 화면',
     generated: true,
@@ -74,6 +80,7 @@ export const PRODUCTS: ProductInfo[] = [
     env: 'outdoor',
     pitch: 'P5',
     brightness: '6000 nit',
+    ingress: 'IP65 (전면·후면)',
     img: IMAGES.productCards['OUT-S'],
     imgAlt: '비 오는 저녁 한국 도로 위 전자현수막에 표시된 호우 안전 안내',
     generated: true,
@@ -89,6 +96,7 @@ export const PRODUCTS: ProductInfo[] = [
     env: 'outdoor',
     pitch: 'P6',
     brightness: '7000 nit',
+    ingress: 'IP65 (전면·후면)',
     img: IMAGES.productCards['OUT-M'],
     imgAlt: '한국 공공 체육시설 외벽에 설치된 대형 옥외 LED 안내 화면',
     generated: true,
@@ -104,6 +112,7 @@ export const PRODUCTS: ProductInfo[] = [
     env: 'indoor',
     pitch: 'P2.5',
     brightness: '1200 nit',
+    ingress: '실내 전용 · 방수 등급 대상 아님',
     img: IMAGES.productCards['OUT-L'],
     imgAlt: '한국 공공 민원실 창구 상단에서 대기번호와 작은 창구명을 표시하는 정밀 안내 화면',
     generated: true,
@@ -113,3 +122,20 @@ export const PRODUCTS: ProductInfo[] = [
     bestFor: ['민원실', '회의실', '종합상황실'],
   },
 ]
+
+/**
+ * 화소 간격별 최대 소비전력(W/m²).
+ *
+ * 출처는 견적엔진의 제품군 정의(`standardBlock.ts` FAMILIES) 하나뿐이다.
+ * 여기서 새로 만든 숫자는 없다. 엔진에 등록되지 않은 피치(P4·P6)는
+ * 값을 지어내지 않고 비워 둔다 — 공급사 사양서 회수 후 채운다.
+ *
+ * ⚠ 엔진의 모든 제품군이 `candidate: true` 다. 즉 이 값은 확정 사양이 아니라
+ *   전기 용량 산정을 위한 설계 상한(보수 추정)이다. 화면에 반드시 그렇게 표기한다.
+ */
+export const MAX_W_PER_M2_BY_PITCH: Record<string, number> = Object.fromEntries(
+  Object.values(FAMILIES).map((f) => [f.pitch, f.max_w_per_m2]),
+)
+
+/** 그 피치의 소비전력 값이 확정 사양인가 (전부 추정이면 false) */
+export const POWER_IS_CANDIDATE = Object.values(FAMILIES).some((f) => f.candidate)

@@ -9,6 +9,7 @@ import { SpecScale } from '@/components/products/SpecScale'
 import { StructureShowcase } from '@/components/products/StructureShowcase'
 import { ProductScenes } from '@/components/products/ProductScenes'
 import { SpecSheets } from '@/components/products/SpecSheets'
+import { SpecCompareTable } from '@/components/products/SpecCompareTable'
 import { PackagesSection } from '@/components/landing/PackagesSection'
 import { CtaSection } from '@/components/landing/CtaSection'
 import { JsonLd } from '@/components/seo/JsonLd'
@@ -33,7 +34,8 @@ export const metadata: Metadata = buildMetadata({
  *   ② 얼마나 멀리서 보는가 · 얼마나 밝아야 하는가(SpecScale)
  *   ③ 안이 어떻게 생겼는가(StructureShowcase)
  *   ④ 실제로 어떻게 보이는가(ProductScenes)
- *   ⑤ 결재 문서에 옮길 수 있는 규격서(SpecSheets)
+ *   ⑤ 여섯 제품을 한 표에 세운 비교표(SpecCompareTable)
+ *   ⑥ 제품 하나씩의 규격서(SpecSheets)
  * 순서로 좁혀 들어간다. 모델명은 마지막 규격서에서 처음 등장한다.
  */
 export default function ProductsPage() {
@@ -64,8 +66,11 @@ export default function ProductsPage() {
         {/* ── 실제로 어떻게 보이는가 ── */}
         <ProductScenes />
 
-        {/* ── 결재 문서로 옮길 수 있는 규격 ── */}
+        {/* ── 결재 문서로 옮길 수 있는 규격 ──
+            비교표(전 제품 한 화면)를 먼저 두고, 규격서(제품 하나씩)를 뒤에 둔다.
+            담당자는 후보를 좁힌 다음에야 한 제품을 깊이 본다. */}
         <div id="spec">
+          <SpecCompareTable />
           <SpecSheets />
         </div>
 

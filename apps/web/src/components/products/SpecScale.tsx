@@ -43,10 +43,13 @@ export function SpecScale() {
       <div className="wk-wrap">
         <Reveal>
           <p className="wk-eyebrow">규격 비교</p>
-          <h2 className="wk-h2 max-w-xl text-wk-ink">화소 간격</h2>
+          <h2 className="wk-h2 max-w-2xl text-wk-ink">
+            거리가 화소 간격을, 햇빛이 밝기를 정합니다
+          </h2>
           <p className="wk-lead mt-5">
             화소 간격은 화면의 등급이 아니라 시청 거리의 함수입니다. 아래 두 축에서
-            현장 조건과 만나는 지점을 찾으십시오.
+            현장 조건과 만나는 지점을 찾으십시오. 값은 전부 아래 규격 비교표와 같은
+            출처에서 나옵니다.
           </p>
         </Reveal>
 
@@ -108,8 +111,13 @@ export function SpecScale() {
                             style={{ left: `${left}%` }}
                             aria-hidden="true"
                           />
+                          {/* 오른쪽 끝(축의 70% 이후)에 찍히는 점은 라벨을 점 왼쪽으로
+                              뒤집는다. 그러지 않으면 라벨이 카드 밖으로 밀려 세 줄로 접힌다
+                              (2026-09-07 '약 50m 이상'에서 실제로 발생) */}
                           <span
-                            className="wk-metric absolute top-1/2 -translate-y-1/2 pl-5 text-caption font-semibold text-wk-ink2"
+                            className={`wk-metric absolute top-1/2 -translate-y-1/2 whitespace-nowrap text-caption font-semibold text-wk-ink2 ${
+                              left > 70 ? '-translate-x-full pr-4' : 'pl-5'
+                            }`}
                             style={{ left: `${left}%` }}
                           >
                             {p.viewingDistance}

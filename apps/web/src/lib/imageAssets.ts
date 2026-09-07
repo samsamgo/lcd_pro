@@ -177,14 +177,20 @@ export const IMAGES = {
   showcase: [
     W('G6_exploded-layers'),
     W('K27_cabinet-back-workshop'),
-    W('A8_cabinet-edge-louvre'),
+    // 2026-09-07 A8_cabinet-edge-louvre 교체 — 육안 판독 결과 배경이 미국(목주 배전주·
+    // 배럴 변압기·미국식 주차장)이었다. 국적 단서가 없는 스튜디오 컷으로 바꿨다.
+    W('G2_cabinet-studio'),
     W('J6_flatlay-editorial'),
   ],
-  /** 제품 페이지 환경별 컷 */
+  /** 제품 페이지 환경별 컷 — 2026-09-07 육안 판독으로 3장 교체.
+   *  B6_park-info-kiosk = 열대 수목·현지 복장으로 국내 현장이 아니었다(탈락).
+   *  B2_city-hall-wall / C1_corporate-lobby-wall = 화면이 와이어프레임·추상 그라데이션이라
+   *  판정 기준 ①(화면 문구가 한국어인가)을 통과하지 못했다.
+   *  대체 4장은 전부 화면에 한국어가 뜨거나 배경이 명백히 국내다. */
   productScenes: [
-    S('B2_city-hall-wall'),
-    S('C1_corporate-lobby-wall'),
-    S('B6_park-info-kiosk'),
+    S('K02_county-hall-granite-morning'),
+    S('K23_school-multipurpose-hall-day'),
+    S('B4_elementary-school-gate'),
     S('K16_rural-road-vms-overcast'),
   ],
 
@@ -205,10 +211,12 @@ export const IMAGES = {
 
   /** 남는 장면 — 사례 더보기·블로그 썸네일 등 자유 배치 */
   spare: [
-    S('K02_county-hall-granite-morning'),
+    S('A8_cabinet-edge-louvre'),
+    S('B2_city-hall-wall'),
+    S('B6_park-info-kiosk'),
+    S('C1_corporate-lobby-wall'),
     S('A3_roadside-pylon-dusk'),
     S('B1_village-community-center'),
-    S('B4_elementary-school-gate'),
     S('B5_senior-center'),
     S('B7_fire-station-emergency'),
     S('C2_hotel-curved-wall'),
@@ -222,7 +230,6 @@ export const IMAGES = {
     S('E3_gym-scoreboard'),
     S('F1_highway-vms'),
     S('F5_ferry-terminal'),
-    S('G2_cabinet-studio'),
     S('G3_cabinet-back-wiring'),
     S('G4_gloved-hands-pcb'),
     S('H2_crane-lift-frame'),
@@ -238,7 +245,6 @@ export const IMAGES = {
     S('K11_school-auditorium-fluorescent'),
     S('K14_rural-school-gate-misty'),
     S('K20_snow-road-night-warning'),
-    S('K23_school-multipurpose-hall-day'),
     S('K25_local-theater-rehearsal-light'),
   ],
 } as const

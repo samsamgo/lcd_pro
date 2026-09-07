@@ -64,10 +64,10 @@ export function ProductsHero() {
                 </Link>
               </Magnetic>
               <a
-                href="#compare"
+                href="#spec-table"
                 className="wk-btn-sm w-full justify-center border border-white/25 text-white hover:bg-white/10 sm:w-auto"
               >
-                규격 비교표 보기
+                전 제품 규격 비교표
               </a>
             </div>
           </Reveal>

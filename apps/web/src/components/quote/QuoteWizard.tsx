@@ -101,7 +101,6 @@ export function QuoteWizard({ defaultType }: { defaultType?: string }) {
   const [submitError, setSubmitError] = useState('')
   const [estimate, setEstimate] = useState<EstimateSummary | null>(null)
   const [restored, setRestored] = useState(false)
-  const stepRef = useRef(0)
 
   const prefill = defaultType ? PREFILL[defaultType] : undefined
 
@@ -131,14 +130,16 @@ export function QuoteWizard({ defaultType }: { defaultType?: string }) {
     panelRef.current?.focus()
   }, [step])
 
-  // 초안 복원 — 첫 렌더에서 읽으면 서버 HTML 과 어긋나므로 마운트 후에 되돌린다
+  // 초안 복원 — 첫 렌더에서 읽으면 서버 HTML 과 어긋나므로 마운트 후에 되돌린다.
+  //
+  // ⚠️ 값만 되돌리고 **단계는 옮기지 않는다.** 마운트 도중에 step 을 바꾸면
+  // AnimatePresence(mode="wait") 가 나가는 패널의 exit 을 끝내지 못한 채 멈춰,
+  // 진행 표시줄만 다음 단계로 가고 화면은 1단계에 그대로 남는다(브라우저에서 재현함).
+  // 리드 경로가 걸린 화면이라 애니메이션 경합을 감수할 이유가 없다.
   useEffect(() => {
     const draft = readDraft()
     if (!draft?.values) return
     methods.reset({ ...methods.getValues(), ...draft.values, photos: [] })
-    if (typeof draft.step === 'number') {
-      setStep(Math.min(Math.max(draft.step, 0), STEPS.length - 1))
-    }
     setRestored(true)
     // 마운트 시 1회만
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -148,17 +149,10 @@ export function QuoteWizard({ defaultType }: { defaultType?: string }) {
   useEffect(() => {
     const sub = methods.watch((value) => {
       const { photos: _photos, ...rest } = value as QuoteFormData
-      writeDraft({ step: stepRef.current, values: rest as Partial<QuoteFormData> })
+      writeDraft({ values: rest as Partial<QuoteFormData> })
     })
     return () => sub.unsubscribe()
   }, [methods])
-
-  // 단계 이동도 함께 기록한다
-  useEffect(() => {
-    stepRef.current = step
-    const draft = readDraft()
-    if (draft) writeDraft({ ...draft, step })
-  }, [step])
 
   const handleSubmit = methods.handleSubmit(
     async (data) => {
@@ -324,7 +318,7 @@ const STEP_OF_FIELD: Record<string, number> = {
 // 사진(File)은 직렬화할 수 없어 제외한다. 같은 탭 안에서만 남는다(sessionStorage).
 const DRAFT_KEY = 'wk-quote-draft-v1'
 
-function readDraft(): { step?: number; values?: Partial<QuoteFormData> } | null {
+function readDraft(): { values?: Partial<QuoteFormData> } | null {
   try {
     const raw = window.sessionStorage.getItem(DRAFT_KEY)
     return raw ? JSON.parse(raw) : null
@@ -333,7 +327,7 @@ function readDraft(): { step?: number; values?: Partial<QuoteFormData> } | null 
   }
 }
 
-function writeDraft(payload: { step?: number; values?: Partial<QuoteFormData> }) {
+function writeDraft(payload: { values?: Partial<QuoteFormData> }) {
   try {
     window.sessionStorage.setItem(DRAFT_KEY, JSON.stringify(payload))
   } catch {
