@@ -24,9 +24,12 @@ export const SITE = {
   locale: 'ko_KR',
   defaultLanguage: 'ko',
   email: 'contact@wooktech.co.kr',
-  // 실제 대표번호 미확정 — 가짜 번호 노출 금지. CEO가 실제 번호 제공 시 env로 주입.
+  // 대표번호 = 회사 유선번호. 정본은 대표 명함이다.
+  // 2026-09-07 CEO 지시: "우강테크 전화번호로 하라." 개인 휴대폰(010-7272-6903)을 걷어냈다.
+  // 관공서 담당자는 홈페이지·명함·제안서를 나란히 놓고 본다. 세 곳의 번호가 다르면 그 자체가 감점이다.
   // 빈 값이면 UI는 전화 링크/번호를 omit하고 견적/상담 채널만 노출한다.
-  phone: (process.env.NEXT_PUBLIC_PHONE || '010-7272-6903') as string, // 2026-09-01 CEO 확인. ⚠️ 휴대전화 — 유선 대표번호·A/S 번호 분리 권장
+  phone: (process.env.NEXT_PUBLIC_PHONE || '042-621-7982') as string,
+  fax: (process.env.NEXT_PUBLIC_FAX || '042-627-7983') as string,
 
   // 실제 확정 시 env로 주입 (가짜 값 노출 금지). 빈 값이면 UI에서 해당 항목 omit.
   addressFull: (process.env.NEXT_PUBLIC_ADDRESS || '대전광역시 대덕구 대화로106번길 66, 2층 202호(대화동, 펜타플렉스)') as string,
