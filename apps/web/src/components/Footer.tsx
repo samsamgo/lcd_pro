@@ -72,11 +72,14 @@ export function Footer() {
         </div>
 
         {/* 사업자 실체 정보 — 실제 값(env)이 설정된 항목만 노출. 가짜 값 노출 금지 원칙 유지 */}
-        {(SITE.ceoName || SITE.bizRegNo || SITE.addressFull || SITE.openingHours) && (
+        {/* 🔴 2026-09-08 CEO 지시로 사업자등록번호를 뺐다(법인등록번호는 앞서 전체 제거).
+            판단 근거를 남긴다 — 이 사이트는 온라인 판매를 하지 않아 전자상거래법상 표기 의무 대상이
+            아니다. 다만 관공서 담당자가 업체 조회에 쓰는 번호라, 계약 단계에서는 견적서·사업자등록증
+            사본으로 제공한다. 다시 넣으려면 SITE.bizRegNo 를 이 줄에 되살리면 된다. */}
+        {(SITE.ceoName || SITE.addressFull || SITE.openingHours) && (
           <div className="mt-10 border-t border-wk-line pt-6 wk-cap">
             <p className="flex flex-wrap gap-x-4 gap-y-1">
               {SITE.ceoName && <span>대표 {SITE.ceoName}</span>}
-              {SITE.bizRegNo && <span>사업자등록번호 {SITE.bizRegNo}</span>}
               {SITE.addressFull && <span>{SITE.addressFull}</span>}
               {SITE.openingHours && <span>운영시간 {SITE.openingHours}</span>}
             </p>
