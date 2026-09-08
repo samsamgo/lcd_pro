@@ -10,7 +10,6 @@ import { SubNav } from '@/components/SubNav'
 import { productSubNavItems } from '@/lib/subnav'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { PRODUCTS } from '@/lib/products'
-import { IMAGES } from '@/lib/imageAssets'
 import { PRODUCT_CATEGORIES, categoryOf, skuToSegment } from '@/lib/productCategories'
 import { breadcrumbLd } from '@/lib/seo/jsonld'
 import { absoluteUrl, buildMetadata } from '@/lib/seo/site'
@@ -72,7 +71,7 @@ export default function ProductPage({ params }: PageProps) {
           group={category?.name ?? '제품'}
           title={product.name}
           lead={product.tag}
-          image={IMAGES.productDetail[product.sku] ?? product.img}
+          image={product.img}
           imageAlt={product.imgAlt}
         />
         <SubNav

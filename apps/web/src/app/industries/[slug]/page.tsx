@@ -10,7 +10,6 @@ import { NavBar } from '@/components/NavBar'
 import { PageHeader } from '@/components/PageHeader'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { INDUSTRIES, getIndustry } from '@/lib/industries'
-import { IMAGES } from '@/lib/imageAssets'
 import { PRODUCTS } from '@/lib/products'
 import { breadcrumbLd } from '@/lib/seo/jsonld'
 import { absoluteUrl, buildMetadata } from '@/lib/seo/site'
@@ -58,7 +57,7 @@ export default function IndustryPage({ params }: PageProps) {
           group="시공사례"
           title={industry.nameKo}
           lead={industry.description}
-          image={IMAGES.industryDetail[industry.slug] ?? industry.heroImage}
+          image={industry.heroImage}
           imageAlt={industry.heroImageAlt}
         />
 

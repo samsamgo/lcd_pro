@@ -313,55 +313,13 @@ export const IMAGES = {
   } as Record<string, string>,
 
 
-  /* ── 2026-09-08 CEO 지시 "같은 이미지는 다른 페이지라도 사용 금지" ──────────────────
-     렌더 기준 전수 조사(27장이 2~15페이지에 겹침) 뒤 자리마다 **전용 사진**을 배정했다.
-     아래 4묶음은 전부 미사용 풀에서 가져왔고(gen/K 시리즈 우선), 다른 어디에도 쓰지 않는다.
-     새 자리를 만들 때는 이 파일 맨 아래 미사용 풀에서 꺼내 쓰고, 기존 배정을 재사용하지 마라. */
-  /** 시공사례 상세(/industries/[slug]) 머리 — 목록 카드(industry)와 다른 사진 */
-  industryDetail: {
-    'public-office': '/cases/gen/gen-12.jpg',
-    'school': '/cases/gen/gen-13.jpg',
-    'banner': '/cases/gen/gen-19.jpg',
-    'institution': '/cases/gen/gen-21.jpg',
-    'retail': '/cases/gen/gen-23.jpg',
-    'outdoor-ad': '/cases/gen/gen-25.jpg',
-    'health-center': '/cases/gen/gen-26.jpg',
-    'fire-safety': '/cases/gen/gen-28.jpg',
-    'meeting-room': '/cases/gen/gen-3.jpg',
-    'auditorium': '/cases/gen/gen-30.jpg',
-    'daycare': '/cases/gen/gen-34.jpg',
-    'traffic': '/cases/gen/gen-35.jpg',
-    'parking': '/cases/gen/gen-36.jpg',
-    'transit': '/cases/gen/gen-37.jpg',
-    'apartment': '/cases/gen/gen-38.jpg',
-  } as Record<string, string>,
-  /** 모델 상세(/products/[sku]) 머리 — 제품 전체(productCards)와 다른 사진 */
-  productDetail: {
-    'IN-S': '/cases/gen/gen-39.jpg',
-    'IN-M': '/cases/gen/gen-40.jpg',
-    'OUT-S': '/cases/gen/gen-41.jpg',
-    'OUT-M': '/cases/gen/gen-43.jpg',
-    'OUT-L': '/cases/gen/gen-44.jpg',
-    'P2.5': '/cases/gen/gen-45.jpg',
-  } as Record<string, string>,
-  /** 홈 시공사례 6장 — 순서 = home/CaseHighlights FEATURED */
-  homeCases: [
-    '/cases/gen/gen-46.jpg',
-    '/cases/gen/gen-47.jpg',
-    '/cases/gen/gen-48.jpg',
-    '/cases/gen/gen-49.jpg',
-    '/cases/gen/gen-51.jpg',
-    '/cases/gen/gen-52.jpg',
-  ],
-  /** 홈 제품 카테고리 카드 6장 — 카테고리 페이지 머리(productCategories.heroImage)와 다른 사진 */
-  homeCategoryCards: {
-    indoor: '/cases/gen/gen-53.jpg',
-    outdoor: '/cases/gen/gen-54.jpg',
-    banner: '/cases/gen/gen-55.jpg',
-    facade: '/cases/gen/gen-56.jpg',
-    sports: '/cases/gen/gen-58.jpg',
-    traffic: '/cases/gen/gen-7.jpg',
-  } as Record<string, string>,
+  /* 🔴 2026-09-08 — 자동 배정 4묶음(industryDetail·productDetail·homeCases·homeCategoryCards)을 철회했다.
+     파일명만 보고 자리에 꽂았더니 **사진과 제목이 어긋났다** — '관공서·민원실' 카드에 강당 무대 사진이,
+     '공공기관·시설관리' 카드에 사무실에서 영상 편집하는 사람 사진이 붙었다.
+     사진은 그 자리를 알아보게 하는 것이 첫 일이다. 주제가 맞지 않으면 유일성은 의미가 없다.
+     → 큐레이션된 매칭 사진(`industry[slug]` · `products.img` · 카테고리 heroImage)으로 되돌렸다.
+     같은 자리를 가리키는 카드와 상세가 같은 사진을 쓰는 것은 중복이 아니라 **동일 대상 표시**다.
+     유일성 규칙은 **서로 다른 자리끼리** 겹치지 않게 하는 것으로 유지한다. */
 
   /** 남는 장면 — 사례 더보기·블로그 썸네일 등 자유 배치 */
   spare: [

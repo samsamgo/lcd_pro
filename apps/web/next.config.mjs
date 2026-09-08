@@ -12,7 +12,6 @@ const config = {
   async redirects() {
     return [
       { source: '/services', destination: '/about#process', permanent: true },
-      { source: '/about/certification', destination: '/about#certification', permanent: true },
       { source: '/about/location', destination: '/about#location', permanent: true },
       { source: '/faq', destination: '/support#faq', permanent: true },
       { source: '/support/downloads', destination: '/support#downloads', permanent: true },

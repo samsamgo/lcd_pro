@@ -58,25 +58,6 @@ export function CompanyStatement() {
             끝까지 책임집니다
           </RiseMask>
         </h2>
-        <Reveal immediate y={16} delay={0.2}>
-          <p className="wk-lead mt-8 max-w-[34em] !text-wk-nightMuted">
-            실측한 사람이 도면을 그리고, 도면을 그린 사람이 설치하고, 설치한 사람이 A/S를 맡습니다.
-            중간에 업체가 바뀌지 않습니다.
-          </p>
-        </Reveal>
-
-        {/* 취급 범위 — 실적이 아니라 범위다 */}
-        <dl className="mt-14 grid grid-cols-2 gap-x-6 gap-y-8 border-t border-white/15 pt-10 md:grid-cols-3 lg:mt-16">
-          {FACTS.map((f) => (
-            <div key={f.k}>
-              <dt className="text-caption font-medium text-white/55">{f.k}</dt>
-              <dd className="wk-metric mt-2 text-h3 font-bold tracking-[-0.02em] text-wk-nightInk">
-                {f.v}
-                {f.unit && <small className="ml-1 font-medium text-white/60">{f.unit}</small>}
-              </dd>
-            </div>
-          ))}
-        </dl>
       </div>
     </section>
   )

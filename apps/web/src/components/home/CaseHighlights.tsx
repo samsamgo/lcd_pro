@@ -2,7 +2,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { INDUSTRIES } from '@/lib/industries'
-import { IMAGES } from '@/lib/imageAssets'
 import { Reveal, RiseMask, Stagger } from '@/components/motion'
 
 /**
@@ -49,14 +48,14 @@ export function CaseHighlights() {
         </RiseMask>
 
         <Stagger className="mt-12 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5" y={12} gap={0.05}>
-          {items.map((i, n) => (
+          {items.map((i) => (
             <Link
               key={i.slug}
               href={`/industries/${i.slug}`}
               className="group relative block aspect-[4/3] overflow-hidden rounded-card-m bg-wk-ink ring-1 ring-black/5 transition-shadow duration-state ease-state hover:shadow-wk-3 sm:rounded-card"
             >
               <Image
-                src={IMAGES.homeCases[n] ?? i.heroImage}
+                src={i.heroImage}
                 alt={i.heroImageAlt ?? `${i.nameKo} 현장의 LED 안내 화면`}
                 fill
                 sizes="(max-width: 640px) 100vw, 380px"

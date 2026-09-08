@@ -27,7 +27,7 @@ export function Footer() {
             <p className="font-semibold text-wk-ink2">회사소개</p>
             <Link href="/about#intro" className={LINK_CLASS}>회사 소개</Link>
             <Link href="/about#process" className={LINK_CLASS}>설치 과정</Link>
-            <Link href="/about#certification" className={LINK_CLASS}>인증 현황</Link>
+            <Link href="/about/certification" className={LINK_CLASS}>인증 현황</Link>
             <Link href="/about#location" className={LINK_CLASS}>오시는 길</Link>
             <p className="pt-3 font-semibold text-wk-ink2">시공사례</p>
             <Link href="/industries" className={LINK_CLASS}>시공사례</Link>

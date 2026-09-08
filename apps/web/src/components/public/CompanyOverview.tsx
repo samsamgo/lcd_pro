@@ -35,8 +35,6 @@ export function CompanyOverview() {
     ['취급 제품', `실내·실외 LED 전광판, 전자현수막 (화소 간격 ${PITCH_RANGE})`],
     ['인증', 'KC 인증 제품만 공급'],
     ['제어 시스템', SITE.controllerStandard],
-    ['사업자등록번호', SITE.bizRegNo],
-    ['법인등록번호', SITE.corpRegNo],
     ['대표번호', `${SITE.phone} · ${SITE.openingHours}`],
   ]
   // ⚠️ 회사 개요 표는 **완결된 표**여야 한다. 소재지·사업 분야·인증·대표번호가 페이지의 다른 섹션에도

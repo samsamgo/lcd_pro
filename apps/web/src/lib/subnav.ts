@@ -22,7 +22,7 @@ export function productSubNavItems(categories: { name: string; slug: string }[])
 export const ABOUT_SECTIONS: SubNavItem[] = [
   { label: '회사 소개', href: '/about#intro' },
   { label: '설치 과정', href: '/about#process' },
-  { label: '인증 현황', href: '/about#certification' },
+  { label: '인증 현황', href: '/about/certification' },
   { label: '오시는 길', href: '/about#location' },
 ]
 
