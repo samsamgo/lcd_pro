@@ -89,9 +89,7 @@ export function Reveal({
 
   /**
    * immediate — 페이지 최상단 히어로 전용. framer 를 거치지 않고 CSS 키프레임으로 뜬다.
-   * 2026-09-08 실측: 히어로의 리드·버튼(Reveal y≠0)이 첫 화면에서 안 보였다(/, /support).
-   * 스크롤 뒤에는 정상이라 마운트 시점 애니메이션만 문제다. 첫 화면 요소는 JS 애니메이션의
-   * 성공 여부에 걸지 않는다 — CSS 는 실패해도 마지막 프레임(보임)에서 끝난다.
+   * 첫 화면 요소는 JS 애니메이션의 성공 여부에 걸지 않는다(SplitText.immediate 주석 참조).
    */
   if (immediate) {
     const Plain = as as keyof JSX.IntrinsicElements
@@ -225,11 +223,11 @@ export function SplitText({
   as?: 'h1' | 'h2' | 'h3' | 'p' | 'div'
   once?: boolean
   /**
-   * 🔴 페이지 최상단 히어로 h1 은 반드시 true.
-   * 2026-09-08 실측 — 히어로 제목이 첫 화면에서 **안 보였다.** `whileInView` 는 뷰포트
-   * "진입" 을 기다리는데 첫 화면은 처음부터 뷰포트 안이라 진입 이벤트가 오지 않았고,
-   * 사용자가 스크롤을 한 번 해야 비로소 제목이 떴다. 사이트의 첫 문장이 비어 있던 셈이다.
-   * 이 플래그는 IntersectionObserver 를 거치지 않고 마운트 즉시 애니메이션한다.
+   * 페이지 최상단 히어로 h1 은 true — framer 를 거치지 않고 CSS 키프레임으로 뜬다.
+   * 첫 화면은 JS 가 늦거나 멈춰도(저사양 기기·백그라운드 탭·검수 자동화 탭의 rAF 스로틀링)
+   * 반드시 보여야 하는 요소라, 애니메이션을 JS 성공 여부에 걸지 않는다. LCP 에도 유리하다.
+   * ⚠️ 2026-09-08 검수 때 "히어로가 안 보인다" 로 보였던 것은 자동화 탭의 렌더링 스로틀링이었다
+   *    (rAF 500ms 에 1회). 사이트 버그가 아니었다 — 메모리 browser-automation-raf-throttled.
    */
   immediate?: boolean
 }) {
@@ -240,10 +238,7 @@ export function SplitText({
 
   /**
    * immediate — framer 를 거치지 않는다. CSS 키프레임(.wk-rise-word)으로 올린다.
-   * 2026-09-08 실측: 히어로 h1 만 framer 의 mount 애니메이션(animate="show")이 실행되지 않고
-   * SSR 초기값(opacity 0 · translateY 110%)에 멈춰 있었다. 같은 페이지의 Reveal 은 정상이라
-   * 원인은 SplitText 의 variants 전파 쪽으로 좁혀지지만, 첫 화면 제목을 JS 애니메이션의
-   * 성공 여부에 걸어 둘 이유가 없다. CSS 는 실패하지 않고, 실패해도 마지막 프레임(보임)이다.
+   * CSS 는 JS 가 멈춰도 실행되고, 실패해도 마지막 프레임(보임)에서 끝난다.
    * 모션 최소화 설정은 globals.css 의 전역 규칙이 duration 을 0 으로 눌러 즉시 최종 상태가 된다.
    */
   if (immediate) {
