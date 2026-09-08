@@ -5,8 +5,6 @@ import { NavBar } from '@/components/NavBar'
 import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
 import { PageHeader } from '@/components/PageHeader'
-import { SubNav } from '@/components/SubNav'
-import { SUPPORT_SECTIONS } from '@/lib/subnav'
 import { ServiceRequest } from '@/components/public/ServiceRequest'
 import { AfterService } from '@/components/public/AfterService'
 import { SymptomGuide } from '@/components/public/SymptomGuide'
@@ -58,7 +56,6 @@ export default function SupportPage() {
           lead="화면이 안 나오면 바로 연락 주십시오. 원격으로 먼저 확인하고, 모듈을 갈아야 하는 건이면 부품을 챙겨 나갑니다."
           image={IMAGES.support}
         />
-        <SubNav back={{ label: '홈', href: '/' }} items={SUPPORT_SECTIONS} />
 
         {/* ① A/S 신청 — `id="as"` 는 ServiceRequest 의 section 에 있다.
             여기 래퍼에 같은 id 를 또 달면 한 문서에 id 가 둘이 된다(2026-09-08 QA 실측). */}

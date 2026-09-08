@@ -18,7 +18,7 @@ export function productSubNavItems(categories: { name: string; slug: string }[])
   ]
 }
 
-/** 회사소개 — 한 페이지 안 섹션. 네비바 하위 메뉴와 같은 이름·같은 순서 */
+/** 회사소개 — 한 페이지 안 섹션. **네비바 하위 메뉴 전용**(본문 탭은 2026-09-08 제거) */
 export const ABOUT_SECTIONS: SubNavItem[] = [
   { label: '회사 소개', href: '/about#intro' },
   { label: '설치 과정', href: '/about#process' },

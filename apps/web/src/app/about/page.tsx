@@ -6,8 +6,7 @@ import { NavBar } from '@/components/NavBar'
 import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
 import { PageHeader } from '@/components/PageHeader'
-import { SubNav } from '@/components/SubNav'
-import { ABOUT_SECTIONS } from '@/lib/subnav'
+import { CompanyStatement } from '@/components/public/CompanyStatement'
 import { CompanyAtAGlance } from '@/components/public/CompanyAtAGlance'
 import { CompanyOverview } from '@/components/public/CompanyOverview'
 import { HELD_CREDENTIALS } from '@/components/public/CompanySummary'
@@ -49,7 +48,7 @@ export const metadata: Metadata = buildMetadata({
  *    · 섹션 id 는 이 파일의 래퍼에만 둔다 — 하위 컴포넌트가 같은 id 를 또 달면 앵커가 갈라진다.
  * `scroll-mt-32` 는 고정 헤더(64) + 고정 탭(56) 아래에 섹션 머리가 오게 하는 여유다.
  */
-const SEC = 'scroll-mt-32'
+const SEC = 'scroll-mt-24'
 
 export default function AboutPage() {
   return (
@@ -69,10 +68,10 @@ export default function AboutPage() {
           lead="LED 전광판을 만들고, 달고, 고칩니다."
           image={IMAGES.company.hero}
         />
-        <SubNav back={{ label: '홈', href: '/' }} items={ABOUT_SECTIONS} />
 
-        {/* ① 회사 소개 */}
+        {/* ① 회사 소개 — 여는 장(다크 선언 + 취급 범위) → 요약 → 하는 일·개요표 */}
         <div id="intro" className={SEC}>
+          <CompanyStatement />
           <CompanyAtAGlance />
           <CompanyOverview />
         </div>
