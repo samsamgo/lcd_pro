@@ -7,12 +7,11 @@ import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
 import { PageHeader } from '@/components/PageHeader'
 import { CompanyStatement } from '@/components/public/CompanyStatement'
-import { CompanyAtAGlance } from '@/components/public/CompanyAtAGlance'
+import { CompanyCredo } from '@/components/public/CompanyCredo'
 import { CompanyOverview } from '@/components/public/CompanyOverview'
 import { HELD_CREDENTIALS } from '@/components/public/CompanySummary'
 import { CompanyLocation } from '@/components/public/CompanyLocation'
 import { ProcessOverview } from '@/components/solution/ProcessOverview'
-import { MountTypes } from '@/components/solution/MountTypes'
 import { CtaSection } from '@/components/landing/CtaSection'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { breadcrumbLd } from '@/lib/seo/jsonld'
@@ -69,17 +68,21 @@ export default function AboutPage() {
           image={IMAGES.company.hero}
         />
 
-        {/* ① 회사 소개 — 여는 장(다크 선언 + 취급 범위) → 요약 → 하는 일·개요표 */}
+        {/* ① 회사 소개 — 여는 장(선언 + 취급 범위) → 신조 한 문장 → 하는 일·개요표
+            🔴 2026-09-08 CEO "잡다한 거 빼라" — CompanyAtAGlance(요약 3행)를 뺐다.
+               '무슨 회사'는 바로 위 선언이, '설치 분야'는 시공사례가, '연락'은 아래 개요표와
+               플로팅 버튼이 이미 답한다. 요약이 원본 바로 옆에 붙어 있으면 요약이 아니라 반복이다. */}
         <div id="intro" className={SEC}>
           <CompanyStatement />
-          <CompanyAtAGlance />
+          <CompanyCredo />
           <CompanyOverview />
         </div>
 
         {/* ② 설치 과정 */}
+        {/* 🔴 MountTypes(취부 방식 도해 3종)도 뺐다 — 여섯 공정의 03 취부 시공과 같은 얘기다.
+            설치 방식은 실측 후 정해지므로 미리 고르게 할 것이 아니다. 파일은 참조 0건으로 보존. */}
         <div id="process" className={SEC}>
           <ProcessOverview />
-          <MountTypes />
         </div>
 
         {/* ③ 인증 현황 — 등록번호는 사이트에서 여기에만 둔다. 개수를 세지 않는다 */}
