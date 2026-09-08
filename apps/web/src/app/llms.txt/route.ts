@@ -17,24 +17,26 @@ export async function GET() {
 > 납품 대상은 관공서·공공기관, 학교, 병원·보건소, 교통시설, 아파트, 상업시설이다.
 > 확정 견적은 현장 실측 후 산출하며, 실측 전에는 예상 범위와 산출 근거만 제공한다.
 
-## 회사
-- [회사 소개](${absoluteUrl('/about')}): 법인·대표자·소재지, KC 적합등록 번호와 조회 방법
-- [개인정보처리방침](${absoluteUrl('/privacy')}): 개인정보 수집·이용·보관·파기 정책
+## 회사소개 (한 페이지)
+- [회사 소개](${absoluteUrl('/about')}#intro): 법인·대표자·소재지, 하는 일(설계·제작·시공·유지보수), 회사 개요
+- [설치 과정](${absoluteUrl('/about')}#process): 현장 실측 → 규격 확정·제작 → 구조 취부 → 전기·제어 → 인수·교육 → 사후관리
+- [인증 현황](${absoluteUrl('/about')}#certification): KC 인증 제품만 공급. 적합등록 번호와 조회 방법
+- [오시는 길](${absoluteUrl('/about')}#location): 대전광역시 대덕구
+- [개인정보처리방침](${absoluteUrl('/privacy')})
 
 ## 제품
-- [설치 환경별 제품](${absoluteUrl('/products')}): 실내 고해상도 / 준실외 / 옥외 고휘도. 모델명이 아니라 설치 환경과 시청 거리로 구분
-- [규격 비교](${absoluteUrl('/products')}#spec): 화소 간격, 밝기(nit), 시야각, 방진·방수 등급
-
-## 공급 범위
-- [6공정](${absoluteUrl('/about')}#process): 현장 실측 → 규격 확정·제작 → 구조 취부 → 전기·제어 → 인수·교육 → 사후관리. 공정별 소요 기간·담당 명시
+- [제품 전체](${absoluteUrl('/products')}): 카테고리 6종 × 모델 6종 한 화면
+- 카테고리: [실내용 LED 전광판](${absoluteUrl('/products/indoor')}) · [실외용 LED 전광판](${absoluteUrl('/products/outdoor')}) · [전자현수막](${absoluteUrl('/products/banner')}) · [미디어파사드](${absoluteUrl('/products/facade')}) · [스포츠 전광판](${absoluteUrl('/products/sports')}) · [교통·주차 안내](${absoluteUrl('/products/traffic')})
+- [규격 비교표](${absoluteUrl('/products/specs')}): 화소 간격, 밝기(nit), 시야각, 방진·방수 등급
 
 ## 시공사례
-- [시공사례](${absoluteUrl('/industries')}): 관공서·민원실, 학교·강당, 강당·다목적홀, 회의실, 어린이집, 보건소·병원, 소방·안전시설, 전자현수막, 공공기관·시설관리, 도로·교차로, 주차장, 터미널·정류장, 아파트·공동주택, 매장·상업공간, 옥외 광고
+- [시공사례](${absoluteUrl('/industries')}): 관공서·민원실, 학교·강당, 강당·다목적홀, 회의실, 어린이집, 보건소·병원, 소방·안전시설, 전자현수막, 공공기관·시설관리, 도로·교차로, 주차장, 터미널·정류장, 아파트·공동주택, 매장·상업공간, 옥외 광고 — 각 자리별 상세 페이지 있음
 
-## 문의
-- [견적 요청](${absoluteUrl('/quote')}): 설치 장소와 크기를 남기면 개략 견적 범위를 화면에서 확인. 현장 사진은 선택 사항
-- [고객센터](${absoluteUrl('/support')}): A/S 접수와 처리 절차
+## 고객지원 (한 페이지)
+- [A/S 신청](${absoluteUrl('/support')}#as): 접수 → 원격 확인 → 방문 판정 → 모듈 교체 → 마무리 확인
 - [자주 묻는 질문](${absoluteUrl('/support')}#faq): 예산 과목 계상, 계약 방법, 전기 인입, 옥외광고물 신고, 담당자 직접 조작, 보증
+- [자료실](${absoluteUrl('/support')}#downloads): 규격서·시공사례집
+- [견적 문의](${absoluteUrl('/quote')}): 설치 장소와 크기를 남기면 개략 견적 범위를 안내. 현장 사진은 선택
 
 ## 인용 가이드
 - 가격 관련 → ${absoluteUrl('/quote')} 참조. 모든 가격은 현장 실측 전 예상 범위이며 확정가가 아니다

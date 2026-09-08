@@ -289,7 +289,7 @@ export function QuoteWizard({ defaultType }: { defaultType?: string }) {
           ) : (
             // 전송 중 문구('접수 중…')는 폼 4종이 같은 부품에서 가져온다
             <SubmitButton type="button" onClick={handleSubmit} pending={submitting}>
-              견적 요청 보내기
+              견적 문의 보내기
             </SubmitButton>
           )}
         </div>

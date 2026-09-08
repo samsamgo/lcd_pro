@@ -26,17 +26,21 @@ import { SERVICE_STEPS, TOTAL_DURATION } from '@/lib/serviceProcess'
  *    표는 공정 / 소요 기간 / 담당 3열이다. 문서 목록 열을 다시 만들지 말 것.
  *    데이터 쪽(lib/serviceProcess.ts)의 outputs 필드도 함께 삭제됐다.
  *
+ * 🔴 2026-09-08 — /services 폐지, /about `#process` 섹션의 첫 부품이 됐다. 섹션 id 는
+ *    page.tsx 래퍼가 갖는다(여기서 다시 달면 앵커가 둘). eyebrow 는 네비 하위 메뉴 이름
+ *    '설치 과정' 과 같게 쓴다. 상세 앵커의 scroll-mt 는 고정 헤더+탭(120px) 만큼 32.
+ *
  * ⚠️ 소요 기간은 표준 공정안이다. 확정 일정이 아니라고 화면에도 적는다.
  * 데이터는 lib/serviceProcess.ts 하나만 읽는다(히어로 칩·JSON-LD 와 같은 배열).
  */
 export function ProcessOverview() {
   return (
-    <section id="process" className="wk-sec bg-white">
+    <section className="wk-sec bg-white">
       <div className="wk-wrap">
         {/* 섹션 머리 3박자(§16-C). 이 페이지에는 RiseMask 가 하나도 없어서
             히어로를 지나면 제목들이 그냥 켜져 있었다. RiseMask 는 Reveal 밖 형제(§16-D). */}
         <Reveal y={10}>
-          <p className="wk-eyebrow">공급 범위</p>
+          <p className="wk-eyebrow">설치 과정</p>
         </Reveal>
         <RiseMask delay={0.06}>
           <h2 className="wk-h2 text-wk-ink">여섯 공정</h2>
@@ -129,7 +133,7 @@ export function ProcessOverview() {
               key={s.id}
               id={s.id}
               open={i === 0}
-              className="group scroll-mt-24 border-b border-wk-line"
+              className="group scroll-mt-32 border-b border-wk-line"
             >
               <summary className="wk-hov-cell -mx-4 flex cursor-pointer list-none items-center gap-3 rounded-btn bg-white px-4 py-5 text-wk-ink transition-colors duration-state ease-state hover:text-wk-cta [&::-webkit-details-marker]:hidden">
                 <span className="wk-metric text-label font-semibold text-wk-cta">{s.no}</span>

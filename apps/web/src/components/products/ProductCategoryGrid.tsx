@@ -5,7 +5,7 @@ import { PRODUCT_CATEGORIES, categorySpecs } from '@/lib/productCategories'
 import { Reveal, RiseMask, Stagger } from '@/components/motion'
 
 /**
- * 제품 카테고리 3장 — 사진 카드. /products 와 홈(ProductShowcase 자리)이 같은 것을 쓴다.
+ * 제품 카테고리 카드(PRODUCT_CATEGORIES 전부) — 사진 카드. /products 와 홈(ProductShowcase 자리)이 같은 것을 쓴다.
  * 이름·사진·한 줄은 lib/productCategories.ts 에서 온다. 여기서 문장을 만들지 않는다.
  */
 export function ProductCategoryGrid({

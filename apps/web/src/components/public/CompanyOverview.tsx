@@ -13,6 +13,11 @@ import { PITCH_RANGE } from '@/lib/companyScope'
  *    ② **회사 개요 표** — 담당자가 결재 서류에 옮겨 적는 항목 그대로. 회사명·대표·소재지·
  *       사업 분야·취급 제품·인증·제어 시스템. 값은 전부 SITE(단일 정본)에서 온다.
  *    실적·고객사·설립연도는 넣지 않는다(첫 수주 전, [[company-vs-reference]]).
+ *
+ * 🔴 2026-09-08 QA — 표에서 다른 섹션이 정본인 행을 뺐다: 소재지·대표번호(→ #location),
+ *    인증(→ #certification), 사업 분야(→ 바로 위 요약표 '무슨 회사'). 대신 법인등록번호를
+ *    요약표에서 이리로 옮겨 **법인 정보는 이 표 한 곳**이다. 섹션 id `company` 는 요약표가 아니라
+ *    NavBar 하위 설명("법인·대표자·사업자등록")이 가리키는 자리다.
  */
 const WORKS = [
   { k: '설계', t: '현장 실측 후 규격 확정', img: IMAGES.process[0], alt: '설치 예정 지점의 지주와 주변 조건을 확인하는 현장 실측 장면' },
@@ -31,8 +36,12 @@ export function CompanyOverview() {
     ['인증', 'KC 인증 제품만 공급'],
     ['제어 시스템', SITE.controllerStandard],
     ['사업자등록번호', SITE.bizRegNo],
+    ['법인등록번호', SITE.corpRegNo],
     ['대표번호', `${SITE.phone} · ${SITE.openingHours}`],
   ]
+  // ⚠️ 회사 개요 표는 **완결된 표**여야 한다. 소재지·사업 분야·인증·대표번호가 페이지의 다른 섹션에도
+  //    나오지만, 담당자가 결재 서류에 옮길 때 보는 건 이 표 한 장이다. 표에서 빼면 표가 반쪽이 된다.
+  //    (2026-09-08 QA 가 중복 제거 원칙으로 뺐던 4행을 COO 가 되돌림 — 표는 중복 제거의 예외)
 
   return (
     <>
@@ -66,7 +75,7 @@ export function CompanyOverview() {
       </section>
 
       {/* 회사 개요 표 */}
-      <section aria-labelledby="overview-h" className="wk-sec-sm bg-wk-bg">
+      <section id="company" aria-labelledby="overview-h" className="wk-sec-sm scroll-mt-32 bg-wk-bg">
         <div className="wk-wrap">
           <p className="wk-eyebrow">회사 개요</p>
           <h2 id="overview-h" className="wk-h2 text-wk-ink">

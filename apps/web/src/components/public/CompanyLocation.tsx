@@ -8,9 +8,10 @@ import { SITE } from '@/lib/seo/site'
  * 지도는 API 키가 필요 없는 임베드를 lazy 로 붙이고,
  * 컨테이너에 고정 aspect-ratio 를 줘서 로드 전후 레이아웃이 밀리지 않게 한다(CLS 0).
  *
- * 🔴 2026-09-07 접점 정리 — 이 카드에서 '연락처' 행을 뺐다. 바로 다음 섹션인
- *    AboutContact 가 전화·이메일·문의 폼을 전부 갖는다. 같은 페이지에서 전화번호를
- *    두 번 보여 줄 이유가 없다. 이 카드는 '장소 정보'(주소·업무시간·길찾기)만 맡는다.
+ * 🔴 2026-09-07 접점 정리 — 이 카드에서 '연락처' 행을 뺐다. 전화는 /about `#location`
+ *    머리(page.tsx)가 보여 준다. 이 카드는 '장소 정보'(주소·업무시간·길찾기)만 맡는다.
+ * 🔴 2026-09-08 QA — `hideHeading` 일 때는 `id="location"` 을 달지 않는다. page.tsx 래퍼가
+ *    같은 id 를 갖고 있어 앵커가 둘로 갈라졌다.
  */
 export function CompanyLocation({ hideHeading = false }: { hideHeading?: boolean } = {}) {
   const q = encodeURIComponent(SITE.addressFull)
@@ -19,7 +20,7 @@ export function CompanyLocation({ hideHeading = false }: { hideHeading?: boolean
   const embed = `https://maps.google.com/maps?q=${q}&hl=ko&z=16&output=embed`
 
   return (
-    <section id="location" className={`bg-white ${hideHeading ? "wk-sec-sm pt-0 md:pt-0 lg:pt-0" : "wk-sec"}`}>
+    <section id={hideHeading ? undefined : 'location'} className={`bg-white ${hideHeading ? "wk-sec-sm pt-0 md:pt-0 lg:pt-0" : "wk-sec"}`}>
       <div className="wk-wrap">
         {/* 2026-09-07(4차) 섹션 머리를 계약서 §4 3박자로 맞췄다.
             🔴 RiseMask 를 Reveal 안에 넣지 않는다 — 부모가 움직이는 중에 마스크를 올리면

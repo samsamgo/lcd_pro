@@ -9,7 +9,6 @@ import { PageHeader } from '@/components/PageHeader'
 import { SubNav } from '@/components/SubNav'
 import { ABOUT_SECTIONS } from '@/lib/subnav'
 import { CompanyAtAGlance } from '@/components/public/CompanyAtAGlance'
-import { CompanyChapters } from '@/components/public/CompanyChapters'
 import { CompanyOverview } from '@/components/public/CompanyOverview'
 import { HELD_CREDENTIALS } from '@/components/public/CompanySummary'
 import { CompanyLocation } from '@/components/public/CompanyLocation'
@@ -39,6 +38,15 @@ export const metadata: Metadata = buildMetadata({
  *    옛 주소는 next.config.mjs 의 redirects 가 이 페이지의 섹션으로 보낸다.
  *
  * 섹션 id 는 네비바 하위 메뉴(SubNav.ABOUT_SECTIONS)와 1:1 — 순서도 같다.
+ *
+ * 🔴 2026-09-08 QA(한 페이지 통독) — 중복 제거 원칙 = **사실 하나는 한 곳에만.**
+ *    · 법인 정보(사업자·법인등록번호) = CompanyOverview 표(#company) 한 곳
+ *    · 주소·업무시간 = #location 한 곳 / 'KC 인증 제품만 공급' = #certification 한 곳
+ *    · 전화는 요약표(#intro)와 #location 두 곳 — 요약표의 "어떻게 연락하나" 답이라 의도적 예외
+ *    · CompanyChapters(공정 3장) 는 배선 해제 — 02·03 본문이 ProcessOverview 의 01·06 공정
+ *      문장과 거의 같았고, 같은 페이지에 "하는 일"이 4(사진)·3(장)·6(공정) 세 가지 분할로
+ *      놓여 있었다. 4(무엇을) + 6(어떻게) 만 남긴다. 파일은 남겨 둔다(CompanyScope 선례).
+ *    · 섹션 id 는 이 파일의 래퍼에만 둔다 — 하위 컴포넌트가 같은 id 를 또 달면 앵커가 갈라진다.
  * `scroll-mt-32` 는 고정 헤더(64) + 고정 탭(56) 아래에 섹션 머리가 오게 하는 여유다.
  */
 const SEC = 'scroll-mt-32'
@@ -67,7 +75,6 @@ export default function AboutPage() {
         <div id="intro" className={SEC}>
           <CompanyAtAGlance />
           <CompanyOverview />
-          <CompanyChapters />
         </div>
 
         {/* ② 설치 과정 */}
@@ -121,13 +128,11 @@ export default function AboutPage() {
             <h2 id="loc-h" className="wk-h2 text-wk-ink">
               {SITE.legalName}
             </h2>
-            <p className="wk-lead mt-4">{SITE.addressFull}</p>
-            <p className="mt-2 text-label text-wk-ink3">
+            {/* 주소·업무시간은 아래 카드(CompanyLocation)에만 둔다. 여기는 상호 + 전화만 */}
+            <p className="wk-lead mt-4">
               <Link href={`tel:${SITE.phone.replace(/[^+\d]/g, '')}`} className="font-semibold text-wk-cta">
                 {SITE.phone}
               </Link>
-              {' · '}
-              {SITE.openingHours}
             </p>
           </div>
           <div className="pt-8">

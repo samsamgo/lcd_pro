@@ -10,7 +10,7 @@ export function Footer() {
   return (
     <footer className="border-t border-wk-line bg-wk-bgFaint pb-28 pt-16 md:pb-16">
       <div className="wk-wrap">
-        <div className="grid grid-cols-2 gap-y-10 sm:grid-cols-4 sm:gap-8">
+        <div className="grid grid-cols-2 gap-y-10 sm:grid-cols-5 sm:gap-8">
           {/* 회사 */}
           <div className="col-span-2 sm:col-span-1">
             <BrandLogo markSize={34} />
@@ -22,14 +22,24 @@ export function Footer() {
             </p>
           </div>
 
-          {/* 제품·솔루션 */}
+          {/* 회사소개 — 네비 순서와 같게 */}
+          <div className="space-y-3 text-sm">
+            <p className="font-semibold text-wk-ink2">회사소개</p>
+            <Link href="/about#intro" className={LINK_CLASS}>회사 소개</Link>
+            <Link href="/about#process" className={LINK_CLASS}>설치 과정</Link>
+            <Link href="/about#certification" className={LINK_CLASS}>인증 현황</Link>
+            <Link href="/about#location" className={LINK_CLASS}>오시는 길</Link>
+            <p className="pt-3 font-semibold text-wk-ink2">시공사례</p>
+            <Link href="/industries" className={LINK_CLASS}>시공사례</Link>
+          </div>
+
+          {/* 제품 */}
           <div className="space-y-3 text-sm">
             <p className="font-semibold text-wk-ink2">제품</p>
             {PRODUCT_CATEGORIES.map((c) => (
               <Link key={c.slug} href={`/products/${c.slug}`} className={LINK_CLASS}>{c.name}</Link>
             ))}
             <Link href="/products/specs" className={LINK_CLASS}>규격 비교표</Link>
-            <Link href="/industries" className={LINK_CLASS}>시공사례</Link>
           </div>
 
           {/* 고객지원 */}
@@ -39,11 +49,6 @@ export function Footer() {
             <Link href="/support#faq" className={LINK_CLASS}>자주 묻는 질문</Link>
             <Link href="/support#downloads" className={LINK_CLASS}>자료실</Link>
             <Link href="/quote" className={LINK_CLASS}>견적 문의</Link>
-            <p className="pt-3 font-semibold text-wk-ink2">회사소개</p>
-            <Link href="/about#intro" className={LINK_CLASS}>회사 소개</Link>
-            <Link href="/about#process" className={LINK_CLASS}>설치 과정</Link>
-            <Link href="/about#certification" className={LINK_CLASS}>인증 현황</Link>
-            <Link href="/about#location" className={LINK_CLASS}>오시는 길</Link>
           </div>
 
           {/* 사업자정보 · 연락처 */}
@@ -73,7 +78,7 @@ export function Footer() {
               {SITE.ceoName && <span>대표 {SITE.ceoName}</span>}
               {SITE.bizRegNo && <span>사업자등록번호 {SITE.bizRegNo}</span>}
               {SITE.addressFull && <span>{SITE.addressFull}</span>}
-              {SITE.openingHours && <span>고객센터 {SITE.openingHours}</span>}
+              {SITE.openingHours && <span>운영시간 {SITE.openingHours}</span>}
             </p>
           </div>
         )}

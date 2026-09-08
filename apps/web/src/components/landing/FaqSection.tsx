@@ -18,6 +18,8 @@ import { Reveal, RiseMask } from '@/components/motion'
  *
  * 🔴 2026-09-07 — "규격서·안내서·성적서를 드립니다" 형태의 별도 문서 제공 약속을 전부 걷었다.
  *   견적서는 준다. 그 밖의 서류를 따로 만들어 준다는 말은 하지 않는다(CEO 지시).
+ * 🔴 2026-09-08 — '나라장터 종합쇼핑몰에서 바로 구매할 수 있나요?' 문답을 뺐다. 답이 "등록돼 있지
+ *   않다"를 돌려 말한 신생 자기고백이었다. 계약 방식은 바로 위 '계약은 어떤 방식으로 하나요?' 가 다룬다.
  *
  * 아코디언 높이는 `height: auto` 애니메이션 대신 grid-template-rows 0fr→1fr 로 편다.
  * height 애니메이션은 매 프레임 레이아웃을 다시 계산시킨다(설계계약서 §0.6).
@@ -46,11 +48,6 @@ const FAQS: Faq[] = [
     cat: '예산·계약',
     q: '계약은 어떤 방식으로 하나요?',
     a: '금액에서 갈립니다. 추정가격 2천만원 미만이면 수의계약이 되고, 이 구간에서는 유사 납품실적 같은 조건도 걸리지 않습니다. 그 위로 올라가면 견적 제출이나 나라장터 입찰이 되고 실적 요건이 붙는 경우가 많습니다. 다만 기관마다 내부 규정과 전결 기준이 달라서, 어느 구간인지는 계약부서에 먼저 확인하시는 게 빠릅니다.',
-  },
-  {
-    cat: '예산·계약',
-    q: '나라장터 종합쇼핑몰에서 바로 구매할 수 있나요?',
-    a: '수의계약과 견적 제출로 진행합니다. 추정가격 2천만원 미만이면 수의계약으로 바로 계약하실 수 있고, 학교는 학교장터도 됩니다. 계약부서에서 요구하는 서류 목록을 주시면 그 형식에 맞춰 준비해 드립니다.',
   },
   {
     cat: '예산·계약',
@@ -147,7 +144,7 @@ export function FaqSection({
   }, [cat, limit])
 
   return (
-    <section id="faq" aria-labelledby="faq-h" className="wk-sec scroll-mt-20 bg-white">
+    <section id="faq" aria-labelledby="faq-h" className="wk-sec scroll-mt-32 bg-white">
       <JsonLd id="ld-home-faq" data={faqPageLd(HOME_FAQS)} />
 
       <div className="wk-wrap grid gap-12 lg:grid-cols-[4fr_8fr] lg:gap-16">
@@ -155,7 +152,7 @@ export function FaqSection({
           {!hideHeader && (
             <div>
               <Reveal y={10} duration={0.6}>
-                <p className="wk-eyebrow">FAQ</p>
+                <p className="wk-eyebrow">자주 묻는 질문</p>
               </Reveal>
               <h2 id="faq-h" className="wk-h2 text-wk-ink">
                 <RiseMask delay={0.06}>자주 묻는 것</RiseMask>

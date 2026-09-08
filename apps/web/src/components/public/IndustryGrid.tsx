@@ -2,17 +2,10 @@
 
 import { Suspense, useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { motion, useReducedMotion } from 'framer-motion'
-import {
-  INDUSTRIES,
-  INDUSTRY_GROUPS,
-  getIndustry,
-  type Industry,
-  type IndustryGroup,
-} from '@/lib/industries'
+import { INDUSTRIES, INDUSTRY_GROUPS, getIndustry, type IndustryGroup } from '@/lib/industries'
 import Link from 'next/link'
-import { IndustryModal } from './IndustryModal'
 
 import { EASE } from '@/components/motion'
 
@@ -21,10 +14,11 @@ import { EASE } from '@/components/motion'
  *
  * 담당자는 설명을 읽고 찾는 게 아니라 자기 현장을 눈으로 찾는다.
  * 카드에는 사진과 이름, 판단에 바로 쓰이는 정보(실내/옥외, 대표 용도)만 둔다.
- * 자세한 내용은 눌러서 모달로 본다(페이지 이동 없음).
+ * 카드를 누르면 상세 페이지(`/industries/<slug>`)로 간다.
  *
- * 네비게이션 하위 메뉴는 `?type=<slug>` 로 들어온다. 그 값이 있으면 해당
- * 모달을 열어준다 — 메뉴를 눌렀는데 변화가 없으면 고장으로 읽힌다.
+ * 🔴 2026-09-08 모달 제거. 카드는 전부 상세 페이지로 가는데 옛 `?type=<slug>` 로
+ *   들어오면 모달이 따로 떠서 같은 내용이 두 경로로 갈렸다. 옛 주소로 들어오면
+ *   상세 페이지로 바꿔 보낸다(북마크·외부 링크가 죽지 않게).
  *
  * 🔴 2026-09-07 흰 여백 수정.
  *   전에는 "첫 카드는 무조건 2칸"이었다. 카드가 6장이면 lg(3열)에서
@@ -84,19 +78,16 @@ const chipClass = (on: boolean) =>
   }`
 
 function Grid() {
-  const [active, setActive] = useState<Industry | null>(null)
   const [group, setGroup] = useState<GroupFilter>('all')
   const [env, setEnv] = useState<EnvFilter>('all')
   const params = useSearchParams()
+  const router = useRouter()
   const reduce = useReducedMotion()
 
   useEffect(() => {
     const t = params.get('type')
-    if (t) {
-      const found = getIndustry(t)
-      if (found) setActive(found)
-    }
-  }, [params])
+    if (t && getIndustry(t)) router.replace(`/industries/${t}`)
+  }, [params, router])
 
   const list = useMemo(
     () =>
@@ -147,7 +138,7 @@ function Grid() {
           그때 빈 격자만 남기면 또 흰 여백이 된다. */}
       {list.length === 0 && (
         <div className="rounded-card border border-wk-line bg-white p-8 text-center">
-          <p className="text-body font-semibold text-wk-ink">이 조합에 해당하는 자리가 아직 없습니다</p>
+          <p className="text-body font-semibold text-wk-ink">이 조합에 해당하는 자리가 없습니다</p>
           <p className="wk-cap mt-2">
             필터를 <b>전체</b>로 돌리시거나, 찾으시는 현장을 알려 주시면 비슷한 자리의 구성을 정리해
             보내드립니다.
@@ -211,8 +202,6 @@ function Grid() {
           )
         })}
       </div>
-
-      <IndustryModal industry={active} onClose={() => setActive(null)} />
     </>
   )
 }

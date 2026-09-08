@@ -10,10 +10,13 @@ import { breadcrumbLd } from '@/lib/seo/jsonld'
 import { SITE, buildMetadata } from '@/lib/seo/site'
 
 /**
- * 견적 요청.
+ * 견적 문의.
  *
  * 제목에 회사명을 붙이지 않는다 — buildMetadata 의 template 이 `| 우강테크` 를
- * 자동으로 덧붙이기 때문에, 여기서 또 넣으면 "견적 요청 — 우강테크 | 우강테크" 가 된다.
+ * 자동으로 덧붙이기 때문에, 여기서 또 넣으면 "견적 문의 — 우강테크 | 우강테크" 가 된다.
+ *
+ * 머리의 group 은 '견적 문의' — 견적은 2026-09-08 고객지원 메뉴에서 빠져 독립 진입점
+ * (헤더 버튼·플로팅 버튼)이 됐다. '고객지원' 으로 두면 메뉴에 없는 자리를 가리킨다.
  */
 export const metadata: Metadata = buildMetadata({
   title: '견적 문의',
@@ -41,7 +44,7 @@ export default function QuotePage({
       <NavBar />
       <main id="main" className="min-h-screen bg-wk-bgFaint">
         <PageHeader
-          group="고객지원"
+          group="견적 문의"
           title="견적 문의"
           lead="설치 장소와 크기만 알려주시면 됩니다. 개략 견적 범위를 잡아 연락드리고, 확정 견적은 현장 실측 후에 나옵니다."
           image={IMAGES.quoteHero}

@@ -77,7 +77,7 @@ export function QuoteSuccess({ estimate }: Props) {
     ? '별도 설계 상담이 필요합니다'
     : hasEstimate
       ? '범위 견적이 산출되었습니다'
-      : '견적 요청이 접수되었습니다'
+      : '견적 문의가 접수되었습니다'
   const subtext = blocked
     ? '요청하신 사양은 자동 견적으로 계산되는 범위를 넘습니다. 담당자가 직접 보고 정확한 금액을 알려드리겠습니다.'
     : hasEstimate

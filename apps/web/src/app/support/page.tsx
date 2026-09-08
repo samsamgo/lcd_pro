@@ -33,8 +33,10 @@ export const metadata: Metadata = buildMetadata({
  *    A/S 누르면 A/S 부분으로 이동, 스크롤하면 아래 탭 나오고".
  *    /faq · /support/downloads 는 여기 섹션으로 합쳤고 옛 주소는 redirects 로 온다.
  *    견적 문의는 우측 하단 플로팅 버튼과 페이지 끝 문의 칸이 맡는다 — 메뉴에서 뺐다.
+ *
+ * 섹션 id(as·faq·downloads)는 각 섹션 요소 자신에게 한 번만 단다. 스크롤 오프셋(`scroll-mt-32`)도
+ * 그 요소에 있어야 헤더+하위바(약 120px) 아래에 제목이 온다.
  */
-const SEC = 'scroll-mt-32'
 
 export default function SupportPage() {
   const empty = RESOURCES.length === 0
@@ -58,20 +60,17 @@ export default function SupportPage() {
         />
         <SubNav back={{ label: '홈', href: '/' }} items={SUPPORT_SECTIONS} />
 
-        {/* ① A/S 신청 */}
-        <div id="as" className={SEC}>
-          <ServiceRequest />
-          <AfterService />
-          <SymptomGuide />
-        </div>
+        {/* ① A/S 신청 — `id="as"` 는 ServiceRequest 의 section 에 있다.
+            여기 래퍼에 같은 id 를 또 달면 한 문서에 id 가 둘이 된다(2026-09-08 QA 실측). */}
+        <ServiceRequest />
+        <AfterService />
+        <SymptomGuide />
 
-        {/* ② 자주 묻는 질문 — 본문은 사이트에서 여기 한 곳 */}
-        <div id="faq" className={SEC}>
-          <FaqSection />
-        </div>
+        {/* ② 자주 묻는 질문 — 본문은 사이트에서 여기 한 곳. `id="faq"` 는 FaqSection 안에 있다 */}
+        <FaqSection />
 
         {/* ③ 자료실 — 파일은 lib/resources.ts. 없으면 없다고 쓰고 요청 경로를 준다 */}
-        <section id="downloads" className={`${SEC} wk-sec bg-wk-bg`} aria-labelledby="dl-h">
+        <section id="downloads" className="scroll-mt-32 wk-sec bg-wk-bg" aria-labelledby="dl-h">
           <div className="wk-wrap">
             <p className="wk-eyebrow">자료실</p>
             <h2 id="dl-h" className="wk-h2 text-wk-ink">

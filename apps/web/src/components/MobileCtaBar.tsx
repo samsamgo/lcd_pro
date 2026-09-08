@@ -114,7 +114,7 @@ export function MobileCtaBar() {
           className="flex flex-[1.4] items-center justify-center gap-1.5 rounded-btn bg-wk-cta py-3 text-sm font-bold text-white transition-colors duration-150 active:bg-wk-ctaActive"
         >
           <FileText size={16} aria-hidden="true" />
-          개략 견적 바로 확인
+          견적 문의
         </Link>
       </div>
     </div>

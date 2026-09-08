@@ -27,8 +27,8 @@ export const metadata: Metadata = buildMetadata({
  * 시공사례.
  *
  * 어두운 히어로로 시작해 카드 그리드로 이어진다.
- * 카드에서 업종을 고르면 모달로 상세가 열린다(페이지 이동 없음).
- * 네비게이션 하위 메뉴는 `?type=` 로 들어와 해당 모달을 바로 연다.
+ * 카드·비교표에서 자리를 고르면 상세 페이지(`/industries/<slug>`)로 간다.
+ * 옛 `?type=<slug>` 주소는 IndustryGrid 가 상세 페이지로 바꿔 보낸다.
  */
 export default function IndustriesPage() {
   return (

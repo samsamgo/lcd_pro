@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 const SECTIONS = [
   {
     title: '1. 수집하는 개인정보',
-    content: `견적 요청 시 다음의 개인정보를 수집합니다:
+    content: `견적 문의 시 다음의 개인정보를 수집합니다:
 - 상호명, 담당자 성명
 - 연락처(휴대폰 번호), 이메일(선택)
 - 설치 희망 지역

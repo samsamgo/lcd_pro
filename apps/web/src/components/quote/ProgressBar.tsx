@@ -21,7 +21,7 @@ export function ProgressBar({
   return (
     <div
       role="progressbar"
-      aria-label="견적 요청 진행 단계"
+      aria-label="견적 문의 진행 단계"
       aria-valuemin={1}
       aria-valuemax={total}
       aria-valuenow={current + 1}

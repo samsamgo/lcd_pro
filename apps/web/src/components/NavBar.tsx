@@ -4,12 +4,11 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import {
-  Menu, X, MessageCircle, ChevronDown,
+  Menu, X, ChevronDown,
 } from 'lucide-react'
 import { SITE } from '@/lib/seo/site'
 import { PRODUCT_CATEGORIES } from '@/lib/productCategories'
 import { ABOUT_SECTIONS, SUPPORT_SECTIONS } from '@/lib/subnav'
-import { useSiteModals } from '@/components/modals/SiteModals'
 import { BrandLogo } from '@/components/brand/BrandLogo'
 
 interface NavChild {
@@ -100,7 +99,6 @@ export function NavBar() {
   const [hasHeroAttr, setHasHeroAttr] = useState(false)
   const [heroDark, setHeroDark] = useState(false)
   const pathname = usePathname()
-  const { openConsult } = useSiteModals()
   const closeTimer = useRef<number | null>(null)
   const triggerRefs = useRef<Array<HTMLAnchorElement | null>>([])
   const panelRefs = useRef<Record<string, HTMLDivElement | null>>({})
@@ -425,20 +423,7 @@ export function NavBar() {
               )}
             </div>
           ))}
-          <button
-            type="button"
-            onClick={() => { setOpen(false); openConsult('navbar-mobile') }}
-            className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-btn border border-wk-line2 px-4 py-3 text-sm font-semibold text-wk-ink2"
-          >
-            <MessageCircle size={15} className="text-wk-blue" aria-hidden="true" /> 빠른 상담
-          </button>
-          <Link
-            href="/quote"
-            onClick={() => setOpen(false)}
-            className="mt-2 block rounded-btn bg-wk-cta px-4 py-3 text-center text-sm font-semibold text-white"
-          >
-            견적 문의하기
-          </Link>
+          {/* 2026-09-08 — 여기 있던 '빠른 상담'·'견적 문의하기' 버튼을 뺐다. 모바일은 하단 바(MobileCtaBar)가 같은 일을 이미 한다. 두 번 두면 둘 다 광고처럼 보인다 */}
         </div>
       </div>
     </header>

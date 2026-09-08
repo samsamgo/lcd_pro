@@ -3,6 +3,13 @@ import { IMAGES } from '@/lib/imageAssets'
 import { Parallax, Reveal, RevealImage, ScrollBridge, SplitText } from '@/components/motion'
 
 /**
+ * 🔴 2026-09-08 QA — **`/about` 에서 배선 해제. 현재 참조 0건.** (CompanyScope 선례)
+ *    한 페이지 통독 결과 02장 본문 ≈ ProcessOverview 01(현장 실측) 문장, 03장 표 ≈ 06(인계·유지보수)
+ *    문장이었고, 같은 페이지에 "하는 일"이 4(CompanyOverview 사진)·3(여기)·6(공정표)로 세 번
+ *    나뉘어 있었다. 되돌리려면 page.tsx 에 한 줄 넣으면 되지만, 그 전에 여기 문장을
+ *    ProcessOverview 와 겹치지 않게 먼저 정리할 것. 아래 `id="process"` 는 page.tsx 래퍼와 충돌하므로
+ *    되살릴 때 반드시 뺀다.
+ *
  * 회사 소개 본문 — 공정 3장(章). 연혁 나열 대신 "어디까지 직접 하는가".
  *
  * 2026-09-07 재설계 —
@@ -129,7 +136,7 @@ const CHAPTERS: Chapter[] = [
 export function CompanyChapters() {
   return (
     <>
-      <section id="process" className="wk-sec-lg wk-night" aria-label="우강테크가 직접 하는 일">
+      <section className="wk-sec-lg wk-night" aria-label="우강테크가 직접 하는 일">
         {/* 2026-09-07(2차) 섹션 머리를 붙였다. 이전에는 고정 장면 다음에 곧바로 '01' 이 나와서
             세 장이 무엇의 목록인지 알려 주는 문장이 없었다. 큰 회사 소개일수록
             챕터 앞에 그 챕터를 여는 한 문장이 있다. SplitText 는 여기가 페이지의 두 번째이자

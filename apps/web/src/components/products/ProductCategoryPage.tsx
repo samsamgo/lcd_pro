@@ -21,7 +21,7 @@ import { breadcrumbLd } from '@/lib/seo/jsonld'
 import { absoluteUrl } from '@/lib/seo/site'
 
 /**
- * 제품 카테고리 페이지 — 실내용 / 실외용 / 전자현수막 셋이 **같은 틀**을 쓴다.
+ * 제품 카테고리 페이지 — 카테고리 6종(lib/productCategories.ts)이 **같은 틀**을 쓴다.
  *
  * 틀은 다섯 덩어리, 순서 고정: ① 사진 히어로 + 이름 + 한 줄
  * ② 모델(사진 카드) ③ 규격 요약 ④ 쓰이는 자리(사진 카드) ⑤ 문의.

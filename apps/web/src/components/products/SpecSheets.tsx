@@ -197,7 +197,7 @@ export function SpecSheets() {
                 href={`/quote?type=${p.env === 'indoor' ? 'institution' : 'outdoor'}`}
                 className="wk-btn-p"
               >
-                이 조건으로 견적 요청
+                이 조건으로 견적 문의
               </Link>
             </div>
           </div>

@@ -1,7 +1,9 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { PRODUCTS, MAX_W_PER_M2_BY_PITCH } from '@/lib/products'
+import { skuToSegment } from '@/lib/productCategories'
 import { SKU_PRICE_FROM } from '@/lib/pricing'
 import { CABINET_W_MM, CABINET_H_MM } from '@/lib/standardBlock'
 import { Reveal, RiseMask } from '@/components/motion'
@@ -137,7 +139,13 @@ export function SpecCompareTable() {
                           scope="row"
                           className={`${TD} sticky left-0 z-10 bg-inherit font-semibold`}
                         >
-                          <span className="block">{p.name}</span>
+                          {/* 제품 이름 = 모델 페이지 링크(/products/<segment>). 옛 `?type=`·`#` 앵커 없음 */}
+                          <Link
+                            href={`/products/${skuToSegment(p.sku)}`}
+                            className="block text-wk-ink underline-offset-4 hover:text-wk-cta hover:underline"
+                          >
+                            {p.name}
+                          </Link>
                           <span className="wk-metric mt-0.5 block text-caption font-normal text-wk-ink3">
                             {p.sku}
                           </span>

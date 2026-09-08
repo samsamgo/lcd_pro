@@ -119,10 +119,25 @@ export function categorySpecs(c: ProductCategory): { k: string; v: string }[] {
       : Math.min(...arr) === Math.max(...arr)
         ? `${Math.min(...arr).toLocaleString()}${unit}`
         : `${Math.min(...arr).toLocaleString()} ~ ${Math.max(...arr).toLocaleString()}${unit}`
+  // 방진·방수 — 4칸 표에 들어가야 하므로 짧게. 실내 모델은 등급 대상이 아니라 '실내 전용',
+  // 실외 모델은 등급('IP65')만. 실내·실외가 섞인 카테고리(스포츠)는 둘 다 적는다.
+  const ingress = Array.from(
+    new Set(items.map((p) => (p.env === 'indoor' ? '실내 전용' : p.ingress.split(' (')[0]))),
+  )
+  // 권장 시청거리 — 첫 모델 값 하나가 아니라 소속 모델 전체의 범위
+  const dists = items
+    .map((p) => Number((p.viewingDistance.match(/(\d+(?:\.\d+)?)/) ?? [])[1]))
+    .filter((n) => !Number.isNaN(n) && n > 0)
+  const distRange =
+    dists.length === 0
+      ? '-'
+      : Math.min(...dists) === Math.max(...dists)
+        ? `약 ${Math.min(...dists)}m 이상`
+        : `약 ${Math.min(...dists)} ~ ${Math.max(...dists)}m`
   return [
     { k: '화소 간격', v: range(pitches, 'mm') },
     { k: '밝기', v: range(nits, ' nit') },
-    { k: '방진·방수', v: items[0]?.ingress.split(' (')[0] ?? '-' },
-    { k: '권장 시청거리', v: items[0]?.viewingDistance ?? '-' },
+    { k: '방진·방수', v: ingress.length > 0 ? ingress.join(' / ') : '-' },
+    { k: '권장 시청거리', v: distRange },
   ]
 }

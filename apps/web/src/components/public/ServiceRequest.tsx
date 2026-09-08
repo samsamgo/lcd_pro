@@ -74,7 +74,7 @@ export function ServiceRequest() {
   }
 
   return (
-    <section id="as" className="wk-sec bg-wk-bg">
+    <section id="as" className="wk-sec scroll-mt-32 bg-wk-bg">
       <div className="wk-wrap grid items-start gap-5 lg:grid-cols-2 lg:gap-8">
         <div>
           <p className="wk-eyebrow">A/S 신청</p>

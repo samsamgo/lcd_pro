@@ -26,10 +26,14 @@ import { INDUSTRIES, INDUSTRY_GROUPS } from '@/lib/industries'
  *    연락       `SITE.phone` · `SITE.openingHours`
  *    카탈로그가 늘면 이 표도 같이 는다. 실적 성격 수치(건수·연차·매출)는 여기 만들지 않는다.
  *
- * ⚠️ 전화번호가 `AboutContact` 와 이 표 두 곳에 뜬다. 이전 규칙(연락처는 한 곳)의
- *    **의도적 예외**다. "어떻게 연락하나" 는 10초 안에 답해야 하는 네 질문 중 하나인데
- *    그 답이 5화면 아래에만 있으면 답이 없는 것과 같다. 대신 여기서는 `tel:` 링크를
- *    걸지 않는다 — 누르는 접점은 `AboutContact` 와 `MobileCtaBar` 하나로 유지한다.
+ * ⚠️ 전화번호가 `#location` 과 이 표 두 곳에 뜬다. 이전 규칙(연락처는 한 곳)의
+ *    **의도적 예외**다. "어떻게 연락하나" 는 10초 안에 답해야 하는 질문인데
+ *    그 답이 여러 화면 아래에만 있으면 답이 없는 것과 같다. 대신 여기서는 `tel:` 링크를
+ *    걸지 않는다 — 누르는 접점은 `#location` 과 `MobileCtaBar` 로 유지한다.
+ *
+ * 🔴 2026-09-08 QA — '실재 확인'(사업자·법인등록번호) 행을 뺐다. 바로 아래 회사 개요 표
+ *    (`#company`)가 같은 번호를 보여 주므로 한 화면 안 중복이었다. 표가 정본, 여기는 세 행.
+ *    옛 링크 `#company`·`#contact` 중 `#contact` 는 이 페이지에 없어 `#location` 으로 고쳤다.
  *
  * 면 — `bg-wk-night2`(#111218). 앞뒤가 전부 `bg-wk-night`(#0B0B0F) 라
  *      한 단 밝은 보조면으로 띄워야 "끼워 넣은 표" 로 읽힌다. 다리는 쓰지 않는다
@@ -60,7 +64,7 @@ export function CompanyAtAGlance() {
       a: 'LED 전광판·전자현수막을 만드는 사이니지 업체',
       sub: '설계 · 제작 · 시공 · 유지보수',
       href: '#process',
-      cta: '공정 보기',
+      cta: '설치 과정 보기',
     },
     {
       q: '설치 분야',
@@ -70,18 +74,11 @@ export function CompanyAtAGlance() {
       cta: '시공사례 보기',
     },
     {
-      q: '실재 확인',
-      a: `사업자등록번호 ${SITE.bizRegNo}`,
-      sub: `법인등록번호 ${SITE.corpRegNo}`,
-      href: '#company',
-      cta: '법인 정보 보기',
-    },
-    {
       q: '연락',
       a: SITE.phone,
       sub: `${SITE.openingHours} · ${SITE.email}`,
-      href: '#contact',
-      cta: '문의 남기기',
+      href: '#location',
+      cta: '오시는 길 보기',
     },
   ]
 
@@ -95,7 +92,7 @@ export function CompanyAtAGlance() {
         </Reveal>
         {/* RiseMask 는 Reveal 밖 형제로 둔다 — 움직이는 부모 안에 넣으면 둘 다 안 읽힌다(§16-D) */}
         <h2 id="glance-h" className="wk-h2 mt-5 max-w-[16ch] text-wk-nightInk">
-          <RiseMask delay={0.06}>먼저 확인하실 네 가지</RiseMask>
+          <RiseMask delay={0.06}>먼저 확인하실 세 가지</RiseMask>
         </h2>
 
         <Stagger

@@ -24,17 +24,9 @@ export const metadata: Metadata = buildMetadata({
 })
 
 /**
- * 제품 페이지.
- *
- * 구성 원칙 — 모델명으로 메뉴를 만들지 않는다(벤치마크 §6 안티패턴 13).
- * 담당자는 `WK-P2.5-IN` 이 실내용인지 학교용인지 모른다. 그래서
- *   ① 어디에 거는가(EnvironmentTracks)
- *   ② 얼마나 멀리서 보는가 · 얼마나 밝아야 하는가(SpecScale)
- *   ③ 안이 어떻게 생겼는가(StructureShowcase)
- *   ④ 실제로 어떻게 보이는가(ProductScenes)
- *   ⑤ 여섯 제품을 한 표에 세운 비교표(SpecCompareTable)
- *   ⑥ 제품 하나씩의 규격서(SpecSheets)
- * 순서로 좁혀 들어간다. 모델명은 마지막 규격서에서 처음 등장한다.
+ * 제품 페이지 — 카테고리 6종 × 소속 모델을 한 화면에 전부 펼친다(ProductsAtAGlance).
+ * 카테고리 이름·모델 이름은 lib/productCategories.ts · lib/products.ts 에서만 온다.
+ * 규격 비교표·규격서는 /products/specs 로 분리했다.
  */
 export default function ProductsPage() {
   return (
@@ -61,7 +53,7 @@ export default function ProductsPage() {
           current="/products"
         />
 
-        {/* 2026-09-08 CEO 지시 "제품 페이지는 한눈에". 카테고리 3종 × 모델 6종을 전부 펼친다.
+        {/* 2026-09-08 CEO 지시 "제품 페이지는 한눈에". 카테고리 6종 × 소속 모델을 전부 펼친다.
             SpecScale·StructureShowcase·ProductScenes·EnvironmentTracks 는 파일만 남겼다(참조 0건). */}
         <ProductsAtAGlance />
 
