@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { PRODUCT_CATEGORIES, categorySpecs } from '@/lib/productCategories'
+import { IMAGES } from '@/lib/imageAssets'
 import { Reveal, RiseMask, Stagger } from '@/components/motion'
 
 /**
@@ -41,7 +42,7 @@ export function ProductCategoryGrid({
               >
                 <span className="relative block aspect-[4/3] overflow-hidden bg-wk-ink">
                   <Image
-                    src={c.heroImage}
+                    src={IMAGES.homeCategoryCards[c.slug] ?? c.heroImage}
                     alt={c.heroImageAlt}
                     fill
                     sizes="(max-width: 768px) 100vw, 400px"

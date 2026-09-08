@@ -9,7 +9,6 @@ import { IMAGES } from '@/lib/imageAssets'
 import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
 import { SpecCompareTable } from '@/components/products/SpecCompareTable'
-import { SpecSheets } from '@/components/products/SpecSheets'
 import { CtaSection } from '@/components/landing/CtaSection'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { breadcrumbLd } from '@/lib/seo/jsonld'
@@ -50,7 +49,6 @@ export default function SpecsPage() {
         />
         <div id="spec">
           <SpecCompareTable />
-          <SpecSheets />
         </div>
         <CtaSection />
       </main>

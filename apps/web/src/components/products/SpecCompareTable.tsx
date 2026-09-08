@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { PRODUCTS, MAX_W_PER_M2_BY_PITCH } from '@/lib/products'
 import { skuToSegment } from '@/lib/productCategories'
 import { SKU_PRICE_FROM } from '@/lib/pricing'
-import { CABINET_W_MM, CABINET_H_MM } from '@/lib/standardBlock'
 import { Reveal, RiseMask } from '@/components/motion'
 
 /**
@@ -63,21 +62,6 @@ export function SpecCompareTable() {
   return (
     <section id="spec-table" className="wk-sec scroll-mt-24 bg-wk-bgFaint">
       <div className="wk-wrap">
-        <Reveal y={10}>
-          <p className="wk-eyebrow">한 장 비교</p>
-        </Reveal>
-        <RiseMask delay={0.06}>
-          <h2 className="wk-h2 max-w-2xl text-wk-ink">
-            여섯 제품을 한 표에 세웠습니다
-          </h2>
-        </RiseMask>
-        <Reveal y={14} delay={0.16}>
-          <p className="wk-lead mt-5">
-            항목과 단위를 결재 문서에 쓰는 그대로 적었습니다. 이 표만 있으면 사양서
-            초안을 쓸 수 있고, 확정되지 않은 값은 채우지 않고 비워 두었습니다.
-          </p>
-        </Reveal>
-
         <div className="mt-7 flex flex-wrap items-center gap-2">
           <span className="mr-1 text-caption font-semibold text-wk-ink3">환경</span>
           {ENV_FILTERS.map((f) => (
@@ -188,26 +172,7 @@ export function SpecCompareTable() {
               </div>
             )}
 
-            <div className="space-y-2 border-t border-wk-line bg-wk-bgFaint px-5 py-4 sm:px-7">
-              <p className="wk-cap">
-                <b className="font-semibold text-wk-ink2">최대 소비전력</b> — 전체 화면이
-                흰색으로 켜졌을 때의 설계 상한이며, 배전 용량을 잡을 때 쓰는 값입니다.
-                평상시 안내 화면의 실제 소비는 이보다 크게 낮습니다. 공급사 사양서를
-                회수하기 전이라 <b className="font-semibold text-wk-ink2">보수적으로 잡은
-                추정치</b>이고, 견적엔진에 제품군이 등록된 피치만 값이 있습니다.
-              </p>
-              <p className="wk-cap">
-                <b className="font-semibold text-wk-ink2">무게 · 화면 치수</b> — 캐비닛
-                몇 장을 어떻게 짜는지가 정해져야 나오는 값이라 표에 미리 적지 않습니다.
-                표준 캐비닛은 {CABINET_W_MM}×{CABINET_H_MM}mm 이고, 실측 후 견적서에
-                최종 치수와 하중을 기재합니다.
-              </p>
-              <p className="wk-cap">
-                <b className="font-semibold text-wk-ink2">설치비 기준</b> — 최소 구성
-                기준의 시작 금액입니다. 전기 증설, 구조 보강, 옥외광고물 신고, 고소작업은
-                포함되지 않습니다.
-              </p>
-            </div>
+            {/* 2026-09-08 CEO 지시 '규격표 잡다한 설명 다 빼라' — 각주 3개 제거. 단위·기준은 표 머리(mm·nit·W/m²·추정)에만 남긴다 */}
           </div>
         </Reveal>
       </div>

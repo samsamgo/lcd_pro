@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import Link from 'next/link'
 
 import { NavBar } from '@/components/NavBar'
@@ -65,34 +64,25 @@ export function ProductCategoryPage({ category }: { category: ProductCategory })
         <section className="wk-sec bg-white">
           <div className="wk-wrap">
             <p className="wk-eyebrow">모델</p>
-            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {/* 사진 없이 행으로 — 모델 사진은 /products(제품 전체)와 모델 상세에만 둔다(이미지 1장 = 1페이지) */}
+            <ul className="mt-6 divide-y divide-wk-line overflow-hidden rounded-card border border-wk-line bg-white">
               {models.map((p) => (
-                <Link
-                  key={p.sku}
-                  href={`/products/${skuToSegment(p.sku)}`}
-                  className="group block overflow-hidden rounded-card border border-wk-line bg-white transition-shadow duration-state ease-state hover:shadow-wk-2"
-                >
-                  <span className="relative block aspect-[4/3] overflow-hidden bg-wk-ink">
-                    <Image
-                      src={p.img}
-                      alt={p.imgAlt}
-                      fill
-                      sizes="(max-width: 640px) 100vw, 380px"
-                      className="object-cover transition-transform duration-cine ease-entrance motion-safe:group-hover:scale-105"
-                    />
-                  </span>
-                  <span className="block p-5">
-                    <span className="flex items-baseline justify-between gap-3">
-                      <span className="text-body-lg font-semibold text-wk-ink">{p.name}</span>
-                      <span className="wk-metric shrink-0 text-label font-semibold text-wk-cta">{p.pitch}</span>
+                <li key={p.sku}>
+                  <Link
+                    href={`/products/${skuToSegment(p.sku)}`}
+                    className="flex items-center justify-between gap-4 px-5 py-4 transition-colors duration-150 hover:bg-wk-bgFaint"
+                  >
+                    <span className="min-w-0">
+                      <span className="block text-body font-semibold text-wk-ink">{p.name}</span>
+                      <span className="mt-0.5 block text-label text-wk-ink3">{p.tag}</span>
                     </span>
-                    <span className="mt-1.5 block text-label text-wk-ink3">
-                      {p.brightness} · {p.viewingDistance}
+                    <span className="wk-metric shrink-0 text-right text-label text-wk-ink2">
+                      <b className="text-wk-cta">{p.pitch}</b> · {p.brightness} · {p.viewingDistance}
                     </span>
-                  </span>
-                </Link>
+                  </Link>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         </section>
 
@@ -118,29 +108,19 @@ export function ProductCategoryPage({ category }: { category: ProductCategory })
           </div>
         </section>
 
-        {/* ④ 쓰이는 자리 */}
+        {/* ④ 쓰이는 자리 — 링크 칩. 사진은 시공사례 목록에만 둔다(이미지 1장 = 1페이지) */}
         {uses.length > 0 && (
-          <section className="wk-sec bg-white">
+          <section className="wk-sec-sm bg-white">
             <div className="wk-wrap">
               <p className="wk-eyebrow">쓰이는 자리</p>
-              <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="mt-5 flex flex-wrap gap-2">
                 {uses.map((i) => (
                   <Link
                     key={i.slug}
                     href={`/industries/${i.slug}`}
-                    className="group relative block aspect-[4/3] overflow-hidden rounded-card bg-wk-ink ring-1 ring-black/5"
+                    className="rounded-full border border-wk-line2 px-4 py-2 text-label font-semibold text-wk-ink2 transition-colors duration-150 hover:border-wk-ink hover:text-wk-ink"
                   >
-                    <Image
-                      src={i.heroImage}
-                      alt={i.heroImageAlt ?? `${i.nameKo} 현장의 LED 안내 화면`}
-                      fill
-                      sizes="(max-width: 640px) 100vw, 300px"
-                      className="object-cover transition-transform duration-cine ease-entrance motion-safe:group-hover:scale-105"
-                    />
-                    <div className="wk-scrim-card absolute inset-0" />
-                    <div className="absolute inset-x-0 bottom-0 p-4">
-                      <b className="block text-body font-bold tracking-[-0.02em] text-white">{i.nameKo}</b>
-                    </div>
+                    {i.nameKo}
                   </Link>
                 ))}
               </div>

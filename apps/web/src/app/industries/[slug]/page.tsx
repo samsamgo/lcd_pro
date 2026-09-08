@@ -11,6 +11,7 @@ import { PageHeader } from '@/components/PageHeader'
 import { SubNav } from '@/components/SubNav'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { INDUSTRIES, getIndustry } from '@/lib/industries'
+import { IMAGES } from '@/lib/imageAssets'
 import { PRODUCTS } from '@/lib/products'
 import { breadcrumbLd } from '@/lib/seo/jsonld'
 import { absoluteUrl, buildMetadata } from '@/lib/seo/site'
@@ -58,7 +59,7 @@ export default function IndustryPage({ params }: PageProps) {
           group="시공사례"
           title={industry.nameKo}
           lead={industry.description}
-          image={industry.heroImage}
+          image={IMAGES.industryDetail[industry.slug] ?? industry.heroImage}
           imageAlt={industry.heroImageAlt}
         />
 
@@ -106,33 +107,25 @@ export default function IndustryPage({ params }: PageProps) {
           <section className="wk-sec bg-wk-bg">
             <div className="wk-wrap">
               <p className="wk-eyebrow">권장 제품</p>
-              <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {/* 사진 없이 행으로 — 모델 사진은 /products 에만 둔다(이미지 1장 = 1페이지, CEO 지시 2026-09-08) */}
+              <ul className="mt-6 divide-y divide-wk-line overflow-hidden rounded-card border border-wk-line bg-white">
                 {products.map((product) => (
-                  <Link
-                    key={product.sku}
-                    href={`/products/${product.sku.toLowerCase().replace('.', '-')}`}
-                    className="group block overflow-hidden rounded-card border border-wk-line bg-white transition-shadow duration-state ease-state hover:shadow-wk-2"
-                  >
-                    <span className="relative block aspect-[4/3] overflow-hidden bg-wk-ink">
-                      <Image
-                        src={product.img}
-                        alt={product.imgAlt}
-                        fill
-                        sizes="(max-width: 640px) 100vw, 380px"
-                        className="object-cover transition-transform duration-cine ease-entrance motion-safe:group-hover:scale-105"
-                      />
-                    </span>
-                    <span className="block p-5">
-                      <span className="block text-body-lg font-semibold text-wk-ink">
-                        {product.name}
+                  <li key={product.sku}>
+                    <Link
+                      href={`/products/${product.sku.toLowerCase().replace('.', '-')}`}
+                      className="flex items-center justify-between gap-4 px-5 py-4 transition-colors duration-150 hover:bg-wk-bgFaint"
+                    >
+                      <span className="min-w-0">
+                        <span className="block text-body font-semibold text-wk-ink">{product.name}</span>
+                        <span className="mt-0.5 block text-label text-wk-ink3">{product.tag}</span>
                       </span>
-                      <span className="mt-1.5 block text-label text-wk-ink3">
-                        {product.pitch} · {product.brightness}
+                      <span className="wk-metric shrink-0 text-right text-label text-wk-ink2">
+                        <b className="text-wk-cta">{product.pitch}</b> · {product.brightness}
                       </span>
-                    </span>
-                  </Link>
+                    </Link>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
           </section>
         )}

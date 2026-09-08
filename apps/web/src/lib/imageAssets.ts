@@ -309,6 +309,57 @@ export const IMAGES = {
     specs: W('D5_car-showroom-wall'),
   } as Record<string, string>,
 
+
+  /* ── 2026-09-08 CEO 지시 "같은 이미지는 다른 페이지라도 사용 금지" ──────────────────
+     렌더 기준 전수 조사(27장이 2~15페이지에 겹침) 뒤 자리마다 **전용 사진**을 배정했다.
+     아래 4묶음은 전부 미사용 풀에서 가져왔고(gen/K 시리즈 우선), 다른 어디에도 쓰지 않는다.
+     새 자리를 만들 때는 이 파일 맨 아래 미사용 풀에서 꺼내 쓰고, 기존 배정을 재사용하지 마라. */
+  /** 시공사례 상세(/industries/[slug]) 머리 — 목록 카드(industry)와 다른 사진 */
+  industryDetail: {
+    'public-office': '/cases/gen/gen-12.jpg',
+    'school': '/cases/gen/gen-13.jpg',
+    'banner': '/cases/gen/gen-19.jpg',
+    'institution': '/cases/gen/gen-21.jpg',
+    'retail': '/cases/gen/gen-23.jpg',
+    'outdoor-ad': '/cases/gen/gen-25.jpg',
+    'health-center': '/cases/gen/gen-26.jpg',
+    'fire-safety': '/cases/gen/gen-28.jpg',
+    'meeting-room': '/cases/gen/gen-3.jpg',
+    'auditorium': '/cases/gen/gen-30.jpg',
+    'daycare': '/cases/gen/gen-34.jpg',
+    'traffic': '/cases/gen/gen-35.jpg',
+    'parking': '/cases/gen/gen-36.jpg',
+    'transit': '/cases/gen/gen-37.jpg',
+    'apartment': '/cases/gen/gen-38.jpg',
+  } as Record<string, string>,
+  /** 모델 상세(/products/[sku]) 머리 — 제품 전체(productCards)와 다른 사진 */
+  productDetail: {
+    'IN-S': '/cases/gen/gen-39.jpg',
+    'IN-M': '/cases/gen/gen-40.jpg',
+    'OUT-S': '/cases/gen/gen-41.jpg',
+    'OUT-M': '/cases/gen/gen-43.jpg',
+    'OUT-L': '/cases/gen/gen-44.jpg',
+    'P2.5': '/cases/gen/gen-45.jpg',
+  } as Record<string, string>,
+  /** 홈 시공사례 6장 — 순서 = home/CaseHighlights FEATURED */
+  homeCases: [
+    '/cases/gen/gen-46.jpg',
+    '/cases/gen/gen-47.jpg',
+    '/cases/gen/gen-48.jpg',
+    '/cases/gen/gen-49.jpg',
+    '/cases/gen/gen-51.jpg',
+    '/cases/gen/gen-52.jpg',
+  ],
+  /** 홈 제품 카테고리 카드 6장 — 카테고리 페이지 머리(productCategories.heroImage)와 다른 사진 */
+  homeCategoryCards: {
+    indoor: '/cases/gen/gen-53.jpg',
+    outdoor: '/cases/gen/gen-54.jpg',
+    banner: '/cases/gen/gen-55.jpg',
+    facade: '/cases/gen/gen-56.jpg',
+    sports: '/cases/gen/gen-58.jpg',
+    traffic: '/cases/gen/gen-7.jpg',
+  } as Record<string, string>,
+
   /** 남는 장면 — 사례 더보기·블로그 썸네일 등 자유 배치 */
   spare: [
     /** 2026-09-07 /services 취부 방식이 도해 섹션으로 바뀌면서 풀린 컷.

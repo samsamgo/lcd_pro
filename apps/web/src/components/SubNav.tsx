@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { Home } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 /**
@@ -66,12 +67,23 @@ export function SubNav({
       <div className="wk-wrap flex items-center gap-2 overflow-x-auto py-2.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {back && (
           <>
-            <Link
-              href={back.href}
-              className="mr-2 flex shrink-0 items-center gap-1 rounded-btn px-2.5 py-2 text-label font-semibold text-wk-ink3 transition-colors duration-150 hover:bg-wk-bgFaint hover:text-wk-ink"
-            >
-              <span aria-hidden="true">←</span> {back.label}
-            </Link>
+            {back.href === '/' ? (
+              /* 홈은 화살표 없이 집 아이콘만 (CEO 지시 2026-09-08) */
+              <Link
+                href="/"
+                aria-label="홈"
+                className="mr-2 flex h-9 w-9 shrink-0 items-center justify-center rounded-btn text-wk-ink3 transition-colors duration-150 hover:bg-wk-bgFaint hover:text-wk-ink"
+              >
+                <Home size={18} strokeWidth={1.9} aria-hidden="true" />
+              </Link>
+            ) : (
+              <Link
+                href={back.href}
+                className="mr-2 flex shrink-0 items-center gap-1 rounded-btn px-2.5 py-2 text-label font-semibold text-wk-ink3 transition-colors duration-150 hover:bg-wk-bgFaint hover:text-wk-ink"
+              >
+                <span aria-hidden="true">←</span> {back.label}
+              </Link>
+            )}
             <span aria-hidden="true" className="mr-1 h-5 w-px shrink-0 bg-wk-line2" />
           </>
         )}
