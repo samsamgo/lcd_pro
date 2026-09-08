@@ -11,11 +11,13 @@ import {
   type Industry,
   type IndustryGroup,
 } from '@/lib/industries'
+import Link from 'next/link'
 import { IndustryModal } from './IndustryModal'
+
 import { EASE } from '@/components/motion'
 
 /**
- * 설치 사례 카드 그리드.
+ * 시공사례 카드 그리드.
  *
  * 담당자는 설명을 읽고 찾는 게 아니라 자기 현장을 눈으로 찾는다.
  * 카드에는 사진과 이름, 판단에 바로 쓰이는 정보(실내/옥외, 대표 용도)만 둔다.
@@ -157,19 +159,19 @@ function Grid() {
         {list.map((i, n) => {
           const wide = n === 0 && (lgSpan > 1 || smSpan > 1)
           return (
-            <motion.button
+            <motion.div
               key={i.slug}
               layout="position"
-              type="button"
-              onClick={() => setActive(i)}
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true, margin: '-60px' }}
               transition={{ duration: reduce ? 0.2 : 0.6, delay: Math.min(n, 4) * 0.07, ease: EASE.entrance }}
-              className={`group relative block w-full overflow-hidden rounded-card-m bg-wk-ink p-0 text-left ring-1 ring-black/5 transition-shadow duration-state ease-state hover:shadow-wk-3 sm:rounded-card aspect-[4/3] ${
-                wide ? spanClass(smSpan, lgSpan) : ''
-              }`}
+              className={`aspect-[4/3] ${wide ? spanClass(smSpan, lgSpan) : ''}`}
             >
+              <Link
+                href={`/industries/${i.slug}`}
+                className="group relative block h-full w-full overflow-hidden rounded-card-m bg-wk-ink p-0 text-left ring-1 ring-black/5 transition-shadow duration-state ease-state hover:shadow-wk-3 sm:rounded-card"
+              >
               <div className="absolute inset-0">
                 <Image
                   src={i.heroImage}
@@ -199,12 +201,13 @@ function Grid() {
                   </b>
 
                   <span className="mt-3 flex items-center gap-1.5 text-label font-semibold text-white">
-                    구성 보기
+                    자세히 보기
                     <span className="transition-transform duration-state ease-state motion-safe:group-hover:translate-x-1">→</span>
                   </span>
                 </div>
               </div>
-            </motion.button>
+              </Link>
+            </motion.div>
           )
         })}
       </div>

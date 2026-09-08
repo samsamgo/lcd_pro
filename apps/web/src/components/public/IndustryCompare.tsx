@@ -1,9 +1,31 @@
+'use client'
+
+import { useState } from 'react'
 import Link from 'next/link'
 
-import { INDUSTRIES } from '@/lib/industries'
+import { INDUSTRIES, INDUSTRY_GROUPS, type IndustryGroup } from '@/lib/industries'
 import { PRODUCTS } from '@/lib/products'
 import { Reveal, RiseMask, Stagger } from '@/components/motion'
 import { PitchDots } from './PitchDots'
+
+type GroupFilter = 'all' | IndustryGroup
+type EnvFilter = 'all' | 'indoor' | 'outdoor'
+
+const GROUP_FILTERS: { key: GroupFilter; label: string }[] = [
+  { key: 'all', label: '전체' },
+  ...INDUSTRY_GROUPS,
+]
+
+const ENV_FILTERS: { key: EnvFilter; label: string }[] = [
+  { key: 'all', label: '전체' },
+  { key: 'indoor', label: '실내' },
+  { key: 'outdoor', label: '옥외' },
+]
+
+const chipClass = (on: boolean) =>
+  `h-10 rounded-full px-4 text-label font-semibold transition-colors duration-state ease-state ${
+    on ? 'bg-wk-ink text-white' : 'bg-white text-wk-ink3 hover:bg-wk-line'
+  }`
 
 /**
  * 설치 자리별 한눈에 비교.
@@ -16,6 +38,9 @@ import { PitchDots } from './PitchDots'
  * 손으로 적은 숫자는 없다. 화소 간격·시청 거리는 `PRODUCTS` 의 실제 값에서 계산한다.
  */
 export function IndustryCompare() {
+  const [group, setGroup] = useState<GroupFilter>('all')
+  const [env, setEnv] = useState<EnvFilter>('all')
+  const [expanded, setExpanded] = useState(false)
   const rows = INDUSTRIES.map((i) => {
     const items = i.recommendedSkus
       .map((s) => PRODUCTS.find((p) => p.sku === s))
@@ -31,6 +56,8 @@ export function IndustryCompare() {
 
     return {
       slug: i.slug,
+      group: i.group,
+      environment: i.environment,
       /** 도해용 대표 피치(가장 촘촘한 값). 값이 없으면 그리지 않는다 */
       pitchMin: pitches.length ? Math.min(...pitches) : null,
       name: i.nameKo,
@@ -40,6 +67,20 @@ export function IndustryCompare() {
       pain: i.pains[0],
     }
   })
+  const filteredRows = rows.filter(
+    (r) => (group === 'all' || r.group === group) && (env === 'all' || r.environment === env),
+  )
+  const visibleRows = expanded ? filteredRows : filteredRows.slice(0, 6)
+
+  const changeGroup = (next: GroupFilter) => {
+    setGroup(next)
+    setExpanded(false)
+  }
+
+  const changeEnv = (next: EnvFilter) => {
+    setEnv(next)
+    setExpanded(false)
+  }
 
   return (
     <section aria-labelledby="ind-compare-h" className="wk-sec bg-wk-bgFaint">
@@ -60,6 +101,37 @@ export function IndustryCompare() {
           </p>
         </Reveal>
 
+        <div className="mt-7 space-y-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="mr-1 text-caption font-semibold text-wk-ink3">시설</span>
+            {GROUP_FILTERS.map((f) => (
+              <button
+                key={f.key}
+                type="button"
+                onClick={() => changeGroup(f.key)}
+                aria-pressed={group === f.key}
+                className={chipClass(group === f.key)}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="mr-1 text-caption font-semibold text-wk-ink3">환경</span>
+            {ENV_FILTERS.map((f) => (
+              <button
+                key={f.key}
+                type="button"
+                onClick={() => changeEnv(f.key)}
+                aria-pressed={env === f.key}
+                className={chipClass(env === f.key)}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
         {/* 데스크톱 — 표 */}
         <div className="mt-12 hidden overflow-x-auto md:block">
           <table className="w-full border-collapse text-left">
@@ -76,11 +148,11 @@ export function IndustryCompare() {
               </tr>
             </thead>
             <tbody>
-              {rows.map((r) => (
+              {visibleRows.map((r) => (
                 <tr key={r.slug} className="wk-hov-cell wk-hov-cell-faint border-b border-wk-line bg-wk-bgFaint">
                   <th scope="row" className="py-4 pr-6 align-top">
                     <Link
-                      href={`/industries?type=${r.slug}`}
+                      href={`/industries/${r.slug}`}
                       className="font-semibold text-wk-ink underline-offset-4 hover:underline"
                     >
                       {r.name}
@@ -112,7 +184,7 @@ export function IndustryCompare() {
 
         {/* 모바일 — 표는 안 읽힌다. 카드로 편다 */}
         <Stagger className="mt-10 grid grid-cols-1 gap-3 md:hidden" y={12} gap={0.05}>
-          {rows.map((r) => (
+          {visibleRows.map((r) => (
             <div key={r.slug} className="rounded-card border border-wk-line bg-white p-5">
               <p className="font-semibold text-wk-ink">{r.name}</p>
               <dl className="mt-3 flex flex-wrap gap-x-6 gap-y-2">
@@ -133,6 +205,18 @@ export function IndustryCompare() {
             </div>
           ))}
         </Stagger>
+
+        {filteredRows.length > 6 && (
+          <div className="mt-6 text-center">
+            <button
+              type="button"
+              onClick={() => setExpanded((value) => !value)}
+              className={chipClass(expanded)}
+            >
+              {expanded ? '접기' : `더 보기 (${filteredRows.length - 6}개)`}
+            </button>
+          </div>
+        )}
 
         <p className="wk-cap mt-8">
           표의 화소 간격과 보는 거리는 제품 규격서 기준값입니다. 현장 조건에 따라 달라지며,

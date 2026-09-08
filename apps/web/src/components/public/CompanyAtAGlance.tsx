@@ -67,7 +67,7 @@ export function CompanyAtAGlance() {
       a: INDUSTRY_GROUPS.map((g) => g.label).join(' · '),
       sub: `${INDUSTRIES.length}개 시설 유형`,
       href: '/industries',
-      cta: '설치 사례 보기',
+      cta: '시공사례 보기',
     },
     {
       q: '실재 확인',

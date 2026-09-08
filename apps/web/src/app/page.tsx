@@ -4,10 +4,8 @@ import { ProofRow } from '@/components/public/ProofRow'
 import { ScrollProgress } from '@/components/public/ScrollProgress'
 import { ScrollStatement } from '@/components/public/ScrollStatement'
 import { CinematicScene } from '@/components/home/CinematicScene'
-import { ScreenGallery } from '@/components/public/ScreenGallery'
+import { CaseHighlights } from '@/components/home/CaseHighlights'
 import { ProductShowcase } from '@/components/public/ProductShowcase'
-import { ProcessTimeline } from '@/components/public/ProcessTimeline'
-import { FaqSection } from '@/components/landing/FaqSection'
 import { CtaSection } from '@/components/landing/CtaSection'
 import { ScrollBridge } from '@/components/motion'
 import { NavBar } from '@/components/NavBar'
@@ -64,13 +62,8 @@ export default function Home() {
             ① 무엇을 하는 회사인가 → ② 믿을 만한가 → ③ 우리 같은 데 쓰나
             → ④ 설치 후는 어떻게 되나 → ⑤ 서류는 있나 → ⑥ 어떻게 연락하나 */}
         <PublicHero />
-        {/* 2026-09-07 — 이 자리는 두 번 비웠다.
-            ① CSS 로 전광판 화면을 흉내 내던 LedBoard → CEO 두 번째 반려로 제거.
-            ② 그 자리에 넣은 SceneSlider(사진 크로스페이드) → CEO: "메인에 슬라이더가 왜 두 개냐."
-            맞는 지적이었다. 히어로가 이미 사진을 3장 돌리는데 바로 아래에서 같은 장치를 또 쓰면
-            같은 말을 두 번 하는 것이고, 게다가 아래 ScreenGallery 가 이미 "제품 용도 예시 사진"을
-            담당한다 — 그쪽은 사용자가 눌러서 여는 방식이라 자동 전환보다 낫다(벤치마크 §6 안티패턴 1).
-            섹션을 하나 줄여 히어로 다음에 곧바로 근거(ProofRow)가 오게 했다.
+        {/* 이 자리는 비워 둔다. 히어로가 이미 사진을 돌리는데 바로 아래에서 슬라이더를
+            또 쓰면 같은 말을 두 번 하는 것이다(CEO 반려 2026-09-07).
             SceneSlider.tsx · LedBoard.tsx 는 되돌릴 수 있게 남겨뒀다(참조 0건 = 번들 제외). */}
 
         {/* ── 라이트: 믿을 만한가 ── */}
@@ -103,34 +96,25 @@ export default function Home() {
           className="h-32 bg-gradient-to-b from-wk-night to-white md:h-40"
         />
 
-        {/* ── 라이트: 무엇을 어떻게 받는가 ──
-            🔴 2026-09-07 명암 재설계 (CEO 4차 지시 "사이니지 회사처럼").
-            여기서부터 푸터까지가 원래 **연속된 라이트 네 섹션**이었다
-            (ProductShowcase → ScreenGallery → ProcessTimeline → FAQ).
-            페이지에서 가장 긴 구간이 통째로 흰 서류였고, 그것이 "잘 만든 일반 B2B 사이트"
-            의 정체였다. 발광체를 파는 회사의 화면이 절반 넘게 하얗다.
+        {/* ── 라이트: 무엇을 파는가 ──
+            다크 구간(ScrollStatement + CinematicScene)에서 나와 밝은 면으로 돌아온다.
+            규격을 읽는 자리는 서류처럼 밝아야 한다. 빛을 파는 회사라고 화면 전체를 검게
+            칠하지 않는다 — 빛은 어둠이 있어야 빛이다.
 
-            그렇다고 전부 검게 칠하지 않았다 — 빛은 어둠이 있어야 빛이다.
-            규격표(ProductShowcase)·절차(ProcessTimeline)·FAQ 는 **서류로 읽혀야 하는 것**이라
-            라이트가 맞다. 뒤집은 것은 ScreenGallery **하나**다.
-            근거: 그 섹션에 걸린 사진 9장이 전부 '켜져 있는 화면' 이다. 발광체는 어두운 면 위에서만
-            발광체로 보인다. 내용이 면을 정한 것이지 취향으로 고른 것이 아니다.
-
-            다리 높이는 h-24/32 로 **위쪽 다리(h-32/40)보다 낮게** 잡았다.
-            시네마틱 장으로 들어가는 전환이 이 페이지의 가장 큰 전환이어야 하므로
-            같은 크기로 만들면 위계가 평평해진다. */}
+            2026-09-08 — 이 아래 있던 ScreenGallery·ProcessTimeline·FaqSection 세 섹션을
+            걷어냈다(아래 CaseHighlights 주석 참조). 그래서 이 구간은 제품 → 시공사례 →
+            CTA 세 걸음으로 끝난다. 홈에서 끝내지 않고 안쪽 페이지로 보내는 것이 목적이다. */}
         <ProductShowcase />
 
-        <ScrollBridge
-          direction="down"
-          className="wk-bridge-down h-24 md:h-32"
-          cell={16}
-        />
-        <ScreenGallery />
-        <ScrollBridge direction="up" className="wk-bridge-up h-24 md:h-32" cell={16} />
-
-        <ProcessTimeline />
-        <FaqSection limit={6} />
+        {/* 🔴 2026-09-08 CEO 지시 "각 페이지마다 중복되는 거 없게".
+            여기 있던 세 섹션을 걷어냈다 — 전부 안쪽 페이지에 원본이 따로 있었다.
+              ScreenGallery(사진 9장)  → /products 의 ProductScenes · /industries 의 IndustryScenes
+              ProcessTimeline(설치 공정) → /services 의 ProcessOverview
+              FaqSection(문답 6개)      → /faq 전체
+            홈이 하위 페이지를 요약하는 게 아니라 **통째로 다시 하고 있었다.** 그래서 어느
+            메뉴를 눌러도 방금 본 걸 또 보게 됐고, 그것이 "페이지 정리가 안 됐다" 의 정체다.
+            대신 홈에는 사진으로 된 시공사례 입구 하나만 둔다 — 누르면 실제 페이지로 나간다. */}
+        <CaseHighlights />
 
         {/* ── near-black 최종 전환 ── */}
         <CtaSection />

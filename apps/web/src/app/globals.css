@@ -47,7 +47,7 @@
     word-break: keep-all;
     overflow-wrap: anywhere;
   }
-  ::selection { @apply bg-blue-600/20 text-zinc-900; }
+  ::selection { @apply bg-wk-blue/20 text-zinc-900; }
 
   /* 접근성: 모든 인터랙티브 요소에 키보드 포커스 링 (WCAG 2.4.7) */
   a,
@@ -57,14 +57,14 @@
   input,
   select,
   textarea {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-wk-blue
       focus-visible:ring-offset-2 focus-visible:ring-offset-white;
   }
 }
 
 @layer utilities {
   .text-gradient {
-    @apply bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-wk-blue to-wk-blueHover bg-clip-text text-transparent;
   }
   /* 라이트 테마용 카드 표면 */
   .glass {
@@ -217,7 +217,7 @@
   .wk-bridge-up   { background: linear-gradient(to bottom, #0B0B0F 0%, #FFFFFF 100%); }
   .wk-night-glow  {
     background:
-      radial-gradient(60% 45% at 50% 12%, rgba(49,130,246,.18), transparent 70%),
+      radial-gradient(60% 45% at 50% 12%, rgba(222,103,29,.18), transparent 70%),
       #0B0B0F;
   }
 

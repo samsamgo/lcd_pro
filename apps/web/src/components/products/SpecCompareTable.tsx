@@ -1,3 +1,6 @@
+'use client'
+
+import { useState } from 'react'
 import { PRODUCTS, MAX_W_PER_M2_BY_PITCH } from '@/lib/products'
 import { SKU_PRICE_FROM } from '@/lib/pricing'
 import { CABINET_W_MM, CABINET_H_MM } from '@/lib/standardBlock'
@@ -27,10 +30,33 @@ function minDistanceM(text: string): number {
 const TH = 'px-4 py-3 text-left align-bottom text-caption font-semibold text-wk-ink3'
 const TD = 'whitespace-nowrap px-4 py-3.5 align-middle text-label text-wk-ink'
 
+type EnvFilter = 'all' | 'indoor' | 'outdoor'
+
+const ENV_FILTERS: { key: EnvFilter; label: string }[] = [
+  { key: 'all', label: '전체' },
+  { key: 'indoor', label: '실내' },
+  { key: 'outdoor', label: '옥외' },
+]
+
+const chipClass = (on: boolean) =>
+  `h-10 rounded-full px-4 text-label font-semibold transition-colors duration-state ease-state ${
+    on ? 'bg-wk-ink text-white' : 'bg-white text-wk-ink3 hover:bg-wk-line'
+  }`
+
 export function SpecCompareTable() {
+  const [env, setEnv] = useState<EnvFilter>('all')
+  const [expanded, setExpanded] = useState(false)
   const rows = [...PRODUCTS].sort(
     (a, b) => minDistanceM(a.viewingDistance) - minDistanceM(b.viewingDistance),
   )
+  const filteredRows = rows.filter((p) => env === 'all' || p.env === env)
+  const canCollapse = filteredRows.length > 8
+  const visibleRows = canCollapse && !expanded ? filteredRows.slice(0, 6) : filteredRows
+
+  const changeEnv = (next: EnvFilter) => {
+    setEnv(next)
+    setExpanded(false)
+  }
 
   return (
     <section id="spec-table" className="wk-sec scroll-mt-24 bg-wk-bgFaint">
@@ -49,6 +75,21 @@ export function SpecCompareTable() {
             초안을 쓸 수 있고, 확정되지 않은 값은 채우지 않고 비워 두었습니다.
           </p>
         </Reveal>
+
+        <div className="mt-7 flex flex-wrap items-center gap-2">
+          <span className="mr-1 text-caption font-semibold text-wk-ink3">환경</span>
+          {ENV_FILTERS.map((f) => (
+            <button
+              key={f.key}
+              type="button"
+              onClick={() => changeEnv(f.key)}
+              aria-pressed={env === f.key}
+              className={chipClass(env === f.key)}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
 
         <Reveal delay={0.08} y={16}>
           <div className="mt-12 overflow-hidden rounded-card border border-wk-line bg-white shadow-wk-1 lg:mt-16">
@@ -87,7 +128,7 @@ export function SpecCompareTable() {
                 <tbody>
                   {/* 행 호버는 tr 이 지고, 좌측 고정 셀은 bg-inherit 로 그 색을 그대로 받는다.
                       bg-white 를 셀에 직접 주면 그 칸만 하얗게 남아 행이 반쪽만 반응한다. */}
-                  {rows.map((p) => {
+                  {visibleRows.map((p) => {
                     const nit = Number(p.brightness.replace(/[^\d]/g, ''))
                     const watt = MAX_W_PER_M2_BY_PITCH[p.pitch]
                     return (
@@ -126,6 +167,18 @@ export function SpecCompareTable() {
                 </tbody>
               </table>
             </div>
+
+            {canCollapse && (
+              <div className="border-t border-wk-line bg-wk-bgFaint px-5 py-4 text-center sm:px-7">
+                <button
+                  type="button"
+                  onClick={() => setExpanded((value) => !value)}
+                  className={chipClass(expanded)}
+                >
+                  {expanded ? '접기' : '더 보기'}
+                </button>
+              </div>
+            )}
 
             <div className="space-y-2 border-t border-wk-line bg-wk-bgFaint px-5 py-4 sm:px-7">
               <p className="wk-cap">

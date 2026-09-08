@@ -26,7 +26,7 @@ export function Footer() {
             <p className="font-semibold text-wk-ink2">제품 · 솔루션</p>
             <Link href="/products" className={LINK_CLASS}>제품 라인업</Link>
             <Link href="/services" className={LINK_CLASS}>공급 범위</Link>
-            <Link href="/industries" className={LINK_CLASS}>설치 사례</Link>
+            <Link href="/industries" className={LINK_CLASS}>시공사례</Link>
             <Link href="/quote" className={LINK_CLASS}>견적 요청</Link>
           </div>
 

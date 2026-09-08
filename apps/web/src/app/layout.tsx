@@ -4,6 +4,7 @@ import './globals.css'
 import { SITE } from '@/lib/seo/site'
 import { organizationLd, localBusinessLd, websiteLd } from '@/lib/seo/jsonld'
 import { SiteModalsProvider } from '@/components/modals/SiteModals'
+import { FloatingCta } from '@/components/FloatingCta'
 
 const inter = Inter({ subsets: ['latin'], display: 'swap', variable: '--font-inter' })
 
@@ -108,7 +109,11 @@ export default function RootLayout({
         >
           본문으로 건너뛰기
         </a>
-        <SiteModalsProvider>{children}</SiteModalsProvider>
+        <SiteModalsProvider>
+          {children}
+          {/* 우측 하단 고정 문의 버튼 — 전 페이지 공통. 모바일은 각 페이지의 MobileCtaBar 가 맡는다. */}
+          <FloatingCta />
+        </SiteModalsProvider>
       </body>
     </html>
   )

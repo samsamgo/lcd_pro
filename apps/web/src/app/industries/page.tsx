@@ -17,14 +17,14 @@ import { absoluteUrl, buildMetadata } from '@/lib/seo/site'
 export const dynamic = 'force-static'
 
 export const metadata: Metadata = buildMetadata({
-  title: 'LED 전광판 설치 사례',
+  title: 'LED 전광판 시공사례',
   description:
     '관공서·민원실, 학교·강당, 보건소, 도로·교차로, 주차장, 아파트까지. 자리마다 보는 거리와 운영 내용이 다릅니다. 설치 자리별로 어떤 구성이 들어가는지 정리했습니다.',
   path: '/industries',
 })
 
 /**
- * 설치 사례.
+ * 시공사례.
  *
  * 어두운 히어로로 시작해 카드 그리드로 이어진다.
  * 카드에서 업종을 고르면 모달로 상세가 열린다(페이지 이동 없음).
@@ -37,7 +37,7 @@ export default function IndustriesPage() {
         id="ld-breadcrumb-industries"
         data={breadcrumbLd([
           { name: '홈', url: absoluteUrl('/') },
-          { name: '설치 사례', url: absoluteUrl('/industries') },
+          { name: '시공사례', url: absoluteUrl('/industries') },
         ])}
       />
       <NavBar />
@@ -72,7 +72,7 @@ export default function IndustriesPage() {
           <div className="relative z-10 w-full pb-14 md:pb-20">
             <div className="wk-wrap">
               <Reveal y={10}>
-                <p className="wk-eyebrow !text-white/70">설치 사례</p>
+                <p className="wk-eyebrow !text-white/70">시공사례</p>
               </Reveal>
 
               {/* .wk-emit-text 는 색을 바꾸지 않는 미세 글로우라 대비비가 그대로다(§17-B) */}
@@ -93,11 +93,11 @@ export default function IndustriesPage() {
           </div>
         </section>
 
-        {/* 설치 사례 카드 */}
+        {/* 시공사례 카드 */}
         <section className="wk-sec bg-wk-bg">
           <div className="wk-wrap">
             <IndustryGrid />
-            {/* 🔴 실적 표기가 아니다. "설치 사례"라는 이름 때문에 납품 실적으로
+            {/* 🔴 실적 표기가 아니다. "시공사례"라는 이름 때문에 납품 실적으로
                 읽히면 안 되므로 카드 바로 아래에 못을 박는다. */}
             <p className="wk-cap mt-8">
               카드는 설치 자리 유형별 표준 구성입니다. 특정 기관의 납품 실적이나 계약 건수를

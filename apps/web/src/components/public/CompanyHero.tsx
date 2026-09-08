@@ -3,7 +3,6 @@ import { IMAGES } from '@/lib/imageAssets'
 import { Reveal, SplitText } from '@/components/motion'
 import { SITE } from '@/lib/seo/site'
 import { PITCH_RANGE } from '@/lib/companyScope'
-import { HELD_CREDENTIALS } from './CompanySummary'
 
 /**
  * 회사 소개 첫 화면 — 전면 다크, 사진 한 장 위 선언 한 줄 + 사실 띠 3칸.
@@ -57,11 +56,12 @@ import { HELD_CREDENTIALS } from './CompanySummary'
  * 대비비(#F5F7FA on #0B0B0F = 18.3:1)가 그대로다.
  */
 export function CompanyHero() {
-  const kcCount = HELD_CREDENTIALS.filter((c) => c.no.startsWith('TA-')).length
-
+  // 🔴 2026-09-08 CEO 지시 — 인증 '건수' 를 사실 띠에서 뺐다.
+  // 개수를 세어 보여주면 그 숫자가 작다는 사실만 부각된다. 인증 여부는 "KC 인증 제품만
+  // 공급합니다" 한 줄로 말하고, 등록번호는 /about/certification 에서 조회한다.
   const facts = [
     { k: '사업자등록번호', v: SITE.bizRegNo },
-    { k: 'KC 적합등록 · 전원공급장치', v: `${kcCount}종` },
+    { k: '인증', v: 'KC 인증 제품만 공급' },
     { k: '취급 화소 간격', v: PITCH_RANGE },
   ]
 

@@ -5,9 +5,6 @@ import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   Menu, X, MessageCircle, ChevronDown,
-  MonitorSmartphone, Layers, Wrench, Ruler, ShieldCheck,
-  Building2, BookOpen, HelpCircle,
-  type LucideIcon,
 } from 'lucide-react'
 import { SITE } from '@/lib/seo/site'
 import { useSiteModals } from '@/components/modals/SiteModals'
@@ -17,7 +14,6 @@ interface NavChild {
   label: string
   desc: string
   href: string
-  icon: LucideIcon
 }
 interface NavGroup {
   label: string
@@ -38,46 +34,52 @@ interface NavGroup {
  */
 const NAV: NavGroup[] = [
   {
+    label: '회사소개',
+    href: '/about',
+    children: [
+      { label: '회사 정보', desc: '법인·대표자·사업자등록', href: '/about' },
+      { label: '인증 현황', desc: 'KC 인증 제품만 공급합니다', href: '/about/certification' },
+      { label: '오시는 길', desc: '대전 대덕구 · 길찾기', href: '/about#location' },
+    ],
+  },
+  {
     label: '제품',
     href: '/products',
     children: [
-      { label: '설치 환경별', desc: '실내·준실외·옥외로 나눠서', href: '/products#lineup', icon: MonitorSmartphone },
-      { label: '규격 비교', desc: '화소 간격·밝기·시야각', href: '/products#spec', icon: Ruler },
+      { label: '창구·접수대 안내판', desc: '3m 안팎, 서서 보는 자리', href: '/products/in-s' },
+      { label: '로비·대기실 안내판', desc: '몇 발짝 떨어져 보는 자리', href: '/products/in-m' },
+      { label: '근거리 정밀 안내판', desc: '표와 작은 글자가 많을 때', href: '/products/p2-5' },
+      { label: '출입구·주차장 안내판', desc: '밖에 거는 작은 화면', href: '/products/out-s' },
+      { label: '도로변·게시대 화면', desc: '차에서 읽는 크기', href: '/products/out-m' },
+      { label: '건물 외벽 대형 화면', desc: '건물 외벽만 한 크기', href: '/products/out-l' },
+      { label: '규격 비교표', desc: '화소 간격·밝기·시야각', href: '/products#spec' },
     ],
+  },
+  {
+    /* 🔴 2026-09-08 CEO 지시 — 시공사례는 하위 메뉴를 갖지 않는다.
+       '제품' 과 '시공사례' 양쪽에 전자현수막·실내·옥외가 겹쳐 들어가 있어서
+       같은 곳으로 가는 길이 두 개였다. 사례는 목록 페이지에서 카드로 고르는 게 자연스럽고,
+       15개를 드롭다운에 늘어놓으면 그것부터 읽기를 포기한다. 메뉴는 한 줄이면 된다. */
+    label: '시공사례',
+    href: '/industries',
   },
   {
     label: '공급 범위',
     href: '/services',
     children: [
-      { label: '설치 공정', desc: '실측부터 사후관리까지 여섯 단계', href: '/services#process', icon: Wrench },
-      { label: 'A/S', desc: '고장 접수와 모듈 교체', href: '/support', icon: Layers },
-      { label: '자주 묻는 질문', desc: '예산·계약·전기·보증', href: '/faq', icon: HelpCircle },
+      { label: '설계 · 제작', desc: '현장 실측 후 확정 견적', href: '/services#process' },
+      { label: '설치 · 시공', desc: '전기·통신 연결과 시운전', href: '/services' },
+      { label: '유지보수 A/S', desc: '모듈 단위 교체', href: '/support' },
     ],
   },
   {
-    label: '설치 사례',
-    href: '/industries',
-    children: [
-      { label: '관공서 · 민원실', desc: '창구 안내, 부서 이전, 시정 소식', href: '/industries?type=public-office', icon: Building2 },
-      { label: '학교 · 강당', desc: '급식표, 행사, 귀가 안내', href: '/industries?type=school', icon: BookOpen },
-      { label: '전자현수막', desc: '재난 문구와 계도 안내', href: '/industries?type=banner', icon: Layers },
-      { label: '공공기관 · 시설', desc: '로비 종합안내, 층별 표시', href: '/industries?type=institution', icon: ShieldCheck },
-    ],
-  },
-  {
-    label: '회사소개',
-    href: '/about',
-    children: [
-      { label: '회사 정보', desc: '법인·대표자·사업자등록', href: '/about', icon: Building2 },
-      { label: '오시는 길', desc: '주소와 길찾기', href: '/about#location', icon: Ruler },
-    ],
-  },
-  {
-    label: '고객센터',
+    label: '고객지원',
     href: '/support',
     children: [
-      { label: 'A/S 신청', desc: '고장 접수와 원격 확인', href: '/support#as', icon: ShieldCheck },
-      { label: '자주 묻는 질문', desc: '예산·계약·전기·관리', href: '/faq', icon: HelpCircle },
+      { label: '견적 요청', desc: '개략 견적 바로 확인', href: '/quote' },
+      { label: 'A/S 신청', desc: '고장 접수와 원격 확인', href: '/support' },
+      { label: '자주 묻는 질문', desc: '예산·계약·전기·보증', href: '/faq' },
+      { label: '자료실', desc: '규격서·시공사례집 내려받기', href: '/support/downloads' },
     ],
   },
 ]
@@ -143,10 +145,19 @@ export function NavBar() {
   }, [])
 
   // 2순위(폴백): 속성이 없는 페이지는 경로 목록 + 스크롤 여부로 판단
-  const fallbackDark = !hasHeroAttr && FALLBACK_DARK_HERO.includes(pathname) && !scrolled
-  const heroActive = hasHeroAttr ? heroDark : fallbackDark
-  const onDark = heroActive && !open && openGroup === null
-  const solid = !heroActive || open || openGroup !== null
+  // 🔴 2026-09-08 CEO 지시 — "네비바 진짜 좀 가시성 좋게".
+  // 이전에는 다크 히어로 위에서 헤더가 투명해지고 글자가 흰색으로 뒤집혔다. 사진 위 흰 글씨는
+  // 사진의 밝은 부분에서 그대로 묻힌다(스크림을 깔아도 사진마다 결과가 달랐다). 국내 전광판·
+  // 시공 업체 사이트가 헤더를 항상 흰 배경으로 두는 이유가 이것이다. 메뉴는 장식이 아니라
+  // 길찾기 도구라 어느 페이지에서든 같은 모습이어야 한다.
+  // 다크 히어로 감지(hasHeroAttr/heroDark/FALLBACK_DARK_HERO)는 되돌릴 수 있게 남겨두되,
+  // 헤더 색에는 더 이상 반영하지 않는다.
+  const onDark = false
+  const solid = true
+  void heroDark
+  void hasHeroAttr
+  void scrolled
+  void FALLBACK_DARK_HERO
 
   const enter = (label: string) => {
     if (closeTimer.current) window.clearTimeout(closeTimer.current)
@@ -303,25 +314,20 @@ export function NavBar() {
                   }`}
                 >
                   <div className="overflow-hidden rounded-card-m border border-wk-line bg-white p-2 shadow-wk-2">
-                    {g.children.map((c) => {
-                      const Icon = c.icon
-                      return (
-                        <Link
-                          key={c.label + c.href}
-                          href={c.href}
-                          onClick={() => setOpenGroup(null)}
-                          className="flex items-start gap-3 rounded-xl p-3 transition-colors duration-150 hover:bg-wk-blueWeak"
-                        >
-                          <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-wk-blueWeak text-wk-blue">
-                            <Icon size={17} aria-hidden="true" />
-                          </span>
-                          <span>
-                            <span className="block text-sm font-semibold text-wk-ink">{c.label}</span>
-                            <span className="block text-xs text-wk-ink3">{c.desc}</span>
-                          </span>
-                        </Link>
-                      )
-                    })}
+                    {/* 🔴 2026-09-08 CEO: "이상한 기호 넣지 말고 글만." 아이콘 칩을 걷어냈다.
+                        메뉴 항목마다 서로 다른 픽토그램을 붙이면 읽는 순서가 글자가 아니라
+                        그림으로 흩어진다. 라벨 하나만 남기고 설명은 회색 한 줄로 붙인다. */}
+                    {g.children.map((c) => (
+                      <Link
+                        key={c.label + c.href}
+                        href={c.href}
+                        onClick={() => setOpenGroup(null)}
+                        className="block rounded-lg px-3.5 py-2.5 transition-colors duration-150 hover:bg-wk-bgFaint"
+                      >
+                        <span className="block text-sm font-semibold text-wk-ink">{c.label}</span>
+                        <span className="mt-0.5 block text-xs text-wk-ink3">{c.desc}</span>
+                      </Link>
+                    ))}
                   </div>
                 </div>
               )}
@@ -329,33 +335,19 @@ export function NavBar() {
           ))}
         </nav>
 
-        <div className="hidden items-center gap-2 md:flex">
-          <button
-            type="button"
-            onClick={() => openConsult('navbar')}
-            className={`flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-semibold transition-colors duration-150 ${
-              onDark ? 'text-white hover:bg-white/10' : 'text-wk-ink2 hover:bg-wk-bgFaint'
-            }`}
-          >
-            <MessageCircle size={15} className="text-wk-blue" aria-hidden="true" />
-            빠른 상담
-          </button>
-          <Link
-            href="/quote"
-            className="rounded-btn bg-wk-cta px-4 py-2 text-sm font-semibold text-white transition-colors duration-150 hover:bg-wk-ctaHover active:bg-wk-ctaActive"
-          >
-            견적 요청하기
-          </Link>
-        </div>
+        {/* 🔴 2026-09-08 CEO 지시 — 헤더에서 '빠른 상담'·'견적 요청하기' 버튼을 뺐다.
+            문의 동선은 우측 하단 플로팅 버튼(FloatingCta) 하나로 모은다. 같은 요청을
+            헤더와 플로팅에서 두 번 하면 둘 다 광고처럼 보인다. 헤더는 길찾기만 한다.
+            자리를 비우지 않고 대표번호를 글자로 둔다 — 관공서 담당자가 가장 먼저 찾는 값이다. */}
+        <a
+          href={`tel:${SITE.phone.replace(/[^+\d]/g, '')}`}
+          className="hidden text-sm font-semibold tracking-tight text-wk-ink2 transition-colors duration-150 hover:text-wk-blue md:block"
+        >
+          {SITE.phone}
+        </a>
 
         {/* 모바일 */}
         <div className="flex items-center gap-2 md:hidden">
-          <Link
-            href="/quote"
-            className="rounded-btn bg-wk-cta px-3 py-2 text-sm font-semibold text-white transition-colors duration-150 active:bg-wk-ctaActive"
-          >
-            견적
-          </Link>
           <button
             ref={menuBtnRef}
             className={`rounded-lg p-2 ${onDark ? 'text-white' : 'text-wk-ink2'}`}
@@ -430,13 +422,10 @@ export function NavBar() {
                       key={c.label + c.href}
                       href={c.href}
                       onClick={() => setOpen(false)}
-                      className="flex items-center gap-3 rounded-lg py-2.5 pl-2 pr-3 text-sm text-wk-ink2 hover:bg-wk-bgFaint"
+                      className="block rounded-lg py-2.5 pl-2 pr-3 text-sm text-wk-ink2 hover:bg-wk-bgFaint"
                     >
-                      <c.icon size={16} className="text-wk-blue" aria-hidden="true" />
-                      <span>
-                        <span className="font-medium text-wk-ink">{c.label}</span>
-                        <span className="ml-2 text-xs text-wk-ink3">{c.desc}</span>
-                      </span>
+                      <span className="font-medium text-wk-ink">{c.label}</span>
+                      <span className="ml-2 text-xs text-wk-ink3">{c.desc}</span>
                     </Link>
                   ))}
                 </div>
