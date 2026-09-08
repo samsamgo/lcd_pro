@@ -41,7 +41,7 @@ export function ProductsHero() {
             <span className="font-semibold text-white">제품</span>
           </nav>
 
-          <p className="wk-eyebrow !text-white/70">설치 환경별 안내</p>
+          <p className="wk-eyebrow !text-white/70">제품</p>
 
           <SplitText
             immediate
@@ -65,7 +65,7 @@ export function ProductsHero() {
                 </Link>
               </Magnetic>
               <a
-                href="#spec-table"
+                href="/products/specs"
                 className="wk-btn-sm w-full justify-center border border-white/25 text-white hover:bg-white/10 sm:w-auto"
               >
                 전 제품 규격 비교표

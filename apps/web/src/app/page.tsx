@@ -4,7 +4,7 @@ import { ProofRow } from '@/components/public/ProofRow'
 import { ScrollProgress } from '@/components/public/ScrollProgress'
 import { CinematicScene } from '@/components/home/CinematicScene'
 import { CaseHighlights } from '@/components/home/CaseHighlights'
-import { ProductShowcase } from '@/components/public/ProductShowcase'
+import { ProductCategoryGrid } from '@/components/products/ProductCategoryGrid'
 import { CtaSection } from '@/components/landing/CtaSection'
 import { ScrollBridge } from '@/components/motion'
 import { NavBar } from '@/components/NavBar'
@@ -96,7 +96,8 @@ export default function Home() {
             2026-09-08 — 이 아래 있던 ScreenGallery·ProcessTimeline·FaqSection 세 섹션을
             걷어냈다(아래 CaseHighlights 주석 참조). 그래서 이 구간은 제품 → 시공사례 →
             CTA 세 걸음으로 끝난다. 홈에서 끝내지 않고 안쪽 페이지로 보내는 것이 목적이다. */}
-        <ProductShowcase />
+        {/* 2026-09-08 — ProductShowcase(4개 환경 카드) 대신 카테고리 3장. 네비바·/products 와 같은 이름·같은 사진 */}
+        <ProductCategoryGrid showMore />
 
         {/* 🔴 2026-09-08 CEO 지시 "각 페이지마다 중복되는 거 없게".
             여기 있던 세 섹션을 걷어냈다 — 전부 안쪽 페이지에 원본이 따로 있었다.

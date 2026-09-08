@@ -9,6 +9,7 @@ import { MobileCtaBar } from '@/components/MobileCtaBar'
 import { NavBar } from '@/components/NavBar'
 import { PRODUCTS } from '@/lib/products'
 import { INDUSTRIES } from '@/lib/industries'
+import { categoryOf } from '@/lib/productCategories'
 import { buildMetadata } from '@/lib/seo/site'
 
 export const dynamic = 'force-static'
@@ -76,7 +77,9 @@ export default function ProductPage({ params }: PageProps) {
           </div>
           <div className="relative z-10 w-full pb-12 md:pb-16">
             <div className="wk-wrap">
-              <p className="wk-eyebrow !text-white/70">{product.tag}</p>
+              <p className="wk-eyebrow !text-white/70">
+                {categoryOf(product.sku)?.name ?? '제품'} · {product.tag}
+              </p>
               <h1 className="wk-h1 wk-emit-text text-white">{product.name}</h1>
               <p className="wk-lead mt-6 max-w-[32em] !text-white/85">{product.summary}</p>
             </div>

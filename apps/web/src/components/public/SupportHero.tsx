@@ -50,7 +50,7 @@ export function SupportHero() {
       <div className="relative z-10 w-full pb-14 pt-32 md:pb-20">
         <div className="wk-wrap">
           <Reveal immediate y={0} duration={0.6}>
-            <p className="wk-eyebrow !text-white/70">고객센터</p>
+            <p className="wk-eyebrow !text-white/70">A/S 신청</p>
           </Reveal>
 
           <Reveal immediate y={18} delay={0.08}>

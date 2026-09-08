@@ -4,12 +4,7 @@ import { NavBar } from '@/components/NavBar'
 import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
 import { ProductsHero } from '@/components/products/ProductsHero'
-import { EnvironmentTracks } from '@/components/products/EnvironmentTracks'
-import { SpecScale } from '@/components/products/SpecScale'
-import { StructureShowcase } from '@/components/products/StructureShowcase'
-import { ProductScenes } from '@/components/products/ProductScenes'
-import { SpecSheets } from '@/components/products/SpecSheets'
-import { SpecCompareTable } from '@/components/products/SpecCompareTable'
+import { ProductCategoryGrid } from '@/components/products/ProductCategoryGrid'
 import { CtaSection } from '@/components/landing/CtaSection'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { breadcrumbLd } from '@/lib/seo/jsonld'
@@ -18,7 +13,7 @@ import { SITE, buildMetadata } from '@/lib/seo/site'
 export const dynamic = 'force-static'
 
 export const metadata: Metadata = buildMetadata({
-  title: '설치 환경별 제품',
+  title: '제품',
   description:
     '민원실 창구 안내판부터 옥외 대형 전광판까지. 모델명이 아니라 설치 환경과 보는 거리로 고르도록 정리했습니다. 화소 간격·밝기·방수 등급과 기준 가격을 그대로 공개합니다.',
   path: '/products',
@@ -44,40 +39,20 @@ export default function ProductsPage() {
         id="ld-breadcrumb-products"
         data={breadcrumbLd([
           { name: '홈', url: SITE.url + '/' },
-          { name: '설치 환경별 제품', url: SITE.url + '/products' },
+          { name: '제품', url: SITE.url + '/products' },
         ])}
       />
       <NavBar />
       <main id="main">
         <ProductsHero />
 
-        {/* ── 어디에 거는가 ── */}
-        <div id="lineup">
-          <EnvironmentTracks />
-        </div>
-
-        {/* ── 얼마나 멀리서, 얼마나 밝게 ── */}
-        <SpecScale />
-
-        {/* ── 안이 어떻게 생겼는가 ── */}
-        <StructureShowcase />
-
-        {/* ── 실제로 어떻게 보이는가 ── */}
-        <ProductScenes />
-
-        {/* ── 결재 문서로 옮길 수 있는 규격 ──
-            비교표(전 제품 한 화면)를 먼저 두고, 규격서(제품 하나씩)를 뒤에 둔다.
-            담당자는 후보를 좁힌 다음에야 한 제품을 깊이 본다. */}
-        <div id="spec">
-          <SpecCompareTable />
-          <SpecSheets />
-        </div>
-
-        {/* 2026-09-07 CEO 지시 — 베이직·스탠다드·프리미엄 패키지 전면 철수.
-            앞서 렌탈(구독) 카드를 내린 데 이어 등급제 자체를 내린다.
-            우리는 현장 조건으로 규격을 잡아 견적하는 회사다. 등급을 먼저 고르게 하면
-            담당자가 자기 현장과 맞지 않는 상자에 먼저 들어가게 된다.
-            PackagesSection.tsx 파일은 되돌릴 수 있게 남겼다(참조 0건 = 번들 미포함). */}
+        {/* 🔴 2026-09-08 — /products 는 **카테고리 입구**로만 쓴다.
+            전에는 환경 트랙·화소 축척·구조·장면·비교표·규격서 여섯 섹션이 한 페이지에 있었고,
+            네비바 하위 메뉴는 그 안의 앵커(#lineup·#spec)로 뛰어들었다. 눌러도 페이지가 안 바뀌니
+            "이상한 곳으로 연동된다"(CEO). 이제 카테고리 3종은 각자 페이지가 있고 여기는
+            그 셋을 사진으로 보여주고 보내는 일만 한다. 비교표·규격서는 /products/specs 로 갔다.
+            SpecScale·StructureShowcase·ProductScenes 는 파일만 남겼다(참조 0건 = 번들 제외). */}
+        <ProductCategoryGrid />
 
         <CtaSection
           title={['어느 제품이 맞는지', '같이 정하겠습니다']}

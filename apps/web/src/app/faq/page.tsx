@@ -30,7 +30,7 @@ export default function FaqPage() {
       <NavBar />
       <main id="main">
         <PageHero
-          eyebrow="FAQ"
+          eyebrow="고객지원"
           title="자주 묻는 질문"
           description="예산 과목, 계약 방식, 전기 인입, 설치, 고장. 결재를 올리기 전에 확인해야 하는 것부터 답했습니다."
           crumbs={[{ name: '홈', href: '/' }, { name: 'FAQ' }]}
@@ -38,7 +38,7 @@ export default function FaqPage() {
         <FaqSection hideHeader />
         <CtaSection
           title={['여기 없는 것은', '직접 답하겠습니다']}
-          sub={'전화든 견적 요청이든 편한 쪽으로 남겨 주시면 담당자가 확인합니다.'}
+          sub={'전화든 견적 문의든 편한 쪽으로 남겨 주시면 담당자가 확인합니다.'}
         />
       </main>
       <Footer />

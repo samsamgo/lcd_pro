@@ -64,11 +64,11 @@ export function ServiceHero() {
               홈
             </Link>
             <ChevronRight size={12} aria-hidden="true" className="text-white/40" />
-            <span className="font-semibold text-white">공급 범위</span>
+            <span className="font-semibold text-white">설치 과정</span>
           </nav>
 
           <Reveal immediate y={16}>
-            <p className="wk-eyebrow !text-white/70">공급 범위</p>
+            <p className="wk-eyebrow !text-white/70">설치 과정</p>
             <h1 className="wk-h1 max-w-[16ch] text-white">
               실측부터 사후관리까지 여섯 공정
             </h1>

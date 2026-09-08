@@ -7,6 +7,7 @@ import {
   Menu, X, MessageCircle, ChevronDown,
 } from 'lucide-react'
 import { SITE } from '@/lib/seo/site'
+import { PRODUCT_CATEGORIES } from '@/lib/productCategories'
 import { useSiteModals } from '@/components/modals/SiteModals'
 import { BrandLogo } from '@/components/brand/BrandLogo'
 
@@ -32,54 +33,45 @@ interface NavGroup {
  *    services 페이지를 다시 쓰면서 #install·#controller·#cms·#care·#cert 가 전부 사라졌는데
  *    메뉴만 옛날 그대로 남아 링크 다섯 개가 죽어 있었다. 페이지를 고칠 때 여기도 같이 본다.
  */
+/**
+ * 🔴 2026-09-08 CEO 지시 "네비바 구조를 아예 바꿔라".
+ *
+ * 원칙 하나 — **메뉴에 적힌 이름 = 도착한 페이지의 이름(eyebrow/h1)**.
+ * 이전에는 제품 이름 체계가 세 가지(네비바·홈·/products)라 누른 이름과 도착한 페이지가 달랐다.
+ * 제품 하위는 lib/productCategories.ts 의 name 을 그대로 쓴다(손으로 적지 않는다).
+ * 앵커(#)·쿼리(?type=) 링크는 쓰지 않는다 — 전부 실제 페이지다.
+ */
 const NAV: NavGroup[] = [
   {
     label: '회사소개',
     href: '/about',
     children: [
-      { label: '회사 정보', desc: '법인·대표자·사업자등록', href: '/about' },
+      { label: '회사 소개', desc: '법인·대표자·사업자등록', href: '/about' },
+      { label: '설치 과정', desc: '실측부터 A/S까지 여섯 공정', href: '/services' },
       { label: '인증 현황', desc: 'KC 인증 제품만 공급합니다', href: '/about/certification' },
-      { label: '오시는 길', desc: '대전 대덕구 · 길찾기', href: '/about#location' },
+      { label: '오시는 길', desc: '대전 대덕구', href: '/about#location' },
     ],
   },
   {
     label: '제품',
     href: '/products',
     children: [
-      { label: '창구·접수대 안내판', desc: '3m 안팎, 서서 보는 자리', href: '/products/in-s' },
-      { label: '로비·대기실 안내판', desc: '몇 발짝 떨어져 보는 자리', href: '/products/in-m' },
-      { label: '근거리 정밀 안내판', desc: '표와 작은 글자가 많을 때', href: '/products/p2-5' },
-      { label: '출입구·주차장 안내판', desc: '밖에 거는 작은 화면', href: '/products/out-s' },
-      { label: '도로변·게시대 화면', desc: '차에서 읽는 크기', href: '/products/out-m' },
-      { label: '건물 외벽 대형 화면', desc: '건물 외벽만 한 크기', href: '/products/out-l' },
-      { label: '규격 비교표', desc: '화소 간격·밝기·시야각', href: '/products#spec' },
+      ...PRODUCT_CATEGORIES.map((c) => ({ label: c.name, desc: c.lead.split('.')[0] + '.', href: `/products/${c.slug}` })),
+      { label: '규격 비교표', desc: '전 모델 규격 한 표', href: '/products/specs' },
     ],
   },
   {
-    /* 🔴 2026-09-08 CEO 지시 — 시공사례는 하위 메뉴를 갖지 않는다.
-       '제품' 과 '시공사례' 양쪽에 전자현수막·실내·옥외가 겹쳐 들어가 있어서
-       같은 곳으로 가는 길이 두 개였다. 사례는 목록 페이지에서 카드로 고르는 게 자연스럽고,
-       15개를 드롭다운에 늘어놓으면 그것부터 읽기를 포기한다. 메뉴는 한 줄이면 된다. */
     label: '시공사례',
     href: '/industries',
-  },
-  {
-    label: '공급 범위',
-    href: '/services',
-    children: [
-      { label: '설계 · 제작', desc: '현장 실측 후 확정 견적', href: '/services#process' },
-      { label: '설치 · 시공', desc: '전기·통신 연결과 시운전', href: '/services' },
-      { label: '유지보수 A/S', desc: '모듈 단위 교체', href: '/support' },
-    ],
   },
   {
     label: '고객지원',
     href: '/support',
     children: [
-      { label: '견적 요청', desc: '개략 견적 바로 확인', href: '/quote' },
+      { label: '견적 문의', desc: '설치 장소와 크기만 알려주시면 됩니다', href: '/quote' },
       { label: 'A/S 신청', desc: '고장 접수와 원격 확인', href: '/support' },
       { label: '자주 묻는 질문', desc: '예산·계약·전기·보증', href: '/faq' },
-      { label: '자료실', desc: '규격서·시공사례집 내려받기', href: '/support/downloads' },
+      { label: '자료실', desc: '규격서·시공사례집', href: '/support/downloads' },
     ],
   },
 ]
@@ -336,7 +328,7 @@ export function NavBar() {
         </nav>
 
         {/* 🔴 2026-09-08 CEO 지시 — 헤더 우측은 비운다.
-            '빠른 상담'·'견적 요청하기' 버튼을 뺐고, 그 자리에 잠시 뒀던 대표번호도 뺐다("헤더에 전화번호도 빼라").
+            '빠른 상담'·'견적 문의하기' 버튼을 뺐고, 그 자리에 잠시 뒀던 대표번호도 뺐다("헤더에 전화번호도 빼라").
             문의 동선은 우측 하단 플로팅(FloatingCta) 하나가 전담한다. 헤더는 길찾기만 한다.
             같은 요청이 화면에 두 번 있으면 둘 다 광고처럼 읽힌다. */}
         <div className="hidden w-[7.5rem] md:block" aria-hidden="true" />
@@ -439,7 +431,7 @@ export function NavBar() {
             onClick={() => setOpen(false)}
             className="mt-2 block rounded-btn bg-wk-cta px-4 py-3 text-center text-sm font-semibold text-white"
           >
-            견적 요청하기
+            견적 문의하기
           </Link>
         </div>
       </div>

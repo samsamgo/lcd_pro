@@ -42,7 +42,7 @@ export function CtaSection({
             <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Magnetic>
                 <Link href="/quote" className="wk-btn-p group">
-                  견적 요청하기
+                  견적 문의하기
                   <ArrowRight
                     size={18}
                     aria-hidden="true"

@@ -14,7 +14,7 @@ import { SITE, buildMetadata } from '@/lib/seo/site'
  * 자동으로 덧붙이기 때문에, 여기서 또 넣으면 "견적 요청 — 우강테크 | 우강테크" 가 된다.
  */
 export const metadata: Metadata = buildMetadata({
-  title: '견적 요청',
+  title: '견적 문의',
   description:
     '설치 장소와 화면 크기, 현장 사진만 남겨주시면 개략 견적 범위를 잡아 연락드립니다. 예산을 잡기 전 단계에서도 요청하실 수 있습니다.',
   path: '/quote',
@@ -33,14 +33,14 @@ export default function QuotePage({
         id="ld-breadcrumb-quote"
         data={breadcrumbLd([
           { name: '홈', url: SITE.url + '/' },
-          { name: '견적 요청', url: SITE.url + '/quote' },
+          { name: '견적 문의', url: SITE.url + '/quote' },
         ])}
       />
       <NavBar />
       <main id="main" className="min-h-screen bg-wk-bgFaint pt-16">
         <div className="wk-wrap-read wk-sec-sm">
           <div className="mb-10">
-            <p className="wk-eyebrow">견적 요청</p>
+            <p className="wk-eyebrow">견적 문의</p>
             <h1 className="wk-h2 text-wk-ink">
               설치 장소와 크기만
               <br className="hidden sm:block" /> 알려주시면 됩니다

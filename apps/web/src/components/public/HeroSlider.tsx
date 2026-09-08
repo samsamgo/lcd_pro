@@ -194,7 +194,7 @@ export function HeroSlider() {
             <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Magnetic className="w-full sm:w-auto">
                 <Link href="/quote" className="wk-btn-p">
-                  견적 요청하기
+                  견적 문의하기
                 </Link>
               </Magnetic>
               <Link

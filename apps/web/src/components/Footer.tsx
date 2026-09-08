@@ -23,20 +23,23 @@ export function Footer() {
 
           {/* 제품·솔루션 */}
           <div className="space-y-3 text-sm">
-            <p className="font-semibold text-wk-ink2">제품 · 솔루션</p>
-            <Link href="/products" className={LINK_CLASS}>제품 라인업</Link>
-            <Link href="/services" className={LINK_CLASS}>공급 범위</Link>
+            <p className="font-semibold text-wk-ink2">제품</p>
+            <Link href="/products/indoor" className={LINK_CLASS}>실내용 LED 전광판</Link>
+            <Link href="/products/outdoor" className={LINK_CLASS}>실외용 LED 전광판</Link>
+            <Link href="/products/banner" className={LINK_CLASS}>전자현수막</Link>
+            <Link href="/products/specs" className={LINK_CLASS}>규격 비교표</Link>
             <Link href="/industries" className={LINK_CLASS}>시공사례</Link>
-            <Link href="/quote" className={LINK_CLASS}>견적 요청</Link>
           </div>
 
           {/* 고객지원 */}
           <div className="space-y-3 text-sm">
             <p className="font-semibold text-wk-ink2">고객지원</p>
-            <Link href="/support#as" className={LINK_CLASS}>A/S 신청</Link>
-            <Link href="/support#faq" className={LINK_CLASS}>FAQ</Link>
-            <Link href="/about" className={LINK_CLASS}>회사 정보</Link>
-            <Link href="/about#location" className={LINK_CLASS}>회사 위치</Link>
+            <Link href="/quote" className={LINK_CLASS}>견적 문의</Link>
+            <Link href="/support" className={LINK_CLASS}>A/S 신청</Link>
+            <Link href="/faq" className={LINK_CLASS}>자주 묻는 질문</Link>
+            <Link href="/support/downloads" className={LINK_CLASS}>자료실</Link>
+            <Link href="/about" className={LINK_CLASS}>회사 소개</Link>
+            <Link href="/services" className={LINK_CLASS}>설치 과정</Link>
           </div>
 
           {/* 사업자정보 · 연락처 */}
