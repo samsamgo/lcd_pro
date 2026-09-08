@@ -1,54 +1,89 @@
+'use client'
+
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
 /**
- * 하위 페이지 연동 바 — PageHeader 바로 아래에 붙는다.
+ * 하위 연동 바 — PageHeader 바로 아래, sticky.
  *
- * 🔴 2026-09-08 CEO 지적 "페이지를 나누니 더 보기 힘들다 · 뒤로 가기나 연동이 있어야 한다".
- *    페이지를 쪼갠 대가로 형제 페이지 사이를 오가는 길이 없어졌다. 여기서 준다.
- *    왼쪽 = 상위로 돌아가는 링크(← 제품 전체), 오른쪽 = 형제 탭. 현재 페이지는 진하게.
- *    스크롤해도 따라오게 sticky — 아래까지 읽고 다른 탭으로 넘어갈 때 위로 올라오지 않아도 된다.
+ * 두 가지 모드를 같은 모양으로 쓴다 (CEO 지시 2026-09-08 "방식 통일").
+ *  - 페이지 모드: 탭이 형제 페이지로 이동 (제품·시공사례). `current` 와 같은 href 가 진하게
+ *  - 섹션 모드: 탭이 같은 페이지 안의 섹션(#id)으로 스크롤 (회사소개·고객지원).
+ *    스크롤 위치에 따라 현재 섹션이 진하게 (스크롤 스파이)
+ *
+ * 왼쪽 `back` 은 상위로 가는 링크. 섹션 모드에서는 보통 홈.
  */
-export interface SubNavItem {
-  label: string
-  href: string
-}
+import type { SubNavItem } from '@/lib/subnav'
 
 export function SubNav({
   back,
   items,
   current,
 }: {
-  /** 상위 페이지. 예: { label: '제품 전체', href: '/products' } */
-  back: SubNavItem
-  /** 형제 페이지 탭. 현재 페이지도 포함해서 넘긴다 */
+  back?: SubNavItem
   items: SubNavItem[]
-  /** 현재 페이지 href — items 중 하나와 같아야 진하게 표시된다 */
-  current: string
+  /** 페이지 모드에서 현재 페이지 href. 섹션 모드(#)에서는 생략 — 스크롤로 정한다 */
+  current?: string
 }) {
+  const anchorMode = items.every((it) => it.href.includes('#'))
+  const [active, setActive] = useState<string>(current ?? '')
+
+  // 섹션 모드 — 화면 상단(헤더+바 아래)을 지난 마지막 섹션을 현재로 본다
+  useEffect(() => {
+    if (!anchorMode) return
+    const ids = items.map((it) => it.href.slice(it.href.indexOf('#') + 1))
+    const els = ids.map((id) => document.getElementById(id)).filter((e): e is HTMLElement => !!e)
+    if (els.length === 0) return
+    let raf = 0
+    const pick = () => {
+      raf = 0
+      const line = 64 + 56 + 8 // 헤더 + 바 + 여유
+      let cur = els[0]
+      for (const el of els) {
+        if (el.getBoundingClientRect().top - line <= 0) cur = el
+      }
+      setActive(`#${cur.id}`)
+    }
+    const onScroll = () => {
+      if (!raf) raf = window.requestAnimationFrame(pick)
+    }
+    pick()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      if (raf) window.cancelAnimationFrame(raf)
+    }
+  }, [anchorMode, items])
+
+  const isActive = (href: string) =>
+    anchorMode ? href.slice(href.indexOf('#')) === active : href === current
+
   return (
     <nav
       aria-label="하위 메뉴"
       className="sticky top-16 z-30 border-b border-wk-line bg-white/95 backdrop-blur-md"
     >
       <div className="wk-wrap flex items-center gap-2 overflow-x-auto py-2.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <Link
-          href={back.href}
-          className="mr-2 flex shrink-0 items-center gap-1 rounded-btn px-2.5 py-2 text-label font-semibold text-wk-ink3 transition-colors duration-150 hover:bg-wk-bgFaint hover:text-wk-ink"
-        >
-          <span aria-hidden="true">←</span> {back.label}
-        </Link>
-        <span aria-hidden="true" className="mr-1 h-5 w-px shrink-0 bg-wk-line2" />
+        {back && (
+          <>
+            <Link
+              href={back.href}
+              className="mr-2 flex shrink-0 items-center gap-1 rounded-btn px-2.5 py-2 text-label font-semibold text-wk-ink3 transition-colors duration-150 hover:bg-wk-bgFaint hover:text-wk-ink"
+            >
+              <span aria-hidden="true">←</span> {back.label}
+            </Link>
+            <span aria-hidden="true" className="mr-1 h-5 w-px shrink-0 bg-wk-line2" />
+          </>
+        )}
         {items.map((it) => {
-          const active = it.href === current
+          const on = isActive(it.href)
           return (
             <Link
               key={it.href}
               href={it.href}
-              aria-current={active ? 'page' : undefined}
+              aria-current={on ? (anchorMode ? 'location' : 'page') : undefined}
               className={`shrink-0 rounded-full px-3.5 py-2 text-label font-semibold transition-colors duration-150 ${
-                active
-                  ? 'bg-wk-ink text-white'
-                  : 'text-wk-ink2 hover:bg-wk-bgFaint hover:text-wk-ink'
+                on ? 'bg-wk-ink text-white' : 'text-wk-ink2 hover:bg-wk-bgFaint hover:text-wk-ink'
               }`}
             >
               {it.label}
@@ -58,12 +93,4 @@ export function SubNav({
       </div>
     </nav>
   )
-}
-
-/** 제품 하위 페이지 공통 탭 — 카테고리 3종 + 규격 비교표 */
-export function productSubNavItems(categories: { name: string; slug: string }[]): SubNavItem[] {
-  return [
-    ...categories.map((c) => ({ label: c.name, href: `/products/${c.slug}` })),
-    { label: '규격 비교표', href: '/products/specs' },
-  ]
 }

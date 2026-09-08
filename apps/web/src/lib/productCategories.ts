@@ -3,18 +3,19 @@ import { PRODUCTS, type ProductInfo } from './products'
 import type { Sku } from './pricing'
 
 /**
- * 제품 카테고리 3종 — 네비바·홈·/products·카테고리 페이지가 **전부 이 하나**를 본다.
+ * 제품 카테고리 — 네비바·홈·/products·카테고리 페이지가 **전부 이 하나**를 본다.
  *
  * 🔴 2026-09-08 CEO 지적 "네비바로 들어갔는데 이상한 곳으로 연동된다 · 왜 다 다르냐".
- *    원인은 제품 이름 체계가 세 가지였던 것 — 네비바(6개 SKU 이름) · 홈(4개 환경 카드) ·
- *    /products(환경별 트랙). 누른 이름과 도착한 페이지 이름이 달랐다.
  *    이제 **메뉴 이름 = 페이지 제목 = 카드 이름**이고, 그 이름은 여기 `name` 하나뿐이다.
  *    다른 파일에서 카테고리 이름을 손으로 적지 마라.
  *
- * 카테고리는 국내 사이니지 업체가 쓰는 구분 그대로다: 실내용 / 실외용 / 전자현수막.
- * 모델(SKU)은 lib/products.ts 의 6종을 카테고리 아래에 배치한다.
+ * 🔴 2026-09-08 CEO 지시 "제품 카테고리를 늘려라" — 3종 → 6종.
+ *    국내 사이니지 업체가 쓰는 구분을 따랐다: 실내용 / 실외용 / 전자현수막 / 미디어파사드 /
+ *    스포츠 전광판 / 교통·주차 안내. 모델(SKU)은 lib/products.ts 의 6종을 **새 사양을 만들지 않고**
+ *    카테고리 아래에 재배치했다 — 같은 모델이 두 카테고리에 속할 수 있다(용도가 다를 뿐 물건은 같다).
+ *    ⚠️ 여기 적힌 사양 범위(lead)는 모델 값에서 나온 것만 쓴다. 지어낸 숫자 없음.
  */
-export type CategorySlug = 'indoor' | 'outdoor' | 'banner'
+export type CategorySlug = 'indoor' | 'outdoor' | 'banner' | 'facade' | 'sports' | 'traffic'
 
 export interface ProductCategory {
   slug: CategorySlug
@@ -34,7 +35,7 @@ export const PRODUCT_CATEGORIES: ProductCategory[] = [
   {
     slug: 'indoor',
     name: '실내용 LED 전광판',
-    lead: '민원실·로비·회의실처럼 가까이서 보는 자리에 씁니다. 화소 간격 P2.5 ~ P3.',
+    lead: '민원실·로비·회의실처럼 가까이서 보는 자리. 화소 간격 P2.5 ~ P3.',
     heroImage: IMAGES.productTracks['indoor-near'],
     heroImageAlt: '실내 민원실 벽면에 설치된 LED 안내 화면',
     skus: ['P2.5', 'IN-S', 'IN-M'],
@@ -43,20 +44,47 @@ export const PRODUCT_CATEGORIES: ProductCategory[] = [
   {
     slug: 'outdoor',
     name: '실외용 LED 전광판',
-    lead: '정문·도로변·건물 외벽처럼 햇빛 아래에서 보는 자리에 씁니다. 밝기 5,000nit 이상, IP65.',
+    lead: '정문·도로변·건물 외벽처럼 햇빛 아래에서 보는 자리. 밝기 5,000nit 이상, IP65.',
     heroImage: IMAGES.productTracks['outdoor-far'],
     heroImageAlt: '건물 외벽에 설치된 대형 옥외 LED 전광판',
     skus: ['OUT-S', 'OUT-M', 'OUT-L'],
-    uses: ['outdoor-ad', 'traffic', 'parking', 'institution'],
+    uses: ['outdoor-ad', 'institution', 'health-center', 'fire-safety'],
   },
   {
     slug: 'banner',
     name: '전자현수막',
-    lead: '현수막 게시대를 대신하는 옥외 LED 화면입니다. 인쇄·교체 없이 문구를 바꿉니다.',
+    lead: '현수막 게시대를 대신하는 옥외 LED 화면. 인쇄·교체 없이 문구를 바꿉니다.',
     heroImage: IMAGES.productTracks['outdoor-near'],
     heroImageAlt: '도로변 게시대에 설치된 전자현수막 LED 화면',
     skus: ['OUT-M', 'OUT-S'],
     uses: ['banner', 'school', 'public-office', 'apartment'],
+  },
+  {
+    slug: 'facade',
+    name: '미디어파사드',
+    lead: '건물 외벽 전체를 화면으로 씁니다. 취부 구조와 야간 밝기 제한을 설계 단계에서 함께 잡습니다.',
+    heroImage: IMAGES.categoryHeroes.facade,
+    heroImageAlt: '야간 건물 외벽의 곡면 LED 미디어파사드',
+    skus: ['OUT-L', 'OUT-M'],
+    uses: ['outdoor-ad', 'institution', 'auditorium'],
+  },
+  {
+    slug: 'sports',
+    name: '스포츠 전광판',
+    lead: '체육관·경기장. 앞뒤 거리 차가 큰 관람석에서 점수와 영상을 함께 보여줍니다.',
+    heroImage: IMAGES.categoryHeroes.sports,
+    heroImageAlt: '경기장 관람석에서 보이는 대형 LED 전광판',
+    skus: ['IN-M', 'OUT-M', 'OUT-L'],
+    uses: ['auditorium', 'school', 'institution'],
+  },
+  {
+    slug: 'traffic',
+    name: '교통·주차 안내',
+    lead: '교차로·진입로·주차장. 차에서 읽는 크기와 밝기로 잡습니다.',
+    heroImage: IMAGES.categoryHeroes.traffic,
+    heroImageAlt: '도로변 기둥형 LED 교통 안내 전광판',
+    skus: ['OUT-S', 'OUT-M'],
+    uses: ['traffic', 'parking', 'transit', 'apartment'],
   },
 ]
 
@@ -70,7 +98,7 @@ export function categoryProducts(c: ProductCategory): ProductInfo[] {
     .filter((p): p is ProductInfo => !!p)
 }
 
-/** 모델이 속한 첫 카테고리 (빵부스러기용) */
+/** 모델이 속한 첫 카테고리 (빵부스러기·뒤로가기용) */
 export function categoryOf(sku: Sku): ProductCategory | undefined {
   return PRODUCT_CATEGORIES.find((c) => c.skus.includes(sku))
 }

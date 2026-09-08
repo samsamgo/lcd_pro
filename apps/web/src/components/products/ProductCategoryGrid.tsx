@@ -10,7 +10,7 @@ import { Reveal, RiseMask, Stagger } from '@/components/motion'
  */
 export function ProductCategoryGrid({
   eyebrow = '제품',
-  heading = '자리에 따라 세 가지',
+  heading = '자리에 따라 고릅니다',
   showMore = false,
 }: {
   eyebrow?: string

@@ -241,7 +241,7 @@ export function FaqSection({
             <p className="wk-cap mt-8">
               나머지 질문도 정리해 두었습니다.{' '}
               <Link
-                href="/faq"
+                href="/support#faq"
                 className="font-semibold text-wk-cta underline underline-offset-4"
               >
                 자주 묻는 질문 전체 보기 →

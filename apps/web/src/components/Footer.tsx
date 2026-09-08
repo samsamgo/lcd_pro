@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { SITE } from '@/lib/seo/site'
 import { BrandLogo } from '@/components/brand/BrandLogo'
+import { PRODUCT_CATEGORIES } from '@/lib/productCategories'
 
 const LINK_CLASS = 'block text-wk-ink3 transition-colors duration-150 hover:text-wk-ink'
 
@@ -24,9 +25,9 @@ export function Footer() {
           {/* 제품·솔루션 */}
           <div className="space-y-3 text-sm">
             <p className="font-semibold text-wk-ink2">제품</p>
-            <Link href="/products/indoor" className={LINK_CLASS}>실내용 LED 전광판</Link>
-            <Link href="/products/outdoor" className={LINK_CLASS}>실외용 LED 전광판</Link>
-            <Link href="/products/banner" className={LINK_CLASS}>전자현수막</Link>
+            {PRODUCT_CATEGORIES.map((c) => (
+              <Link key={c.slug} href={`/products/${c.slug}`} className={LINK_CLASS}>{c.name}</Link>
+            ))}
             <Link href="/products/specs" className={LINK_CLASS}>규격 비교표</Link>
             <Link href="/industries" className={LINK_CLASS}>시공사례</Link>
           </div>
@@ -34,13 +35,15 @@ export function Footer() {
           {/* 고객지원 */}
           <div className="space-y-3 text-sm">
             <p className="font-semibold text-wk-ink2">고객지원</p>
+            <Link href="/support#as" className={LINK_CLASS}>A/S 신청</Link>
+            <Link href="/support#faq" className={LINK_CLASS}>자주 묻는 질문</Link>
+            <Link href="/support#downloads" className={LINK_CLASS}>자료실</Link>
             <Link href="/quote" className={LINK_CLASS}>견적 문의</Link>
-            <Link href="/support" className={LINK_CLASS}>A/S 신청</Link>
-            <Link href="/faq" className={LINK_CLASS}>자주 묻는 질문</Link>
-            <Link href="/support/downloads" className={LINK_CLASS}>자료실</Link>
-            <Link href="/about" className={LINK_CLASS}>회사 소개</Link>
-            <Link href="/services" className={LINK_CLASS}>설치 과정</Link>
-            <Link href="/about/location" className={LINK_CLASS}>오시는 길</Link>
+            <p className="pt-3 font-semibold text-wk-ink2">회사소개</p>
+            <Link href="/about#intro" className={LINK_CLASS}>회사 소개</Link>
+            <Link href="/about#process" className={LINK_CLASS}>설치 과정</Link>
+            <Link href="/about#certification" className={LINK_CLASS}>인증 현황</Link>
+            <Link href="/about#location" className={LINK_CLASS}>오시는 길</Link>
           </div>
 
           {/* 사업자정보 · 연락처 */}

@@ -8,6 +8,7 @@ import {
 } from 'lucide-react'
 import { SITE } from '@/lib/seo/site'
 import { PRODUCT_CATEGORIES } from '@/lib/productCategories'
+import { ABOUT_SECTIONS, SUPPORT_SECTIONS } from '@/lib/subnav'
 import { useSiteModals } from '@/components/modals/SiteModals'
 import { BrandLogo } from '@/components/brand/BrandLogo'
 
@@ -39,18 +40,27 @@ interface NavGroup {
  * 원칙 하나 — **메뉴에 적힌 이름 = 도착한 페이지의 이름(eyebrow/h1)**.
  * 이전에는 제품 이름 체계가 세 가지(네비바·홈·/products)라 누른 이름과 도착한 페이지가 달랐다.
  * 제품 하위는 lib/productCategories.ts 의 name 을 그대로 쓴다(손으로 적지 않는다).
- * 앵커(#)·쿼리(?type=) 링크는 쓰지 않는다 — 전부 실제 페이지다.
+ * 회사소개·고객지원은 **한 페이지**이고 하위 메뉴는 그 안의 섹션(#)으로 스크롤한다(CEO 지시 2026-09-08).
+ * 제품·시공사례는 개별 페이지다. 두 경우 모두 머리 아래 SubNav 탭이 같은 모양으로 붙는다.
  */
+/* 하위 메뉴 설명 한 줄 — 라벨·href 는 SubNav 의 섹션 정의와 같은 것을 쓴다(한 곳) */
+const ABOUT_DESC: Record<string, string> = {
+  '회사 소개': '법인·대표자·사업자등록',
+  '설치 과정': '실측부터 A/S까지 여섯 공정',
+  '인증 현황': 'KC 인증 제품만 공급합니다',
+  '오시는 길': '대전 대덕구',
+}
+const SUPPORT_DESC: Record<string, string> = {
+  'A/S 신청': '고장 접수와 원격 확인',
+  '자주 묻는 질문': '예산·계약·전기·보증',
+  '자료실': '규격서·시공사례집',
+}
+
 const NAV: NavGroup[] = [
   {
     label: '회사소개',
     href: '/about',
-    children: [
-      { label: '회사 소개', desc: '법인·대표자·사업자등록', href: '/about' },
-      { label: '설치 과정', desc: '실측부터 A/S까지 여섯 공정', href: '/services' },
-      { label: '인증 현황', desc: 'KC 인증 제품만 공급합니다', href: '/about/certification' },
-      { label: '오시는 길', desc: '대전 대덕구', href: '/about/location' },
-    ],
+    children: ABOUT_SECTIONS.map((x) => ({ label: x.label, desc: ABOUT_DESC[x.label] ?? '', href: x.href })),
   },
   {
     label: '제품',
@@ -67,14 +77,10 @@ const NAV: NavGroup[] = [
   {
     label: '고객지원',
     href: '/support',
-    children: [
-      { label: '견적 문의', desc: '설치 장소와 크기만 알려주시면 됩니다', href: '/quote' },
-      { label: 'A/S 신청', desc: '고장 접수와 원격 확인', href: '/support' },
-      { label: '자주 묻는 질문', desc: '예산·계약·전기·보증', href: '/faq' },
-      { label: '자료실', desc: '규격서·시공사례집', href: '/support/downloads' },
-    ],
+    children: SUPPORT_SECTIONS.map((x) => ({ label: x.label, desc: SUPPORT_DESC[x.label] ?? '', href: x.href })),
   },
 ]
+
 
 /**
  * 다크 히어로 폴백 목록 — ⚠️ 속성 방식(data-wk-dark-hero)으로 전환 중.
@@ -82,7 +88,7 @@ const NAV: NavGroup[] = [
  * IntersectionObserver 결과를 그대로 쓴다. 모든 페이지가 속성을 달면 이 배열은 지운다.
  * /products 는 히어로가 라이트라 제외한다.
  */
-const FALLBACK_DARK_HERO = ['/', '/about', '/services', '/industries']
+const FALLBACK_DARK_HERO = ['/', '/about', '/industries']
 
 const HEADER_H = 64 // h-16
 

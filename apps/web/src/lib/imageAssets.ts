@@ -294,11 +294,17 @@ export const IMAGES = {
   faqHero: G('gen-28'),
   quoteHero: W('F4_parking-availability'),
 
+  /** 제품 카테고리 배너 — 2026-09-08 카테고리 3→6 확장분. spare 검사 통과분. 캡션 없는 배경 층 */
+  categoryHeroes: {
+    facade: W('C2_hotel-curved-wall'),
+    sports: W('E1_perimeter-boards'),
+    traffic: W('A3_roadside-pylon-dusk'),
+  } as Record<string, string>,
+
   /** 하위 페이지 공통 배너(PageHeader) — 전용 사진이 없는 페이지 4곳. spare 에서 확대 검사 통과분만 골랐다.
    *  캡션 없는 배경 층이라 실적 주장이 아니다. */
   pageHeaders: {
     certification: W('C4_control-room-wall'),
-    location: W('A3_roadside-pylon-dusk'),
     downloads: W('C6_office-reception'),
     specs: W('D5_car-showroom-wall'),
   } as Record<string, string>,

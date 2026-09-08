@@ -5,6 +5,19 @@ import path from 'node:path'
 /** @type {import('next').NextConfig} */
 const config = {
   transpilePackages: ['@lcd-pro/ui', '@lcd-pro/db'],
+  /**
+   * 2026-09-08 — 회사소개·고객지원을 한 페이지로 합치면서 사라진 주소들.
+   * 검색 결과·외부 링크·명함 QR 이 옛 주소를 물고 있을 수 있어 섹션으로 보낸다.
+   */
+  async redirects() {
+    return [
+      { source: '/services', destination: '/about#process', permanent: true },
+      { source: '/about/certification', destination: '/about#certification', permanent: true },
+      { source: '/about/location', destination: '/about#location', permanent: true },
+      { source: '/faq', destination: '/support#faq', permanent: true },
+      { source: '/support/downloads', destination: '/support#downloads', permanent: true },
+    ]
+  },
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: '*.supabase.co' },
