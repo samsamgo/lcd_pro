@@ -2,8 +2,9 @@
 
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { Phone, Mail, FileText } from 'lucide-react'
+import { Phone, Mail, FileText, MessageCircle } from 'lucide-react'
 import { SITE } from '@/lib/seo/site'
+import { useSiteModals } from '@/components/modals/SiteModals'
 
 /**
  * 우측 하단 고정 문의 버튼 (데스크톱·태블릿 전용).
@@ -23,6 +24,7 @@ const TEL = SITE.phone.replace(/[^+\d]/g, '')
 
 export function FloatingCta() {
   const [shown, setShown] = useState(false)
+  const { openConsult } = useSiteModals()
 
   // 첫 화면에서는 히어로를 가리지 않게 조금 내려간 뒤 나타난다
   useEffect(() => {
@@ -59,6 +61,20 @@ export function FloatingCta() {
           이메일 문의
         </span>
       </a>
+
+      {/* 2026-09-09 — 빠른 상담(이름·연락처·한 줄). 타사(WEDS) 실제 화면의 우측 즉석 문의 패널에 해당.
+          견적 마법사 4단계가 부담스러운 담당자에게 문턱 낮은 문 하나를 더 둔다. 모바일 하단바와 같은 모달 */}
+      <button
+        type="button"
+        onClick={() => openConsult('floating')}
+        className="group flex h-12 items-center gap-0 overflow-hidden rounded-full border border-wk-line bg-white pl-3.5 pr-3.5 shadow-wk-2 transition-all duration-200 hover:border-wk-blue hover:pr-4"
+        aria-label="빠른 상담"
+      >
+        <MessageCircle size={19} strokeWidth={1.9} className="shrink-0 text-wk-blue" aria-hidden="true" />
+        <span className="max-w-0 whitespace-nowrap text-sm font-semibold text-wk-ink opacity-0 transition-all duration-200 group-hover:ml-2 group-hover:max-w-[9rem] group-hover:opacity-100">
+          빠른 상담
+        </span>
+      </button>
 
       <Link
         href="/quote"

@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { IMAGES } from '@/lib/imageAssets'
 import { SITE } from '@/lib/seo/site'
 import { PITCH_RANGE } from '@/lib/companyScope'
+import { Reveal, RiseMask, Stagger } from '@/components/motion'
 
 /**
  * 회사 소개 — 하는 일 4장(사진) + 회사 개요 표.
@@ -46,11 +47,14 @@ export function CompanyOverview() {
       {/* 하는 일 — 사진 4장 */}
       <section aria-labelledby="works-h" className="wk-sec bg-white">
         <div className="wk-wrap">
-          <p className="wk-eyebrow">하는 일</p>
+          <Reveal y={10}>
+            <p className="wk-eyebrow">하는 일</p>
+          </Reveal>
           <h2 id="works-h" className="wk-h2 text-wk-ink">
-            설계부터 유지보수까지 직접
+            <RiseMask delay={0.06}>설계부터 유지보수까지 직접</RiseMask>
           </h2>
-          <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4">
+          {/* 2026-09-09 — 네 장이 왼쪽부터 차례로 올라온다(Stagger). 한꺼번에 뜨면 카탈로그처럼 읽힌다 */}
+          <Stagger className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4" y={18} gap={0.09}>
             {WORKS.map((w, i) => (
               <figure key={w.k} className="group relative aspect-[3/4] overflow-hidden rounded-card bg-wk-ink">
                 <Image
@@ -68,17 +72,20 @@ export function CompanyOverview() {
                 </figcaption>
               </figure>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
       {/* 회사 개요 표 */}
       <section id="company" aria-labelledby="overview-h" className="wk-sec-sm scroll-mt-32 bg-wk-bg">
         <div className="wk-wrap">
-          <p className="wk-eyebrow">회사 개요</p>
+          <Reveal y={10}>
+            <p className="wk-eyebrow">회사 개요</p>
+          </Reveal>
           <h2 id="overview-h" className="wk-h2 text-wk-ink">
-            {SITE.nameKo}
+            <RiseMask delay={0.06}>{SITE.nameKo}</RiseMask>
           </h2>
+          <Reveal y={16} delay={0.1}>
           <dl className="mt-8 overflow-hidden rounded-card border border-wk-line bg-white">
             {rows.map(([k, v]) => (
               <div key={k} className="grid grid-cols-[minmax(120px,1fr)_3fr] border-b border-wk-line last:border-b-0">
@@ -87,6 +94,7 @@ export function CompanyOverview() {
               </div>
             ))}
           </dl>
+          </Reveal>
         </div>
       </section>
     </>

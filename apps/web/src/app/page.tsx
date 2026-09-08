@@ -5,6 +5,7 @@ import { ScrollProgress } from '@/components/public/ScrollProgress'
 import { CinematicScene } from '@/components/home/CinematicScene'
 import { ProductCategoryGrid } from '@/components/products/ProductCategoryGrid'
 import { ProcessStrip, HOME_STEPS } from '@/components/home/ProcessStrip'
+import { CaseHighlights } from '@/components/home/CaseHighlights'
 import { ScrollBridge } from '@/components/motion'
 import { NavBar } from '@/components/NavBar'
 import { Footer } from '@/components/Footer'
@@ -94,12 +95,12 @@ export default function Home() {
         {/* 2026-09-08 — ProductShowcase(4개 환경 카드) 대신 카테고리 3장. 네비바·/products 와 같은 이름·같은 사진 */}
         <ProductCategoryGrid showMore />
 
+        {/* 🔴 2026-09-09 CEO 지시 "시공사례는 넣어야 해. 우리가 한 게 아니더라도." — 09-08 에 뺐던 자리 복원.
+            타사 6곳 전부 홈에 시공사례가 있다. 두 줄 마퀴로 흐르게 해 /industries 격자와 형식을 달리한다. */}
+        <CaseHighlights />
+
         {/* 2026-09-08 2차 — 진행 순서 4단계로 홈을 닫는다. 문의 칸이 아니다(ProcessStrip 주석 참조) */}
         <ProcessStrip />
-
-        {/* 🔴 2026-09-08 CEO 지시 "메인 페이지에서 시공사례도 빼라".
-            홈은 무엇을 파는 회사인지만 보여주고, 어디에 놓는지는 네비바 '시공사례' 가 맡는다.
-            CaseHighlights.tsx 는 참조 0건으로 보존(번들 제외). */}
 
         {/* 🔴 2026-09-08 CEO 지시로 홈 하단 문의 칸(CtaSection)을 뺐다.
             홈에는 히어로 CTA 와 우측 하단 플로팅 버튼이 이미 있어 같은 요청이 세 번이었다.

@@ -6,6 +6,7 @@ import { IMAGES } from '@/lib/imageAssets'
 import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
 import { ProductsAtAGlance } from '@/components/products/ProductsAtAGlance'
+import { StructureShowcase } from '@/components/products/StructureShowcase'
 import { SubNav } from '@/components/SubNav'
 import { productSubNavItems } from '@/lib/subnav'
 import { PRODUCT_CATEGORIES } from '@/lib/productCategories'
@@ -56,6 +57,10 @@ export default function ProductsPage() {
         {/* 2026-09-08 CEO 지시 "제품 페이지는 한눈에". 카테고리 6종 × 소속 모델을 전부 펼친다.
             SpecScale·StructureShowcase·ProductScenes·EnvironmentTracks 는 파일만 남겼다(참조 0건). */}
         <ProductsAtAGlance />
+
+        {/* 2026-09-09 — 구조 섹션 재배선. 타사(KSYS) 실제 화면에서 캐비닛 분해 시각이 홈 한가운데 있었다.
+            "무엇을 파는지" 다음에 "어떻게 생겼는지" 를 보여줘야 규격 숫자가 실물로 읽힌다. */}
+        <StructureShowcase />
 
         <CtaSection />
       </main>

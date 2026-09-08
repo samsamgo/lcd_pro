@@ -147,7 +147,7 @@ export function SpecCompareTable() {
                           {watt ? (
                             watt
                           ) : (
-                            <span className="text-wk-ink3">사양 확정 후</span>
+                            <span className="text-wk-ink3">견적서 기재</span>
                           )}
                         </td>
                         <td className={`${TD} wk-metric font-semibold`}>

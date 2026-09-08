@@ -51,10 +51,7 @@ export default function IndustriesPage() {
         <section className="wk-sec bg-wk-bg">
           <div className="wk-wrap">
             <IndustryGrid />
-            {/* 실적으로 읽히면 안 되므로 한 줄만 남긴다 (2026-09-08 CEO 지시로 긴 각주 축약) */}
-            <p className="wk-cap mt-8">
-              사진은 자리별 설치 형태를 보여주기 위한 예시이며, 특정 기관의 납품 실적이 아닙니다.
-            </p>
+            {/* 🔴 2026-09-09 CEO 지시 "불리한 말은 전부 빼라" — '예시이며 납품 실적이 아닙니다' 각주 제거 */}
           </div>
         </section>
 

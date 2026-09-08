@@ -16,15 +16,10 @@ import { Reveal, RevealImage, RiseMask, ScrollScale } from '@/components/motion'
  *      나란히 늘어놓은 컷이고, 마지막 컷에는 전원장치·수신카드가 없다.
  *      사진에 실제로 있는 것만 적는다.
  */
-const [PARTS, WIRING, CABINET, MODULE] = IMAGES.showcase
+// 2026-09-09 showcase[1](G3 후면 배선)은 배경이 해외(미국식 배전주·차량)라 쓰지 않는다
+const [PARTS, , CABINET, MODULE] = IMAGES.showcase
 
 const DETAILS = [
-  {
-    src: WIRING,
-    alt: '옥외 LED 캐비닛의 후면 도어를 열어 전원장치 두 대와 제어 기판, 배선을 번호표로 구분해 정리한 상태',
-    title: '후면을 열면 보이는 것',
-    body: '전원장치와 제어 기판이 어디 붙어 있는지가 정비 방식을 정합니다. 뒤로 사람이 들어갈 수 있으면 후면 정비, 아니면 앞에서 모듈을 빼는 전면 정비입니다. 실측 때 벽과 화면 사이 여유부터 봅니다.',
-  },
   {
     src: CABINET,
     alt: '표준 LED 캐비닛의 후면 프레임 — 모듈 고정부와 잠금 장치, 운반용 손잡이가 보인다',
@@ -83,7 +78,7 @@ export function StructureShowcase() {
       </div>
 
       {/* 상세 3장 */}
-      <div className="wk-wrap mt-14 grid gap-6 md:grid-cols-3 lg:mt-20">
+      <div className="wk-wrap mt-14 grid gap-6 md:grid-cols-2 lg:mt-20">
         {DETAILS.map((d, n) => (
           <RevealImage key={d.title} delay={n * 0.08}>
             <figure className="m-0">
@@ -92,7 +87,7 @@ export function StructureShowcase() {
                   src={d.src}
                   alt={d.alt}
                   fill
-                  sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
+                  sizes="(min-width:1024px) 50vw, 100vw"
                   className="object-cover"
                 />
               </div>
@@ -107,13 +102,7 @@ export function StructureShowcase() {
         ))}
       </div>
 
-      <div className="wk-wrap mt-10">
-        <p className="wk-cap max-w-xl">
-          이 페이지의 구조 이미지는 구조를 설명하기 위한 예시이며, 우강테크의 시공 실적을
-          주장하는 사진이 아닙니다. 실제 납품 현장 사진은 첫 시공 검수가 끝난 뒤 현장명
-          공개 범위를 발주처와 협의해 게시합니다.
-        </p>
-      </div>
+      {/* 2026-09-09 CEO "불리한 말은 전부 빼라" — '실적을 주장하는 사진이 아닙니다' 각주 제거 */}
     </section>
   )
 }

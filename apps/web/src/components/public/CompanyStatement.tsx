@@ -1,7 +1,7 @@
 import Image from 'next/image'
 
 import { IMAGES } from '@/lib/imageAssets'
-import { RiseMask, Reveal } from '@/components/motion'
+import { RiseMask, Reveal, Stagger } from '@/components/motion'
 import { PITCH_RANGE, NIT_RANGE, CABINET_SIZE, OUTDOOR_INGRESS } from '@/lib/companyScope'
 import { SERVICE_STEPS } from '@/lib/serviceProcess'
 import { PRODUCT_CATEGORIES } from '@/lib/productCategories'
@@ -58,6 +58,31 @@ export function CompanyStatement() {
             끝까지 책임집니다
           </RiseMask>
         </h2>
+        <Reveal immediate y={14} delay={0.28}>
+          <p className="wk-lead mt-6 max-w-[30em] !text-wk-nightMuted">
+            도면 한 장부터 마지막 모듈 교체까지, 맡는 사람이 바뀌지 않습니다.
+          </p>
+        </Reveal>
+
+        {/* 취급 범위 — 2026-09-09 CEO "회사소개는 멋있는 말과 애니메이션 다 넣어라".
+            정의만 돼 있고 그리지 않던 FACTS 를 렌더한다. 실적이 아니라 카탈로그 범위라 지어낸 숫자가 없다.
+            여섯 칸이 순서대로 켜진다(Stagger) — 전광판 화소가 점등되는 순서와 같다. */}
+        <Stagger
+          className="mt-14 grid grid-cols-2 gap-px overflow-hidden rounded-card border border-white/10 bg-white/10 sm:grid-cols-3 lg:mt-16 lg:grid-cols-6"
+          y={14}
+          gap={0.08}
+          delay={0.4}
+        >
+          {FACTS.map((f) => (
+            <div key={f.k} className="bg-wk-night/90 px-5 py-6 backdrop-blur-sm">
+              <p className="text-caption text-white/55">{f.k}</p>
+              <p className="wk-metric wk-emit-text mt-2 text-h3 font-semibold leading-tight text-wk-nightInk">
+                {f.v}
+                {f.unit && <small className="ml-1 text-white/60">{f.unit}</small>}
+              </p>
+            </div>
+          ))}
+        </Stagger>
       </div>
     </section>
   )

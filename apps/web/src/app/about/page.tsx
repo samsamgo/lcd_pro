@@ -7,6 +7,7 @@ import { MobileCtaBar } from '@/components/MobileCtaBar'
 import { PageHeader } from '@/components/PageHeader'
 import { CompanyStatement } from '@/components/public/CompanyStatement'
 import { CompanyOverview } from '@/components/public/CompanyOverview'
+import { CompanyCredo } from '@/components/public/CompanyCredo'
 import { CompanyLocation } from '@/components/public/CompanyLocation'
 import { ProcessOverview } from '@/components/solution/ProcessOverview'
 import { CtaSection } from '@/components/landing/CtaSection'
@@ -81,10 +82,11 @@ export default function AboutPage() {
           <ProcessOverview />
         </div>
 
-        {/* 🔴 2026-09-08 2차 — CompanyCredo("가장 강력한 메시지는 말 없이도 빛나는 법이다") 배선 해제.
-            CEO 최종 지시 "AI 느낌의 말투·이미지, 홈페이지를 좀먹는 마이너스는 하지 마라".
-            큰 활자 한 문장짜리 매니페스토 면은 홈에서 걷어낸 ScrollStatement 와 같은 어투였다.
-            국내 시공 업체 회사소개는 개요표·공정·오시는 길로 끝난다. 파일은 참조 0건으로 보존. */}
+        {/* 신조 — 2026-09-09 CEO "회사소개는 멋있는 말과 애니메이션 다 때려 넣어서 멋있다고 느끼게".
+            09-08 에 잠시 뺐던 CompanyCredo 를 되살린다. 문장은 CEO 가 직접 가져온 것이고
+            '빛나는' 한 어절만 실제로 발광하는 연출이라 이 회사가 파는 물건과 같은 단어를 쓴다.
+            자리는 공정을 다 읽은 뒤 — 라이트(하는 일·개요·공정) 다음의 다크 한 장, 그 뒤 오시는 길. */}
+        <CompanyCredo />
 
         {/* 🔴 인증 현황은 /about/certification 별도 페이지로 옮겼다(CEO 지시 2026-09-08
             "KC 인증서는 따로 페이지 만들어서 관리"). 서류가 늘어나는 자리라 회사소개 안에 두면
