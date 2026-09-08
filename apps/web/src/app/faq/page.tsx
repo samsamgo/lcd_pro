@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import { NavBar } from '@/components/NavBar'
+import { PageHeader } from '@/components/PageHeader'
+import { IMAGES } from '@/lib/imageAssets'
 import { Footer } from '@/components/Footer'
-import { PageHero } from '@/components/PageHero'
 import { FaqSection } from '@/components/landing/FaqSection'
 import { CtaSection } from '@/components/landing/CtaSection'
 import { JsonLd } from '@/components/seo/JsonLd'
@@ -29,11 +30,11 @@ export default function FaqPage() {
       />
       <NavBar />
       <main id="main">
-        <PageHero
-          eyebrow="고객지원"
+        <PageHeader
+          group="고객지원"
           title="자주 묻는 질문"
-          description="예산 과목, 계약 방식, 전기 인입, 설치, 고장. 결재를 올리기 전에 확인해야 하는 것부터 답했습니다."
-          crumbs={[{ name: '홈', href: '/' }, { name: 'FAQ' }]}
+          lead="예산·계약·전기·보증. 결재 전에 걸리는 것들을 정리했습니다."
+          image={IMAGES.faqHero}
         />
         <FaqSection hideHeader />
         <CtaSection

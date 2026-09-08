@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 
 import { NavBar } from '@/components/NavBar'
+import { PageHeader } from '@/components/PageHeader'
+import { IMAGES } from '@/lib/imageAssets'
 import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
 import { SpecCompareTable } from '@/components/products/SpecCompareTable'
@@ -32,15 +34,12 @@ export default function SpecsPage() {
       />
       <NavBar />
       <main id="main">
-        <section className="wk-sec-sm bg-white pt-28 md:pt-32">
-          <div className="wk-wrap">
-            <p className="wk-eyebrow">제품</p>
-            <h1 className="wk-h1 text-wk-ink">규격 비교표</h1>
-            <p className="wk-lead mt-5">
-              전 모델의 화소 간격·밝기·방수 등급·권장 시청거리입니다. 결재 서류에 그대로 옮기셔도 됩니다.
-            </p>
-          </div>
-        </section>
+        <PageHeader
+          group="제품"
+          title="규격 비교표"
+          lead="전 모델의 화소 간격·밝기·방수 등급·권장 시청거리. 결재 서류에 그대로 옮기셔도 됩니다."
+          image={IMAGES.pageHeaders.specs}
+        />
         <div id="spec">
           <SpecCompareTable />
           <SpecSheets />

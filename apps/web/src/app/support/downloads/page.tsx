@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 import { NavBar } from '@/components/NavBar'
+import { PageHeader } from '@/components/PageHeader'
+import { IMAGES } from '@/lib/imageAssets'
 import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
 import { CtaSection } from '@/components/landing/CtaSection'
@@ -44,17 +46,14 @@ export default function DownloadsPage() {
       />
       <NavBar />
       <main id="main">
-        <section className="wk-sec-sm bg-white pt-28 md:pt-32">
-          <div className="wk-wrap">
-            <p className="wk-eyebrow">자료실</p>
-            <h1 className="wk-h1 mt-3 text-wk-ink">규격서 · 시공사례집</h1>
-            <p className="wk-lead mt-6 max-w-[34em] text-wk-ink2">
-              결재 서류에 첨부하실 자료를 내려받으십시오.
-            </p>
-          </div>
-        </section>
+        <PageHeader
+          group="고객지원"
+          title="자료실"
+          lead="결재 서류에 첨부하실 자료를 내려받으십시오."
+          image={IMAGES.pageHeaders.downloads}
+        />
 
-        <section className="wk-sec-sm bg-wk-bg pb-24">
+        <section className="wk-sec bg-wk-bg">
           <div className="wk-wrap">
             {empty ? (
               /* 빈 상태 — 준비 중이라고 쓰되, 담당자가 지금 당장 할 수 있는 것을 준다 */

@@ -40,6 +40,7 @@ export function Footer() {
             <Link href="/support/downloads" className={LINK_CLASS}>자료실</Link>
             <Link href="/about" className={LINK_CLASS}>회사 소개</Link>
             <Link href="/services" className={LINK_CLASS}>설치 과정</Link>
+            <Link href="/about/location" className={LINK_CLASS}>오시는 길</Link>
           </div>
 
           {/* 사업자정보 · 연락처 */}

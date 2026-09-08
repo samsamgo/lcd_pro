@@ -41,7 +41,7 @@ const STEPS: { n: string; title: string; desc: string; who: string }[] = [
   {
     n: '05',
     title: '마무리 확인',
-    desc: '무엇이 고장이었고 어디를 갈았는지 담당자께 확인받고 마칩니다.',
+    desc: '고장 원인과 교체 내역을 담당자께 확인받습니다.',
     who: '우강테크 → 담당자',
   },
 ]
@@ -52,14 +52,11 @@ export function AfterService() {
       <div className="wk-wrap grid items-start gap-12 lg:grid-cols-[5fr_7fr] lg:gap-16">
         <Reveal className="lg:sticky lg:top-28 lg:self-start">
           <div>
-            <p className="wk-eyebrow">설치 후</p>
+            <p className="wk-eyebrow">A/S 절차</p>
             <h2 id="after-h" className="wk-h2 text-wk-ink">
-              고장 나면 이렇게 진행됩니다
+              접수부터 교체까지 5단계
             </h2>
-            <p className="wk-lead mt-5">
-              설치는 하루면 끝나지만 쓰는 기간은 몇 년입니다. 그동안 한 번은 연락하실 일이 생깁니다.
-              그때 절차부터 찾지 않으시도록 누가 무엇을 하는지 미리 적어 둡니다.
-            </p>
+            <p className="wk-lead mt-5">원격 확인 후 방문, 해당 모듈만 교체합니다.</p>
             {/* "모듈만 갈아 끼운다"를 글로 설명하는 대신 보여준다 */}
             <div className="relative mt-7 aspect-[4/3] overflow-hidden rounded-card-m">
               <Image

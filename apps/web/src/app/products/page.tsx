@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
 
 import { NavBar } from '@/components/NavBar'
+import { PageHeader } from '@/components/PageHeader'
+import { IMAGES } from '@/lib/imageAssets'
 import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
-import { ProductsHero } from '@/components/products/ProductsHero'
 import { ProductCategoryGrid } from '@/components/products/ProductCategoryGrid'
 import { CtaSection } from '@/components/landing/CtaSection'
 import { JsonLd } from '@/components/seo/JsonLd'
@@ -44,7 +45,12 @@ export default function ProductsPage() {
       />
       <NavBar />
       <main id="main">
-        <ProductsHero />
+        <PageHeader
+          group="제품"
+          title="제품"
+          lead="보는 거리로 고릅니다. 화소 간격과 밝기는 설치 조건의 결과입니다."
+          image={IMAGES.productsHero}
+        />
 
         {/* 🔴 2026-09-08 — /products 는 **카테고리 입구**로만 쓴다.
             전에는 환경 트랙·화소 축척·구조·장면·비교표·규격서 여섯 섹션이 한 페이지에 있었고,

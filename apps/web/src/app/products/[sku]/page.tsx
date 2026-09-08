@@ -7,6 +7,7 @@ import { Footer } from '@/components/Footer'
 import { CtaSection } from '@/components/landing/CtaSection'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
 import { NavBar } from '@/components/NavBar'
+import { PageHeader } from '@/components/PageHeader'
 import { PRODUCTS } from '@/lib/products'
 import { INDUSTRIES } from '@/lib/industries'
 import { categoryOf } from '@/lib/productCategories'
@@ -60,31 +61,13 @@ export default function ProductPage({ params }: PageProps) {
     <>
       <NavBar />
       <main id="main">
-        {/* 🔴 2026-09-08 CEO 지시 "모든 페이지 이미지 위주로".
-            사진을 카드 안에 가둬 두지 않고 화면 폭을 채우는 히어로로 올렸다.
-            전광판은 눈으로 보고 사는 물건이라 첫 화면이 규격표면 안 읽힌다. */}
-        <section className="relative flex min-h-[58svh] items-end overflow-hidden bg-black pt-16 md:min-h-[66svh]">
-          <div className="absolute inset-0" aria-hidden="true">
-            <Image
-              src={product.img}
-              alt=""
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover opacity-60"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/55 to-black/35" />
-          </div>
-          <div className="relative z-10 w-full pb-12 md:pb-16">
-            <div className="wk-wrap">
-              <p className="wk-eyebrow !text-white/70">
-                {categoryOf(product.sku)?.name ?? '제품'} · {product.tag}
-              </p>
-              <h1 className="wk-h1 wk-emit-text text-white">{product.name}</h1>
-              <p className="wk-lead mt-6 max-w-[32em] !text-white/85">{product.summary}</p>
-            </div>
-          </div>
-        </section>
+        <PageHeader
+          group={categoryOf(product.sku)?.name ?? '제품'}
+          title={product.name}
+          lead={product.summary}
+          image={product.img}
+          imageAlt={product.imgAlt}
+        />
 
         <section className="wk-sec bg-white">
           <div className="wk-wrap">

@@ -12,26 +12,30 @@ import { SITE } from '@/lib/seo/site'
  *    AboutContact 가 전화·이메일·문의 폼을 전부 갖는다. 같은 페이지에서 전화번호를
  *    두 번 보여 줄 이유가 없다. 이 카드는 '장소 정보'(주소·업무시간·길찾기)만 맡는다.
  */
-export function CompanyLocation() {
+export function CompanyLocation({ hideHeading = false }: { hideHeading?: boolean } = {}) {
   const q = encodeURIComponent(SITE.addressFull)
   const naver = `https://map.naver.com/p/search/${q}`
   const kakao = `https://map.kakao.com/?q=${q}`
   const embed = `https://maps.google.com/maps?q=${q}&hl=ko&z=16&output=embed`
 
   return (
-    <section id="location" className="wk-sec bg-white">
+    <section id="location" className={`bg-white ${hideHeading ? "wk-sec-sm pt-0 md:pt-0 lg:pt-0" : "wk-sec"}`}>
       <div className="wk-wrap">
         {/* 2026-09-07(4차) 섹션 머리를 계약서 §4 3박자로 맞췄다.
             🔴 RiseMask 를 Reveal 안에 넣지 않는다 — 부모가 움직이는 중에 마스크를 올리면
                둘 다 안 읽힌다(구조정본 §16-D). 제목은 Reveal 밖 형제로 꺼낸다. */}
-        <Reveal y={10} duration={0.6}>
-          <p className="wk-eyebrow">찾아오시는 길</p>
-        </Reveal>
-        <h2 className="wk-h2 text-wk-ink">
-          <RiseMask delay={0.06}>회사 위치</RiseMask>
-        </h2>
+        {!hideHeading && (
+          <>
+            <Reveal y={10} duration={0.6}>
+              <p className="wk-eyebrow">회사소개</p>
+            </Reveal>
+            <h2 className="wk-h2 text-wk-ink">
+              <RiseMask delay={0.06}>오시는 길</RiseMask>
+            </h2>
+          </>
+        )}
 
-        <div className="mt-10 grid gap-5 lg:grid-cols-12 lg:gap-8">
+        <div className={`grid gap-5 lg:grid-cols-12 lg:gap-8 ${hideHeading ? '' : 'mt-10'}`}>
           <Reveal className="lg:col-span-7" y={18}>
             <div className="relative aspect-[16/10] overflow-hidden rounded-card-m bg-wk-bg sm:rounded-card">
               <iframe

@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { ShieldCheck, ExternalLink } from 'lucide-react'
 
 import { NavBar } from '@/components/NavBar'
+import { PageHeader } from '@/components/PageHeader'
+import { IMAGES } from '@/lib/imageAssets'
 import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
 import { CtaSection } from '@/components/landing/CtaSection'
@@ -43,20 +45,14 @@ export default function CertificationPage() {
       />
       <NavBar />
       <main id="main">
-        <section className="wk-sec bg-white pt-28 md:pt-32">
-          <div className="wk-wrap">
-            <p className="wk-eyebrow">인증 현황</p>
-            <h1 className="wk-h1 mt-3 max-w-[14em] text-wk-ink">
-              KC 인증 제품만 공급합니다
-            </h1>
-            <p className="wk-lead mt-6 max-w-[36em] text-wk-ink2">
-              인증받지 않은 제품은 취급하지 않습니다. 아래 번호는 국립전파연구원에서 직접
-              조회하실 수 있습니다.
-            </p>
-          </div>
-        </section>
+        <PageHeader
+          group="회사소개"
+          title="인증 현황"
+          lead="KC 인증 제품만 공급합니다. 아래 번호는 국립전파연구원에서 직접 조회하실 수 있습니다."
+          image={IMAGES.pageHeaders.certification}
+        />
 
-        <section className="wk-sec-sm bg-wk-bg pb-24">
+        <section className="wk-sec bg-wk-bg">
           <div className="wk-wrap">
             <div className="grid gap-4 md:grid-cols-2">
               {HELD_CREDENTIALS.map((c) => (

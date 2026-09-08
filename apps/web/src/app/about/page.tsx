@@ -1,12 +1,12 @@
 import type { Metadata } from 'next'
 import { NavBar } from '@/components/NavBar'
+import { PageHeader } from '@/components/PageHeader'
+import { IMAGES } from '@/lib/imageAssets'
 import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
-import { CompanyHero } from '@/components/public/CompanyHero'
 import { CompanyAtAGlance } from '@/components/public/CompanyAtAGlance'
 import { CompanyChapters } from '@/components/public/CompanyChapters'
 import { CompanySummary } from '@/components/public/CompanySummary'
-import { CompanyLocation } from '@/components/public/CompanyLocation'
 import { AboutContact } from '@/components/about/AboutContact'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { organizationLd, breadcrumbLd } from '@/lib/seo/jsonld'
@@ -113,11 +113,16 @@ export default function AboutPage() {
       />
       <NavBar />
       <main id="main">
-        <CompanyHero />
+        <PageHeader
+          group="회사소개"
+          title="회사 소개"
+          lead="LED 전광판을 만들고, 달고, 고칩니다."
+          image={IMAGES.company.hero}
+        />
         <CompanyAtAGlance />
         <CompanyChapters />
         <CompanySummary />
-        <CompanyLocation />
+        {/* 2026-09-08 — 오시는 길은 /about/location 실제 페이지로 갔다(페이지 방식 통일·중복 제거) */}
         <AboutContact />
       </main>
       <Footer />

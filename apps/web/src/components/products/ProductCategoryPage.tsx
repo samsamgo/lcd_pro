@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { NavBar } from '@/components/NavBar'
+import { PageHeader } from '@/components/PageHeader'
 import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
 import { CtaSection } from '@/components/landing/CtaSection'
@@ -42,27 +43,14 @@ export function ProductCategoryPage({ category }: { category: ProductCategory })
       />
       <NavBar />
       <main id="main">
-        {/* ① 사진 히어로 */}
-        <section className="relative flex min-h-[56svh] items-end overflow-hidden bg-black pt-16 md:min-h-[62svh]">
-          <div className="absolute inset-0" aria-hidden="true">
-            <Image
-              src={category.heroImage}
-              alt=""
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover opacity-60"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/55 to-black/30" />
-          </div>
-          <div className="relative z-10 w-full pb-12 md:pb-16">
-            <div className="wk-wrap">
-              <p className="wk-eyebrow !text-white/70">제품</p>
-              <h1 className="wk-h1 wk-emit-text text-white">{category.name}</h1>
-              <p className="wk-lead mt-5 max-w-[34em] !text-white/85">{category.lead}</p>
-            </div>
-          </div>
-        </section>
+        {/* ① 공통 머리 */}
+        <PageHeader
+          group="제품"
+          title={category.name}
+          lead={category.lead}
+          image={category.heroImage}
+          imageAlt={category.heroImageAlt}
+        />
 
         {/* ② 모델 */}
         <section className="wk-sec bg-white">

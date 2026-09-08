@@ -294,6 +294,15 @@ export const IMAGES = {
   faqHero: G('gen-28'),
   quoteHero: W('F4_parking-availability'),
 
+  /** 하위 페이지 공통 배너(PageHeader) — 전용 사진이 없는 페이지 4곳. spare 에서 확대 검사 통과분만 골랐다.
+   *  캡션 없는 배경 층이라 실적 주장이 아니다. */
+  pageHeaders: {
+    certification: W('C4_control-room-wall'),
+    location: W('A3_roadside-pylon-dusk'),
+    downloads: W('C6_office-reception'),
+    specs: W('D5_car-showroom-wall'),
+  } as Record<string, string>,
+
   /** 남는 장면 — 사례 더보기·블로그 썸네일 등 자유 배치 */
   spare: [
     /** 2026-09-07 /services 취부 방식이 도해 섹션으로 바뀌면서 풀린 컷.

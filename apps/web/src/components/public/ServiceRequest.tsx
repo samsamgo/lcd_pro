@@ -78,14 +78,11 @@ export function ServiceRequest() {
       <div className="wk-wrap grid items-start gap-5 lg:grid-cols-2 lg:gap-8">
         <div>
           <p className="wk-eyebrow">A/S 신청</p>
-          <h2 className="wk-h2 text-wk-ink">장애 접수</h2>
-          <p className="wk-lead mt-4">
-            화면이 켜지지 않거나 일부가 어둡게 보이는 등 이상이 있으면 접수해 주십시오.
-            증상과 화면 사진만 있으면 원격으로 원인을 먼저 확인합니다.
-          </p>
+          <h2 className="wk-h2 text-wk-ink">A/S 접수</h2>
+          <p className="wk-lead mt-4">증상과 화면 사진만 있으면 원격으로 원인을 먼저 확인합니다.</p>
           {SITE.phone && (
             <p className="mt-5 text-label text-wk-ink3">
-              급한 건은 전화로 접수하시는 편이 빠릅니다 —{' '}
+              급한 건은 전화가 빠릅니다 —{' '}
               <a
                 href={`tel:${SITE.phone.replace(/[^0-9+]/g, '')}`}
                 className="font-semibold text-wk-cta"

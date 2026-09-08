@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
 
 import { NavBar } from '@/components/NavBar'
+import { PageHeader } from '@/components/PageHeader'
+import { IMAGES } from '@/lib/imageAssets'
 import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
-import { ServiceHero } from '@/components/services/ServiceHero'
 import { MountTypes } from '@/components/solution/MountTypes'
 import { ProcessOverview } from '@/components/solution/ProcessOverview'
 import { CtaSection } from '@/components/landing/CtaSection'
@@ -72,7 +73,12 @@ export default function ServicesPage() {
 
       <NavBar />
       <main id="main">
-        <ServiceHero />
+        <PageHeader
+          group="회사소개"
+          title="설치 과정"
+          lead="실측부터 사후관리까지 여섯 공정. 누가 며칠 동안 무엇을 하는지 아래 표에 적었습니다."
+          image={IMAGES.servicesHero}
+        />
 
         {/* 요약표가 먼저, 상세는 아코디언. 섹션 자체가 id="process" 를 갖는다 */}
         <ProcessOverview />

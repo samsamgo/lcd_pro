@@ -23,22 +23,22 @@ const SYMPTOMS: Symptom[] = [
   {
     sign: '화면 일부만 까맣게 나옵니다',
     causes: ['모듈 한 장 고장', '모듈 뒤 신호선 접촉 불량'],
-    first: '까만 부분이 네모반듯하면 모듈 한 장 문제일 가능성이 큽니다. 그 자리만 갈면 되니 사진을 찍어 보내주십시오.',
+    first: '네모반듯하게 꺼졌으면 모듈 한 장 문제입니다. 사진을 찍어 보내주십시오.',
   },
   {
     sign: '화면 전체가 안 켜집니다',
     causes: ['전원 차단기 내려감', '제어기 정지', '정전 후 복구 안 됨'],
-    first: '분전반에서 해당 차단기가 내려가 있는지 먼저 봐 주십시오. 올렸는데도 안 켜지면 제어기 쪽입니다.',
+    first: '분전반 차단기를 먼저 확인해 주십시오. 올려도 안 켜지면 제어기 문제입니다.',
   },
   {
     sign: '글자는 나오는데 색이 이상합니다',
     causes: ['특정 색 채널 불량', '밝기·색온도 설정 변경'],
-    first: '전체가 붉거나 푸르게 치우쳤다면 설정 문제일 수 있어 원격으로 확인해 드립니다.',
+    first: '전체가 한 색으로 치우쳤으면 설정 문제입니다. 원격으로 조정합니다.',
   },
   {
     sign: '낮에는 잘 안 보입니다',
     causes: ['자동 밝기 설정이 낮게 잡힘', '실내용 밝기를 옥외에 설치'],
-    first: '설치 위치와 시간대를 알려주시면 밝기 설정을 원격으로 조정해 봅니다. 설정으로 안 되면 사양 문제입니다.',
+    first: '밝기 설정을 원격으로 조정합니다. 설정으로 안 되면 사양 문제입니다.',
   },
 ]
 
@@ -47,14 +47,11 @@ export function SymptomGuide() {
     <section aria-labelledby="symptom-h" className="wk-sec bg-white">
       <div className="wk-wrap">
         <Reveal>
-          <p className="wk-eyebrow">전화 걸기 전에</p>
+          <p className="wk-eyebrow">자주 있는 증상</p>
           <h2 id="symptom-h" className="wk-h2 text-wk-ink">
-            증상으로 먼저 가늠해 보십시오
+            접수 전에 확인해 보십시오
           </h2>
-          <p className="wk-lead mt-5">
-            차단기가 내려간 것뿐인데 출동을 부르면 서로 시간을 버립니다.
-            여기서 해결되면 그대로 쓰시면 되고, 안 되면 접수할 때 증상이 정확해집니다.
-          </p>
+          <p className="wk-lead mt-5">여기서 해결되지 않으면 증상 그대로 접수해 주십시오.</p>
         </Reveal>
 
         <Stagger className="mt-12 grid grid-cols-1 gap-4 lg:grid-cols-2" y={12} gap={0.06}>
@@ -81,8 +78,7 @@ export function SymptomGuide() {
         </Stagger>
 
         <p className="wk-cap mt-8">
-          외부 충격이나 침수, 임의 개조로 생긴 고장은 무상보증 범위 밖입니다.
-          그 경우에도 수리는 가능하며 비용은 견적으로 먼저 알려드립니다.
+          외부 충격·침수·임의 개조로 생긴 고장은 무상보증 범위 밖이며, 수리 비용은 견적으로 먼저 안내합니다.
         </p>
       </div>
     </section>

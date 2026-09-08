@@ -7,6 +7,7 @@ import { Footer } from '@/components/Footer'
 import { CtaSection } from '@/components/landing/CtaSection'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
 import { NavBar } from '@/components/NavBar'
+import { PageHeader } from '@/components/PageHeader'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { INDUSTRIES, getIndustry } from '@/lib/industries'
 import { PRODUCTS } from '@/lib/products'
@@ -52,30 +53,13 @@ export default function IndustryPage({ params }: PageProps) {
       />
       <NavBar />
       <main id="main">
-        <section
-          data-wk-dark-hero
-          className="relative flex min-h-[62svh] items-end overflow-hidden bg-black md:min-h-[70svh]"
-        >
-          <div className="absolute inset-0" aria-hidden="true">
-            <Image
-              src={industry.heroImage}
-              alt=""
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover opacity-50"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/70" />
-            <div className="wk-pixelgrid wk-pixelgrid-top wk-pixelgrid-coarse absolute inset-0" />
-          </div>
-          <div className="relative z-10 w-full pb-14 md:pb-20">
-            <div className="wk-wrap">
-              <p className="wk-eyebrow !text-white/70">{industry.eyebrow}</p>
-              <h1 className="wk-h1 wk-emit-text max-w-[13em] text-white">{industry.title}</h1>
-              <p className="wk-lead mt-7 !text-white/85">{industry.description}</p>
-            </div>
-          </div>
-        </section>
+        <PageHeader
+          group="시공사례"
+          title={industry.nameKo}
+          lead={industry.description}
+          image={industry.heroImage}
+          imageAlt={industry.heroImageAlt}
+        />
 
         <section className="wk-sec bg-wk-bg">
           <div className="wk-wrap">

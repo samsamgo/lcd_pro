@@ -49,7 +49,7 @@ const NAV: NavGroup[] = [
       { label: '회사 소개', desc: '법인·대표자·사업자등록', href: '/about' },
       { label: '설치 과정', desc: '실측부터 A/S까지 여섯 공정', href: '/services' },
       { label: '인증 현황', desc: 'KC 인증 제품만 공급합니다', href: '/about/certification' },
-      { label: '오시는 길', desc: '대전 대덕구', href: '/about#location' },
+      { label: '오시는 길', desc: '대전 대덕구', href: '/about/location' },
     ],
   },
   {
