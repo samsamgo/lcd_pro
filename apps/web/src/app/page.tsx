@@ -4,7 +4,6 @@ import { ProofRow } from '@/components/public/ProofRow'
 import { ScrollProgress } from '@/components/public/ScrollProgress'
 import { CinematicScene } from '@/components/home/CinematicScene'
 import { ProductCategoryGrid } from '@/components/products/ProductCategoryGrid'
-import { CtaSection } from '@/components/landing/CtaSection'
 import { ScrollBridge } from '@/components/motion'
 import { NavBar } from '@/components/NavBar'
 import { Footer } from '@/components/Footer'
@@ -102,8 +101,9 @@ export default function Home() {
             홈은 무엇을 파는 회사인지만 보여주고, 어디에 놓는지는 네비바 '시공사례' 가 맡는다.
             CaseHighlights.tsx 는 참조 0건으로 보존(번들 제외). */}
 
-        {/* ── near-black 최종 전환 ── */}
-        <CtaSection />
+        {/* 🔴 2026-09-08 CEO 지시로 홈 하단 문의 칸(CtaSection)을 뺐다.
+            홈에는 히어로 CTA 와 우측 하단 플로팅 버튼이 이미 있어 같은 요청이 세 번이었다.
+            문의 칸은 안쪽 페이지(회사소개·제품·시공사례·고객지원)에만 둔다. */}
         </main>
       <Footer />
       <MobileCtaBar />
