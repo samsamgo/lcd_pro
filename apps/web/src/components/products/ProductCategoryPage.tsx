@@ -3,12 +3,14 @@ import Link from 'next/link'
 
 import { NavBar } from '@/components/NavBar'
 import { PageHeader } from '@/components/PageHeader'
+import { SubNav, productSubNavItems } from '@/components/SubNav'
 import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
 import { CtaSection } from '@/components/landing/CtaSection'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { INDUSTRIES } from '@/lib/industries'
 import {
+  PRODUCT_CATEGORIES,
   categoryProducts,
   categorySpecs,
   skuToSegment,
@@ -50,6 +52,12 @@ export function ProductCategoryPage({ category }: { category: ProductCategory })
           lead={category.lead}
           image={category.heroImage}
           imageAlt={category.heroImageAlt}
+        />
+
+        <SubNav
+          back={{ label: '제품 전체', href: '/products' }}
+          items={productSubNavItems(PRODUCT_CATEGORIES)}
+          current={`/products/${category.slug}`}
         />
 
         {/* ② 모델 */}

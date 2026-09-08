@@ -52,10 +52,7 @@ export default function SupportPage() {
         {/* 전화 걸기 전에 스스로 가늠할 수 있게 — 출동이 줄고 접수 정확도가 오른다 */}
         <SymptomGuide />
 
-        <CtaSection
-          title={['A/S 문의는', '이 번호로 주십시오']}
-          sub={'접수 폼이 번거로우시면 전화로 바로 접수하셔도 됩니다.'}
-        />
+        <CtaSection />
       </main>
       <Footer />
       <MobileCtaBar />

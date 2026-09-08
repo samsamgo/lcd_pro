@@ -5,7 +5,9 @@ import { PageHeader } from '@/components/PageHeader'
 import { IMAGES } from '@/lib/imageAssets'
 import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
-import { ProductCategoryGrid } from '@/components/products/ProductCategoryGrid'
+import { ProductsAtAGlance } from '@/components/products/ProductsAtAGlance'
+import { SubNav, productSubNavItems } from '@/components/SubNav'
+import { PRODUCT_CATEGORIES } from '@/lib/productCategories'
 import { CtaSection } from '@/components/landing/CtaSection'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { breadcrumbLd } from '@/lib/seo/jsonld'
@@ -52,18 +54,17 @@ export default function ProductsPage() {
           image={IMAGES.productsHero}
         />
 
-        {/* 🔴 2026-09-08 — /products 는 **카테고리 입구**로만 쓴다.
-            전에는 환경 트랙·화소 축척·구조·장면·비교표·규격서 여섯 섹션이 한 페이지에 있었고,
-            네비바 하위 메뉴는 그 안의 앵커(#lineup·#spec)로 뛰어들었다. 눌러도 페이지가 안 바뀌니
-            "이상한 곳으로 연동된다"(CEO). 이제 카테고리 3종은 각자 페이지가 있고 여기는
-            그 셋을 사진으로 보여주고 보내는 일만 한다. 비교표·규격서는 /products/specs 로 갔다.
-            SpecScale·StructureShowcase·ProductScenes 는 파일만 남겼다(참조 0건 = 번들 제외). */}
-        <ProductCategoryGrid />
-
-        <CtaSection
-          title={['어느 제품이 맞는지', '같이 정하겠습니다']}
-          sub={'보는 거리와 설치 자리만 알려주시면 맞는 규격을 골라 드립니다.'}
+        <SubNav
+          back={{ label: '홈', href: '/' }}
+          items={[{ label: '제품 전체', href: '/products' }, ...productSubNavItems(PRODUCT_CATEGORIES)]}
+          current="/products"
         />
+
+        {/* 2026-09-08 CEO 지시 "제품 페이지는 한눈에". 카테고리 3종 × 모델 6종을 전부 펼친다.
+            SpecScale·StructureShowcase·ProductScenes·EnvironmentTracks 는 파일만 남겼다(참조 0건). */}
+        <ProductsAtAGlance />
+
+        <CtaSection />
       </main>
       <Footer />
       <MobileCtaBar />

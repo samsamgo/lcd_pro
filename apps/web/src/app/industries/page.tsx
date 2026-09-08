@@ -72,10 +72,7 @@ export default function IndustriesPage() {
         {/* 업종과 무관하게 일정이 갈리는 네 지점 */}
         <IndustryChecks />
 
-        <CtaSection
-          title={['우리 기관은 어떤지', '물어보십시오']}
-          sub={'비슷한 자리에 어떤 구성이 들어갔는지 정리해 보내드립니다.'}
-        />
+        <CtaSection />
       </main>
       <Footer />
       <MobileCtaBar />

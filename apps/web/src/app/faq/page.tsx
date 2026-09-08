@@ -37,10 +37,7 @@ export default function FaqPage() {
           image={IMAGES.faqHero}
         />
         <FaqSection hideHeader />
-        <CtaSection
-          title={['여기 없는 것은', '직접 답하겠습니다']}
-          sub={'전화든 견적 문의든 편한 쪽으로 남겨 주시면 담당자가 확인합니다.'}
-        />
+        <CtaSection />
       </main>
       <Footer />
     </>

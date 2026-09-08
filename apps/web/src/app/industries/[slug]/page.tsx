@@ -8,6 +8,7 @@ import { CtaSection } from '@/components/landing/CtaSection'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
 import { NavBar } from '@/components/NavBar'
 import { PageHeader } from '@/components/PageHeader'
+import { SubNav } from '@/components/SubNav'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { INDUSTRIES, getIndustry } from '@/lib/industries'
 import { PRODUCTS } from '@/lib/products'
@@ -59,6 +60,16 @@ export default function IndustryPage({ params }: PageProps) {
           lead={industry.description}
           image={industry.heroImage}
           imageAlt={industry.heroImageAlt}
+        />
+
+        {/* 같은 시설군의 형제 페이지로 바로 넘어간다 — 목록으로 돌아가지 않아도 된다 */}
+        <SubNav
+          back={{ label: '시공사례 전체', href: '/industries' }}
+          items={INDUSTRIES.filter((i) => i.group === industry.group).map((i) => ({
+            label: i.nameKo,
+            href: `/industries/${i.slug}`,
+          }))}
+          current={`/industries/${industry.slug}`}
         />
 
         <section className="wk-sec bg-wk-bg">

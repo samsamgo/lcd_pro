@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 
 import { NavBar } from '@/components/NavBar'
 import { PageHeader } from '@/components/PageHeader'
+import { SubNav, productSubNavItems } from '@/components/SubNav'
+import { PRODUCT_CATEGORIES } from '@/lib/productCategories'
 import { IMAGES } from '@/lib/imageAssets'
 import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
@@ -39,6 +41,11 @@ export default function SpecsPage() {
           title="규격 비교표"
           lead="전 모델의 화소 간격·밝기·방수 등급·권장 시청거리. 결재 서류에 그대로 옮기셔도 됩니다."
           image={IMAGES.pageHeaders.specs}
+        />
+        <SubNav
+          back={{ label: '제품 전체', href: '/products' }}
+          items={productSubNavItems(PRODUCT_CATEGORIES)}
+          current="/products/specs"
         />
         <div id="spec">
           <SpecCompareTable />

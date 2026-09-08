@@ -8,9 +8,10 @@ import { CtaSection } from '@/components/landing/CtaSection'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
 import { NavBar } from '@/components/NavBar'
 import { PageHeader } from '@/components/PageHeader'
+import { SubNav, productSubNavItems } from '@/components/SubNav'
 import { PRODUCTS } from '@/lib/products'
 import { INDUSTRIES } from '@/lib/industries'
-import { categoryOf } from '@/lib/productCategories'
+import { PRODUCT_CATEGORIES, categoryOf } from '@/lib/productCategories'
 import { buildMetadata } from '@/lib/seo/site'
 
 export const dynamic = 'force-static'
@@ -67,6 +68,15 @@ export default function ProductPage({ params }: PageProps) {
           lead={product.summary}
           image={product.img}
           imageAlt={product.imgAlt}
+        />
+
+        <SubNav
+          back={{
+            label: categoryOf(product.sku)?.name ?? '제품 전체',
+            href: categoryOf(product.sku) ? `/products/${categoryOf(product.sku)!.slug}` : '/products',
+          }}
+          items={productSubNavItems(PRODUCT_CATEGORIES)}
+          current={categoryOf(product.sku) ? `/products/${categoryOf(product.sku)!.slug}` : ''}
         />
 
         <section className="wk-sec bg-white">
