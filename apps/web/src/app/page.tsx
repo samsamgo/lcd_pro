@@ -3,7 +3,6 @@ import { PublicHero } from '@/components/public/PublicHero'
 import { ProofRow } from '@/components/public/ProofRow'
 import { ScrollProgress } from '@/components/public/ScrollProgress'
 import { CinematicScene } from '@/components/home/CinematicScene'
-import { CaseHighlights } from '@/components/home/CaseHighlights'
 import { ProductCategoryGrid } from '@/components/products/ProductCategoryGrid'
 import { CtaSection } from '@/components/landing/CtaSection'
 import { ScrollBridge } from '@/components/motion'
@@ -94,20 +93,14 @@ export default function Home() {
             칠하지 않는다 — 빛은 어둠이 있어야 빛이다.
 
             2026-09-08 — 이 아래 있던 ScreenGallery·ProcessTimeline·FaqSection 세 섹션을
-            걷어냈다(아래 CaseHighlights 주석 참조). 그래서 이 구간은 제품 → 시공사례 →
-            CTA 세 걸음으로 끝난다. 홈에서 끝내지 않고 안쪽 페이지로 보내는 것이 목적이다. */}
+            걷어냈다. 2026-09-08 시공사례 미리보기까지 빼면서 이 구간은 **제품 → 문의** 두 걸음이다.
+            홈에서 끝내지 않고 안쪽 페이지로 보내는 것이 목적이다. */}
         {/* 2026-09-08 — ProductShowcase(4개 환경 카드) 대신 카테고리 3장. 네비바·/products 와 같은 이름·같은 사진 */}
         <ProductCategoryGrid showMore />
 
-        {/* 🔴 2026-09-08 CEO 지시 "각 페이지마다 중복되는 거 없게".
-            여기 있던 세 섹션을 걷어냈다 — 전부 안쪽 페이지에 원본이 따로 있었다.
-              ScreenGallery(사진 9장)  → /products 의 ProductScenes · /industries 의 IndustryScenes
-              ProcessTimeline(설치 공정) → /services 의 ProcessOverview
-              FaqSection(문답 6개)      → /faq 전체
-            홈이 하위 페이지를 요약하는 게 아니라 **통째로 다시 하고 있었다.** 그래서 어느
-            메뉴를 눌러도 방금 본 걸 또 보게 됐고, 그것이 "페이지 정리가 안 됐다" 의 정체다.
-            대신 홈에는 사진으로 된 시공사례 입구 하나만 둔다 — 누르면 실제 페이지로 나간다. */}
-        <CaseHighlights />
+        {/* 🔴 2026-09-08 CEO 지시 "메인 페이지에서 시공사례도 빼라".
+            홈은 무엇을 파는 회사인지만 보여주고, 어디에 놓는지는 네비바 '시공사례' 가 맡는다.
+            CaseHighlights.tsx 는 참조 0건으로 보존(번들 제외). */}
 
         {/* ── near-black 최종 전환 ── */}
         <CtaSection />
