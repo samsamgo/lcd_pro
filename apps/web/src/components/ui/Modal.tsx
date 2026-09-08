@@ -8,10 +8,10 @@ import {
   type ReactNode,
 } from 'react'
 import { createPortal } from 'react-dom'
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { X } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { EASE } from '@/components/motion'
+import { EASE, useReducedMotion } from '@/components/motion'
 
 export interface ModalProps {
   open: boolean

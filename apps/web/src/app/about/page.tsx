@@ -6,7 +6,6 @@ import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
 import { PageHeader } from '@/components/PageHeader'
 import { CompanyStatement } from '@/components/public/CompanyStatement'
-import { CompanyCredo } from '@/components/public/CompanyCredo'
 import { CompanyOverview } from '@/components/public/CompanyOverview'
 import { CompanyLocation } from '@/components/public/CompanyLocation'
 import { ProcessOverview } from '@/components/solution/ProcessOverview'
@@ -82,10 +81,10 @@ export default function AboutPage() {
           <ProcessOverview />
         </div>
 
-        {/* 신조 — 본문을 다 읽은 뒤에 놓는다. 여는 장(다크)과 붙여 두면 다크 두 장이
-            연달아 나와 단조로웠다. 다크 → 라이트(하는 일·개요·공정) → 다크(신조) 순으로
-            명암을 갈라 이 문장이 쉼표가 아니라 마침표로 읽히게 한다. */}
-        <CompanyCredo />
+        {/* 🔴 2026-09-08 2차 — CompanyCredo("가장 강력한 메시지는 말 없이도 빛나는 법이다") 배선 해제.
+            CEO 최종 지시 "AI 느낌의 말투·이미지, 홈페이지를 좀먹는 마이너스는 하지 마라".
+            큰 활자 한 문장짜리 매니페스토 면은 홈에서 걷어낸 ScrollStatement 와 같은 어투였다.
+            국내 시공 업체 회사소개는 개요표·공정·오시는 길로 끝난다. 파일은 참조 0건으로 보존. */}
 
         {/* 🔴 인증 현황은 /about/certification 별도 페이지로 옮겼다(CEO 지시 2026-09-08
             "KC 인증서는 따로 페이지 만들어서 관리"). 서류가 늘어나는 자리라 회사소개 안에 두면

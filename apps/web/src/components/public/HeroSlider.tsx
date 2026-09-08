@@ -3,11 +3,10 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { useReducedMotion } from 'framer-motion'
 import { ChevronDown } from 'lucide-react'
 
 import { IMAGES } from '@/lib/imageAssets'
-import { Magnetic, Parallax, Reveal, SplitText } from '@/components/motion'
+import { Magnetic, Parallax, Reveal, SplitText, useReducedMotion } from '@/components/motion'
 
 /**
  * 홈 히어로 — 같은 자리, 배경만 3장이 넘어간다.
@@ -56,8 +55,6 @@ const SLIDES: Slide[] = [
   { src: IMAGES.home.hero, objectClass: 'object-[50%_38%] lg:object-[50%_42%]' },
   // 주간 학교 정문 시공 — 인물·사다리가 화면 아래 3분의 1에 몰려 있어 위쪽을 잡는다
   { src: IMAGES.home.heroReveal, objectClass: 'object-[50%_35%] lg:object-[50%_40%]' },
-  // 블루아워 도심 파사드 — 화면이 우상단이라 세로에서 그쪽을 남긴다
-  { src: IMAGES.home.heroCity, objectClass: 'object-[58%_40%] lg:object-[50%_45%]' },
   // 픽셀 근접
   { src: IMAGES.home.statement, objectClass: 'object-[50%_50%]' },
 ]

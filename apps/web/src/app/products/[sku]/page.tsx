@@ -10,6 +10,8 @@ import { SubNav } from '@/components/SubNav'
 import { productSubNavItems } from '@/lib/subnav'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { PRODUCTS } from '@/lib/products'
+import { INDUSTRIES } from '@/lib/industries'
+import Link from 'next/link'
 import { PRODUCT_CATEGORIES, categoryOf, skuToSegment } from '@/lib/productCategories'
 import { breadcrumbLd } from '@/lib/seo/jsonld'
 import { absoluteUrl, buildMetadata } from '@/lib/seo/site'
@@ -45,6 +47,12 @@ export default function ProductPage({ params }: PageProps) {
   if (!product) notFound()
 
   const category = categoryOf(product.sku)
+  /** 이 모델을 권장하는 설치 자리 — 제품에서 시공사례로 건너가는 길 */
+  const uses = INDUSTRIES.filter((i) => i.recommendedSkus.includes(product.sku))
+  /** 같은 카테고리의 다른 모델 — 되돌아가지 않고 옆으로 비교한다 */
+  const siblings = category
+    ? category.skus.filter((s) => s !== product.sku).map((s) => PRODUCTS.find((p) => p.sku === s)).filter((p): p is (typeof PRODUCTS)[number] => !!p)
+    : []
   const specs: [string, string][] = [
     ['화소 간격', product.pitch],
     ['밝기', product.brightness],
@@ -105,6 +113,43 @@ export default function ProductPage({ params }: PageProps) {
                 ))}
               </ul>
               <p className="wk-cap mt-6">규격은 제품 규격서 기준값입니다. 확정 사양은 현장 실측 후 정해집니다.</p>
+
+              {/* 2026-09-08 2차 — 제품에서 막다른 길이 되지 않게 옆길 둘을 둔다.
+                  ① 이 모델이 들어가는 자리(시공사례 상세) ② 같은 카테고리의 다른 모델. 사진은 붙이지 않는다 */}
+              {uses.length > 0 && (
+                <div className="mt-8 border-t border-wk-line pt-6">
+                  <p className="text-caption font-semibold text-wk-ink3">이 모델이 들어가는 자리</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {uses.map((i) => (
+                      <Link
+                        key={i.slug}
+                        href={`/industries/${i.slug}`}
+                        className="rounded-full border border-wk-line2 px-3.5 py-1.5 text-label font-semibold text-wk-ink2 transition-colors duration-150 hover:border-wk-ink hover:text-wk-ink"
+                      >
+                        {i.nameKo}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {siblings.length > 0 && (
+                <div className="mt-6 border-t border-wk-line pt-6">
+                  <p className="text-caption font-semibold text-wk-ink3">{category?.name}의 다른 모델</p>
+                  <ul className="mt-3 space-y-2">
+                    {siblings.map((p) => (
+                      <li key={p.sku}>
+                        <Link
+                          href={`/products/${skuToSegment(p.sku)}`}
+                          className="flex items-baseline justify-between gap-3 text-label text-wk-ink2 underline-offset-4 hover:text-wk-ink hover:underline"
+                        >
+                          <span className="font-semibold">{p.name}</span>
+                          <span className="wk-metric shrink-0 text-caption text-wk-ink3"><b className="text-wk-cta">{p.pitch}</b> · {p.brightness}</span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
         </section>

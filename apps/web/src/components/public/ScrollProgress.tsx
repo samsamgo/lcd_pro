@@ -1,6 +1,7 @@
 'use client'
 
-import { motion, useReducedMotion, useScroll, useSpring } from 'framer-motion'
+import { motion, useScroll, useSpring } from 'framer-motion'
+import { useReducedMotion } from '@/components/motion'
 
 /**
  * 화면 최상단 스크롤 진행 바.

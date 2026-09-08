@@ -4,6 +4,7 @@ import { ProofRow } from '@/components/public/ProofRow'
 import { ScrollProgress } from '@/components/public/ScrollProgress'
 import { CinematicScene } from '@/components/home/CinematicScene'
 import { ProductCategoryGrid } from '@/components/products/ProductCategoryGrid'
+import { ProcessStrip, HOME_STEPS } from '@/components/home/ProcessStrip'
 import { ScrollBridge } from '@/components/motion'
 import { NavBar } from '@/components/NavBar'
 import { Footer } from '@/components/Footer'
@@ -41,12 +42,8 @@ export default function Home() {
           description:
             '설치 장소와 규모 확인부터 현장 실측, 제작·시공, 담당자 교육과 A/S까지의 절차.',
           totalTime: 'P30D',
-          steps: [
-            { name: '문의·상담', text: '설치 장소와 용도를 알려주시면 개략 견적과 사양서를 보내드립니다.' },
-            { name: '현장 실측', text: '전기 인입과 구조를 확인해 확정 견적을 냅니다.' },
-            { name: '제작·시공', text: '자사에서 조립·검사한 뒤 기관 일정에 맞춰 설치합니다.' },
-            { name: '교육·A/S', text: '화면 교체 방법을 담당자에게 안내하고, 이후 고장은 모듈 단위로 대응합니다.' },
-          ],
+          // 화면(ProcessStrip)과 같은 배열 — 구조화 데이터가 화면에 없는 말을 하지 않게 한다
+          steps: HOME_STEPS,
         })}
       />
       <JsonLd id="ld-home-breadcrumb" data={breadcrumbLd([{ name: '홈', url: absoluteUrl('/') }])} />
@@ -96,6 +93,9 @@ export default function Home() {
             홈에서 끝내지 않고 안쪽 페이지로 보내는 것이 목적이다. */}
         {/* 2026-09-08 — ProductShowcase(4개 환경 카드) 대신 카테고리 3장. 네비바·/products 와 같은 이름·같은 사진 */}
         <ProductCategoryGrid showMore />
+
+        {/* 2026-09-08 2차 — 진행 순서 4단계로 홈을 닫는다. 문의 칸이 아니다(ProcessStrip 주석 참조) */}
+        <ProcessStrip />
 
         {/* 🔴 2026-09-08 CEO 지시 "메인 페이지에서 시공사례도 빼라".
             홈은 무엇을 파는 회사인지만 보여주고, 어디에 놓는지는 네비바 '시공사례' 가 맡는다.

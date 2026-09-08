@@ -58,8 +58,10 @@ export const IMAGES = {
     hero: G('gen-18'),
     /** 2 · 주간 학교 정문 취부 시공 '오늘도 즐거운 하루 보내세요' — 우리가 실제로 하는 일 */
     heroReveal: W('K32_school-gate-frame-install'),
-    /** 3 · 블루아워 도심 미디어 파사드(국내) */
-    heroCity: W('A1_downtown-tower-bluehour'),
+    /* 3 · 2026-09-08 A1_downtown-tower-bluehour 는 여기서 빠져 `category.facade` 로 갔다.
+       미디어파사드 카테고리에 A7(부감 야경, 배경 건물이 일본풍)이 걸려 있었고 그 A7 이
+       /industries/outdoor-ad 히어로와도 겹쳤다. 사이트에서 유일하게 국내 도심 파사드로 읽히는
+       컷이 A1 이라 그쪽에 더 필요하다. 히어로는 3장(야간 청사 → 주간 시공 → 화소 근접). */
     /** 4 · 픽셀 광파 근접 디테일 */
     statement: W('J4_pixel-light-wave'),
     /**
@@ -102,8 +104,8 @@ export const IMAGES = {
     G('gen-34'),
     /** 2 · 강당 무대 대형 LED '행사 안내' */
     G('gen-13'),
-    /** 3 · 가을 청사 앞 광장 세로형 사인(화면=배치도, 문자 없음) */
-    G('gen-55'),
+    /** 3 · gen-55 는 2026-09-08 quoteHero 로 갔다(SceneSlider 는 배선 해제 상태). 자리는 gen-53 지주형 유도사인으로 메운다 */
+    G('gen-53'),
     /** 4 · 도서관 로비 세로형 스탠드 '이용 안내' */
     G('gen-25'),
   ],
@@ -117,7 +119,8 @@ export const IMAGES = {
     S('K22_public-auditorium-meeting'),
     S('K12_gym-stage-overcast-day'),
     // 2026-09-06 증량 — 화면에 한국어 문구가 뜬 국내 현장 (CEO 기준)
-    G('gen-26'),
+    // 2026-09-08 gen-26 은 category.outdoor 로 갔다. 이 갤러리는 배선 해제 상태(ScreenGallery)라 gen-23 으로 메운다
+    G('gen-23'),
     G('gen-3'),
     S('B3_bus-stop-arrival'),
   ],
@@ -171,8 +174,8 @@ export const IMAGES = {
   company: {
     /** 눈 온 학교 앞, 전광판에 '안전한 겨울 보내세요' — 히어로 유일 priority */
     hero: G('gen-57'),
-    /** 모듈에 '점검중', 옆에 한국어 점검 체크시트 */
-    chapter1: W('K28_gloved-module-inspection'),
+    /** 2026-09-08 K28 은 /about/certification 머리(pageHeaders.certification)로 갔다. CompanyChapters 는 배선 해제 상태 */
+    chapter1: G('gen-12'),
     /** 국내 관공서 로비, 안전콘·비계 두고 캐비닛 취부 중 */
     chapter2: G('gen-8'),
     /** 흡착판으로 전면에서 모듈을 빼내는 국내 기술자 */
@@ -237,7 +240,8 @@ export const IMAGES = {
   productsPitchMacro: C('svc-cabinet'),
 
   /** /industries "걸면 뭐가 뜨나" 4장 — 전부 화면에 한국어 문구가 떠 있다 */
-  industryShowing: [G('gen-17'), G('gen-2'), G('gen-31'), G('gen-32')],
+  /* gen-31 은 2026-09-08 category.sports 로 갔다 (IndustryScenes 는 배선 해제 상태) */
+  industryShowing: [G('gen-17'), G('gen-2'), G('gen-32'), G('gen-47')],
   /**
    * 🔴 2026-09-07 `mountScene: G('gen-44')` 를 여기서 뺐다 (CEO 지시).
    *
@@ -264,7 +268,8 @@ export const IMAGES = {
   /** 제품 상세 쇼케이스 — 구조·배선·방열·마감 */
   showcase: [
     W('G6_exploded-layers'),
-    W('K27_cabinet-back-workshop'),
+    /* 2026-09-08 K27 은 규격 비교표 머리(pageHeaders.specs)로 갔다. StructureShowcase 는 배선 해제 상태 */
+    W('G3_cabinet-back-wiring'),
     // 2026-09-07 A8_cabinet-edge-louvre 교체 — 육안 판독 결과 배경이 미국(목주 배전주·
     // 배럴 변압기·미국식 주차장)이었다. 국적 단서가 없는 스튜디오 컷으로 바꿨다.
     W('G2_cabinet-studio'),
@@ -295,7 +300,8 @@ export const IMAGES = {
   /* ── 고객센터 · FAQ · 견적 ─────────────────────────── */
   support: W('K24_civic-center-reception-morning'),
   faqHero: G('gen-28'),
-  quoteHero: W('F4_parking-availability'),
+  /** 2026-09-08 F4(영문 'parking availability' 화면, §13 영문 목록) → gen-55 가을 청사 광장 세로형 사인(문자 없음) */
+  quoteHero: G('gen-55'),
 
   /**
    * 제품 카테고리 6종 대표 사진 — 🔴 2026-09-08 **실제 이미지를 열어 보고** 배정했다.
@@ -306,14 +312,19 @@ export const IMAGES = {
   category: {
     /** 민원실 창구 위 가로형 — 화면에 '민원 안내' */
     indoor: G('gen-22'),
-    /** 공공 체육시설 외벽 대형 — 운동 아이콘 4종 */
-    outdoor: G('gen-10'),
+    /** 청사 앞 2주식 옥외 전광판 — '행정 안내 / 민원 서류 발급 시간'.
+     *  2026-09-08 gen-10 에서 교체 — gen-10 은 모델 '건물 외벽 대형 화면'(OUT-L) 카드 사진이라
+     *  /products/outdoor 한 페이지에서 머리와 모델 카드에 같은 사진이 두 번 떴다. */
+    outdoor: G('gen-26'),
     /** 도로변 지주형 — '재난 안전 안내 / 시정 소식을 알려드립니다'. 현수막 게시대를 대체하는 형태 */
     banner: G('gen-5'),
-    /** 야간 도심, 건물 외벽 여러 곳이 화면 — 미디어파사드 그 자체 */
-    facade: W('A7_aerial-night-block'),
-    /** 체육관 벽면 점수판 — HOME 45 / GUEST 38 */
-    sports: W('E3_gym-scoreboard'),
+    /** 블루아워 국내 도심 빌딩 외벽 대형 화면 — 미디어파사드 그 자체.
+     *  2026-09-08 A7 에서 교체 — A7 은 /industries/outdoor-ad 히어로와 중복이었고 배경이 일본풍. */
+    facade: W('A1_downtown-tower-bluehour'),
+    /** 운동장 트러스 위 대형 화면 '체육 행사 안내 / 행사 시작 14:00' (gen-31 — 원본을 열어 확인).
+     *  2026-09-08 E3 에서 교체 — E3 는 미국 체육관(EXIT 사인·HOME/GUEST 영문). §13 영문 목록 위반.
+     *  ⚠️ 처음에 gen-32 로 적었다가 렌더 확인에서 어린이집 사진이 떠서 잡았다. 파일명·기억으로 배정하지 말 것. */
+    sports: G('gen-31'),
     /** 시설 정문 차단기 옆 — '출입 안내 / 방문 차량은 정차해 주세요' */
     traffic: G('gen-29'),
   } as Record<string, string>,
@@ -321,9 +332,11 @@ export const IMAGES = {
   /** 하위 페이지 공통 배너(PageHeader) — 전용 사진이 없는 페이지 4곳. spare 에서 확대 검사 통과분만 골랐다.
    *  캡션 없는 배경 층이라 실적 주장이 아니다. */
   pageHeaders: {
-    certification: W('C4_control-room-wall'),
+    /** 2026-09-08 C4(미국 관제실, 영문 대시보드) → K28 '점검중' 모듈 검사 컷. 인증 = 검사다 */
+    certification: W('K28_gloved-module-inspection'),
     downloads: W('C6_office-reception'),
-    specs: W('D5_car-showroom-wall'),
+    /** 2026-09-08 D5(해외 자동차 쇼룸, 화면 그라데이션) → K27 캐비닛 후면 '주차장 이용 안내' 실물 컷 */
+    specs: W('K27_cabinet-back-workshop'),
   } as Record<string, string>,
 
 
@@ -353,16 +366,15 @@ export const IMAGES = {
     S('B7_fire-station-emergency'),
     S('C2_hotel-curved-wall'),
     S('C3_conference-hall-stage'),
-    S('C4_control-room-wall'),
-    S('C6_office-reception'),
     S('D3_restaurant-menu-board'),
     S('D4_shop-window-ticker'),
-    S('D5_car-showroom-wall'),
     S('E1_perimeter-boards'),
     S('E3_gym-scoreboard'),
+    S('F4_parking-availability'),
+    S('C4_control-room-wall'),
+    S('D5_car-showroom-wall'),
     S('F1_highway-vms'),
     S('F5_ferry-terminal'),
-    S('G3_cabinet-back-wiring'),
     S('G4_gloved-hands-pcb'),
     S('H2_crane-lift-frame'),
     S('H3_scissor-lift-align'),
@@ -406,6 +418,9 @@ if (process.env.NODE_ENV !== 'production') {
     IMAGES.support,
     IMAGES.faqHero,
     IMAGES.quoteHero,
+    ...Object.values(IMAGES.category),
+    ...Object.values(IMAGES.pageHeaders),
+    ...Object.values(IMAGES.productCards),
     ...IMAGES.spare,
   ]
   const key = (p: string) => p.replace('/wk/sm/', '').replace('/wk/', '')

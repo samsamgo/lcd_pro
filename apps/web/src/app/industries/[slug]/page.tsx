@@ -11,6 +11,7 @@ import { PageHeader } from '@/components/PageHeader'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { INDUSTRIES, getIndustry } from '@/lib/industries'
 import { PRODUCTS } from '@/lib/products'
+import { skuToSegment } from '@/lib/productCategories'
 import { breadcrumbLd } from '@/lib/seo/jsonld'
 import { absoluteUrl, buildMetadata } from '@/lib/seo/site'
 
@@ -82,7 +83,7 @@ export default function IndustryPage({ params }: PageProps) {
             <div className="mt-8 grid gap-4 md:grid-cols-3">
               {industry.solutions.map((solution) => (
                 <article key={solution.title} className="rounded-card border border-wk-line bg-wk-bg p-6">
-                  <h2 className="text-body-lg font-semibold text-wk-ink">{solution.title}</h2>
+                  <h3 className="text-body-lg font-semibold text-wk-ink">{solution.title}</h3>
                   <p className="mt-3 text-label leading-relaxed text-wk-ink3">{solution.desc}</p>
                 </article>
               ))}
@@ -90,32 +91,44 @@ export default function IndustryPage({ params }: PageProps) {
           </div>
         </section>
 
-        {/* 권장 제품 — 글자 카드였던 것을 사진 카드로 바꿨다(CEO 지시 2026-09-08).
-            제품 이름만 적힌 카드는 담당자에게 아무것도 알려주지 않는다. 사진을 먼저 보이고
-            화소·밝기를 그 아래 한 줄로 붙인 다음, 누르면 제품 상세로 보낸다. */}
+        {/* 권장 제품 — 사진 카드. 2026-09-08 2차: CEO "제품 소개는 최소한 이미지는 보여주면서".
+            글자 행만 있던 것을 사진 카드로. 이 페이지에서 모델 사진은 각각 한 번씩만 나온다. */}
         {products.length > 0 && (
-          <section className="wk-sec bg-wk-bg">
+          <section className="wk-sec bg-wk-bg" aria-labelledby="rec-h">
             <div className="wk-wrap">
               <p className="wk-eyebrow">권장 제품</p>
-              {/* 사진 없이 행으로 — 모델 사진은 /products 에만 둔다(이미지 1장 = 1페이지, CEO 지시 2026-09-08) */}
-              <ul className="mt-6 divide-y divide-wk-line overflow-hidden rounded-card border border-wk-line bg-white">
+              <h2 id="rec-h" className="wk-h2 text-wk-ink">
+                이 자리에 맞는 모델
+              </h2>
+              <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
                 {products.map((product) => (
-                  <li key={product.sku}>
-                    <Link
-                      href={`/products/${product.sku.toLowerCase().replace('.', '-')}`}
-                      className="flex items-center justify-between gap-4 px-5 py-4 transition-colors duration-150 hover:bg-wk-bgFaint"
-                    >
-                      <span className="min-w-0">
-                        <span className="block text-body font-semibold text-wk-ink">{product.name}</span>
-                        <span className="mt-0.5 block text-label text-wk-ink3">{product.tag}</span>
+                  <Link
+                    key={product.sku}
+                    href={`/products/${skuToSegment(product.sku)}`}
+                    className="group block overflow-hidden rounded-card border border-wk-line bg-white transition-shadow duration-state ease-state hover:shadow-wk-2"
+                  >
+                    <span className="relative block aspect-[4/3] overflow-hidden bg-wk-ink">
+                      <Image
+                        src={product.img}
+                        alt={product.imgAlt}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 380px"
+                        className="object-cover transition-transform duration-cine ease-entrance motion-safe:group-hover:scale-105"
+                      />
+                    </span>
+                    <span className="block p-5">
+                      <span className="flex items-baseline justify-between gap-3">
+                        <span className="text-body-lg font-semibold text-wk-ink">{product.name}</span>
+                        <span className="wk-metric shrink-0 text-label font-semibold text-wk-cta">{product.pitch}</span>
                       </span>
-                      <span className="wk-metric shrink-0 text-right text-label text-wk-ink2">
-                        <b className="text-wk-cta">{product.pitch}</b> · {product.brightness}
+                      <span className="mt-1 block text-label text-wk-ink3">{product.tag}</span>
+                      <span className="wk-metric mt-3 block border-t border-wk-line pt-3 text-caption text-wk-ink2">
+                        {product.brightness} · {product.viewingDistance}
                       </span>
-                    </Link>
-                  </li>
+                    </span>
+                  </Link>
                 ))}
-              </ul>
+              </div>
             </div>
           </section>
         )}

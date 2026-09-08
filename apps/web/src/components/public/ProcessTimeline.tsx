@@ -2,10 +2,10 @@
 
 import { useRef } from 'react'
 import Image from 'next/image'
-import { motion, useReducedMotion, useScroll, useSpring } from 'framer-motion'
+import { motion, useScroll, useSpring } from 'framer-motion'
 
 import { IMAGES } from '@/lib/imageAssets'
-import { EASE, Reveal, RiseMask } from '@/components/motion'
+import { EASE, Reveal, RiseMask, useReducedMotion } from '@/components/motion'
 
 /**
  * 도입 절차 타임라인.

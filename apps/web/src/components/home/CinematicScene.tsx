@@ -4,13 +4,12 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import {
   motion,
-  useReducedMotion,
   useTransform,
   type MotionValue,
 } from 'framer-motion'
 
 import { IMAGES } from '@/lib/imageAssets'
-import { StickyScene } from '@/components/motion'
+import { StickyScene, useReducedMotion } from '@/components/motion'
 
 /**
  * 다크 시네마틱 장면 — 이 페이지의 하이라이트. 3막.

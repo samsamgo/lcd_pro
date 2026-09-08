@@ -2,7 +2,8 @@
 
 import { useRef } from 'react'
 import Image from 'next/image'
-import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from 'framer-motion'
+import { motion, useScroll, useTransform, type MotionValue } from 'framer-motion'
+import { useReducedMotion } from '@/components/motion'
 
 /**
  * 스크롤에 따라 문장이 한 어절씩 밝아지는 다크 문장 섹션.

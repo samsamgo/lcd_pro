@@ -18,7 +18,6 @@ import {
   motion,
   useInView,
   useMotionValue,
-  useReducedMotion,
   AnimatePresence,
   useScroll,
   useSpring,
@@ -33,6 +32,29 @@ import {
   type CSSProperties,
   type ReactNode,
 } from 'react'
+
+
+/**
+ * SSR-안전 reduced-motion 훅.
+ *
+ * 🔴 2026-09-08 실측 — framer 의 `useReducedMotion()` 은 서버에서 null, 클라이언트 첫 렌더에서
+ *    곧바로 true 를 돌려준다. 그래서 OS 가 "동작 줄이기" 인 사용자에게는 서버 HTML(모션판)과
+ *    클라이언트 첫 렌더(정적판)의 className/style 이 달라 **하이드레이션이 통째로 실패**했다
+ *    (ScrollBridge · Reveal · HeroSlider 에서 경고 12건, 루트 전체 클라이언트 재렌더).
+ *    이 훅은 첫 렌더에서 항상 false(서버와 동일)를 주고, 마운트 뒤 매체 질의로 갱신한다.
+ *    정적판으로 바뀌는 데 한 프레임이 걸릴 뿐, 하이드레이션은 항상 일치한다.
+ */
+export function useReducedMotion(): boolean {
+  const [reduce, setReduce] = useState(false)
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const apply = () => setReduce(mq.matches)
+    apply()
+    mq.addEventListener('change', apply)
+    return () => mq.removeEventListener('change', apply)
+  }, [])
+  return reduce
+}
 
 /** 사이트 전역 이징. tailwind.config.ts 의 transitionTimingFunction 과 같은 값. */
 export const EASE = {

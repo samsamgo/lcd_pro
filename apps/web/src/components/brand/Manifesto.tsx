@@ -1,8 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { motion, useReducedMotion, useTransform, type MotionValue } from 'framer-motion'
-import { StickyScene } from '@/components/motion'
+import { motion, useTransform, type MotionValue } from 'framer-motion'
+import { StickyScene, useReducedMotion } from '@/components/motion'
 
 /**
  * 🔴 2026-09-07 (3차) — **이 컴포넌트는 /about 에서 배선 해제됐다. 현재 참조 0건.**

@@ -77,9 +77,11 @@ export default function SupportPage() {
             <div className="mt-8">
               {empty ? (
                 <div className="rounded-card border border-wk-line bg-white p-10 text-center md:p-14">
-                  <p className="text-body-lg font-semibold text-wk-ink">자료를 준비하고 있습니다</p>
+                  <p className="text-body-lg font-semibold text-wk-ink">규격서와 사양 비교표는 요청하시면 보내드립니다</p>
                   <p className="mx-auto mt-3 max-w-[28em] text-label leading-relaxed text-wk-ink3">
-                    필요한 서류를 알려주시면 그 형식에 맞춰 바로 보내드립니다. 규격서, 견적서, 사양 비교표 모두 됩니다.
+                    설치 자리와 필요한 서류를 알려주시면 그 형식에 맞춰 보내드립니다. 전 모델 규격은{' '}
+                    <Link href="/products/specs" className="font-semibold text-wk-cta underline-offset-4 hover:underline">규격 비교표</Link>
+                    에서 바로 보실 수 있습니다.
                   </p>
                   <div className="mt-7 flex flex-wrap items-center justify-center gap-2.5">
                     <Link

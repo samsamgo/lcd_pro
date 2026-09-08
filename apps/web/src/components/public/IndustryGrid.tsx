@@ -3,11 +3,11 @@
 import { Suspense, useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { INDUSTRIES, INDUSTRY_GROUPS, getIndustry, type IndustryGroup } from '@/lib/industries'
 import Link from 'next/link'
 
-import { EASE } from '@/components/motion'
+import { EASE, useReducedMotion } from '@/components/motion'
 
 /**
  * 시공사례 카드 그리드.
