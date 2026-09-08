@@ -297,11 +297,25 @@ export const IMAGES = {
   faqHero: G('gen-28'),
   quoteHero: W('F4_parking-availability'),
 
-  /** 제품 카테고리 배너 — 2026-09-08 카테고리 3→6 확장분. spare 검사 통과분. 캡션 없는 배경 층 */
-  categoryHeroes: {
-    facade: W('C2_hotel-curved-wall'),
-    sports: W('E1_perimeter-boards'),
-    traffic: W('A3_roadside-pylon-dusk'),
+  /**
+   * 제품 카테고리 6종 대표 사진 — 🔴 2026-09-08 **실제 이미지를 열어 보고** 배정했다.
+   * 그 전에는 파일명만 보고 골라 '미디어파사드' 에 호텔 로비 실내 사진이,
+   * '교통·주차 안내' 에 미국 도로 광고판이, '전자현수막' 에 정문 차단기가 붙어 있었다.
+   * 사진을 바꿀 때는 **반드시 열어서 확인**하고, 카테고리 이름과 화면 내용이 맞는지 본다.
+   */
+  category: {
+    /** 민원실 창구 위 가로형 — 화면에 '민원 안내' */
+    indoor: G('gen-22'),
+    /** 공공 체육시설 외벽 대형 — 운동 아이콘 4종 */
+    outdoor: G('gen-10'),
+    /** 도로변 지주형 — '재난 안전 안내 / 시정 소식을 알려드립니다'. 현수막 게시대를 대체하는 형태 */
+    banner: G('gen-5'),
+    /** 야간 도심, 건물 외벽 여러 곳이 화면 — 미디어파사드 그 자체 */
+    facade: W('A7_aerial-night-block'),
+    /** 체육관 벽면 점수판 — HOME 45 / GUEST 38 */
+    sports: W('E3_gym-scoreboard'),
+    /** 시설 정문 차단기 옆 — '출입 안내 / 방문 차량은 정차해 주세요' */
+    traffic: G('gen-29'),
   } as Record<string, string>,
 
   /** 하위 페이지 공통 배너(PageHeader) — 전용 사진이 없는 페이지 4곳. spare 에서 확대 검사 통과분만 골랐다.
