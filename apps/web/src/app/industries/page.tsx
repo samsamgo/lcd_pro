@@ -71,18 +71,19 @@ export default function IndustriesPage() {
 
           <div className="relative z-10 w-full pb-14 md:pb-20">
             <div className="wk-wrap">
-              <Reveal y={10}>
+              <Reveal immediate y={10}>
                 <p className="wk-eyebrow !text-white/70">시공사례</p>
               </Reveal>
 
               {/* .wk-emit-text 는 색을 바꾸지 않는 미세 글로우라 대비비가 그대로다(§17-B) */}
               <SplitText
+                immediate
                 as="h1"
                 className="wk-h1 wk-emit-text max-w-[13em] text-white"
                 text="이런 자리에는 이런 구성이 들어갑니다"
               />
 
-              <Reveal delay={0.24} y={14}>
+              <Reveal immediate delay={0.24} y={14}>
                 <p className="wk-lead mt-7 !text-white/85">
                   민원실, 강당, 보건소 출입구, 교차로, 주차장 진입로는 보는 거리도 운영하는 내용도
                   다릅니다. 해당하는 자리를 선택하시면 어떤 규격이 들어가고 무엇을 미리 확인해야

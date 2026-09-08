@@ -44,19 +44,20 @@ export function ProductsHero() {
           <p className="wk-eyebrow !text-white/70">설치 환경별 안내</p>
 
           <SplitText
+            immediate
             as="h1"
             className="wk-h1 max-w-2xl text-white"
             text="보는 거리로 고릅니다"
           />
 
-          <Reveal delay={0.25} y={16}>
+          <Reveal immediate delay={0.25} y={16}>
             <p className="wk-lead mt-6 !text-white/85">
               화소 간격과 밝기는 모델의 등급이 아니라 설치 조건의 결과입니다. 보는 거리와
               햇빛 조건을 먼저 정하면 규격은 따라옵니다.
             </p>
           </Reveal>
 
-          <Reveal delay={0.35} y={14}>
+          <Reveal immediate delay={0.35} y={14}>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Magnetic>
                 <Link href="/quote" className="wk-btn-p sm:px-8">

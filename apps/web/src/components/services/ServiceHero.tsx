@@ -67,14 +67,14 @@ export function ServiceHero() {
             <span className="font-semibold text-white">공급 범위</span>
           </nav>
 
-          <Reveal y={16}>
+          <Reveal immediate y={16}>
             <p className="wk-eyebrow !text-white/70">공급 범위</p>
             <h1 className="wk-h1 max-w-[16ch] text-white">
               실측부터 사후관리까지 여섯 공정
             </h1>
           </Reveal>
 
-          <Reveal delay={0.12} y={16}>
+          <Reveal immediate delay={0.12} y={16}>
             <p className="wk-lead mt-6 !text-white/85">
               공정마다 누가 며칠 동안 무엇을 하는지 아래 표에 다 적었습니다.
             </p>
@@ -84,7 +84,7 @@ export function ServiceHero() {
             </p>
           </Reveal>
 
-          <Reveal delay={0.22} y={14}>
+          <Reveal immediate delay={0.22} y={14}>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Magnetic>
                 <Link href="/quote" className="wk-btn-p sm:px-8">
@@ -119,7 +119,7 @@ export function ServiceHero() {
           </nav>
 
           {/* 여백이던 자리 — 결재 문서에 그대로 옮겨 쓸 수 있는 값만 */}
-          <Reveal delay={0.3} y={12}>
+          <Reveal immediate delay={0.3} y={12}>
             <dl className="mt-12 grid gap-px overflow-hidden rounded-card-m border border-white/10 bg-white/10 sm:grid-cols-3">
               {FACTS.map((f) => (
                 <div key={f.k} className="bg-wk-night2/90 px-5 py-4 backdrop-blur">

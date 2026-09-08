@@ -85,7 +85,7 @@ export function CompanyHero() {
 
       <div className="relative z-10 w-full pt-28 md:pt-32">
         <div className="wk-wrap">
-          <Reveal y={0} duration={0.7}>
+          <Reveal immediate y={0} duration={0.7}>
             <div className="flex items-center justify-between gap-4 border-b border-white/20 pb-4">
               <p className="text-label font-semibold uppercase tracking-widest text-wk-blue">
                 회사 소개
@@ -97,22 +97,23 @@ export function CompanyHero() {
           </Reveal>
 
           <SplitText
+            immediate
             as="h1"
             text="LED 전광판을 만들고, 달고, 고칩니다"
             className="wk-h1 wk-emit-text mt-9 max-w-[15ch] text-wk-nightInk md:mt-12"
             delay={0.1}
           />
 
-          <Reveal delay={0.34} y={18}>
+          <Reveal immediate delay={0.34} y={18}>
             <p className="wk-lead mt-7 !text-wk-nightMuted">
               LED 전광판과 전자현수막을 만드는 사이니지 업체입니다. 설계·제작·시공·유지보수를 한
-              회사가 맡고, 아래 등록번호는 발급 기관에서 그대로 조회하실 수 있습니다.
+              회사가 맡습니다.
             </p>
           </Reveal>
         </div>
 
         {/* 사실 띠 — 괘선이 화면 폭을 가로지른다. 안쪽 내용만 wk-wrap 을 따른다 */}
-        <Reveal delay={0.46} y={14}>
+        <Reveal immediate delay={0.46} y={14}>
           <div className="mt-14 border-t border-white/20 md:mt-20">
             <div className="wk-wrap">
               <dl className="grid gap-5 py-7 sm:grid-cols-3 sm:gap-8 md:py-9">

@@ -172,24 +172,25 @@ export function HeroSlider() {
       {/* 문구 */}
       <div className="relative z-20 w-full pb-24 pt-36 md:pb-28 md:pt-44">
         <div className="wk-wrap">
-          <Reveal y={0} duration={0.6}>
+          <Reveal immediate y={0} duration={0.6}>
             <p className="wk-eyebrow !text-white/70">LED 전광판 · 전자현수막</p>
           </Reveal>
 
           <SplitText
+            immediate
             as="h1"
             text="설계부터 유지보수까지"
             className="wk-hero text-white"
             gap={0.06}
           />
 
-          <Reveal y={18} delay={0.22}>
+          <Reveal immediate y={18} delay={0.22}>
             <p className="wk-lead mt-6 !text-white/85">
               제작 · 설치 · A/S까지, 우강테크가 책임집니다.
             </p>
           </Reveal>
 
-          <Reveal y={16} delay={0.34}>
+          <Reveal immediate y={16} delay={0.34}>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Magnetic className="w-full sm:w-auto">
                 <Link href="/quote" className="wk-btn-p">
@@ -203,9 +204,6 @@ export function HeroSlider() {
                 제품 규격 보기
               </Link>
             </div>
-            <p className="mt-4 max-w-[34em] text-label text-white/65">
-              어디에 얼마만 한 걸 놓을지만 알려주시면 됩니다. 예산 잡기 전이어도 괜찮습니다.
-            </p>
           </Reveal>
         </div>
       </div>

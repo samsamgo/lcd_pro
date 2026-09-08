@@ -182,7 +182,7 @@
      제목은 짧은 행 길이가 핵심이다. 크기만 키우면 Apple 느낌이 나지 않는다. */
     /* max-width 를 ch 로 잡으면 폰트가 도착할 때 값이 바뀌어 제목이 다시 줄바꿈된다.
      한글은 글자 하나가 대략 1em 이라 em 이 의도(줄당 11음절)에도 맞고 값도 고정이다. */
-  .wk-hero   { @apply text-display-hero font-bold; max-width: 11em; }
+  .wk-hero   { @apply text-display-hero font-extrabold tracking-[-0.035em]; max-width: 11em; }
   .wk-display{ @apply text-display-xl font-bold; }
   .wk-h1     { @apply text-h1 font-bold; }
   .wk-h2     { @apply text-h2 font-bold; }
@@ -202,10 +202,12 @@
   .wk-wrap-read { @apply mx-auto w-full max-w-[720px] px-5 md:px-8; }
 
   /* 섹션 세로 리듬 — 네 단계만 쓴다. 임의의 py를 섞으면 리듬이 깨진다 */
-  .wk-sec-sm { @apply py-16 md:py-20 lg:py-24; }
-  .wk-sec    { @apply py-20 md:py-24 lg:py-32; }
-  .wk-sec-lg { @apply py-24 md:py-32 lg:py-40; }
-  .wk-sec-xl { @apply py-[120px] md:py-40 lg:py-[200px]; }
+  /* 2026-09-08 — 한 단계씩 줄였다. 섹션 사이 흰 공백이 화면 절반을 먹어
+     스크롤할 때마다 "끝났나?" 싶은 빈 화면이 나왔다(CEO: "너무 길면 안 읽는다"). */
+  .wk-sec-sm { @apply py-14 md:py-16 lg:py-20; }
+  .wk-sec    { @apply py-16 md:py-20 lg:py-24; }
+  .wk-sec-lg { @apply py-20 md:py-24 lg:py-32; }
+  .wk-sec-xl { @apply py-24 md:py-32 lg:py-40; }
 
   /* 다크 시네마틱 면 */
   .wk-night      { @apply bg-wk-night text-wk-nightInk; }
@@ -304,6 +306,24 @@
   }
   /* 다크 면 위 큰 활자에만. 색은 그대로라 대비비가 바뀌지 않는다(WCAG 유지) */
   .wk-emit-text { text-shadow: 0 0 34px rgba(120, 170, 255, .26); }
+  /* 히어로 제목 어절 상승 — SplitText immediate 전용. JS 없이 첫 화면에서 반드시 뜬다 */
+  @keyframes wk-rise-word {
+    from { opacity: 0; transform: translateY(110%); }
+    to   { opacity: 1; transform: none; }
+  }
+  @keyframes wk-rise-in {
+    from { opacity: 0; transform: translateY(var(--wk-y, 20px)); }
+    to   { opacity: 1; transform: none; }
+  }
+  .wk-rise-in {
+    opacity: 0;
+    animation: wk-rise-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .wk-rise-word {
+    opacity: 0;
+    animation: wk-rise-word 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+    will-change: transform, opacity;
+  }
 
   /* 마스크 리빌 — 아래에서 위로 덮개가 걷힌다 */
   .wk-clip-reveal { clip-path: inset(0 0 100% 0); }

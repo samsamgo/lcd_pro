@@ -20,7 +20,7 @@ export function CtaSection({
     <section className="relative">
       {/* 사이트의 마지막 라이트→다크 전환. 이 다리에서 화소가 켜진다.
           CtaSection 은 여러 페이지가 공유하므로 이 한 곳을 고치면 어휘가 전 페이지로 퍼진다. */}
-      <ScrollBridge direction="down" className="wk-bridge-down h-32 md:h-44" />
+      <ScrollBridge direction="down" className="wk-bridge-down h-20 md:h-28" />
       <div className="wk-night-glow wk-sec-lg">
         <div className="wk-wrap text-center">
           <Reveal y={10} duration={0.6}>

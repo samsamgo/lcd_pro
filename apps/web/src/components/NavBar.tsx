@@ -335,16 +335,11 @@ export function NavBar() {
           ))}
         </nav>
 
-        {/* 🔴 2026-09-08 CEO 지시 — 헤더에서 '빠른 상담'·'견적 요청하기' 버튼을 뺐다.
-            문의 동선은 우측 하단 플로팅 버튼(FloatingCta) 하나로 모은다. 같은 요청을
-            헤더와 플로팅에서 두 번 하면 둘 다 광고처럼 보인다. 헤더는 길찾기만 한다.
-            자리를 비우지 않고 대표번호를 글자로 둔다 — 관공서 담당자가 가장 먼저 찾는 값이다. */}
-        <a
-          href={`tel:${SITE.phone.replace(/[^+\d]/g, '')}`}
-          className="hidden text-sm font-semibold tracking-tight text-wk-ink2 transition-colors duration-150 hover:text-wk-blue md:block"
-        >
-          {SITE.phone}
-        </a>
+        {/* 🔴 2026-09-08 CEO 지시 — 헤더 우측은 비운다.
+            '빠른 상담'·'견적 요청하기' 버튼을 뺐고, 그 자리에 잠시 뒀던 대표번호도 뺐다("헤더에 전화번호도 빼라").
+            문의 동선은 우측 하단 플로팅(FloatingCta) 하나가 전담한다. 헤더는 길찾기만 한다.
+            같은 요청이 화면에 두 번 있으면 둘 다 광고처럼 읽힌다. */}
+        <div className="hidden w-[7.5rem] md:block" aria-hidden="true" />
 
         {/* 모바일 */}
         <div className="flex items-center gap-2 md:hidden">

@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { PublicHero } from '@/components/public/PublicHero'
 import { ProofRow } from '@/components/public/ProofRow'
 import { ScrollProgress } from '@/components/public/ScrollProgress'
-import { ScrollStatement } from '@/components/public/ScrollStatement'
 import { CinematicScene } from '@/components/home/CinematicScene'
 import { CaseHighlights } from '@/components/home/CaseHighlights'
 import { ProductShowcase } from '@/components/public/ProductShowcase'
@@ -15,7 +14,6 @@ import { JsonLd } from '@/components/seo/JsonLd'
 import { serviceLd, howToLd, breadcrumbLd } from '@/lib/seo/jsonld'
 import { SITE, absoluteUrl, buildMetadata } from '@/lib/seo/site'
 import { PRICE_RANGE_SCHEMA } from '@/lib/pricing'
-import { IMAGES } from '@/lib/imageAssets'
 
 export const metadata: Metadata = buildMetadata({
   title: `${SITE.nameKo} | LED 전광판 · 전자현수막 설계·제작·시공`,
@@ -75,25 +73,19 @@ export default function Home() {
             전송량 0, 이미지 진위 문제 0. 사진이 필요한 자리가 아니다. */}
         <ScrollBridge
           direction="down"
-          className="h-32 bg-gradient-to-b from-wk-bgFaint to-wk-night md:h-40"
+          className="h-20 bg-gradient-to-b from-white to-wk-night md:h-28"
         />
 
-        {/* ── 다크: 제품을 체험시키는 장 ── */}
-        {/* 2026-09-07 — 이 섹션은 이 페이지의 논지인데 바탕이 그냥 검은 사각형이었다.
-            뒤에 **켜져 있는 LED 월 한 장**을 깔았다(문자 0·얼굴 0·지역성 0 인 실사).
-            캡션 없는 순수 배경 층이라 실적 주장이 아니며, 대비는 사진이 아니라
-            그 위 그라디언트가 보장한다(ScrollStatement 주석의 계산 참조). */}
-        <ScrollStatement
-          lead="Why"
-          text="대한민국에서 한 해 버려지는 현수막만 약 5,400톤."
-          tail="약 487만 장의 현수막. 우강테크는 그 정보를 디지털로 전달합니다."
-          bg={IMAGES.home.statementScene}
-        />
+        {/* ── 다크: 제품을 체험시키는 장 ──
+            🔴 2026-09-08 디자인 정리 — 여기 있던 ScrollStatement("한 해 버려지는 현수막 5,400톤")를
+            뺐다. 광고대행사 매니페스토 어투는 CEO 가 지적한 "AI 냄새" 의 진원이었고,
+            바로 아래 시네마틱 3막과 **같은 다크 면에서 큰 활자로 두 번** 말하고 있었다.
+            큰 연출은 페이지에 하나면 된다. 시네마틱 장이 그 하나다. */}
         <CinematicScene />
 
         <ScrollBridge
           direction="up"
-          className="h-32 bg-gradient-to-b from-wk-night to-white md:h-40"
+          className="h-20 bg-gradient-to-b from-wk-night to-white md:h-28"
         />
 
         {/* ── 라이트: 무엇을 파는가 ──

@@ -49,17 +49,17 @@ export function SupportHero() {
 
       <div className="relative z-10 w-full pb-14 pt-32 md:pb-20">
         <div className="wk-wrap">
-          <Reveal y={0} duration={0.6}>
+          <Reveal immediate y={0} duration={0.6}>
             <p className="wk-eyebrow !text-white/70">고객센터</p>
           </Reveal>
 
-          <Reveal y={18} delay={0.08}>
+          <Reveal immediate y={18} delay={0.08}>
             <h1 id="support-h" className="wk-h1 max-w-[16em] text-white">
               화면이 안 나오면 바로 연락 주십시오
             </h1>
           </Reveal>
 
-          <Reveal y={16} delay={0.18}>
+          <Reveal immediate y={16} delay={0.18}>
             <p className="wk-lead mt-6 !text-white/85">
               전화를 주셔도 되고, 아래 접수 폼에 증상만 적어 주셔도 됩니다.
               화면을 찍은 사진이 한 장 있으면 원인 찾는 시간이 크게 줄어듭니다.
@@ -68,7 +68,7 @@ export function SupportHero() {
           </Reveal>
 
           {contacts.length > 0 && (
-            <Reveal y={14} delay={0.28}>
+            <Reveal immediate y={14} delay={0.28}>
               <dl className="mt-10 flex flex-wrap gap-x-10 gap-y-5">
                 {contacts.map((c) => (
                   <div key={c.label}>

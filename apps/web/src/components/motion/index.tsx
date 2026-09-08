@@ -68,6 +68,8 @@ type RevealProps = {
   once?: boolean
   style?: CSSProperties
   as?: 'div' | 'section' | 'li' | 'span' | 'article' | 'header'
+  /** 페이지 최상단 히어로에서는 true — 마운트 즉시 CSS 로 뜬다 */
+  immediate?: boolean
 }
 
 export function Reveal({
@@ -80,9 +82,33 @@ export function Reveal({
   once = true,
   style,
   as = 'div',
+  immediate = false,
 }: RevealProps) {
   const reduce = useReducedMotion()
   const Tag = motion[as] as typeof motion.div
+
+  /**
+   * immediate — 페이지 최상단 히어로 전용. framer 를 거치지 않고 CSS 키프레임으로 뜬다.
+   * 2026-09-08 실측: 히어로의 리드·버튼(Reveal y≠0)이 첫 화면에서 안 보였다(/, /support).
+   * 스크롤 뒤에는 정상이라 마운트 시점 애니메이션만 문제다. 첫 화면 요소는 JS 애니메이션의
+   * 성공 여부에 걸지 않는다 — CSS 는 실패해도 마지막 프레임(보임)에서 끝난다.
+   */
+  if (immediate) {
+    const Plain = as as keyof JSX.IntrinsicElements
+    return (
+      <Plain
+        className={`wk-rise-in ${className}`}
+        style={{
+          ...(style as React.CSSProperties),
+          ['--wk-y' as string]: reduce ? '0px' : `${y}px`,
+          animationDelay: `${delay}s`,
+          animationDuration: `${reduce ? 0.3 : duration}s`,
+        }}
+      >
+        {children}
+      </Plain>
+    )
+  }
 
   return (
     <Tag
@@ -189,6 +215,7 @@ export function SplitText({
   gap = 0.055,
   as: Tag = 'h2',
   once = true,
+  immediate = false,
 }: {
   text: string
   className?: string
@@ -197,11 +224,48 @@ export function SplitText({
   gap?: number
   as?: 'h1' | 'h2' | 'h3' | 'p' | 'div'
   once?: boolean
+  /**
+   * 🔴 페이지 최상단 히어로 h1 은 반드시 true.
+   * 2026-09-08 실측 — 히어로 제목이 첫 화면에서 **안 보였다.** `whileInView` 는 뷰포트
+   * "진입" 을 기다리는데 첫 화면은 처음부터 뷰포트 안이라 진입 이벤트가 오지 않았고,
+   * 사용자가 스크롤을 한 번 해야 비로소 제목이 떴다. 사이트의 첫 문장이 비어 있던 셈이다.
+   * 이 플래그는 IntersectionObserver 를 거치지 않고 마운트 즉시 애니메이션한다.
+   */
+  immediate?: boolean
 }) {
   const reduce = useReducedMotion()
   const words = text.split(' ')
 
   if (reduce) return <Tag className={className}>{text}</Tag>
+
+  /**
+   * immediate — framer 를 거치지 않는다. CSS 키프레임(.wk-rise-word)으로 올린다.
+   * 2026-09-08 실측: 히어로 h1 만 framer 의 mount 애니메이션(animate="show")이 실행되지 않고
+   * SSR 초기값(opacity 0 · translateY 110%)에 멈춰 있었다. 같은 페이지의 Reveal 은 정상이라
+   * 원인은 SplitText 의 variants 전파 쪽으로 좁혀지지만, 첫 화면 제목을 JS 애니메이션의
+   * 성공 여부에 걸어 둘 이유가 없다. CSS 는 실패하지 않고, 실패해도 마지막 프레임(보임)이다.
+   * 모션 최소화 설정은 globals.css 의 전역 규칙이 duration 을 0 으로 눌러 즉시 최종 상태가 된다.
+   */
+  if (immediate) {
+    return (
+      <Tag className={className}>
+        {words.map((w, i) => (
+          // 공백은 overflow-hidden 래퍼 **밖**에 둔다 — inline-block 끝의 공백은 CSS 가 접는다
+          <span key={`${w}-${i}`}>
+            <span className="inline-block overflow-hidden align-bottom">
+              <span
+                className={`wk-rise-word inline-block ${wordClassName}`}
+                style={{ animationDelay: `${delay + i * gap}s` }}
+              >
+                {w}
+              </span>
+            </span>
+            {i < words.length - 1 && ' '}
+          </span>
+        ))}
+      </Tag>
+    )
+  }
 
   return (
     <Tag className={className}>
@@ -634,16 +698,35 @@ export function RiseMask({
   duration = 0.9,
   className = '',
   once = true,
+  immediate = false,
 }: {
   children: ReactNode
   delay?: number
   duration?: number
   className?: string
   once?: boolean
+  /** 페이지 최상단 히어로에서는 true — SplitText.immediate 와 같은 이유(첫 화면은 진입 이벤트가 없다) */
+  immediate?: boolean
 }) {
   const reduce = useReducedMotion()
 
   if (reduce) return <span className={`block ${className}`}>{children}</span>
+
+  if (immediate) {
+    return (
+      <span
+        className={`block overflow-hidden ${className}`}
+        style={{ paddingBottom: '0.14em', marginBottom: '-0.14em' }}
+      >
+        <span
+          className="wk-rise-word block"
+          style={{ animationDelay: `${delay}s`, animationDuration: `${duration}s` }}
+        >
+          {children}
+        </span>
+      </span>
+    )
+  }
 
   return (
     <span
