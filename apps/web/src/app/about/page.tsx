@@ -36,7 +36,7 @@ export const metadata: Metadata = buildMetadata({
  * 섹션 id 는 네비바 하위 메뉴(SubNav.ABOUT_SECTIONS)와 1:1 — 순서도 같다.
  *
  * 🔴 2026-09-08 QA(한 페이지 통독) — 중복 제거 원칙 = **사실 하나는 한 곳에만.**
- *    · 법인 정보(사업자·법인등록번호) = CompanyOverview 표(#company) 한 곳
+ *    · 법인등록번호는 사이트에서 완전히 뺐고, 사업자등록번호는 푸터에만 둔다(CEO 지시 2026-09-08)
  *    · 주소·업무시간 = #location 한 곳 / 'KC 인증 제품만 공급' = #certification 한 곳
  *    · 전화는 요약표(#intro)와 #location 두 곳 — 요약표의 "어떻게 연락하나" 답이라 의도적 예외
  *    · CompanyChapters(공정 3장) 는 배선 해제 — 02·03 본문이 ProcessOverview 의 01·06 공정
@@ -72,7 +72,6 @@ export default function AboutPage() {
                플로팅 버튼이 이미 답한다. 요약이 원본 바로 옆에 붙어 있으면 요약이 아니라 반복이다. */}
         <div id="intro" className={SEC}>
           <CompanyStatement />
-          <CompanyCredo />
           <CompanyOverview />
         </div>
 
@@ -82,6 +81,11 @@ export default function AboutPage() {
         <div id="process" className={SEC}>
           <ProcessOverview />
         </div>
+
+        {/* 신조 — 본문을 다 읽은 뒤에 놓는다. 여는 장(다크)과 붙여 두면 다크 두 장이
+            연달아 나와 단조로웠다. 다크 → 라이트(하는 일·개요·공정) → 다크(신조) 순으로
+            명암을 갈라 이 문장이 쉼표가 아니라 마침표로 읽히게 한다. */}
+        <CompanyCredo />
 
         {/* 🔴 인증 현황은 /about/certification 별도 페이지로 옮겼다(CEO 지시 2026-09-08
             "KC 인증서는 따로 페이지 만들어서 관리"). 서류가 늘어나는 자리라 회사소개 안에 두면
