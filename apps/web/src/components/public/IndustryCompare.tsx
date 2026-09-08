@@ -95,10 +95,7 @@ export function IndustryCompare() {
           </h2>
         </RiseMask>
         <Reveal y={14} delay={0.16}>
-          <p className="wk-lead mt-5">
-            같은 전광판이라도 민원실과 도로변은 필요한 화소 간격이 다릅니다.
-            시설을 고르는 게 아니라 <b>보는 거리를 고르는 것</b>에 가깝습니다.
-          </p>
+          <p className="wk-lead mt-5">보는 거리에 따라 화소 간격이 갈립니다.</p>
         </Reveal>
 
         <div className="mt-7 space-y-3">
@@ -218,10 +215,7 @@ export function IndustryCompare() {
           </div>
         )}
 
-        <p className="wk-cap mt-8">
-          표의 화소 간격과 보는 거리는 제품 규격서 기준값입니다. 현장 조건에 따라 달라지며,
-          확정 사양은 현장을 실측한 뒤에 정해집니다.
-        </p>
+        <p className="wk-cap mt-8">규격서 기준값이며, 확정 사양은 현장 실측 후 정해집니다.</p>
       </div>
     </section>
   )
