@@ -94,10 +94,14 @@ export function BrandLockup({
 }) {
   return (
     <img
-      src={dark ? '/brand/wk-logo-dark.svg' : '/brand/wk-logo.svg'}
+      /* 🔴 2026-09-09 CEO "회사 소개에 로고가 잘려 보인다" —
+         원본 wk-logo*.svg 의 viewBox 가 'WOOKANG TECH / 우강테크' 를 잘라내고 있었다.
+         도형은 그대로 두고 보이는 창만 넓힌 `-full` 사본을 쓴다(비율 360:300).
+         원본 파일은 네비바 심볼 크롭(BrandMark)이 좌표를 계산해 쓰므로 건드리지 않았다. */
+      src={dark ? '/brand/wk-logo-dark-full.svg' : '/brand/wk-logo-full.svg'}
       alt={`${SITE.nameKo} ${SITE.nameEn}`}
       height={height}
-      width={Math.round(height * (323.93 / 265))}
+      width={Math.round(height * (360 / 300))}
       className={className}
     />
   )

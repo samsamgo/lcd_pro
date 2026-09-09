@@ -36,10 +36,44 @@ function encodeHeader(s: string) {
 }
 
 export function mailConfigured(): boolean {
-  return !!process.env.NAVER_SMTP_USER && !!process.env.NAVER_SMTP_PASS
+  return !!process.env.RESEND_API_KEY || (!!process.env.NAVER_SMTP_USER && !!process.env.NAVER_SMTP_PASS)
+}
+
+/**
+ * Resend 발송 — 1순위.
+ *
+ * 🔴 2026-09-09 네이버 SMTP 가 계정 인증에서 계속 막혀(535 · 2단계 인증 꺼져 있음에도) 발송 경로를 옮겼다.
+ *    계정 비밀번호가 필요 없어 네이버 비번을 바꿔도 홈페이지가 멈추지 않는다.
+ *
+ * ⚠️ 도메인 인증 전에는 `onboarding@resend.dev` 로만 보낼 수 있고, **받는 사람도 Resend 계정 주인 메일로 제한**된다.
+ *    wooktech.co.kr 을 Resend 에 등록하고 DNS 3건을 넣으면 `noreply@wooktech.co.kr` → 아무 주소로 보낼 수 있다.
+ */
+async function sendViaResend(input: MailInput): Promise<{ success: boolean; reason?: string }> {
+  const key = process.env.RESEND_API_KEY
+  if (!key) return { success: false, reason: 'RESEND_API_KEY 없음' }
+  const from = process.env.RESEND_FROM || '우강테크 홈페이지 <onboarding@resend.dev>'
+  const to = input.to || process.env.NOTIFY_EMAIL_TO || 'wk_cop@naver.com'
+  try {
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ from, to: [to], subject: input.subject, text: input.text }),
+    })
+    if (res.ok) return { success: true }
+    const body = (await res.text()).slice(0, 200)
+    return { success: false, reason: `Resend ${res.status}: ${body}` }
+  } catch (e) {
+    return { success: false, reason: e instanceof Error ? e.message : '네트워크 오류' }
+  }
 }
 
 export async function sendMail(input: MailInput): Promise<{ success: boolean; reason?: string }> {
+  // 1순위 Resend, 2순위 네이버 SMTP
+  if (process.env.RESEND_API_KEY) {
+    const r = await sendViaResend(input)
+    if (r.success) return r
+    console.error('[MAIL] Resend 실패, SMTP 로 재시도:', r.reason)
+  }
   const user = process.env.NAVER_SMTP_USER
   const pass = process.env.NAVER_SMTP_PASS
   if (!user || !pass) return { success: false, reason: 'SMTP 설정 없음' }
