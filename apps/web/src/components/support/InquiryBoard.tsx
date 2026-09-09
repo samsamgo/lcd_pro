@@ -146,7 +146,7 @@ export function InquiryBoard() {
           {/* 표 머리 — 모바일에서는 열이 좁아 의미가 없다 */}
           <div
             aria-hidden="true"
-            className="hidden border-b border-wk-line bg-wk-bgFaint px-5 py-3 text-caption font-semibold text-wk-ink3 md:grid md:grid-cols-[4rem_1fr_7rem_7rem_6.5rem] md:gap-4"
+            className="hidden whitespace-nowrap border-b border-wk-line bg-wk-bgFaint px-5 py-3 text-caption font-semibold text-wk-ink3 md:grid md:grid-cols-[4.5rem_1fr_7rem_7rem_6.5rem] md:gap-4"
           >
             <span>번호</span>
             <span>제목</span>

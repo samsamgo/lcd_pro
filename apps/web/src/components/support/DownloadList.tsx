@@ -12,6 +12,8 @@ import {
  * 자료실 — **게시판 형식.**
  *
  * 🔴 2026-09-09 CEO 지시 "자료실은 페이지만 게시판 형식으로 만들어 놓아라. 우리가 올릴 거다."
+ * 🔴 2026-09-09 CEO "번호가 세로로 되어 있어 불편하다" — 칸 폭보다 좌우 여백이 커서 머리글이 접혔다.
+ *    폭을 늘리고 `whitespace-nowrap` 으로 줄바꿈을 막았다. 여백을 다시 키우지 마라.
  *    번호 · 분류 · 제목 · 등록일 · 파일 다섯 칸의 표. 자료가 없으면 표 안에 "등록된 자료가 없습니다"
  *    한 줄만 둔다 — 빈 카드나 안내문으로 대신하지 않는다. 자료는 `lib/resources.ts` 에 한 줄씩 추가한다.
  *    분류 칩은 해당 분류에 자료가 하나라도 있을 때만 그린다.
@@ -45,11 +47,11 @@ export function DownloadList({ resources }: { resources: Resource[] }) {
         <table className="w-full min-w-[640px] text-left">
           <thead>
             <tr className="border-b border-wk-line bg-wk-bgFaint text-label text-wk-ink3">
-              <th scope="col" className="w-16 px-5 py-3.5 text-center font-semibold">번호</th>
-              <th scope="col" className="w-32 px-5 py-3.5 font-semibold">분류</th>
-              <th scope="col" className="px-5 py-3.5 font-semibold">제목</th>
-              <th scope="col" className="w-32 px-5 py-3.5 font-semibold">등록일</th>
-              <th scope="col" className="w-28 px-5 py-3.5 text-center font-semibold">파일</th>
+              <th scope="col" className="w-20 whitespace-nowrap px-4 py-3.5 text-center font-semibold">번호</th>
+              <th scope="col" className="w-32 whitespace-nowrap px-4 py-3.5 font-semibold">분류</th>
+              <th scope="col" className="whitespace-nowrap px-4 py-3.5 font-semibold">제목</th>
+              <th scope="col" className="w-32 whitespace-nowrap px-4 py-3.5 font-semibold">등록일</th>
+              <th scope="col" className="w-28 whitespace-nowrap px-4 py-3.5 text-center font-semibold">파일</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-wk-line">
@@ -62,16 +64,16 @@ export function DownloadList({ resources }: { resources: Resource[] }) {
             ) : (
               list.map((r, i) => (
                 <tr key={r.id} className="transition-colors duration-150 hover:bg-wk-bgFaint">
-                  <td className="px-5 py-4 text-center text-label text-wk-ink3">{list.length - i}</td>
-                  <td className="px-5 py-4 text-label text-wk-ink2">{label(r.category)}</td>
+                  <td className="whitespace-nowrap px-4 py-4 text-center text-label text-wk-ink3">{list.length - i}</td>
+                  <td className="whitespace-nowrap px-4 py-4 text-label text-wk-ink2">{label(r.category)}</td>
                   <td className="px-5 py-4">
                     <a href={r.file} target="_blank" rel="noopener noreferrer" className="text-body font-semibold text-wk-ink hover:underline">
                       {r.title}
                     </a>
                     {r.desc && <span className="mt-0.5 block text-caption text-wk-ink3">{r.desc}</span>}
                   </td>
-                  <td className="px-5 py-4 text-label text-wk-ink3">{r.updated}</td>
-                  <td className="px-5 py-4 text-center">
+                  <td className="whitespace-nowrap px-4 py-4 text-label text-wk-ink3">{r.updated}</td>
+                  <td className="whitespace-nowrap px-4 py-4 text-center">
                     <a href={r.file} target="_blank" rel="noopener noreferrer" className="text-label font-semibold text-wk-cta hover:underline">
                       PDF · {r.size}
                     </a>
