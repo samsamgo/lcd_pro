@@ -149,20 +149,14 @@ export function NavBar() {
     }
   }, [])
 
-  // 2순위(폴백): 속성이 없는 페이지는 경로 목록 + 스크롤 여부로 판단
-  // 🔴 2026-09-08 CEO 지시 — "네비바 진짜 좀 가시성 좋게".
-  // 이전에는 다크 히어로 위에서 헤더가 투명해지고 글자가 흰색으로 뒤집혔다. 사진 위 흰 글씨는
-  // 사진의 밝은 부분에서 그대로 묻힌다(스크림을 깔아도 사진마다 결과가 달랐다). 국내 전광판·
-  // 시공 업체 사이트가 헤더를 항상 흰 배경으로 두는 이유가 이것이다. 메뉴는 장식이 아니라
-  // 길찾기 도구라 어느 페이지에서든 같은 모습이어야 한다.
-  // 다크 히어로 감지(hasHeroAttr/heroDark/FALLBACK_DARK_HERO)는 되돌릴 수 있게 남겨두되,
-  // 헤더 색에는 더 이상 반영하지 않는다.
-  const onDark = false
-  const solid = true
-  void heroDark
-  void hasHeroAttr
-  void scrolled
-  void FALLBACK_DARK_HERO
+  // 🔴 2026-09-09 CEO 지시 — "처음부터 네비바 나오지 말고, 투명이다가 스크롤하면 흰색으로."
+  //    (09-08 의 '항상 흰 배경' 지시를 이것으로 대체한다.)
+  //    · 페이지 최상단(스크롤 8px 이하)에서는 배경 없이 투명.
+  //    · 그 자리가 다크 히어로(data-wk-dark-hero 가 헤더 아래 걸쳐 있음, 또는 폴백 경로)면 글자 흰색 + 상단 스크림.
+  //    · 스크롤하면 흰 배경 + 블러 + 그림자, 글자는 잉크색.
+  const heroIsDark = hasHeroAttr ? heroDark : FALLBACK_DARK_HERO.includes(pathname)
+  const solid = scrolled
+  const onDark = !scrolled && heroIsDark
 
   const enter = (label: string) => {
     if (closeTimer.current) window.clearTimeout(closeTimer.current)

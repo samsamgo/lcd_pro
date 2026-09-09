@@ -231,7 +231,9 @@ export const IMAGES = {
      *
      * 🔴 **캡션 없는 배경 층으로만 쓴다.** 우리 시공 사진이 아니다. 실적 주장 금지.
      */
-    opening: W('A2_rooftop-rain-night'),
+    // 2026-09-09 CEO "회사소개 배경 구리다, 더 멋있는 전광판 사진" — A2(비 오는 야간, 작은 옥상 화면·전주)
+    //   → A1(블루아워 유리 타워 곡면 대형 LED 월, 광궤적). 이 리포에서 가장 강한 컷이다.
+    opening: W('A1_downtown-tower-bluehour'),
   },
 
   /* ── 솔루션(공급 범위) 6공정 ───────────────────────── */
@@ -369,7 +371,7 @@ export const IMAGES = {
     banner: G('gen-5'),
     /** 블루아워 국내 도심 빌딩 외벽 대형 화면 — 미디어파사드 그 자체.
      *  2026-09-08 A7 에서 교체 — A7 은 /industries/outdoor-ad 히어로와 중복이었고 배경이 일본풍. */
-    facade: W('A1_downtown-tower-bluehour'),
+    facade: W('A2_rooftop-rain-night'), // A1 은 company.opening 으로 (2026-09-09)
     /** 운동장 트러스 위 대형 화면 '체육 행사 안내 / 행사 시작 14:00' (gen-31 — 원본을 열어 확인).
      *  2026-09-08 E3 에서 교체 — E3 는 미국 체육관(EXIT 사인·HOME/GUEST 영문). §13 영문 목록 위반.
      *  ⚠️ 처음에 gen-32 로 적었다가 렌더 확인에서 어린이집 사진이 떠서 잡았다. 파일명·기억으로 배정하지 말 것. */

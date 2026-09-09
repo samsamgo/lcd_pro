@@ -29,7 +29,7 @@ export function PageHeader({
   imageAlt?: string
 }) {
   return (
-    <section className="relative flex min-h-[44svh] items-end overflow-hidden bg-wk-night pt-16 md:min-h-[48svh]">
+    <section data-wk-dark-hero className="relative flex min-h-[44svh] items-end overflow-hidden bg-wk-night pt-16 md:min-h-[48svh]">
       <div className="absolute inset-0" aria-hidden="true">
         <Image
           src={image}

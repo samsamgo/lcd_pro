@@ -30,7 +30,7 @@ export function PublicHero() {
   return (
     <section
       data-wk-dark-hero
-      className="relative isolate flex min-h-[70svh] items-end overflow-hidden bg-[#05080C] md:min-h-[78svh] lg:min-h-[82svh]"
+      className="relative isolate flex min-h-svh items-end overflow-hidden bg-[#05080C]" /* 2026-09-09 CEO "처음 들어왔을 때 화면 꽉 차게" — 헤더가 투명 오버레이라 100svh 로 */
     >
       {/* 1 · 배경 — 장식이므로 접근성 트리 밖. 의미는 h1 이 진다 */}
       <Parallax strength={0.15} className="pointer-events-none absolute inset-0">
