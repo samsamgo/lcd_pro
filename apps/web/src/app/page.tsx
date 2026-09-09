@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { PublicHero } from '@/components/public/PublicHero'
 import { ScrollProgress } from '@/components/public/ScrollProgress'
 import { WhyWookang } from '@/components/home/WhyWookang'
-import { ProofCards } from '@/components/home/ProofCards'
 import { CinematicScene } from '@/components/home/CinematicScene'
 import { ProductIntro } from '@/components/home/ProductIntro'
 import { ProcessStrip, HOME_STEPS } from '@/components/home/ProcessStrip'
@@ -58,7 +57,7 @@ export default function Home() {
 
               Hero            무엇을 하는 회사인가
               WhyWookang      온빛 'PERFECT SYSTEM' — 왜 우리인가, 사진 4장
-              ProofCards      케이시스 '숫자로 증명' 자리 — 숫자가 없으니 서류 3장
+              (ProofCards 는 2026-09-09 CEO 지시로 뺐다 — 아래 주석 참조)
               CinematicScene  제품 서사(화소 간격 → 화면 크기 → 유지보수)
               ProductIntro    무엇을 파는가 (제품 렌더)
               CaseHighlights  어디에 쓰이나 (WS-D 소유)
@@ -75,10 +74,10 @@ export default function Home() {
         {/* ── 라이트: 왜 우리인가 (사진 4장) ── */}
         <WhyWookang />
 
-        {/* ── 라이트: 믿을 만한가 (서류 3장) ──
-            2026-09-09 ProofRow(주장 4칸)를 ProofCards(서류 3장)로 교체했다.
-            ProofRow.tsx 는 되돌릴 수 있게 남겼다 — 참조 0건이라 번들에는 들어가지 않는다. */}
-        <ProofCards />
+        {/* 🔴 2026-09-09 CEO "'서류로 증명합니다' 부분 이상해. 빼버려" — ProofCards 배선을 풀었다.
+            ProofRow.tsx · ProofCards.tsx 둘 다 파일은 남겼다(참조 0건 = 번들 제외).
+            이 자리를 다른 '증명' 섹션으로 메우지 마라 — 홈에서 두 번째로 하는 말은
+            '왜 우리인가'(WhyWookang)로 이미 끝났다. 등록번호·서류는 /about 이 정본이다. */}
 
         {/* 라이트 → 다크는 선이 아니라 그라디언트 다리로 잇는다 (벤치마크 §4.2)
             2026-09-07 — 이 다리는 페이지에서 가장 눈에 띄는 전환부인데 그냥 색면이었다.

@@ -18,18 +18,17 @@ import { Magnetic, Parallax, Reveal, SplitText, useReducedMotion } from '@/compo
  * 그때 문제는 "슬라이드가 있다"가 아니라 아래 셋이었다. 그래서 셋을 전부 막았다.
  *   1) LCP 경쟁 — 6장이 동시에 후보가 됐다.
  *      → 지금은 1번 슬라이드만 priority + fetchPriority=high 로 즉시 받고,
- *        2·3번은 첫 페인트가 끝난 뒤(useEffect + 지연) 비로소 DOM 에 들어간다.
+ *        나머지는 첫 페인트가 끝난 뒤(useEffect + 지연) **현재 장 + 다음 한 장**까지만
+ *        DOM 에 들어간다(maxMounted). 10장이어도 첫 화면에 받는 것은 1장이다.
  *   2) 메시지가 스스로 사라짐 — 사진마다 카피 위치가 흔들렸다.
  *      → 카피는 배경과 무관하게 고정. 움직이는 것은 배경 레이어뿐이다.
  *   3) 판독성 — 밝은 컷에서 흰 글씨가 죽었다.
  *      → 좌측 스크림(.wk-scrim-l-deep) + 하단 스크림 위에 균일 딤 18% 를 한 겹 더 깐다.
  *        어떤 슬라이드에서도 좌측 카피 영역의 배경은 최소 60% 이상 눌린다.
  *
- * 사진 선정 — 톤이 겹치면 슬라이더의 의미가 없다. 주간 / 야간 / 근접 셋으로 잡았다.
- *   1) gen-18   블루아워 도심 미디어 파사드 (화면에 한국어 문구, 기존 LCP 컷 유지)
- *   2) A4       주간 곡면 미디어 파사드 (실사 계열 W)
- *   3) J4       픽셀 광파 근접 (실사 계열 W, 제품 디테일)
- * 셋 다 imageAssets 레지스트리에 이미 존재하는 키다(신규 배정 없음 = 중복검사 무해).
+ * 사진 선정 — 톤이 겹치면 슬라이더의 의미가 없다. 실내 대형 / 야간 옥외 / 시공 / 근접으로 갈랐다.
+ * 배정은 전부 `lib/imageAssets.ts` 의 home 블록을 거친다(이 파일에 경로를 직접 적지 않는다).
+ * 현재 배열과 선정·탈락 근거는 아래 SLIDES 주석에 있다.
  *
  * export 이름은 PublicHero.tsx 가 재export 하므로 유지한다.
  */
@@ -50,27 +49,48 @@ type Slide = {
   objectClass: string
 }
 
-/** 2026-09-09 CEO "3번이 가장 먼저 나오게, 더 멋있는 이미지 추가" — 6장. 첫 장이 LCP 를 진다 */
+/**
+ * 2026-09-09 CEO "전광판 사진이 너무 적고, 전광판이 다 잘려 잘 안 보인다. 더 잘 보이게" — 10장.
+ *
+ * 🔴 두 가지를 같이 고쳤다.
+ *  ① **장수** 6 → 10. 추가분 4장은 spare 에서 원본을 한 장씩 열어 보고 골랐다
+ *     (선정·탈락 근거는 `lib/imageAssets.ts` home 블록 주석에 남겼다).
+ *  ② **잘림**. 전에는 대부분 object-[50%_50%] 였다. 사진 한가운데가 아니라
+ *     **전광판이 있는 높이**를 잡아야 한다 — 아래 수치는 원본에서 화면(패널)의
+ *     세로 중심이 몇 % 에 있는지를 실제로 재서 넣은 값이다. 감으로 바꾸지 마라.
+ *
+ * 첫 장은 LCP 를 진다. 그래서 "전광판이 가장 크게 보이는 컷" 을 1번에 둔다.
+ * 픽셀 근접(J4)은 전광판이 아니라 화소 매크로라 **첫 장에서 내렸다** —
+ * 첫 화면에 전광판이 안 보인다는 인상의 진원이었다. 질감 컷으로 5번에 둔다.
+ */
 const SLIDES: Slide[] = [
-  // 픽셀 광파 근접 — 첫 장
+  // 1 · 기업 로비 대형 월 — 화면이 프레임의 절반. LCP 담당(전광판이 가장 크게 보이는 컷)
+  { src: IMAGES.home.heroLobby, objectClass: 'object-[50%_40%]' },
+  // 2 · 야간 청사 외벽 '안전한 귀가길 되세요' — 화면 세로 중심 45%
+  { src: IMAGES.home.hero, objectClass: 'object-[50%_45%]' },
+  // 3 · 호텔 로비 곡면 월 — 화면 세로 중심 42%
+  { src: IMAGES.home.heroCurved, objectClass: 'object-[50%_42%]' },
+  // 4 · 시골 학교 정문 가로형 '등교 시간 안내' — 화면 세로 중심 36%
+  { src: IMAGES.home.heroSchoolGate, objectClass: 'object-[50%_36%]' },
+  // 5 · 픽셀 광파 근접 — 질감 컷. 화면 전체가 피사체라 중앙
   { src: IMAGES.home.statement, objectClass: 'object-[50%_50%]' },
-  // 호텔 로비 곡면 월
-  { src: IMAGES.home.heroCurved, objectClass: 'object-[50%_50%]' },
-  // 야간 청사 외벽
-  { src: IMAGES.home.hero, objectClass: 'object-[50%_38%] lg:object-[50%_42%]' },
-  // 폭풍 하늘 지주형 — 세로컷이라 화면 중앙 상단을 잡는다
-  { src: IMAGES.home.heroStormy, objectClass: 'object-[50%_40%]' },
-  // 주간 학교 정문 시공 — 인물·사다리가 화면 아래 3분의 1에 몰려 있어 위쪽을 잡는다
-  { src: IMAGES.home.heroReveal, objectClass: 'object-[50%_35%] lg:object-[50%_40%]' },
-  // 자동차 전시장 벽면 월
-  { src: IMAGES.home.heroShowroom, objectClass: 'object-[50%_50%]' },
+  // 6 · 강당 무대 대형 월 — 화면 세로 중심 36%
+  { src: IMAGES.home.heroStage, objectClass: 'object-[50%_36%]' },
+  // 7 · 주간 학교 정문 취부 시공 — 전광판이 캐노피 아래 상단(28%). 인물·사다리는 아래 3분의 1
+  { src: IMAGES.home.heroReveal, objectClass: 'object-[50%_28%]' },
+  // 8 · 청사 외벽 가로형 — 화면이 우측으로 치우쳐 가로를 55% 로 민다
+  { src: IMAGES.home.heroCityHall, objectClass: 'object-[55%_40%]' },
+  // 9 · 폭풍 하늘 지주형 — 2:3 세로컷. 화면 세로 중심 32%
+  { src: IMAGES.home.heroStormy, objectClass: 'object-[50%_32%]' },
+  // 10 · 자동차 전시장 벽면 월 — 화면이 좌측이라 가로 45%
+  { src: IMAGES.home.heroShowroom, objectClass: 'object-[45%_42%]' },
 ]
 
 export function HeroSlider() {
   const reduce = useReducedMotion()
   const [index, setIndex] = useState(0)
   /**
-   * 2·3번 슬라이드를 언제 DOM 에 넣을지.
+   * 2번 이후 슬라이드를 언제 DOM 에 넣을지.
    * 뷰포트 안이라 loading="lazy" 만으로는 브라우저가 곧바로 받아간다.
    * 첫 페인트가 끝난 뒤에 마운트해야 LCP 경쟁이 실제로 사라진다.
    */
@@ -81,6 +101,16 @@ export function HeroSlider() {
    * 1번 슬라이드만 확대된 채 멈춰 있다. 한 프레임 뒤에 켜야 실제로 움직인다.
    */
   const [zooming, setZooming] = useState(false)
+  /**
+   * 지금까지 DOM 에 올린 마지막 슬라이드 번호. **줄어들지 않는다.**
+   * 한 바퀴 돌아 index 가 0 으로 돌아갔을 때 뒤쪽 장을 도로 언마운트하면
+   * 마지막 장 → 첫 장 크로스페이드가 끊기고, 다시 볼 때마다 DOM 이 요동친다.
+   */
+  const [maxMounted, setMaxMounted] = useState(1)
+
+  useEffect(() => {
+    setMaxMounted((m) => Math.max(m, Math.min(index + 1, SLIDES.length - 1)))
+  }, [index])
 
   useEffect(() => {
     if (reduce) return
@@ -134,6 +164,14 @@ export function HeroSlider() {
         >
           {SLIDES.map((s, n) => {
             if (n > 0 && !restMounted) return null
+            /**
+             * 2026-09-09 — 10장이 되면서 **한꺼번에 마운트하지 않는다.**
+             * 뷰포트 안이라 loading="lazy" 는 소용이 없다(브라우저가 곧바로 받아간다).
+             * 9장을 동시에 받으면 첫 화면 전송량이 배로 뛴다. 그래서 항상
+             * **현재 장 + 다음 한 장**까지만 DOM 에 둔다 — 크로스페이드는 다음 장이
+             * 미리 들어와 있어야 성립하므로 한 칸 앞까지가 최소이자 충분한 선이다.
+             */
+            if (n > maxMounted) return null
             const active = n === index
             return (
               <div
@@ -168,8 +206,11 @@ export function HeroSlider() {
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-10 bg-black/[.18]" />
       {/* 스크림 — 좌측 텍스트 뒤만 누른다 */}
       <div aria-hidden="true" className="wk-scrim-l-deep pointer-events-none absolute inset-0 z-10" />
-      {/* 하단 스크림 — 인디케이터·캡션 판독용 */}
-      <div aria-hidden="true" className="wk-scrim-b pointer-events-none absolute inset-x-0 bottom-0 z-10 h-2/3" />
+      {/* 하단 스크림 — 인디케이터·캡션 판독용.
+          2026-09-09 h-2/3 → h-[55%]. 전광판은 사진의 위쪽 절반에 있는데 하단 스크림이
+          화면 절반 높이부터 올라오면 정작 팔려는 물건을 덮는다. 카피 판독은 좌측
+          스크림(.wk-scrim-l-deep)이 이미 지고 있으므로 이 층은 짧아도 대비가 유지된다. */}
+      <div aria-hidden="true" className="wk-scrim-b pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[55%]" />
       {/* 그레인 */}
       <div aria-hidden="true" className="wk-grain pointer-events-none absolute inset-0 z-10" />
 
@@ -212,10 +253,11 @@ export function HeroSlider() {
         </div>
       </div>
 
-      {/* 인디케이터 — 얇은 막대 3개. 화살표는 두지 않는다(카피와 싸운다) */}
+      {/* 인디케이터 — 얇은 막대. 화살표는 두지 않는다(카피와 싸운다).
+          10장이 되면서 막대 폭을 모바일에서 줄였다(7 × 10 + 간격이면 360px 화면을 넘는다). */}
       {!reduce && restMounted && SLIDES.length > 1 && (
         <div
-          className="absolute bottom-6 right-5 z-20 flex items-center gap-2 lg:right-10"
+          className="absolute bottom-6 right-5 z-20 flex items-center gap-1.5 sm:gap-2 lg:right-10"
           role="group"
           aria-label="히어로 배경 사진 전환"
         >
@@ -229,7 +271,7 @@ export function HeroSlider() {
               className="group -my-2 px-0.5 py-2 focus-visible:outline-none"
             >
               <span
-                className={`block h-[3px] w-7 rounded-full transition-colors duration-state ease-state group-focus-visible:ring-2 group-focus-visible:ring-white/80 group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-black/40 ${
+                className={`block h-[3px] w-4 rounded-full transition-colors sm:w-7 duration-state ease-state group-focus-visible:ring-2 group-focus-visible:ring-white/80 group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-black/40 ${
                   n === index ? 'bg-white' : 'bg-white/35 group-hover:bg-white/60'
                 }`}
               />

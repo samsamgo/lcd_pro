@@ -48,8 +48,11 @@ export function IndustryGallery({
         />
       </div>
 
+      {/* 사진이 1장이면 썸네일 줄 자체를 그리지 않는다.
+          2026-09-09 CEO 지시로 갤러리가 최대 3장(대표 1 + 설치 장면 2)으로 줄었다.
+          칸 수를 사진 수에 맞춘다 — 고정 4열이면 오른쪽에 빈 칸이 남는다. */}
       {shots.length > 1 && (
-        <div className="grid grid-cols-4 gap-2 sm:gap-3">
+        <div className={`grid gap-2 sm:gap-3 ${shots.length === 2 ? 'grid-cols-2' : 'grid-cols-3'}`}>
           {shots.map((shot, n) => (
             <button
               key={shot.src}

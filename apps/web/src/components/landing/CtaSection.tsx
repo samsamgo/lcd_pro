@@ -14,9 +14,16 @@ import { Reveal, Magnetic, RiseMask, ScrollBridge } from '@/components/motion'
  *    결과는 반대였다 — 같은 자리에 매번 다른 말이 있으니 "문의 칸" 으로 인식되지 않았다.
  *    이제 props 를 받지 않는다. 어느 페이지에서든 같은 칸, 같은 말, 같은 버튼.
  */
+/**
+ * 🔴 2026-09-09 CEO "문의 칸에 '괜찮습니다만' 뜨네".
+ *    제목을 ['예산 잡기 전이어도', '괜찮습니다'] 두 줄로 나눠 각각 RiseMask 로 올렸더니
+ *    두 번째 마스크가 뒤늦게 올라오는 동안 화면에는 '괜찮습니다' 한 조각만 남아 있었다.
+ *    **제목은 한 줄이다.** 조건("예산 잡기 전이어도")은 제목이 아니라 부제가 말한다.
+ *    다시 두 줄로 쪼개지 마라 — 쪼개는 순간 같은 증상이 돌아온다.
+ */
 export function CtaSection() {
-  const title: [string, string] = ['예산 잡기 전이어도', '괜찮습니다']
-  const sub = '설치 장소와 대략적인 크기만 알려주셔도 됩니다. 현장 사진이 있으면 더 정확해집니다.'
+  const title = '설치 자리와 크기만 알려 주십시오'
+  const sub = '예산을 잡기 전이어도 됩니다. 현장 사진이 있으면 더 정확해집니다.'
   return (
     <section className="relative">
       {/* 사이트의 마지막 라이트→다크 전환. 이 다리에서 화소가 켜진다.
@@ -29,10 +36,9 @@ export function CtaSection() {
           </Reveal>
 
           {/* 🔴 제목은 Reveal 밖에 둔다. 움직이는 부모 안에서 마스크를 올리면
-              두 움직임이 겹쳐 어느 쪽도 읽히지 않는다. 마감 문장은 두 줄이 차례로 올라온다. */}
-          <h2 className="wk-display text-wk-nightInk">
-            <RiseMask>{title[0]}</RiseMask>
-            <RiseMask delay={0.1}>{title[1]}</RiseMask>
+              두 움직임이 겹쳐 어느 쪽도 읽히지 않는다. 마스크는 한 번만 올린다. */}
+          <h2 className="wk-display mx-auto max-w-[20ch] text-wk-nightInk">
+            <RiseMask>{title}</RiseMask>
           </h2>
 
           <Reveal y={16} delay={0.24}>

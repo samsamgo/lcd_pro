@@ -27,6 +27,15 @@ export type IndustryGroup = 'public' | 'edu' | 'traffic' | 'living'
       화면 문구가 한국어인지, 배경이 국내인지, 주제가 그 자리와 맞는지 보고 배정했다.
       A~J 시리즈 예비컷(B1·B5·B7 등)은 열어 보니 화면 문구가 영문이라 전부 뺐다.
 
+   🔴 2026-09-09 CEO 지시 — "시공사례 사진 클릭해 보면 대표 사진 외에 이상한 사진이
+      한두 개씩 들어가 있다. 이런 거 넣을 바에는 그냥 빼는 게 좋다."
+      → 갤러리에 남기는 것은 **대표 사진 1장 + 같은 자리의 실제 설치 장면 0~2장**뿐이다.
+      뺀 것: 부품·공정 근접컷(캐비닛 내부 전원부·후면 커넥터·모서리 마감·잠금 구조·
+      흡착 모듈 탈착·픽셀 매크로·검사 라인·도면 협의·콘텐츠 편집 화면),
+      그리고 대표 사진과 자리 성격이 다른 컷(전자현수막 항목의 강변 광장 대형 화면,
+      도서관 출입구 항목의 야간 사옥 로비·아트리움 세로컷, 옥외광고 항목의 젖은 보도 세로컷).
+      **되살리지 마라.** 파일 자체는 `public/` 에 그대로 있고 이 표에서만 뺐다.
+
    🔴 이 사진들은 **우리 시공 사진이 아니다.** 기관명·연도·건수를 붙이지 않는다.
       "이런 자리에는 이런 구성이 들어간다"를 보여주는 장면 사진으로만 쓴다.
    ══════════════════════════════════════════════════════════════════════ */
@@ -46,45 +55,13 @@ const GALLERY = {
   auditoriumTheater: K('K25_local-theater-rehearsal-light'),
   /** 야간 지방도 지주형 전광표지 '결빙주의 서행', 노면 결빙 */
   roadIceWarning: K('K20_snow-road-night-warning'),
+  /** 저녁 지방 도심 도로변 지주형(단독 기둥) 옥외 화면 */
+  roadsidePylonDusk: G('gen-54'),
 
   /** 공동주택 커뮤니티 라운지 벽면 '생활 안내 / 공용시설 이용 시간 09:00~21:00' */
   apartmentLounge: G('gen-30'),
   /** 대회의실 벽면 프레임에 캐비닛을 절반쯤 채워 넣은 시공 중 장면 */
   meetingRoomInstall: G('gen-43'),
-  /** 강당 무대 대형 화면 점등 시운전(컬러 테스트 패턴) */
-  auditoriumCommissioning: G('gen-46'),
-  /** 야간 로비 대형 실내 화면, 석재 바닥에 화면 빛이 반사 */
-  lobbyNightWall: G('gen-52'),
-  /** 유리 지붕 아트리움 통로의 세로형 안내 키오스크 */
-  atriumKiosk: G('gen-58'),
-  /** 해질 무렵 강변 광장의 지주 대형 옥외 화면 */
-  plazaBigScreen: G('gen-48'),
-  /** 비 온 뒤 도심 보행로, 건물 상단 옥외 화면 빛이 젖은 바닥에 반사 */
-  cityRainFacade: G('gen-56'),
-  /** 저녁 지방 도심 도로변 지주형(단독 기둥) 옥외 화면 */
-  roadsidePylonDusk: G('gen-54'),
-  /** 야간 근접 — 옥외 모듈 발광면 사각 시야각 */
-  pixelNightAngle: G('gen-39'),
-  /** 주간 근접 — 옥외 모듈 램프 배열 매크로 */
-  pixelMacroDay: G('gen-35'),
-  /** 눈 쌓인 옥상, 옥외 캐비닛 측면 실링·프레임 마감 근접 */
-  outdoorSealSnow: G('gen-41'),
-  /** 캐비닛 측면 두께와 잠금 구조 근접 */
-  cabinetEdgeLock: G('gen-36'),
-  /** 캐비닛 후면 방수 커넥터·전원/신호 배선 */
-  cabinetBackConnectors: G('gen-37'),
-  /** 캐비닛 내부 — SMPS 전원부와 수신카드 배선 */
-  cabinetInsidePower: G('gen-40'),
-  /** 어두운 스튜디오, 캐비닛 모서리 알루미늄 마감 디테일 */
-  frameCornerFinish: G('gen-38'),
-  /** 작업대에서 전면 흡착으로 모듈을 빼내는 2인 작업 */
-  moduleFrontSwap: G('gen-7'),
-  /** 조립이 끝난 캐비닛이 검사 라인에 늘어선 제작 현장 */
-  cabinetLine: G('gen-19'),
-  /** 도면을 펴 놓고 설치 위치·치수를 협의하는 장면 */
-  drawingReview: G('gen-21'),
-  /** 모니터에서 안내 화면 콘텐츠를 편집하는 장면 */
-  contentEditing: G('gen-49'),
 } as const
 
 if (process.env.NODE_ENV !== 'production') {
@@ -178,8 +155,9 @@ export interface Industry {
   heroImageGenerated?: boolean
   /**
    * 설치사례 갤러리. [0] 은 항상 `heroImage` 와 같다(모달을 열면 카드에서 본 사진이 그대로 커진다).
-   * 뒤의 1~3장은 그 자리를 이해하는 데 보태는 장면·구조 사진이다.
-   * 사진마다 alt 를 같이 둔다 — 썸네일이 4장이면 alt 가 없으면 셋이 똑같이 읽힌다.
+   * 🔴 뒤에 붙이는 것은 **같은 자리의 실제 설치 장면 0~2장뿐**이다(2026-09-09 CEO 지시).
+   *    부품·공정 근접컷이나 자리 성격이 다른 컷은 붙이지 않는다 — 넣을 바에는 대표 1장으로 둔다.
+   * 사진마다 alt 를 같이 둔다 — alt 가 없으면 썸네일 여럿이 똑같이 읽힌다.
    */
   gallery: { src: string; alt: string }[]
   /** 구축정보 표의 입력값. 화면 크기·해상도는 여기서 계산한다(`buildSpecRows`) */
@@ -216,8 +194,6 @@ export const INDUSTRIES: Industry[] = [
     heroImageGenerated: true,
     gallery: [
       { src: IMAGES.industry['public-office'], alt: '한국 공공 민원실 대기 공간 벽면의 대기 순번 안내 화면' },
-      { src: GALLERY.drawingReview, alt: '설치 위치와 치수를 도면 위에서 협의하는 장면' },
-      { src: GALLERY.cabinetLine, alt: '조립을 마친 캐비닛이 검사 라인에 늘어선 제작 현장' },
     ],
     buildInfo: { pitchMm: 2.5, cols: 4, rows: 2 },
   },
@@ -249,7 +225,7 @@ export const INDUSTRIES: Industry[] = [
     heroImageGenerated: true,
     gallery: [
       { src: IMAGES.industry['school'], alt: '밝은 낮 한국 학교 정문 위에 설치된 등굣길 안전 안내 전자현수막' },
-      { src: GALLERY.schoolWinterGate, alt: '겨울 고등학교 정문 캐노피 위 가로형 전광판에 신입생 환영 문구' },
+      { src: GALLERY.schoolWinterGate, alt: '겨울 학교 본관 현관 상단 가로형 전광판에 신입생 환영 문구' },
       { src: GALLERY.schoolRuralGate, alt: '안개 낀 시골 학교 정문 위 가로형 전광판에 등교 시간 안내' },
     ],
     buildInfo: { pitchMm: 3, cols: 5, rows: 2 },
@@ -277,12 +253,10 @@ export const INDUSTRIES: Industry[] = [
     priceHint: '화면값만으로는 안 됩니다. 구조물과 전기, 신고까지 넣어야 금액이 됩니다',
     environment: 'outdoor',
     heroImage: IMAGES.industry['banner'],
-    heroImageAlt: '비 오는 저녁 한국 도로 위 전자현수막에 표시된 호우 안전 안내',
+    heroImageAlt: '비 오는 저녁 한국 공공청사 현관 상단 전자현수막에 표시된 폭우 대비 안전수칙',
     heroImageGenerated: true,
     gallery: [
-      { src: IMAGES.industry['banner'], alt: '비 오는 저녁 한국 도로 위 전자현수막에 표시된 호우 안전 안내' },
-      { src: GALLERY.plazaBigScreen, alt: '해질 무렵 강변 광장에 세워진 지주형 대형 옥외 화면' },
-      { src: GALLERY.pixelNightAngle, alt: '야간 옥외 모듈 발광면을 비스듬히 본 근접 사진' },
+      { src: IMAGES.industry['banner'], alt: '비 오는 저녁 한국 공공청사 현관 상단 전자현수막에 표시된 폭우 대비 안전수칙' },
     ],
     buildInfo: { pitchMm: 5, cols: 8, rows: 3 },
   },
@@ -310,12 +284,10 @@ export const INDUSTRIES: Industry[] = [
     priceHint: '설치 위치와 안내 화면 구성을 협의한 뒤 산출',
     environment: 'indoor',
     heroImage: IMAGES.industry['institution'],
-    heroImageAlt: '한국 공공 도서관 로비 벽면의 세로형 이용·운영시간·시설 안내 화면',
+    heroImageAlt: '한국 공공 도서관 출입구 앞에 세워진 휴관일 안내 LED 게시판',
     heroImageGenerated: true,
     gallery: [
-      { src: IMAGES.industry['institution'], alt: '한국 공공 도서관 로비 벽면의 세로형 이용·운영시간·시설 안내 화면' },
-      { src: GALLERY.lobbyNightWall, alt: '야간 로비 벽면 대형 실내 화면과 석재 바닥에 비친 화면 빛' },
-      { src: GALLERY.atriumKiosk, alt: '유리 지붕 아트리움 통로에 놓인 세로형 안내 키오스크' },
+      { src: IMAGES.industry['institution'], alt: '한국 공공 도서관 출입구 앞에 세워진 휴관일 안내 LED 게시판' },
     ],
     buildInfo: { pitchMm: 2.5, cols: 4, rows: 3 },
   },
@@ -346,7 +318,6 @@ export const INDUSTRIES: Industry[] = [
     heroImageAlt: '음식점 카운터 위에 설치된 디지털 메뉴 화면',
     gallery: [
       { src: IMAGES.industry['retail'], alt: '음식점 카운터 위에 설치된 디지털 메뉴 화면' },
-      { src: GALLERY.contentEditing, alt: '모니터에서 안내 화면 콘텐츠를 편집하는 장면' },
     ],
     buildInfo: { pitchMm: 3, cols: 4, rows: 2 },
   },
@@ -377,8 +348,6 @@ export const INDUSTRIES: Industry[] = [
     heroImageAlt: '도로변에서 멀리 보이는 대형 옥외 LED 광고 화면',
     gallery: [
       { src: IMAGES.industry['outdoor-ad'], alt: '도로변에서 멀리 보이는 대형 옥외 LED 광고 화면' },
-      { src: GALLERY.cityRainFacade, alt: '비 온 뒤 도심 보행로에서 올려다본 건물 상단 옥외 화면' },
-      { src: GALLERY.pixelMacroDay, alt: '주간에 촬영한 옥외 모듈 램프 배열 근접 사진' },
     ],
     buildInfo: { pitchMm: 6, cols: 12, rows: 6 },
   },
@@ -419,7 +388,6 @@ export const INDUSTRIES: Industry[] = [
     heroImageGenerated: true,
     gallery: [
       { src: IMAGES.industry['health-center'], alt: '비 내리는 날 한국 보건소 현관 상단에 설치된 예방접종 안내 LED 화면' },
-      { src: GALLERY.outdoorSealSnow, alt: '눈 쌓인 옥상에서 본 옥외 캐비닛 측면 실링과 프레임 마감' },
     ],
     buildInfo: { pitchMm: 4, cols: 5, rows: 2 },
   },
@@ -451,7 +419,6 @@ export const INDUSTRIES: Industry[] = [
     heroImageGenerated: true,
     gallery: [
       { src: IMAGES.industry['fire-safety'], alt: '한국 소방 관련 시설 차고 출입구 상단에 설치된 화재 예방 점검 안내 LED 화면' },
-      { src: GALLERY.moduleFrontSwap, alt: '작업대에서 전면 흡착으로 모듈을 빼내는 작업' },
     ],
     buildInfo: { pitchMm: 5, cols: 6, rows: 2 },
   },
@@ -484,8 +451,7 @@ export const INDUSTRIES: Industry[] = [
     heroImageGenerated: true,
     gallery: [
       { src: IMAGES.industry['meeting-room'], alt: '한국 공공기관 대회의실 정면에 설치된 업무보고 자료 표시용 대형 실내 화면' },
-      { src: GALLERY.meetingRoomInstall, alt: '대회의실 벽면 프레임에 캐비닛을 절반쯤 채워 넣은 시공 중 장면' },
-      { src: GALLERY.cabinetInsidePower, alt: '캐비닛 내부의 전원부와 수신카드 배선' },
+      { src: GALLERY.meetingRoomInstall, alt: '회의실 벽면 프레임에 캐비닛을 절반쯤 채워 넣은 시공 중 장면' },
     ],
     buildInfo: { pitchMm: 2.5, cols: 6, rows: 3 },
   },
@@ -520,7 +486,6 @@ export const INDUSTRIES: Industry[] = [
       { src: IMAGES.industry['auditorium'], alt: '한국 학교 강당 무대 뒤편에 설치된 행사 안내용 대형 실내 LED 스크린' },
       { src: GALLERY.auditoriumSchoolStage, alt: '학교 강당 무대 앞 가로형 화면에 학부모 공개수업 안내' },
       { src: GALLERY.auditoriumTheater, alt: '소극장 무대 대형 화면에 문화 강좌 발표회 제목' },
-      { src: GALLERY.auditoriumCommissioning, alt: '강당 무대 대형 화면을 점등해 색 테스트 패턴으로 시운전하는 장면' },
     ],
     buildInfo: { pitchMm: 3, cols: 8, rows: 4 },
   },
@@ -551,7 +516,6 @@ export const INDUSTRIES: Industry[] = [
     heroImageGenerated: true,
     gallery: [
       { src: IMAGES.industry['daycare'], alt: '한국 어린이집 복도 벽면에 설치된 오늘의 식단과 알림장 안내 화면' },
-      { src: GALLERY.frameCornerFinish, alt: '캐비닛 모서리 알루미늄 마감 디테일 근접 사진' },
     ],
     buildInfo: { pitchMm: 2.5, cols: 3, rows: 2 },
   },
@@ -617,7 +581,6 @@ export const INDUSTRIES: Industry[] = [
     heroImageGenerated: true,
     gallery: [
       { src: IMAGES.industry['parking'], alt: '한국 주차장 진입로 기둥에 설치된 주차 가능 대수 표시 LED 화면' },
-      { src: GALLERY.cabinetEdgeLock, alt: '캐비닛 측면 두께와 잠금 구조를 보여주는 근접 사진' },
     ],
     buildInfo: { pitchMm: 4, cols: 3, rows: 1 },
   },
@@ -648,7 +611,6 @@ export const INDUSTRIES: Industry[] = [
     heroImageGenerated: true,
     gallery: [
       { src: IMAGES.industry['transit'], alt: '해질 무렵 한국 버스터미널 승강장에 설치된 막차 출발 시각 안내 LED 화면' },
-      { src: GALLERY.cabinetBackConnectors, alt: '캐비닛 후면의 방수 커넥터와 전원·신호 배선' },
     ],
     buildInfo: { pitchMm: 4, cols: 4, rows: 2 },
   },

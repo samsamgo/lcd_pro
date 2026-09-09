@@ -52,8 +52,13 @@ export const ABOUT_SECTIONS: SubNavItem[] = [
   { label: '오시는 길', href: '/about#location' },
 ]
 
-/** 고객지원 — 세 페이지 (2026-09-09 CEO 지시로 분리). A/S 가 맨 위 */
+/**
+ * 고객지원 — 네 페이지 (2026-09-09 CEO 지시로 분리).
+ * 🔴 2026-09-09 CEO "고객지원에 공지사항 칸 하나 추가돼야 함" → 공지사항이 맨 앞이다.
+ *    A/S 신청(`/support`)이 고객지원의 기본 페이지인 것은 그대로다.
+ */
 export const SUPPORT_SECTIONS: SubNavItem[] = [
+  { label: '공지사항', href: '/support/notice' },
   { label: 'A/S 신청', href: '/support' },
   { label: '자주 묻는 질문', href: '/support/faq' },
   { label: '자료실', href: '/support/downloads' },

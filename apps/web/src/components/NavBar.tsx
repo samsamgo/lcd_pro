@@ -55,6 +55,7 @@ const PRODUCT_DESC: Record<string, string> = {
   '규격 비교표': '전 시리즈 규격 한 표',
 }
 const SUPPORT_DESC: Record<string, string> = {
+  공지사항: '운영·A/S·자료 안내',
   'A/S 신청': '고장 접수와 원격 확인',
   '자주 묻는 질문': '예산·계약·전기·보증',
   '자료실': '규격서·시공사례집',

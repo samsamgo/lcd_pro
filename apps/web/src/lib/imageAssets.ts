@@ -89,6 +89,31 @@ export const IMAGES = {
     heroCurved: S('C2_hotel-curved-wall'),
     heroStormy: S('J2_lowangle-stormy'),
     heroShowroom: S('D5_car-showroom-wall'),
+    /**
+     * 2026-09-09 CEO "메인 켰을 때 전광판 사진이 너무 적고, 전광판이 다 잘려 잘 안 보인다".
+     * 슬라이드를 6 → 10 장으로 늘리면서 spare 에서 4장을 올렸다.
+     * 🔴 **한 장씩 원본을 열어 보고** 골랐다(파일명으로 고르지 말 것 — §「이미지 배정은 렌더로 확인」).
+     * 선정 기준은 하나 — **전광판이 프레임에서 크고 또렷하게 보이는가.**
+     *  · C1 기업 로비 대형 월 — 화면이 프레임의 절반. 문자·인물·상호·국적 단서 0
+     *  · C3 강당 무대 대형 월 — 화면이 프레임의 55%. 인물 0, 문자 0
+     *  · K14 안개 낀 시골 학교 정문 '등교 시간 안내' — 국내 실사, 한국어 문구가 뜬 가로형
+     *    (처음에 고른 K20 '결빙주의 서행' 은 같은 시각 `lib/industries.ts` 의
+     *     roadIceWarning 으로 배정돼 있었다. 한 사진은 한 자리 — 히어로를 K14 로 돌렸다)
+     *  · B2 청사 외벽 가로형 — 국내 관공서 실사(화면은 와이어프레임 플레이스홀더라
+     *    캡션 없는 배경 층으로만 쓴다. 화면 내용을 근거로 무엇을 주장하지 않는다)
+     *
+     * 🔴 같은 검사에서 **탈락시킨 컷**은 spare 에 그대로 두었다. 다시 올리지 마라 —
+     *  · E3_gym-scoreboard  화면에 HOME / GUEST / PERIOD, 벽에 EXIT (§13 영문 목록)
+     *  · F1_highway-vms     미국 도로 — 목주 배전주·미국식 황색 마름모 표지
+     *  · A3_roadside-pylon-dusk 미국식 목주 배전주·배럴 변압기(A8 을 뺀 것과 같은 사유)
+     *  · K10_highschool-entrance-winter 국내 실사는 맞지만 전광판이 프레임의 24% 로 작다
+     *    (이번 지시는 "더 크게 보이게" 다. 작은 컷은 이 자리에 맞지 않는다)
+     *  · gen-44 크레인 취부 세로컷 — 화면이 소등 상태고 2:3 세로라 와이드 히어로에서 잘린다
+     */
+    heroLobby: W('C1_corporate-lobby-wall'),
+    heroStage: W('C3_conference-hall-stage'),
+    heroSchoolGate: W('K14_rural-school-gate-misty'),
+    heroCityHall: W('B2_city-hall-wall'),
   },
 
   /** 홈 다크 시네마틱 장면 — sticky scroll 3막 */
@@ -367,20 +392,23 @@ export const IMAGES = {
        위 주석이 지시한 자리(/products SpecScale)를 그대로 따랐다. 되돌리려면
        productsPitchMacro 를 먼저 지워야 한다 — 두 자리에 두면 중복검사가 경고한다. */
     S('A8_cabinet-edge-louvre'),
-    S('B2_city-hall-wall'),
+    /* 2026-09-09 B2 · C1 · C3 · K14 는 여기서 나가 home 히어로 슬라이더로 갔다.
+       (K20 은 같은 날 `lib/industries.ts` roadIceWarning 으로 갔다)
+       되돌리려면 home 쪽을 먼저 지워야 한다 — 두 자리에 두면 아래 중복검사가 경고한다. */
     S('B6_park-info-kiosk'),
-    S('C1_corporate-lobby-wall'),
+    /* A3 = 미국식 목주 배전주·배럴 변압기. 히어로 후보였으나 탈락(§13 ② 배경 판정) */
     S('A3_roadside-pylon-dusk'),
     S('B1_village-community-center'),
     S('B5_senior-center'),
     S('B7_fire-station-emergency'),
-    S('C3_conference-hall-stage'),
     S('D3_restaurant-menu-board'),
     S('D4_shop-window-ticker'),
     S('E1_perimeter-boards'),
+    /* E3 = 화면에 HOME / GUEST / PERIOD, 벽에 EXIT. 히어로 후보였으나 탈락(§13 영문 목록) */
     S('E3_gym-scoreboard'),
     S('F4_parking-availability'),
     S('C4_control-room-wall'),
+    /* F1 = 미국 도로(목주 배전주·미국식 황색 표지). 히어로 후보였으나 탈락 */
     S('F1_highway-vms'),
     S('F5_ferry-terminal'),
     S('G4_gloved-hands-pcb'),
@@ -392,10 +420,10 @@ export const IMAGES = {
     S('I2_iot-controller-board'),
     S('I4_rooftop-laptop'),
     S('J3_floating-module-studio'),
+    /* K10 = 국내 고교 정문 실사('신입생 환영'). 히어로 후보였으나 전광판이 프레임의 24% 로
+       작아 "더 크게 보이게" 라는 이번 지시와 맞지 않아 남겨 뒀다. 카드·썸네일 자리에는 적합 */
     S('K10_highschool-entrance-winter'),
     S('K11_school-auditorium-fluorescent'),
-    S('K14_rural-school-gate-misty'),
-    S('K20_snow-road-night-warning'),
     S('K25_local-theater-rehearsal-light'),
   ],
 } as const

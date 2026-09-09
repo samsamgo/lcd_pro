@@ -5,6 +5,7 @@ import { NavBar } from '@/components/NavBar'
 import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
 import { PageHeader } from '@/components/PageHeader'
+import { AboutSlogan } from '@/components/about/AboutSlogan'
 import { AboutGreeting } from '@/components/about/AboutGreeting'
 import { AboutWhy } from '@/components/about/AboutWhy'
 import { AboutHistory } from '@/components/about/AboutHistory'
@@ -34,8 +35,11 @@ export const metadata: Metadata = buildMetadata({
  *      설치 과정 잡다한 설명·소요기간 없애라. 회사 개요를 케이시스·온빛전자처럼 멋있게.
  *      KC 인증서 PDF 있으니 다른 회사처럼 보여줘라."*
  *
- *    구성 = 인사말(온빛) → 선택 이유 6장(온빛 PERFECT SYSTEM)
- *          → 연혁 → 신조 → 인증·서류 → 오시는 길.
+ * 🔴 2026-09-09 3차 지시 — "회사소개를 ksys.co.kr 인사말 페이지처럼 멋있게. 슬로건 하나
+ *    크게 띄워 줘야 멋있어 보인다." 여는 장을 **슬로건 한 장**(`AboutSlogan`, 다크 풀블리드)으로
+ *    독립시키고, 인사말은 좌 헤드라인 / 우 3문단 순차 리빌로 다시 짰다.
+ *
+ *    구성 = 슬로건 → 인사말 → 신뢰 선언 → 선택 이유 4장 → 연혁 → 인증·서류 → 오시는 길.
  *
  * 🔴 2026-09-09 2차 지시 — "회사 개요 없애고, '우강테크 인사말', 로고 하나 넣고,
  *    '대표이사 이희원' 지우고 '우강테크 임직원 일동'." `CompanyOverview` 배선 해제.
@@ -72,18 +76,30 @@ export default function AboutPage() {
           image={IMAGES.company.hero}
         />
 
-        {/* ① 인사말 */}
+        {/* ① 여는 장 — 슬로건 한 장. 🔴 2026-09-09 CEO "우강테크 메시지 할 때 슬로건 하나
+            크게 띄워 줘야 멋있어 보인다." 다크 풀블리드 + 초대형 BEYOND THE DISPLAY.
+            옛 인사말 상단의 슬로건·로고 띠가 여기로 옮겨왔다 — 인사말에 다시 넣지 마라. */}
+        <AboutSlogan />
+
+        {/* ② 인사말 — 좌 헤드라인 / 우 3문단 순차 리빌 */}
         <div id="greeting" className={SEC}>
           <AboutGreeting />
         </div>
 
-        {/* ② 선택해야 하는 이유 — 네비바에는 없는 섹션이다(하위 메뉴는 5개로 묶었다).
+        {/* ③ 신뢰 선언 — 다크 한 장. 2026-09-09 CEO 문장 "설치는 끝이 아니라 시작입니다."
+            '시작' 한 어절만 실제로 발광한다.
+            🔴 자리를 인사말 바로 뒤로 올렸다(전에는 연혁 뒤). 인사말이 "책임진다"고 말한 직후에
+               선언이 오는 게 흐름이 맞고, 슬로건(다크) → 인사말(라이트) → 선언(다크) 으로
+               명암이 번갈아 읽힌다. */}
+        <CompanyCredo />
+
+        {/* ④ 선택해야 하는 이유 — 네비바에는 없는 섹션이다(하위 메뉴는 4개로 묶었다).
             앵커는 옛 `/services` 리다이렉트가 착지할 자리로 남겨 둔다. */}
         <div id="why" className={SEC}>
           <AboutWhy />
         </div>
 
-        {/* ③ 연혁 — 🔴 2026-09-09 CEO "회사소개에서 회사 개요 없애고".
+        {/* ⑤ 연혁 — 🔴 2026-09-09 CEO "회사소개에서 회사 개요 없애고".
             `CompanyOverview`(회사 개요 표) 배선을 풀었다. 파일은 남겼지만 참조 0건이다.
             `lib/subnav.ts` ABOUT_SECTIONS 의 '회사 개요'(#company) 링크도 같이 뺐다 —
             되살리려면 두 곳을 같이 되살려야 죽은 앵커가 안 생긴다. */}
@@ -91,16 +107,12 @@ export default function AboutPage() {
           <AboutHistory />
         </div>
 
-        {/* 신뢰 선언 — 다크 한 장. 2026-09-09 CEO 문장 "설치는 끝이 아니라 시작입니다."
-            '시작' 한 어절만 실제로 발광한다. 자리는 사실(개요·연혁) 다음, 서류(인증) 앞이다. */}
-        <CompanyCredo />
-
-        {/* ④ 인증·서류 — 전체 갤러리는 /about/certification */}
+        {/* ⑥ 인증·서류 — 전체 갤러리는 /about/certification */}
         <div id="certification" className={SEC}>
           <CertStrip />
         </div>
 
-        {/* ⑤ 오시는 길 */}
+        {/* ⑦ 오시는 길 */}
         <section id="location" className={`${SEC} wk-sec bg-white`} aria-labelledby="loc-h">
           <div className="wk-wrap">
             <p className="wk-eyebrow">오시는 길</p>

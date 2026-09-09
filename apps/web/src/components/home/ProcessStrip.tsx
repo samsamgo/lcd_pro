@@ -1,6 +1,4 @@
-import Link from 'next/link'
-
-import { Reveal, RiseMask, Stagger } from '@/components/motion'
+import { RiseMask, Stagger } from '@/components/motion'
 
 /**
  * 홈 — 진행 순서 4단어 띠. 제품·시공사례 다음, 푸터 앞.
@@ -9,7 +7,8 @@ import { Reveal, RiseMask, Stagger } from '@/components/motion'
  *    "설치 과정 잡다한 설명 없애고, 소요기간 없애라."
  *    전에는 단계마다 두 줄짜리 설명 + '공정별 기간' 링크 + 전화번호 한 줄이 붙어 있었다.
  *    홈에서 공정을 읽는 사람은 없다 — 홈은 '이 회사가 처음부터 끝까지 한다' 만 보여주면 되고,
- *    그건 네 단어로 충분하다. 설명이 필요한 사람은 /about#process 로 간다.
+ *    그건 네 단어로 충분하다.
+ *    2026-09-09 후속 지시로 '진행 절차 자세히' 링크까지 뺐다. 이 띠는 네 단어가 전부다.
  *
  * 🔴 소요기간(기간·일수·주차)은 이 띠에 **다시 넣지 않는다.**
  *    현장마다 다른 값을 홈에 박아 두면 그게 곧 약속이 되고, 지연 시 분쟁 사유가 된다.
@@ -30,19 +29,12 @@ export function ProcessStrip() {
   return (
     <section aria-labelledby="steps-h" className="wk-sec-sm border-t border-wk-line bg-wk-bgFaint">
       <div className="wk-wrap">
-        <div className="flex flex-col gap-5 md:flex-row md:items-baseline md:justify-between">
-          <h2 id="steps-h" className="wk-h2 text-wk-ink">
-            <RiseMask>문의부터 A/S까지 우강테크가 합니다</RiseMask>
-          </h2>
-          <Reveal y={10} delay={0.12}>
-            <Link
-              href="/about#process"
-              className="shrink-0 text-label font-semibold text-wk-cta underline-offset-4 hover:underline"
-            >
-              진행 절차 자세히 →
-            </Link>
-          </Reveal>
-        </div>
+        {/* 🔴 2026-09-09 CEO "'진행 절차 자세히' 필요 없어" — 링크를 뺐다.
+            `/about#process` 는 받는 앵커가 없는 죽은 링크이기도 했다.
+            다시 넣으려면 먼저 그 페이지에 id="process" 를 만들어라. */}
+        <h2 id="steps-h" className="wk-h2 text-wk-ink">
+          <RiseMask>문의부터 A/S까지 우강테크가 합니다</RiseMask>
+        </h2>
 
         {/* 네 단어 띠. 단어와 단어 사이는 화살표 하나로만 잇는다 — 부연을 붙이지 않는다. */}
         <Stagger
