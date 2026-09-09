@@ -23,7 +23,7 @@ export const dynamic = 'force-static'
 export const metadata: Metadata = buildMetadata({
   title: '회사소개',
   description:
-    '대전 대덕구에서 LED 전광판을 설계·제작·시공하고 유지보수합니다. 인사말, 회사 개요, 연혁, 발급받은 인증·서류 원본, 오시는 길.',
+    '공간에 빛을 더하고, 기술로 완성합니다. LED 모듈 선정부터 구조 설계, 제작, 설치, 유지보수까지 모든 과정을 직접 책임지는 우강테크의 인사말, 회사 개요, 연혁, 인증·서류, 오시는 길.',
   path: '/about',
 })
 
@@ -66,7 +66,7 @@ export default function AboutPage() {
         <PageHeader
           group="회사소개"
           title="회사소개"
-          lead="대전 대덕구에서 LED 전광판을 설계하고, 만들고, 달고, 고칩니다."
+          lead="공간에 빛을 더하고, 기술로 완성합니다."
           image={IMAGES.company.hero}
         />
 
@@ -91,8 +91,8 @@ export default function AboutPage() {
           <AboutHistory />
         </div>
 
-        {/* 신조 — 다크 한 장. CEO 가 직접 가져온 문장이고 '빛나는' 한 어절만 실제로 발광한다.
-            자리는 사실(개요·연혁) 다음, 서류(인증) 앞이다. */}
+        {/* 신뢰 선언 — 다크 한 장. 2026-09-09 CEO 문장 "설치는 끝이 아니라 시작입니다."
+            '시작' 한 어절만 실제로 발광한다. 자리는 사실(개요·연혁) 다음, 서류(인증) 앞이다. */}
         <CompanyCredo />
 
         {/* ⑤ 인증·서류 — 전체 갤러리는 /about/certification */}

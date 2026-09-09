@@ -81,7 +81,7 @@ export default function CertificationPage() {
                   <span className="sr-only"> (새 창)</span>
                 </a>
                 <Link
-                  href="/support#downloads"
+                  href="/support/downloads"
                   className="text-label font-semibold text-wk-ink2 underline-offset-4 hover:underline"
                 >
                   자료실에서 한 번에 받기

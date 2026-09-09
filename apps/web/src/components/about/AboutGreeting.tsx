@@ -21,16 +21,48 @@ import { Reveal, RevealImage, RiseMask } from '@/components/motion'
  *    원형을 대신 넣지 마라 — 없는 사람을 만든 것처럼 보인다. 이름만 적는다.
  *  · 문단에는 실적 수치가 없다. 확인되는 사실(공장·등록·KC)만 말한다.
  */
+/**
+ * 🔴 2026-09-09 CEO 가 직접 준 문장으로 다시 썼다 — 책임·신뢰 강조.
+ *    "설계에서 시작해 현장에서 증명합니다 / 모든 과정을 직접 책임집니다 /
+ *     설치는 끝이 아니라 시작입니다 / 끝까지 책임지는 기술" 을 그대로 살리고,
+ *    사실(등록·KC)은 근거로만 한 번 붙였다. 지역·공장 자랑으로 여는 문장은 쓰지 않는다.
+ */
 const PARAGRAPHS = [
-  '저희는 대전 대덕구에 공장을 두고 LED 전광판과 전자현수막을 만드는 회사입니다. 화면 크기를 정하는 일부터 캐비닛을 짜고, 현장에 달고, 몇 해 뒤 모듈 한 장을 갈아 끼우는 일까지 한 회사가 끝까지 맡습니다. 중간에 다른 업체로 넘기지 않습니다.',
-  '전광판은 사고 나서가 더 깁니다. 그래서 저희는 정보통신공사업 등록업체로 직접 시공하고, 전원장치처럼 안전에 걸리는 부품은 KC 적합등록을 받은 것만 씁니다. 서류로 확인되지 않는 것은 약속하지 않습니다.',
-  '아직 큰 회사는 아닙니다. 대신 전화를 받는 사람이 현장을 아는 사람입니다. 화면 한 장을 놓고 고민하고 계시다면 편하게 연락 주십시오. 자리와 조건만 알려주시면 저희가 보고 말씀드리겠습니다.',
+  'LED 모듈 선정부터 구조 설계, 제작, 설치, 유지보수까지 모든 과정을 우강테크가 직접 책임집니다. 도면 한 장에서 시작한 일이 현장에서 켜지는 순간까지, 맡는 사람이 바뀌지 않습니다.',
+  '설치는 끝이 아니라 시작입니다. 오랫동안 안정적으로 작동하는 전광판을 만들고, 문제가 생겼을 때는 끝까지 책임지는 기술로 답합니다. 정보통신공사업 등록업체로서 직접 시공하고, 전원장치는 KC 적합등록을 받은 것만 씁니다.',
+  '단순한 전광판을 넘어, 공간과 사람을 연결하는 디스플레이를 만들겠습니다. 화면 하나를 두고 고민하고 계시다면 연락 주십시오. 자리와 조건을 보고 가장 맞는 답을 드리겠습니다.',
 ]
 
 export function AboutGreeting() {
   return (
     <section aria-labelledby="greeting-h" className="wk-sec bg-white">
-      {/* 상단 큰 현장 사진 — 본문 폭보다 넓게 깔아 첫 장의 무게를 만든다 */}
+      {/* 여는 장 — 슬로건. 2026-09-09 CEO "BEYOND THE DISPLAY 같은 슬로건도 써가면서".
+          두 톤 대제목(검정 + 주황) 아래 CEO 문장 두 줄. 버튼·숫자 없음. */}
+      <div className="wk-wrap mb-12 md:mb-16">
+        <p className="wk-display leading-[1.02] tracking-[-0.04em]" aria-label="Beyond the display">
+          <RiseMask>
+            <span className="text-wk-ink">BEYOND</span>
+          </RiseMask>
+          <RiseMask delay={0.08}>
+            <span className="text-wk-ink">THE </span>
+            <span className="text-wk-cta">DISPLAY.</span>
+          </RiseMask>
+        </p>
+        <Reveal y={14} delay={0.18}>
+          <p className="mt-8 text-h3 font-bold leading-snug tracking-tight text-wk-ink md:text-h2">
+            공간에 빛을 더하고, 기술로 완성합니다.
+          </p>
+        </Reveal>
+        <Reveal y={14} delay={0.26}>
+          <p className="wk-lead mt-4 max-w-[34em]">
+            단순한 전광판을 넘어
+            <br />
+            공간과 사람을 연결하는 디지털 디스플레이를 만듭니다.
+          </p>
+        </Reveal>
+      </div>
+
+      {/* 큰 현장 사진 — 본문 폭보다 넓게 깔아 첫 장의 무게를 만든다 */}
       <RevealImage className="wk-wrap-wide">
         <div className="relative aspect-[16/9] overflow-hidden rounded-card bg-wk-ink md:aspect-[21/9]">
           <Image
@@ -47,14 +79,14 @@ export function AboutGreeting() {
 
       <div className="wk-wrap mt-12 md:mt-16">
         <Reveal y={10}>
-          <p className="wk-eyebrow">인사말</p>
+          <p className="wk-eyebrow">대표 인사말</p>
         </Reveal>
 
         <h2 id="greeting-h" className="wk-h2 max-w-[22ch] text-wk-ink">
-          <RiseMask delay={0.06}>
-            <span className="text-wk-cta">{SITE.nameKo}</span> 홈페이지를
+          <RiseMask delay={0.06}>설계에서 시작해</RiseMask>
+          <RiseMask delay={0.14}>
+            <span className="text-wk-cta">현장에서 증명</span>합니다
           </RiseMask>
-          <RiseMask delay={0.14}>방문해 주셔서 감사합니다</RiseMask>
         </h2>
 
         <div className="mt-9 grid gap-x-12 gap-y-6 lg:grid-cols-12">

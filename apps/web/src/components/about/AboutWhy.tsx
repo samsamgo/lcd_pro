@@ -70,9 +70,11 @@ export function AboutWhy() {
           </RiseMask>
         </h2>
         <Reveal y={14} delay={0.18}>
-          <p className="wk-lead mt-6">
-            LED 전광판, 우강테크를 선택해야 하는 이유 여섯 가지입니다.
-            전부 서류로 확인되는 것만 적었습니다.
+          <p className="mt-6 text-h3 font-bold leading-snug tracking-tight text-wk-ink">
+            기술로 설계하고, 품질로 증명합니다.
+          </p>
+          <p className="wk-lead mt-3 max-w-[36em]">
+            다양한 설치 환경과 사용 목적에 맞춘 최적의 LED 디스플레이 솔루션을 제공합니다.
           </p>
         </Reveal>
 

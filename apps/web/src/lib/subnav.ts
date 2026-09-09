@@ -33,9 +33,9 @@ export const ABOUT_SECTIONS: SubNavItem[] = [
   { label: '오시는 길', href: '/about#location' },
 ]
 
-/** 고객지원 — 한 페이지 안 섹션. A/S 가 맨 위 */
+/** 고객지원 — 세 페이지 (2026-09-09 CEO 지시로 분리). A/S 가 맨 위 */
 export const SUPPORT_SECTIONS: SubNavItem[] = [
-  { label: 'A/S 신청', href: '/support#as' },
-  { label: '자주 묻는 질문', href: '/support#faq' },
-  { label: '자료실', href: '/support#downloads' },
+  { label: 'A/S 신청', href: '/support' },
+  { label: '자주 묻는 질문', href: '/support/faq' },
+  { label: '자료실', href: '/support/downloads' },
 ]

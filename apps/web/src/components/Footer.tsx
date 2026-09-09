@@ -45,9 +45,9 @@ export function Footer() {
           {/* 고객지원 */}
           <div className="space-y-3 text-sm">
             <p className="font-semibold text-wk-ink2">고객지원</p>
-            <Link href="/support#as" className={LINK_CLASS}>A/S 신청</Link>
-            <Link href="/support#faq" className={LINK_CLASS}>자주 묻는 질문</Link>
-            <Link href="/support#downloads" className={LINK_CLASS}>자료실</Link>
+            <Link href="/support" className={LINK_CLASS}>A/S 신청</Link>
+            <Link href="/support/faq" className={LINK_CLASS}>자주 묻는 질문</Link>
+            <Link href="/support/downloads" className={LINK_CLASS}>자료실</Link>
             <Link href="/quote" className={LINK_CLASS}>견적 문의</Link>
           </div>
 

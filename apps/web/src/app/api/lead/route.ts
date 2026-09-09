@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { notifyLead } from '@/lib/notify'
+import { serverClient } from '@/lib/supabase'
 
 /**
  * 경량 상담 리드 엔드포인트 (빠른 상담 모달용).
@@ -55,6 +56,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: '개인정보 수집 동의가 필요합니다.' }, { status: 400 })
   }
 
+  let notified = false
+  let channels: string[] = []
   try {
     const result = await notifyLead({
       businessName: businessType || (kind === 'as' ? '(설치 장소 미기재)' : '(빠른 상담)'),
@@ -68,9 +71,41 @@ export async function POST(req: NextRequest) {
       purpose: message || (kind === 'as' ? '증상 미기재' : '빠른 상담 요청'),
       kind,
     })
+    notified = result.success
+    channels = result.channels
     if (!result.success) logLead('webhook-unsent')
   } catch {
     logLead('webhook-unsent')
+  }
+
+  // ── DB 저장 (2026-09-09 CEO "고객 문의는 데이터로 저장되어야 한다") ──
+  // 알림과 독립이다. 테이블이 아직 없거나(마이그레이션 008 미적용) env 가 없으면
+  // 로그로 떨어뜨리고 접수는 성공 처리한다 — 저장 실패가 고객 화면의 실패가 되면 안 된다.
+  const supabaseReady =
+    !!process.env.NEXT_PUBLIC_SUPABASE_URL && !!process.env.SUPABASE_SERVICE_KEY
+  if (supabaseReady) {
+    try {
+      const { error } = await serverClient()
+        .from('leads')
+        .insert({
+          kind,
+          source: source || null,
+          business_name: businessType || null,
+          contact_name: contactName || null,
+          phone,
+          region: region || null,
+          environment,
+          urgency: kind === 'as' ? 'high' : 'normal',
+          message: message || null,
+          notified,
+          channels,
+        } as never)
+      if (error) logLead(`leads-insert-failed: ${error.message}`)
+    } catch (e) {
+      logLead(`leads-insert-failed: ${e instanceof Error ? e.message : 'unknown'}`)
+    }
+  } else {
+    logLead('supabase-env-missing')
   }
 
   return NextResponse.json({ success: true })

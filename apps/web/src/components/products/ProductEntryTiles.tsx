@@ -21,14 +21,11 @@ export function ProductEntryTiles() {
   return (
     <section className="wk-sec bg-wk-night" aria-labelledby="entry-h">
       <div className="wk-wrap">
+        {/* 🔴 2026-09-09 CEO "안에 놓습니까… 이런 말 필요 없다" — 설명문 없이 제목 한 줄만 */}
         <p className="wk-eyebrow !text-wk-blue">제품</p>
         <h2 id="entry-h" className="wk-h2 text-white">
-          안에 놓습니까, 밖에 놓습니까
+          실내용 · 실외용
         </h2>
-        <p className="mt-3 max-w-[44em] text-body text-wk-nightMuted">
-          같은 LED 화면이라도 실내와 실외는 다른 물건입니다. 보는 거리가 다르고, 그래서 화면 크기와 화소 간격이 다릅니다.
-          먼저 이 둘 중 하나를 고르시면 그 아래 시리즈가 정리돼 있습니다.
-        </p>
 
         <div className="mt-9 grid gap-4 md:grid-cols-2 lg:gap-6">
           {TILES.map(({ slug, sub }, i) => {

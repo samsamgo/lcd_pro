@@ -22,10 +22,13 @@ import { useEffect, useRef, useState } from 'react'
  * 모션 — IntersectionObserver 로 한 번만 켠다. 실패하거나 prefers-reduced-motion 이면
  * 처음부터 켜진 상태(최종 프레임)로 둔다. 첫 화면이 아니어도 글자가 안 보이는 일은 없다.
  */
-const HEAD = '가장 강력한 메시지는'
-const TAIL_BEFORE = '말 없이도 '
-const GLOW_WORD = '빛나는'
-const TAIL_AFTER = ' 법이다.'
+// 🔴 2026-09-09 CEO 문장으로 교체 — 신뢰 강조. '시작' 한 어절만 발광한다.
+//    (09-08 문장 "가장 강력한 메시지는 말 없이도 빛나는 법이다" 는 git 이력에 남아 있다)
+const HEAD = '설치는 끝이 아니라'
+const TAIL_BEFORE = ''
+const GLOW_WORD = '시작'
+const TAIL_AFTER = '입니다.'
+const SUB = ['오랫동안 안정적으로 작동하는 전광판,', '문제가 생겼을 때 끝까지 책임지는 기술을 제공합니다.']
 
 export function CompanyCredo() {
   const ref = useRef<HTMLElement>(null)
@@ -103,6 +106,14 @@ export function CompanyCredo() {
             {GLOW_WORD}
           </span>
           {TAIL_AFTER}
+        </p>
+        <p
+          className="mx-auto mt-8 max-w-[30em] text-center text-body-lg leading-relaxed text-white/70 transition-opacity duration-[1600ms] ease-out"
+          style={{ opacity: lit ? 1 : 0, transitionDelay: lit ? '600ms' : '0ms' }}
+        >
+          {SUB[0]}
+          <br />
+          {SUB[1]}
         </p>
       </blockquote>
     </section>
