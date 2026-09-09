@@ -10,6 +10,11 @@
  *  모든 title·issuer·issued·no 는 `public/images/certs/{key}.jpg` 원본에 인쇄된 글자 그대로다.
  *  🔴 추정해서 채우지 마라. 서류에 없는 칸은 비운다.
  *
+ *  🔴 2026-09-09 CEO 가 원본 PDF 9종을 새로 전달 — 스캔 이미지를 전부 그것으로 교체했다.
+ *     새로 들어온 것: 사업자등록증 · 직접생산확인증명서(안내전광판, 공공조달용).
+ *     KC 적합등록증은 이 묶음에 없어 기존 스캔을 그대로 둔다(실물 보유·홈 신뢰카드에서 참조).
+ *     ⚠️ 전달 파일명이 '기업부설연구소.pdf' 지만 문서 제목은 **연구개발전담부서 인정서**다(원본 확인).
+ *
  *  ⚠️ 판독으로 바로잡은 것 2건 —
  *   ① `rnd-lab` 은 '기업부설연구소' 가 아니라 **연구개발전담부서 인정서**다.
  *      (인정서 제목·본문 모두 '연구개발전담부서'. 두 제도는 별개이고 요건이 다르다.
@@ -35,6 +40,8 @@ export type CredentialKey =
   | 'sw-biz'
   | 'sme'
   | 'startup'
+  | 'biz-reg'
+  | 'direct-production'
 
 export interface Credential {
   key: CredentialKey
@@ -129,6 +136,21 @@ export const CREDENTIALS: Credential[] = [
     issued: '2026-08-06',
     no: '제202608-28423-0093794호',
     valid: '2026-08-06 ~ 2029-08-06',
+  },
+  {
+    key: 'direct-production',
+    title: '직접생산확인증명서',
+    subject: '안내전광판을 직접 생산합니다 — 공공조달 직접생산 확인',
+    issuer: '한국중소벤처기업유통원',
+    issued: '2026-09-07',
+    no: '제2026-0619-01338호',
+  },
+  {
+    key: 'biz-reg',
+    title: '사업자등록증',
+    subject: '주식회사 우강테크 사업자등록',
+    issuer: '국세청',
+    issued: '2026',
   },
 ]
 
