@@ -42,6 +42,13 @@ const S = (name: string) => `/wk/sm/${name}.jpg`
  *    표에 없으면 원본을 확대해 직접 판독한 뒤 그 결과를 남긴다.
  */
 const C = (name: string) => `/curated/${name}.jpg`
+/**
+ * `public/trl/` — 2026-09-09 CEO 허락으로 쓰는 **TRL(지인 회사) 실제 완공 사진**(3:2 1600px 크롭).
+ * 🔴 규칙 — ①납품처·기관명·건수를 캡션/alt/파일명에 쓰지 않는다(실적 주장 금지) ②우리 로고를 합성하지 않는다
+ *          ③로고·번호판·얼굴이 보이는 컷은 AI 보정(gpt-image-2) 후에만 올린다 — 보정 전 컷은 `_보류`.
+ * 원본 = `원본아카이브/회사파일서버-20260623/payload/<현장>/4. 완공사진(홈페이지 시공사례)/`.
+ */
+const T = (name: string) => `/trl/${name}.jpg`
 
 export const IMAGES = {
   /* ── 홈 ────────────────────────────────────────────── */
@@ -169,10 +176,10 @@ export const IMAGES = {
     school: G('gen-3'),
     banner: W('K08_office-rainy-evening'),
     /* 2026-09-09 K07(소형 문자보드) → gen-25 도서관 이용안내 키오스크. 권장 P2.5 와 맞춘다. K07 은 homeScenes 로 */
-    institution: G('gen-25'),
-    retail: W('D1_cafe-storefront-night'),
+    institution: T('lobby-stone-wall'), // 2026-09-09 실사 — 공공시설 로비 인조석 벽면 대형 LED
+    retail: T('market-arcade'), // 2026-09-09 실사 — 전통시장 아케이드 천장 LED
     /* 2026-09-09 A7 은 배경이 일본풍 저층가 → 퇴출(CEO "배경은 한국"). gen-56 = 국내 상가 옥상 풀컬러 */
-    'outdoor-ad': G('gen-56'),
+    'outdoor-ad': T('outdoor-large-art'), // 2026-09-09 실사 — 옥외 대형 3면 LED(한국화 콘텐츠)
     // 2026-09-07 설치 사례 확충 9건.
     // 전부 화면에 한국어 안내 문구가 떠 있는 컷만 골랐다(§13 AI 티 판정 기준).
     // 앞의 5장은 `spare` 에서 옮겨왔다 — 같은 파일을 두 자리에 두면 중복검사가 경고한다.
@@ -182,8 +189,8 @@ export const IMAGES = {
     parking: S('K18_parking-entry-grayday'),
     transit: S('K19_bus-terminal-dusk'),
     apartment: G('gen-24'),
-    auditorium: G('gen-4'),
-    'meeting-room': G('gen-27'),
+    auditorium: T('auditorium-wide-wall'), // 2026-09-09 실사 — 강당 무대 대형 LED 월
+    'meeting-room': T('meeting-room-wall'), // 2026-09-09 실사 — 회의실 정면 대형 실내 LED
     daycare: G('gen-33'),
   } as Record<string, string>,
 
@@ -216,7 +223,7 @@ export const IMAGES = {
     /** 2026-09-08 K28 은 /about/certification 머리(pageHeaders.certification)로 갔다. CompanyChapters 는 배선 해제 상태 */
     chapter1: G('gen-12'),
     /** 국내 관공서 로비, 안전콘·비계 두고 캐비닛 취부 중 */
-    chapter2: G('gen-8'),
+    chapter2: T('install-crane-facade'), // 2026-09-09 실사 — 고소작업차로 외벽 캐비닛 취부 중
     /** 흡착판으로 전면에서 모듈을 빼내는 국내 기술자 */
     chapter3: G('gen-9'),
     /**
@@ -271,7 +278,7 @@ export const IMAGES = {
    *  중복 검사도 우회하고 있었다. 2026-09-06 레지스트리로 끌어왔다. */
   /** /products 환경 묶음 3개의 좌측 칼럼 사진 (2026-09-06 증량) */
   productTracks: {
-    'indoor-near': G('gen-22'),
+    'indoor-near': T('indoor-p25-room'), // 2026-09-09 실사 — 실내 P2.5 대형 화면
     'outdoor-near': G('gen-29'),
     'outdoor-far': G('gen-5'),
   } as Record<string, string>,
@@ -370,7 +377,7 @@ export const IMAGES = {
    */
   category: {
     /** 민원실 창구 위 가로형 — 화면에 '민원 안내' */
-    indoor: G('gen-22'),
+    indoor: T('indoor-studio-wall'), // 2026-09-09 실사 — 실내 스튜디오 대형 LED 월
     /** 청사 앞 2주식 옥외 전광판 — '행정 안내 / 민원 서류 발급 시간'.
      *  2026-09-08 gen-10 에서 교체 — gen-10 은 모델 '건물 외벽 대형 화면'(OUT-L) 카드 사진이라
      *  /products/outdoor 한 페이지에서 머리와 모델 카드에 같은 사진이 두 번 떴다. */
@@ -379,7 +386,7 @@ export const IMAGES = {
     banner: G('gen-5'),
     /** 블루아워 국내 도심 빌딩 외벽 대형 화면 — 미디어파사드 그 자체.
      *  2026-09-08 A7 에서 교체 — A7 은 /industries/outdoor-ad 히어로와 중복이었고 배경이 일본풍. */
-    facade: W('A2_rooftop-rain-night'), // A1 은 company.opening 으로 (2026-09-09)
+    facade: T('transparent-glass-facade'), // 2026-09-09 실사 — 건물 유리창 투명 LED
     /** 운동장 트러스 위 대형 화면 '체육 행사 안내 / 행사 시작 14:00' (gen-31 — 원본을 열어 확인).
      *  2026-09-08 E3 에서 교체 — E3 는 미국 체육관(EXIT 사인·HOME/GUEST 영문). §13 영문 목록 위반.
      *  ⚠️ 처음에 gen-32 로 적었다가 렌더 확인에서 어린이집 사진이 떠서 잡았다. 파일명·기억으로 배정하지 말 것. */

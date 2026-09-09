@@ -284,7 +284,7 @@ export const INDUSTRIES: Industry[] = [
     priceHint: '설치 위치와 안내 화면 구성을 협의한 뒤 산출',
     environment: 'indoor',
     heroImage: IMAGES.industry['institution'],
-    heroImageAlt: '한국 공공 도서관 로비에 세워진 이용 안내 LED 키오스크',
+    heroImageAlt: '한국 공공시설 로비 인조석 벽면에 설치된 대형 실내 LED 화면',
     heroImageGenerated: true,
     gallery: [
       { src: IMAGES.industry['institution'], alt: '한국 공공 도서관 출입구 앞에 세워진 휴관일 안내 LED 게시판' },
@@ -315,7 +315,7 @@ export const INDUSTRIES: Industry[] = [
     priceHint: '화면 크기와 설치 조건 확인 후 산출',
     environment: 'indoor',
     heroImage: IMAGES.industry['retail'],
-    heroImageAlt: '음식점 카운터 위에 설치된 디지털 메뉴 화면',
+    heroImageAlt: '한국 전통시장 아케이드 천장에 매달아 설치한 LED 전광판',
     gallery: [
       { src: IMAGES.industry['retail'], alt: '음식점 카운터 위에 설치된 디지털 메뉴 화면' },
     ],
@@ -345,7 +345,7 @@ export const INDUSTRIES: Industry[] = [
     priceHint: '외벽을 보강해야 하는지에서 금액이 갈립니다',
     environment: 'outdoor',
     heroImage: IMAGES.industry['outdoor-ad'],
-    heroImageAlt: '비 갠 저녁 한국 상가 건물 옥상에 설치된 풀컬러 옥외 LED 광고 전광판',
+    heroImageAlt: '한국 건물 외벽에 설치된 3면 구성 대형 옥외 LED 전광판',
     gallery: [
       { src: IMAGES.industry['outdoor-ad'], alt: '도로변에서 멀리 보이는 대형 옥외 LED 광고 화면' },
     ],
@@ -447,7 +447,7 @@ export const INDUSTRIES: Industry[] = [
     priceHint: '앞줄 거리와 입력 계통을 확인하면 잡힙니다',
     environment: 'indoor',
     heroImage: IMAGES.industry['meeting-room'],
-    heroImageAlt: '한국 공공기관 대회의실 정면에 설치된 업무보고 자료 표시용 대형 실내 화면',
+    heroImageAlt: '한국 기관 회의실 정면 목재 벽에 설치된 대형 실내 LED 화면',
     heroImageGenerated: true,
     gallery: [
       { src: IMAGES.industry['meeting-room'], alt: '한국 공공기관 대회의실 정면에 설치된 업무보고 자료 표시용 대형 실내 화면' },
@@ -480,7 +480,7 @@ export const INDUSTRIES: Industry[] = [
     priceHint: '무대 폭과 객석 깊이부터 잽니다',
     environment: 'indoor',
     heroImage: IMAGES.industry['auditorium'],
-    heroImageAlt: '한국 학교 강당 무대 뒤편에 설치된 행사 안내용 대형 실내 LED 스크린',
+    heroImageAlt: '한국 강당 무대 정면에 설치된 대형 실내 LED 월',
     heroImageGenerated: true,
     gallery: [
       { src: IMAGES.industry['auditorium'], alt: '한국 학교 강당 무대 뒤편에 설치된 행사 안내용 대형 실내 LED 스크린' },
