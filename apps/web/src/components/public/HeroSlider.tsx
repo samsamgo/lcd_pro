@@ -9,6 +9,12 @@ import { IMAGES } from '@/lib/imageAssets'
 import { Magnetic, Parallax, Reveal, SplitText, useReducedMotion } from '@/components/motion'
 
 /**
+ * ⚠️ 2026-09-09 배선 해제 — **참조 0건.** 홈 히어로는 `PublicHero.tsx` + `HeroLedWall.tsx` 다.
+ *    CEO "메인 화면 배경화면 너무 구리다" 에 따라 사진 슬라이더를 걷어냈다.
+ *    되살리려면 먼저 셋을 해결해라 — ①원본이 1440px 라 1920+ 풀블리드에서 흐리다
+ *    ②로비 컷은 바닥에 플라이트 케이스·박스가 널린 공사 현장이다 ③청사 컷의 화면 내용이
+ *    와이어프레임 가안이다. 아래 슬라이더 로직(LCP 1장 우선·점진 마운트) 자체는 유효하다.
+ *
  * 홈 히어로 — 같은 자리, 배경만 3장이 넘어간다.
  *
  * 2026-09-07 CEO 지시: "이미 꽉 찬 이미지 자리를 슬라이더로." 섹션은 늘리지 않는다.
