@@ -424,18 +424,35 @@ export async function notifyEmail(data: LeadWebhookData): Promise<{ success: boo
  *  · 카카오워크 — `NOTIFY_KAKAOWORK=on` 일 때만 (CEO "카카오워크 하지 말라" → 기본 꺼짐)
  */
 export async function notifyLead(data: LeadWebhookData): Promise<{ success: boolean; channels: string[] }> {
-  const tasks: Promise<{ success: boolean }>[] = [notifyEmail(data), notifyLeadWebhook(data)]
-  const names = ['email', 'webhook']
-  // 메일이 아직 설정되지 않았으면 카카오워크를 폴백으로 켠다 — 전환 중에 알림이 끊기면 안 된다
-  if (process.env.NOTIFY_KAKAOWORK === 'on' || !mailConfigured()) {
-    tasks.push(notifyKakaoWork(data))
-    names.push('kakaowork')
-  }
-  const results = await Promise.allSettled(tasks)
   const channels: string[] = []
-  results.forEach((r, i) => {
-    if (r.status === 'fulfilled' && r.value.success) channels.push(names[i])
-    else if (r.status === 'fulfilled') console.error('[NOTIFY-FAIL]', names[i], (r.value as { reason?: string }).reason ?? '')
+  const fail = (name: string, reason?: string) => console.error('[NOTIFY-FAIL]', name, reason ?? '')
+
+  // 1순위 — 이메일(네이버) + 범용 웹훅
+  const primary: { name: string; run: Promise<{ success: boolean; reason?: string }> }[] = []
+  if (mailConfigured()) primary.push({ name: 'email', run: notifyEmail(data) })
+  primary.push({ name: 'webhook', run: notifyLeadWebhook(data) })
+
+  const settled = await Promise.allSettled(primary.map((p) => p.run))
+  settled.forEach((r, i) => {
+    const name = primary[i].name
+    if (r.status === 'fulfilled' && r.value.success) channels.push(name)
+    else if (r.status === 'fulfilled') fail(name, (r.value as { reason?: string }).reason)
+    else fail(name, String(r.reason))
   })
+
+  // 🔴 2순위 — 카카오워크. CEO 는 카카오워크를 쓰지 않기로 했지만(2026-09-09),
+  //    1순위가 전부 실패하면 리드가 통째로 사라진다. 그때만 마지막 보루로 쓴다.
+  //    (NOTIFY_KAKAOWORK=off 로 완전히 끌 수 있다)
+  if (channels.length === 0 && process.env.NOTIFY_KAKAOWORK !== 'off') {
+    try {
+      const kw = await notifyKakaoWork(data)
+      if (kw.success) channels.push('kakaowork')
+      else fail('kakaowork', kw.reason)
+    } catch (e) {
+      fail('kakaowork', e instanceof Error ? e.message : 'unknown')
+    }
+  }
+
   return { success: channels.length > 0, channels }
 }
+
