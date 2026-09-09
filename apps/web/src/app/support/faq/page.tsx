@@ -10,6 +10,7 @@ import { breadcrumbLd } from '@/lib/seo/jsonld'
 import { IMAGES } from '@/lib/imageAssets'
 import { absoluteUrl, buildMetadata } from '@/lib/seo/site'
 import { FaqSection } from '@/components/landing/FaqSection'
+import { InquiryBoard } from '@/components/support/InquiryBoard'
 
 export const metadata: Metadata = buildMetadata({
   title: '자주 묻는 질문',
@@ -38,6 +39,9 @@ export default function FaqPage() {
           image={IMAGES.support}
         />
         <FaqSection />
+        {/* 목록에 없는 질문을 그 자리에서 남기는 곳. 목록은 클라이언트에서 가져오므로
+            이 페이지는 그대로 정적으로 나간다(SEO·속도 유지). */}
+        <InquiryBoard />
         <CtaSection />
       </main>
       <Footer />

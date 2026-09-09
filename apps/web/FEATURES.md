@@ -63,3 +63,9 @@
 - **테마**: 라이트(흰색) 테마. 토큰은 `src/app/globals.css`(CSS 변수 + `.glass`/`.input-base`/`.glow`)에서 관리.
 - **이미지**: 업종 페이지는 `public/cases/`의 현장 사진을 사용한다. 외부 원격 이미지 URL 없음.
 - **외부 명칭**: 공개 UI에 제3자(예: TRL) 명칭·로고·제휴 암시 없음. 스펙/수치 등 내용만 일반 표현으로 표기.
+
+## 문의 게시판 답변하는 법 (2026-09-09 신설)
+
+- 고객 문의는 `/support/faq` 하단 게시판 → `POST /api/inquiries` → Supabase `inquiries` 테이블에 쌓인다(마이그레이션 `supabase/migrations/009_inquiries.sql` 을 SQL Editor 에서 먼저 실행).
+- **답변은 Supabase 대시보드 → Table Editor → `inquiries` 행에서 `answer` 를 채우고 `status` 를 `answered` 로 바꾸면 사이트 목록에 바로 뜬다.** `apps/admin` 은 배포되지 않으므로 관리 화면은 Supabase 대시보드가 정본이다.
+- 비공개 글은 화면에 제목까지 가려 나가지만 대시보드에서는 그대로 보인다. `phone`·`admin_note` 는 어떤 API 경로로도 나가지 않는다. Supabase env 가 없거나 insert 가 실패해도 접수는 성공 처리하고 원문을 `[INQUIRY-FALLBACK]` 로그로 남긴 뒤 카카오워크 알림은 그대로 보낸다.
