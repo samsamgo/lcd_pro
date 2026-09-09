@@ -5,6 +5,8 @@
  * - Slack 웹훅: 내부 운영 채널
  */
 
+import { mailConfigured, sendMail } from './mail'
+
 interface QuoteNotifyData {
   businessName: string
   contactName: string
@@ -375,16 +377,65 @@ export async function notifyKakaoWork(data: LeadWebhookData): Promise<{ success:
 }
 
 
+// ─── 이메일 알림 (네이버 SMTP) ──────────────────────────────────
+/**
+ * 🔴 2026-09-09 CEO 지시 "견적은 네이버 메일로 보내라. 카카오워크는 쓰지 말라."
+ * 리드 한 건 = 메일 한 통. 제목에 종류·업체, 본문에 연락처·자리·용도·예상 범위.
+ */
+export async function notifyEmail(data: LeadWebhookData): Promise<{ success: boolean; reason?: string }> {
+  if (!mailConfigured()) return { success: false, reason: 'SMTP 설정 없음' }
+  const urgencyLabel: Record<string, string> = { low: '여유', normal: '보통', high: '빠름', urgent: '긴급' }
+  const fmtMan = (won: number) => `${Math.round(won / 10_000).toLocaleString()}만원`
+  const price =
+    data.priceMin && data.priceMax ? `약 ${fmtMan(data.priceMin)} ~ ${fmtMan(data.priceMax)} (VAT 별도)` : '실측 후 산출'
+  const subject = `[우강테크] ${leadTitle(data.kind)} · ${data.businessName}`
+  const text =
+    `${leadTitle(data.kind)}
+` +
+    `─────────────────────
+` +
+    `기관·업체 : ${data.businessName}
+` +
+    `담당자    : ${data.contactName}
+` +
+    `연락처    : ${data.phone}
+` +
+    `설치 지역 : ${data.region} · ${data.environment === 'indoor' ? '실내' : '옥외'}
+` +
+    `긴급도    : ${urgencyLabel[data.urgency] ?? data.urgency}
+` +
+    `예상 범위 : ${price}
+` +
+    (data.purpose ? `용도·내용 : ${data.purpose}
+` : '') +
+    `접수 시각 : ${new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}
+` +
+    `─────────────────────
+` +
+    `wooktech.co.kr 홈페이지에서 자동 발송된 접수 알림입니다.`
+  return sendMail({ subject, text })
+}
+
 // ─── 리드 알림 통합 진입점 ──────────────────────────────────────
 /**
- * 설정된 알림 경로를 전부 시도한다.
- * 경로가 하나뿐이면 그게 막히는 순간 리드가 통째로 사라지기 때문에
- * 카카오워크와 범용 웹훅을 병렬로 보내고, 하나라도 성공하면 성공으로 본다.
+ * 설정된 알림 경로를 전부 시도한다. 하나라도 성공하면 성공.
+ *  · 이메일(네이버 SMTP) — 기본 경로 (CEO 2026-09-09)
+ *  · 범용 웹훅(ADMIN_LEAD_WEBHOOK) — 있으면 같이
+ *  · 카카오워크 — `NOTIFY_KAKAOWORK=on` 일 때만 (CEO "카카오워크 하지 말라" → 기본 꺼짐)
  */
 export async function notifyLead(data: LeadWebhookData): Promise<{ success: boolean; channels: string[] }> {
-  const [kw, hook] = await Promise.allSettled([notifyKakaoWork(data), notifyLeadWebhook(data)])
+  const tasks: Promise<{ success: boolean }>[] = [notifyEmail(data), notifyLeadWebhook(data)]
+  const names = ['email', 'webhook']
+  // 메일이 아직 설정되지 않았으면 카카오워크를 폴백으로 켠다 — 전환 중에 알림이 끊기면 안 된다
+  if (process.env.NOTIFY_KAKAOWORK === 'on' || !mailConfigured()) {
+    tasks.push(notifyKakaoWork(data))
+    names.push('kakaowork')
+  }
+  const results = await Promise.allSettled(tasks)
   const channels: string[] = []
-  if (kw.status === 'fulfilled' && kw.value.success) channels.push('kakaowork')
-  if (hook.status === 'fulfilled' && hook.value.success) channels.push('webhook')
+  results.forEach((r, i) => {
+    if (r.status === 'fulfilled' && r.value.success) channels.push(names[i])
+    else if (r.status === 'fulfilled') console.error('[NOTIFY-FAIL]', names[i], (r.value as { reason?: string }).reason ?? '')
+  })
   return { success: channels.length > 0, channels }
 }
