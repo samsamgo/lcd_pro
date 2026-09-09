@@ -4,7 +4,6 @@ import { NavBar } from '@/components/NavBar'
 import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
 import { PageHeader } from '@/components/PageHeader'
-import { CtaSection } from '@/components/landing/CtaSection'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { breadcrumbLd } from '@/lib/seo/jsonld'
 import { IMAGES } from '@/lib/imageAssets'
@@ -46,7 +45,7 @@ export default function DownloadsPage() {
             <DownloadList resources={RESOURCES} />
           </div>
         </section>
-        <CtaSection />
+        {/* 2026-09-09 CEO 지시 — 고객지원 페이지에서 하단 문의 칸(예산 잡기 전이어도…) 제거 */}
       </main>
       <Footer />
       <MobileCtaBar />

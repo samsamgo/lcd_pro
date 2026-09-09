@@ -4,7 +4,6 @@ import { NavBar } from '@/components/NavBar'
 import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
 import { PageHeader } from '@/components/PageHeader'
-import { CtaSection } from '@/components/landing/CtaSection'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { breadcrumbLd } from '@/lib/seo/jsonld'
 import { IMAGES } from '@/lib/imageAssets'
@@ -42,7 +41,7 @@ export default function FaqPage() {
         {/* 목록에 없는 질문을 그 자리에서 남기는 곳. 목록은 클라이언트에서 가져오므로
             이 페이지는 그대로 정적으로 나간다(SEO·속도 유지). */}
         <InquiryBoard />
-        <CtaSection />
+        {/* 2026-09-09 CEO 지시 — 고객지원 페이지에서 하단 문의 칸(예산 잡기 전이어도…) 제거 */}
       </main>
       <Footer />
       <MobileCtaBar />
