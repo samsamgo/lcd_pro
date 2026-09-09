@@ -1,9 +1,10 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
-import { Phone, FileText, X } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { Phone, MessageCircle, FileText, X } from 'lucide-react'
 import { SITE } from '@/lib/seo/site'
+import { useSiteModals } from '@/components/modals/SiteModals'
 
 const TEL = SITE.phone.replace(/[^+\d]/g, '')
 
@@ -13,8 +14,8 @@ const SCROLL_PX_THRESHOLD = 240
 
 /**
  * 모바일 하단 고정 CTA 바.
- * - 히어로를 지나면 등장하고 그 뒤로는 계속 떠 있다. (종전 '아래로 스크롤하면 숨김'은 2026-09-09 실측에서
- *   담당자가 읽어 내려가는 동안 바가 늘 숨어 있어 없는 것과 같았다 → 제거. 닫기 버튼은 그대로)
+ * - 히어로를 지나면 등장, 아래로 스크롤하면 숨고 위로 스크롤하면 다시 나타난다(원래 동작).
+ *   2026-09-09 전화 아이콘 버튼 하나만 추가 — CEO "기존과 비슷하게, 조금만 눈에 띄게"
  * - 2026-09-09 전화 버튼 신설. 담당자는 폰에서 보면 바로 걸고 싶어 한다 — 견적 폼보다 빠른 문이 필요하다.
  * - 닫기 버튼 — 누르면 세션 동안 다시 뜨지 않는다(sessionStorage).
  * - 모바일 키보드가 올라오면(visualViewport 축소) 숨긴다.
@@ -24,6 +25,9 @@ export function MobileCtaBar() {
   const [pastThreshold, setPastThreshold] = useState(false)
   const [dismissed, setDismissed] = useState(true) // 초기엔 숨김 — sessionStorage 확인 전까지 깜빡임 방지
   const [keyboardOpen, setKeyboardOpen] = useState(false)
+  const [hiddenByDirection, setHiddenByDirection] = useState(false)
+  const { openConsult } = useSiteModals()
+  const lastY = useRef(0)
 
   useEffect(() => {
     try {
@@ -41,6 +45,12 @@ export function MobileCtaBar() {
         raf = 0
         const y = window.scrollY
         setPastThreshold(y >= SCROLL_PX_THRESHOLD)
+
+        const delta = y - lastY.current
+        if (Math.abs(delta) > 4) {
+          setHiddenByDirection(delta > 0) // 아래로 스크롤 = 숨김, 위로 = 다시 등장
+          lastY.current = y
+        }
 
       })
     }
@@ -72,7 +82,7 @@ export function MobileCtaBar() {
     }
   }
 
-  const visible = pastThreshold && !dismissed && !keyboardOpen
+  const visible = pastThreshold && !dismissed && !keyboardOpen && !hiddenByDirection
 
   return (
     <div
@@ -96,11 +106,19 @@ export function MobileCtaBar() {
           href={`tel:${TEL}`}
           tabIndex={visible ? 0 : -1}
           aria-label={`전화 문의 ${SITE.phone}`}
-          className="flex flex-1 items-center justify-center gap-1.5 rounded-btn border border-wk-blue/40 bg-wk-blue/5 py-3 text-sm font-bold text-wk-blue transition-colors duration-150 active:bg-wk-blue/10"
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-btn border border-wk-line2 text-wk-blue transition-colors duration-150 active:bg-wk-bgFaint"
         >
-          <Phone size={16} aria-hidden="true" />
-          전화 문의
+          <Phone size={17} aria-hidden="true" />
         </a>
+        <button
+          type="button"
+          onClick={() => openConsult('mobile-bar')}
+          tabIndex={visible ? 0 : -1}
+          className="flex flex-1 items-center justify-center gap-1.5 rounded-btn border border-wk-line2 py-3 text-sm font-semibold text-wk-ink2 transition-colors duration-150 active:bg-wk-bgFaint"
+        >
+          <MessageCircle size={16} className="text-wk-blue" aria-hidden="true" />
+          빠른 상담
+        </button>
         <Link
           href="/quote"
           tabIndex={visible ? 0 : -1}

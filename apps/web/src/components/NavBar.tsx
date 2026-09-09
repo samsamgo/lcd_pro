@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import {
-  Menu, X, ChevronDown, Phone,
+  Menu, X, ChevronDown,
 } from 'lucide-react'
 import { SITE } from '@/lib/seo/site'
 import { ABOUT_SECTIONS, PRODUCT_SUBNAV, SUPPORT_SECTIONS } from '@/lib/subnav'
@@ -138,7 +138,10 @@ export function NavBar() {
       if (raf) return
       raf = window.requestAnimationFrame(() => {
         raf = 0
-        setScrolled(window.scrollY > 8)
+        // 🔴 2026-09-09 폰 실측(CEO "스크롤하면 메뉴바가 에러") — 경계가 8px 하나뿐이라 관성 스크롤·주소창 접힘·
+        //    상단 바운스(scrollY < 0)에서 투명↔흰색이 떨렸다. 켜질 때 24px, 꺼질 때 4px 로 히스테리시스를 둔다.
+        const y = window.scrollY
+        setScrolled((prev) => (prev ? y > 4 : y > 24))
       })
     }
     onScroll()
@@ -218,9 +221,11 @@ export function NavBar() {
   return (
     <header
       onMouseLeave={leave}
+      /* 모바일은 backdrop-blur 를 끈다 — iOS·삼성 브라우저가 고정 헤더의 blur 를 스크롤 중 다시 그리며 찢어진다.
+         ⚠️ 헤더에 transform/will-change 를 걸지 마라 — 안에 있는 전체화면 메뉴(fixed)의 기준이 헤더로 바뀌어 깨진다. */
       className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-200 ease-state ${
         solid
-          ? 'border-b border-wk-line bg-white/90 shadow-wk-1 backdrop-blur-md'
+          ? 'border-b border-wk-line bg-white/[0.97] shadow-wk-1 md:bg-white/90 md:backdrop-blur-md'
           : 'border-b border-transparent bg-transparent'
       }`}
     >
@@ -334,37 +339,12 @@ export function NavBar() {
           ))}
         </nav>
 
-        {/* 2026-09-08 에는 헤더 우측을 비웠다("헤더에 전화번호도 빼라").
-            🔴 2026-09-09 CEO 재지시 "전화번호하고 컨택하는 거 눈에 더 잘 띄게" — 대표번호와 견적 버튼을 다시 올린다.
-            국내 시공사 사이트에서 담당자가 번호를 찾는 첫 자리가 헤더 우측이다. 버튼은 하나(견적)만, 번호는 글자로. */}
-        <div className="hidden items-center gap-3 md:flex">
-          <a
-            href={`tel:${SITE.phone.replace(/[^+\d]/g, '')}`}
-            className={`wk-metric flex items-center gap-1.5 whitespace-nowrap text-[15px] font-bold tracking-tight transition-colors duration-200 ${
-              onDark ? 'text-white hover:text-white/80' : 'text-wk-ink hover:text-wk-blue'
-            }`}
-            aria-label={`전화 문의 ${SITE.phone}`}
-          >
-            <Phone size={16} strokeWidth={2} aria-hidden="true" className={onDark ? 'text-white' : 'text-wk-blue'} />
-            {SITE.phone}
-          </a>
-          <Link
-            href="/quote"
-            className="flex h-10 items-center rounded-full bg-wk-cta px-4 text-sm font-bold text-white shadow-wk-glow transition-colors duration-200 hover:bg-wk-ctaActive"
-          >
-            견적 문의
-          </Link>
-        </div>
+        {/* 2026-09-08 CEO "헤더 우측은 비운다 / 전화번호도 빼라" — 그대로 둔다.
+            2026-09-09 CEO 재지시는 "번호 글자 말고, 원래 아이콘(우측 하단 플로팅)을 더 눈에 띄게" 였다 → FloatingCta 에서 처리 */}
+        <div className="hidden w-[7.5rem] md:block" aria-hidden="true" />
 
-        {/* 모바일 — 전화 아이콘은 햄버거 왼쪽. 폰에서 사이트를 연 담당자의 첫 동작이 통화다 */}
-        <div className="flex items-center gap-1 md:hidden">
-          <a
-            href={`tel:${SITE.phone.replace(/[^+\d]/g, '')}`}
-            className={`rounded-lg p-2 ${onDark ? 'text-white' : 'text-wk-blue'}`}
-            aria-label={`전화 문의 ${SITE.phone}`}
-          >
-            <Phone size={20} aria-hidden="true" />
-          </a>
+        {/* 모바일 */}
+        <div className="flex items-center gap-2 md:hidden">
           <button
             ref={menuBtnRef}
             className={`rounded-lg p-2 ${onDark ? 'text-white' : 'text-wk-ink2'}`}
@@ -410,7 +390,7 @@ export function NavBar() {
           </button>
         </div>
 
-        <div className="flex flex-1 flex-col overflow-y-auto px-4 pb-6 pt-2">
+        <div className="flex-1 overflow-y-auto px-4 pb-4 pt-2">
           {NAV.map((g) => (
             <div key={g.label} className="border-b border-wk-line">
               {!g.children ? (
@@ -449,26 +429,7 @@ export function NavBar() {
               )}
             </div>
           ))}
-          {/* 2026-09-09 CEO "컨택 눈에 띄게" — 메뉴 맨 아래에 대표번호·견적 한 줄. 하단 바는 메뉴가 열리면 가려진다 */}
-          <div className="mt-auto border-t border-wk-line pt-5">
-            <a
-              href={`tel:${SITE.phone.replace(/[^+\d]/g, '')}`}
-              onClick={() => setOpen(false)}
-              className="flex items-center gap-2 py-2 text-base font-bold text-wk-ink"
-              aria-label={`전화 문의 ${SITE.phone}`}
-            >
-              <Phone size={18} className="text-wk-blue" aria-hidden="true" />
-              <span className="wk-metric tracking-tight">{SITE.phone}</span>
-              <span className="text-sm font-medium text-wk-ink3">{SITE.openingHours}</span>
-            </a>
-            <Link
-              href="/quote"
-              onClick={() => setOpen(false)}
-              className="mt-3 flex h-12 items-center justify-center rounded-btn bg-wk-cta text-base font-bold text-white"
-            >
-              견적 문의
-            </Link>
-          </div>
+          {/* 2026-09-09 CEO "헤더에 견적 문의하고 전화번호는 지워" — 메뉴 하단도 비운다. 문의 동선은 플로팅·하단 바 */}
         </div>
       </div>
     </header>

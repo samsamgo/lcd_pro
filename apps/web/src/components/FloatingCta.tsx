@@ -21,6 +21,14 @@ import { useSiteModals } from '@/components/modals/SiteModals'
  * 그때 이 배열에 한 줄 추가하면 된다.
  */
 const TEL = SITE.phone.replace(/[^+\d]/g, '')
+/* 알약 — 기본은 아이콘만, 호버하면 오른쪽으로 글자가 펼쳐진다(원래 동작) */
+const PILL =
+  'group flex h-[52px] items-center gap-0 overflow-hidden rounded-full border border-wk-line bg-white p-1 shadow-wk-2 transition-all duration-200 hover:border-wk-blue hover:pr-4'
+/* 아이콘 원판 — 파란 바탕에 흰 아이콘. 흰 알약 안에서 이것만 색이 있어 눈에 먼저 들어온다 */
+const ICON =
+  'flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full bg-wk-blue text-white shadow-[0_2px_8px_rgba(222,103,29,0.35)]'
+const LABEL =
+  'max-w-0 whitespace-nowrap text-sm font-semibold text-wk-ink opacity-0 transition-all duration-200 group-hover:ml-2.5 group-hover:max-w-[13rem] group-hover:opacity-100'
 
 export function FloatingCta() {
   const [shown, setShown] = useState(false)
@@ -40,26 +48,24 @@ export function FloatingCta() {
         shown ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-3 opacity-0'
       }`}
     >
-      {/* 2026-09-09 CEO "전화번호 더 눈에 띄게" — 번호를 호버 없이 항상 펼쳐 둔다.
-          담당자는 마우스를 올려 보기 전에 번호부터 찾는다. 숨겨 두면 없는 것과 같다. */}
+      {/* 2026-09-09 CEO "번호만 보이게 하지 말고 아이콘 쓰되 눈에 더 잘 띄게 — 이메일·연락 전부".
+          구조는 원래(아이콘, 호버 시 펼침) 그대로. 아이콘만 파란 원판 위 흰색으로 키워 한눈에 들어오게 한다. */}
       <a
         href={`tel:${TEL}`}
-        className="flex h-12 items-center gap-2 rounded-full border border-wk-blue/40 bg-white pl-3.5 pr-4 shadow-wk-2 transition-colors duration-200 hover:border-wk-blue hover:bg-wk-blue/5"
+        className={PILL}
         aria-label={`전화 문의 ${SITE.phone}`}
       >
-        <Phone size={19} strokeWidth={1.9} className="shrink-0 text-wk-blue" aria-hidden="true" />
-        <span className="wk-metric whitespace-nowrap text-sm font-bold tracking-tight text-wk-ink">{SITE.phone}</span>
+        <span className={ICON}><Phone size={20} strokeWidth={2.1} aria-hidden="true" /></span>
+        <span className={LABEL}>{SITE.phone}</span>
       </a>
 
       <a
         href={`mailto:${SITE.email}`}
-        className="group flex h-12 items-center gap-0 overflow-hidden rounded-full border border-wk-line bg-white pl-3.5 pr-3.5 shadow-wk-2 transition-all duration-200 hover:border-wk-blue hover:pr-4"
+        className={PILL}
         aria-label={`이메일 문의 ${SITE.email}`}
       >
-        <Mail size={19} strokeWidth={1.9} className="shrink-0 text-wk-blue" aria-hidden="true" />
-        <span className="max-w-0 whitespace-nowrap text-sm font-semibold text-wk-ink opacity-0 transition-all duration-200 group-hover:ml-2 group-hover:max-w-[13rem] group-hover:opacity-100">
-          이메일 문의
-        </span>
+        <span className={ICON}><Mail size={20} strokeWidth={2.1} aria-hidden="true" /></span>
+        <span className={LABEL}>이메일 문의</span>
       </a>
 
       {/* 2026-09-09 — 빠른 상담(이름·연락처·한 줄). 타사(WEDS) 실제 화면의 우측 즉석 문의 패널에 해당.
@@ -67,13 +73,11 @@ export function FloatingCta() {
       <button
         type="button"
         onClick={() => openConsult('floating')}
-        className="group flex h-12 items-center gap-0 overflow-hidden rounded-full border border-wk-line bg-white pl-3.5 pr-3.5 shadow-wk-2 transition-all duration-200 hover:border-wk-blue hover:pr-4"
+        className={PILL}
         aria-label="빠른 상담"
       >
-        <MessageCircle size={19} strokeWidth={1.9} className="shrink-0 text-wk-blue" aria-hidden="true" />
-        <span className="max-w-0 whitespace-nowrap text-sm font-semibold text-wk-ink opacity-0 transition-all duration-200 group-hover:ml-2 group-hover:max-w-[9rem] group-hover:opacity-100">
-          빠른 상담
-        </span>
+        <span className={ICON}><MessageCircle size={20} strokeWidth={2.1} aria-hidden="true" /></span>
+        <span className={LABEL}>빠른 상담</span>
       </button>
 
       <Link
