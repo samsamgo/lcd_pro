@@ -36,7 +36,7 @@ export function SupportHero() {
       <div className="absolute inset-0" aria-hidden="true">
         <Image
           src={IMAGES.support}
-          alt=""
+          alt="" aria-hidden="true"
           fill
           priority
           sizes="100vw"

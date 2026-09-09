@@ -183,7 +183,7 @@ export function AboutOpening() {
           >
             <Image
               src={IMAGES.company.opening}
-              alt=""
+              alt="" aria-hidden="true"
               fill
               priority
               sizes="100vw"

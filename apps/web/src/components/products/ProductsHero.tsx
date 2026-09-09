@@ -20,7 +20,7 @@ export function ProductsHero() {
       <div className="wk-grain absolute inset-0" aria-hidden="true">
         <Image
           src={IMAGES.productsHero}
-          alt=""
+          alt="" aria-hidden="true"
           fill
           priority
           sizes="100vw"

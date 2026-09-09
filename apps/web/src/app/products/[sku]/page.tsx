@@ -35,6 +35,8 @@ export function generateMetadata({ params }: PageProps): Metadata {
   //    정규화된 세그먼트 하나만 정본으로 가리킨다.
   const segment = skuToSegment(product.sku)
   return buildMetadata({
+    // 2026-09-09 감사: 견적엔진용 SKU 페이지는 어디서도 링크하지 않는 고아 라우트 → 색인 제외
+    noindex: true,
     title: product.name,
     description: product.summary,
     path: `/products/${segment}`,

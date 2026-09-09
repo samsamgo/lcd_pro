@@ -25,9 +25,10 @@ export function Footer() {
           {/* 회사소개 — 네비 순서와 같게 */}
           <div className="space-y-3 text-sm">
             <p className="font-semibold text-wk-ink2">회사소개</p>
-            <Link href="/about#intro" className={LINK_CLASS}>회사 소개</Link>
-            <Link href="/about#process" className={LINK_CLASS}>설치 과정</Link>
-            <Link href="/about/certification" className={LINK_CLASS}>인증 현황</Link>
+            {/* 2026-09-09 감사: #intro·#process 는 사라진 앵커였다 — 실제 id(greeting/history/location)로 */}
+            <Link href="/about#greeting" className={LINK_CLASS}>인사말</Link>
+            <Link href="/about#history" className={LINK_CLASS}>연혁</Link>
+            <Link href="/about/certification" className={LINK_CLASS}>인증 · 서류</Link>
             <Link href="/about#location" className={LINK_CLASS}>오시는 길</Link>
             <p className="pt-3 font-semibold text-wk-ink2">시공사례</p>
             <Link href="/industries" className={LINK_CLASS}>시공사례</Link>

@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { SITE } from '@/lib/seo/site'
+import { INDUSTRIES } from '@/lib/industries'
 import { PRODUCT_MODELS } from '@/lib/productModels'
 
 export const dynamic = 'force-static'
@@ -44,6 +45,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }))
 
-  // 업종 상세는 별도 라우트 없이 /industries 모달로 표시한다
-  return [...staticEntries, ...modelEntries]
+  // 2026-09-09 감사: /industries/[slug] 15개는 자리별 검색 유입용 정적 페이지 — 모달에서 링크하고 사이트맵에도 싣는다
+  const industryEntries: MetadataRoute.Sitemap = INDUSTRIES.map((i) => ({
+    url: `${base}/industries/${i.slug}`,
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: 0.6,
+  }))
+
+  return [...staticEntries, ...modelEntries, ...industryEntries]
 }

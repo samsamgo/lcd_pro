@@ -98,6 +98,13 @@ export function IndustryModal({
               <span className="wk-metric">{SITE.phone}</span>
             </a>
           </div>
+          {/* 2026-09-09 감사: /industries/[slug] 정적 페이지가 어디서도 링크되지 않는 고아 라우트였다.
+              검색 유입 착지 페이지로 살리기 위해 모달에서 한 줄 링크를 둔다 */}
+          <p className="text-center text-caption text-wk-ink3">
+            <Link href={`/industries/${i.slug}`} className="underline-offset-4 hover:underline">
+              이 자리 소개 페이지로 보기
+            </Link>
+          </p>
         </div>
       )}
     </Modal>

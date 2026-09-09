@@ -64,7 +64,7 @@ export function BrandMark({
     >
       <img
         src="/brand/wk-logo-dark.svg"
-        alt=""
+        alt="" aria-hidden="true"
         width={Math.round(DARK_FULL_W * scale)}
         height={Math.round(DARK_FULL_H * scale)}
         style={{
