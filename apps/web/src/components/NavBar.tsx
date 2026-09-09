@@ -7,8 +7,7 @@ import {
   Menu, X, ChevronDown,
 } from 'lucide-react'
 import { SITE } from '@/lib/seo/site'
-import { PRODUCT_CATEGORIES } from '@/lib/productCategories'
-import { ABOUT_SECTIONS, SUPPORT_SECTIONS } from '@/lib/subnav'
+import { ABOUT_SECTIONS, PRODUCT_SUBNAV, SUPPORT_SECTIONS } from '@/lib/subnav'
 import { BrandLogo } from '@/components/brand/BrandLogo'
 
 interface NavChild {
@@ -44,11 +43,17 @@ interface NavGroup {
  */
 /* 하위 메뉴 설명 한 줄 — 라벨·href 는 SubNav 의 섹션 정의와 같은 것을 쓴다(한 곳) */
 const ABOUT_DESC: Record<string, string> = {
-  '인사말': '대표이사 이희원',
+  '인사말': '우강테크 임직원 일동',
   '회사 개요': '법인·대표자·사업자등록',
   '연혁': '2026년 설립 이후',
   '인증 · 서류': '발급 원본과 PDF',
   '오시는 길': '대전 대덕구',
+}
+const PRODUCT_DESC: Record<string, string> = {
+  '전체': '시리즈 12종 한 페이지',
+  '실내용': '민원실·로비·회의실',
+  '실외용': '정문·도로변·건물 외벽',
+  '규격 비교표': '전 시리즈 규격 한 표',
 }
 const SUPPORT_DESC: Record<string, string> = {
   'A/S 신청': '고장 접수와 원격 확인',
@@ -65,10 +70,13 @@ const NAV: NavGroup[] = [
   {
     label: '제품',
     href: '/products',
-    children: [
-      ...PRODUCT_CATEGORIES.map((c) => ({ label: c.name, desc: c.lead.split('.')[0] + '.', href: `/products/${c.slug}` })),
-      { label: '규격 비교표', desc: '전 모델 규격 한 표', href: '/products/specs' },
-    ],
+    /**
+     * 🔴 2026-09-09 CEO 지시 "제품 저렇게 잡다하게 해놓지 말고 그냥 전 제품 다 꺼내 놓고
+     *    필터로 실내용/실외용만 구분 가능하게끔만".
+     *    카테고리 6종 나열을 걷어내고 네 개로 줄였다. 라벨·주소는 SubNav 와 같은
+     *    `PRODUCT_SUBNAV` 하나를 본다 — 메뉴 이름과 하위 탭 이름이 어긋날 수 없게.
+     */
+    children: PRODUCT_SUBNAV.map((x) => ({ label: x.label, desc: PRODUCT_DESC[x.label] ?? '', href: x.href })),
   },
   {
     label: '시공사례',

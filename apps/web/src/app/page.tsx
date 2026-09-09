@@ -4,7 +4,7 @@ import { ScrollProgress } from '@/components/public/ScrollProgress'
 import { WhyWookang } from '@/components/home/WhyWookang'
 import { ProofCards } from '@/components/home/ProofCards'
 import { CinematicScene } from '@/components/home/CinematicScene'
-import { ProductCategoryGrid } from '@/components/products/ProductCategoryGrid'
+import { ProductIntro } from '@/components/home/ProductIntro'
 import { ProcessStrip, HOME_STEPS } from '@/components/home/ProcessStrip'
 import { CaseHighlights } from '@/components/home/CaseHighlights'
 import { ScrollBridge } from '@/components/motion'
@@ -60,7 +60,7 @@ export default function Home() {
               WhyWookang      온빛 'PERFECT SYSTEM' — 왜 우리인가, 사진 4장
               ProofCards      케이시스 '숫자로 증명' 자리 — 숫자가 없으니 서류 3장
               CinematicScene  제품 서사(화소 간격 → 화면 크기 → 유지보수)
-              ProductCategoryGrid  무엇을 파는가
+              ProductIntro    무엇을 파는가 (제품 렌더)
               CaseHighlights  어디에 쓰이나 (WS-D 소유)
               ProcessStrip    문의 → 실측 → 시공 → A/S 네 단어로 닫는다
 
@@ -109,8 +109,11 @@ export default function Home() {
             2026-09-08 — 이 아래 있던 ScreenGallery·ProcessTimeline·FaqSection 세 섹션을
             걷어냈다. 2026-09-08 시공사례 미리보기까지 빼면서 이 구간은 **제품 → 문의** 두 걸음이다.
             홈에서 끝내지 않고 안쪽 페이지로 보내는 것이 목적이다. */}
-        {/* 2026-09-08 — ProductShowcase(4개 환경 카드) 대신 카테고리 3장. 네비바·/products 와 같은 이름·같은 사진 */}
-        <ProductCategoryGrid showMore />
+        {/* 🔴 2026-09-09 CEO 지시 "메인 페이지 제품 부분은 온빛전자처럼 제품(렌더)으로 넣어봐.
+            사진 같은 이상한 설명 지우고 제대로 된 이미지 써". 카테고리 사진 카드(ProductCategoryGrid)를
+            제품 렌더 4장(ProductIntro)으로 갈아 끼웠다. ProductCategoryGrid.tsx 는 남겨 뒀다
+            (참조 0건 = 번들 제외). */}
+        <ProductIntro />
 
         {/* 🔴 2026-09-09 CEO 지시 "시공사례는 넣어야 해. 우리가 한 게 아니더라도." — 09-08 에 뺐던 자리 복원.
             타사 6곳 전부 홈에 시공사례가 있다. 두 줄 마퀴로 흐르게 해 /industries 격자와 형식을 달리한다. */}

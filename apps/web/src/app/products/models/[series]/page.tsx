@@ -11,8 +11,7 @@ import { SubNav } from '@/components/SubNav'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { ModelInquiryButtons } from '@/components/products/ModelInquiryButtons'
 import { ModelSpecTable } from '@/components/products/ModelSpecTable'
-import { PRODUCT_CATEGORIES, getCategory } from '@/lib/productCategories'
-import { productSubNavItems } from '@/lib/subnav'
+import { PRODUCT_SUBNAV } from '@/lib/subnav'
 import {
   envText,
   FORM_LABEL,
@@ -53,11 +52,6 @@ export default function ModelPage({ params }: PageProps) {
   const model = getModel(params.series)
   if (!model) notFound()
 
-  const category = getCategory(model.categories[0])
-  const siblings = PRODUCT_MODELS.filter(
-    (m) => m.slug !== model.slug && m.categories.some((c) => model.categories.includes(c)),
-  ).slice(0, 6)
-
   const summary: [string, string][] = [
     ['화소 간격', pitchRange(model)],
     ['간격 종류', `${model.pitches.length}종`],
@@ -73,7 +67,6 @@ export default function ModelPage({ params }: PageProps) {
         data={breadcrumbLd([
           { name: '홈', url: absoluteUrl('/') },
           { name: '제품', url: absoluteUrl('/products') },
-          ...(category ? [{ name: category.name, url: absoluteUrl(`/products/${category.slug}`) }] : []),
           { name: model.series, url: absoluteUrl(`/products/models/${model.slug}`) },
         ])}
       />
@@ -90,17 +83,6 @@ export default function ModelPage({ params }: PageProps) {
                     제품
                   </Link>
                 </li>
-                {category && (
-                  <li className="flex items-center gap-2">
-                    <span aria-hidden="true">/</span>
-                    <Link
-                      href={`/products/${category.slug}`}
-                      className="underline-offset-4 hover:text-white hover:underline"
-                    >
-                      {category.name}
-                    </Link>
-                  </li>
-                )}
                 <li className="flex items-center gap-2">
                   <span aria-hidden="true">/</span>
                   <span className="font-semibold text-white/90">{model.series}</span>
@@ -112,11 +94,7 @@ export default function ModelPage({ params }: PageProps) {
           </div>
         </section>
 
-        <SubNav
-          back={{ label: category?.name ?? '제품 전체', href: category ? `/products/${category.slug}` : '/products' }}
-          items={productSubNavItems(PRODUCT_CATEGORIES)}
-          current={category ? `/products/${category.slug}` : ''}
-        />
+        <SubNav back={{ label: '제품 전체', href: '/products' }} items={PRODUCT_SUBNAV} current="" />
 
         {/* 좌 큰 렌더 · 우 요약 + 문의 */}
         <section className="wk-sec bg-white">
@@ -191,35 +169,8 @@ export default function ModelPage({ params }: PageProps) {
           </div>
         </section>
 
-        {/* 옆 모델 */}
-        {siblings.length > 0 && (
-          <section className="wk-sec-sm bg-white" aria-labelledby="sib-h">
-            <div className="wk-wrap">
-              <h2 id="sib-h" className="text-h3 font-bold text-wk-ink">
-                같은 자리에 쓰는 다른 시리즈
-              </h2>
-              <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {siblings.map((m) => (
-                  <li key={m.slug}>
-                    <Link
-                      href={`/products/models/${m.slug}`}
-                      className="flex items-center justify-between gap-3 rounded-card border border-wk-line px-4 py-3.5 transition-colors duration-150 hover:border-wk-ink"
-                    >
-                      <span className="min-w-0">
-                        <span className="wk-metric block text-label font-bold text-wk-ink">{m.series}</span>
-                        <span className="mt-0.5 block text-caption text-wk-ink3">{m.name}</span>
-                      </span>
-                      <span className="wk-metric shrink-0 text-caption font-semibold text-wk-cta">
-                        {pitchRange(m)}
-                      </span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </section>
-        )}
-
+        {/* 🔴 2026-09-09 CEO 지시 "이상한 거 다 지우고" — '같은 자리에 쓰는 다른 시리즈' 목록을 뺐다.
+            전 시리즈 12종이 /products 한 페이지에 다 있으므로 상세에서 또 나열할 이유가 없다. */}
         <CtaSection />
       </main>
       <Footer />

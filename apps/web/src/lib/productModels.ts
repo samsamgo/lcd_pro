@@ -429,6 +429,33 @@ export function modelsByEnv(env: ModelEnv): ProductModel[] {
   return PRODUCT_MODELS.filter((m) => m.env === env)
 }
 
+/**
+ * /products 의 필터 — 세 알약뿐이다 (CEO 2026-09-09 "필터로 실내용/실외용만 구분").
+ *
+ * 판정 규칙 (지어낸 분류가 아니라 각 모델이 이미 들고 있는 값으로만 가린다)
+ *  · 렌탈(`env === 'rental'`)은 실내·실외 **양쪽**에 들어간다. 규격표에 실내 피치와 실외 피치가
+ *    같이 적혀 있는 물건이라 어느 한쪽으로 밀어 넣을 수 없다.
+ *  · 그 외는 `categories` 에 'indoor'/'outdoor' 가 있는지로 본다. `env` 만 보면 WK-PRIME
+ *    (실내·실외 겸용, env='indoor')이 실외 목록에서 빠진다.
+ */
+export type EnvFilter = 'all' | 'indoor' | 'outdoor'
+
+export const ENV_FILTER_LABEL: Record<EnvFilter, string> = {
+  all: '전체',
+  indoor: '실내용',
+  outdoor: '실외용',
+}
+
+export function matchesEnvFilter(model: ProductModel, filter: EnvFilter): boolean {
+  if (filter === 'all') return true
+  if (model.env === 'rental') return true
+  return model.categories.includes(filter)
+}
+
+export function modelsByFilter(filter: EnvFilter): ProductModel[] {
+  return PRODUCT_MODELS.filter((m) => matchesEnvFilter(m, filter))
+}
+
 /** 'P1.25' → 1.25 */
 export function pitchNumber(label: string): number {
   const m = label.match(/([\d.]+)/)

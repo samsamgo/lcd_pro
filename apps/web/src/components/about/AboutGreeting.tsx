@@ -1,7 +1,4 @@
-import Image from 'next/image'
-
-import { IMAGES } from '@/lib/imageAssets'
-import { SITE } from '@/lib/seo/site'
+import { BrandLockup } from '@/components/brand/BrandLogo'
 import { Reveal, RevealImage, RiseMask } from '@/components/motion'
 
 /**
@@ -13,12 +10,11 @@ import { Reveal, RevealImage, RiseMask } from '@/components/motion'
  *    3문단 → 서명)과 케이시스 CEO 인사말(대표 서명 + 사람 말투)을 섞은 구성이다.
  *
  * 구성 규칙
- *  · 사진은 **캡션이 붙지 않는 장면 층**이다. 우리 시공 실적으로 읽히는 문구를 달지 않는다.
- *    (`IMAGES.company.chapter2` = 국내 관공서 로비 취부 장면. AI 연출컷이다 — 2026-09-09
- *     원본을 열어 확인했고, 그래서 alt 도 '장면' 으로만 적는다.)
+ *  · 상단 비주얼은 **로고 한 장**이다(2026-09-09 CEO 지시로 현장 연출컷을 뺐다).
+ *    실적 사진이 없는 상태에서 연출컷을 크게 거는 것보다 브랜드 자산이 정직하다.
  *  · 회사명만 주황(`text-wk-cta`). 나머지는 검정이다. 온빛전자와 같은 처리다.
- *  · 🔴 **대표 사진 자리는 비워 둔다.** 실물 사진이 없다. 얼굴 없는 실루엣·아이콘·이니셜
- *    원형을 대신 넣지 마라 — 없는 사람을 만든 것처럼 보인다. 이름만 적는다.
+ *  · 🔴 **개인(대표) 사진·이름·직함은 넣지 않는다.** 인사말 주어는 회사이고
+ *    서명은 '우강테크 임직원 일동' 이다.
  *  · 문단에는 실적 수치가 없다. 확인되는 사실(공장·등록·KC)만 말한다.
  */
 /**
@@ -62,24 +58,20 @@ export function AboutGreeting() {
         </Reveal>
       </div>
 
-      {/* 큰 현장 사진 — 본문 폭보다 넓게 깔아 첫 장의 무게를 만든다 */}
+      {/* 로고 띠 — 본문 폭보다 넓게 깔아 첫 장의 무게를 만든다.
+          🔴 2026-09-09 CEO "로고나 그런 사진 하나 넣고." 현장 사진(연출컷) 대신
+             원본 로고 한 장을 다크 배경에 크게 건다. SVG 를 다시 그리지 마라 —
+             `/brand/wk-logo-dark.svg` 원본을 BrandLockup 이 그대로 쓴다. */}
       <RevealImage className="wk-wrap-wide">
-        <div className="relative aspect-[16/9] overflow-hidden rounded-card bg-wk-ink md:aspect-[21/9]">
-          <Image
-            src={IMAGES.company.chapter2}
-            alt="공공시설 로비 벽면 프레임에 LED 캐비닛을 한 장씩 붙여 나가는 작업 장면"
-            fill
-            priority={false}
-            sizes="(max-width: 1440px) 100vw, 1440px"
-            quality={82}
-            className="object-cover"
-          />
+        <div className="wk-pixelgrid wk-pixelgrid-coarse relative flex items-center justify-center overflow-hidden rounded-card bg-wk-night py-20 md:py-28">
+          <BrandLockup dark height={220} className="relative h-28 w-auto md:h-44" />
         </div>
       </RevealImage>
 
       <div className="wk-wrap mt-12 md:mt-16">
         <Reveal y={10}>
-          <p className="wk-eyebrow">대표 인사말</p>
+          {/* 🔴 2026-09-09 CEO "'대표 인사말' 말고 '우강테크 인사말'." 되돌리지 마라 */}
+          <p className="wk-eyebrow">우강테크 인사말</p>
         </Reveal>
 
         <h2 id="greeting-h" className="wk-h2 max-w-[22ch] text-wk-ink">
@@ -97,13 +89,11 @@ export function AboutGreeting() {
               </Reveal>
             ))}
 
-            {/* 서명 — 대표 사진 자리는 비워 둔다(실물 없음). 이름과 직함만 */}
+            {/* 서명 — 🔴 2026-09-09 CEO "'대표이사 이희원' 이라는 말도 지우고
+                '우강테크 임직원 일동' 이런 식으로." 개인 이름·직함을 다시 넣지 마라. */}
             <Reveal y={14} delay={0.24}>
-              <p className="mt-10 border-t border-wk-line pt-7 text-body text-wk-ink3">
-                {SITE.legalName}{' '}
-                <span className="ml-1 text-body-lg font-bold text-wk-ink">
-                  대표이사 {SITE.ceoName}
-                </span>
+              <p className="mt-10 border-t border-wk-line pt-7 text-body-lg font-bold text-wk-ink">
+                우강테크 임직원 일동
               </p>
             </Reveal>
           </div>

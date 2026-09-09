@@ -39,9 +39,7 @@ export function CertStrip() {
         </div>
 
         <Reveal y={14} delay={0.14}>
-          <p className="wk-lead mt-5">
-            발급기관에서 받은 원본을 그대로 올려 둡니다. 눌러서 크게 보고 PDF 로 받으실 수 있습니다.
-          </p>
+          <p className="wk-lead mt-5">발급기관에서 받은 원본입니다.</p>
         </Reveal>
 
         <Stagger

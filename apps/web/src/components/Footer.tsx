@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { SITE } from '@/lib/seo/site'
 import { BrandLogo } from '@/components/brand/BrandLogo'
-import { PRODUCT_CATEGORIES } from '@/lib/productCategories'
+import { PRODUCT_SUBNAV } from '@/lib/subnav'
 
 const LINK_CLASS = 'block text-wk-ink3 transition-colors duration-150 hover:text-wk-ink'
 
@@ -36,10 +36,10 @@ export function Footer() {
           {/* 제품 */}
           <div className="space-y-3 text-sm">
             <p className="font-semibold text-wk-ink2">제품</p>
-            {PRODUCT_CATEGORIES.map((c) => (
-              <Link key={c.slug} href={`/products/${c.slug}`} className={LINK_CLASS}>{c.name}</Link>
+            {/* 2026-09-09 CEO "이상한 거 다 지우고" — 카테고리 6종 대신 네비와 같은 4개 */}
+            {PRODUCT_SUBNAV.map((c) => (
+              <Link key={c.href} href={c.href} className={LINK_CLASS}>{c.label}</Link>
             ))}
-            <Link href="/products/specs" className={LINK_CLASS}>규격 비교표</Link>
           </div>
 
           {/* 고객지원 */}

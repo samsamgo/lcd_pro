@@ -3,13 +3,11 @@ import type { Metadata } from 'next'
 import { NavBar } from '@/components/NavBar'
 import { PageHeader } from '@/components/PageHeader'
 import { SubNav } from '@/components/SubNav'
-import { productSubNavItems } from '@/lib/subnav'
-import { PRODUCT_CATEGORIES } from '@/lib/productCategories'
+import { PRODUCT_SUBNAV } from '@/lib/subnav'
 import { IMAGES } from '@/lib/imageAssets'
 import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
 import { ModelCompareTable } from '@/components/products/ModelCompareTable'
-import { SpecCompareTable } from '@/components/products/SpecCompareTable'
 import { CtaSection } from '@/components/landing/CtaSection'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { breadcrumbLd } from '@/lib/seo/jsonld'
@@ -45,18 +43,13 @@ export default function SpecsPage() {
         />
         <SubNav
           back={{ label: '제품 전체', href: '/products' }}
-          items={productSubNavItems(PRODUCT_CATEGORIES)}
+          items={PRODUCT_SUBNAV}
           current="/products/specs"
         />
-        {/* 2026-09-09 WS-C — 시리즈 비교표(공급사 규격서 기반)를 위에 두고,
-            그 아래 견적 기준 구성표(견적엔진과 묶인 SKU 층)를 남긴다. 둘은 층이 다르다:
-            위는 '무엇을 파는가', 아래는 '이 자리면 얼마인가'. */}
-        <div id="spec">
-          <ModelCompareTable />
-        </div>
-        <div id="quote-spec">
-          <SpecCompareTable />
-        </div>
+        {/* 🔴 2026-09-09 CEO 지시 "이상한 거 다 지우고" — 여기 있던 견적 SKU 구성표
+            (SpecCompareTable)를 뺐다. 규격 비교표는 **시리즈 12종 한 표** 하나만 한다.
+            SpecCompareTable.tsx 는 남겨 뒀다(참조 0건 = 번들 제외). */}
+        <ModelCompareTable />
         <CtaSection />
       </main>
       <Footer />

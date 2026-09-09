@@ -25,8 +25,8 @@ export async function GET() {
 - [개인정보처리방침](${absoluteUrl('/privacy')})
 
 ## 제품
-- [제품 전체](${absoluteUrl('/products')}): 카테고리 6종 × 모델 6종 한 화면
-- 카테고리: [실내용 LED 전광판](${absoluteUrl('/products/indoor')}) · [실외용 LED 전광판](${absoluteUrl('/products/outdoor')}) · [전자현수막](${absoluteUrl('/products/banner')}) · [미디어파사드](${absoluteUrl('/products/facade')}) · [스포츠 전광판](${absoluteUrl('/products/sports')}) · [교통·주차 안내](${absoluteUrl('/products/traffic')})
+- [제품 전체](${absoluteUrl('/products')}): 시리즈 12종 전체를 한 페이지에. 실내용·실외용 필터
+- 환경별: [실내용 LED 전광판](${absoluteUrl('/products/indoor')}) · [실외용 LED 전광판](${absoluteUrl('/products/outdoor')}) — 같은 목록에 필터가 걸린 주소다
 - [규격 비교표](${absoluteUrl('/products/specs')}): 화소 간격, 밝기(nit), 시야각, 방진·방수 등급
 
 ## 시공사례

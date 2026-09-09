@@ -16,6 +16,16 @@ const config = {
       { source: '/services', destination: '/about#why', permanent: true },
       { source: '/about/location', destination: '/about#location', permanent: true },
       { source: '/faq', destination: '/support/faq', permanent: true },
+
+      /* 🔴 2026-09-09 CEO 지시 "전 제품 다 꺼내 놓고 필터로 실내용/실외용만".
+         제품 카테고리 6종 중 네 개(전자현수막·미디어파사드·스포츠·교통)의 페이지를 없앴다.
+         같은 물건을 용도 이름만 바꿔 여섯 번 판 구조였다. 네 주소는 검색 결과·기존 링크가
+         물고 있을 수 있으니 제품 전체 목록으로 301 로 보낸다.
+         (실내·실외는 페이지가 남는다 — 필터가 미리 걸린 같은 화면이다.) */
+      { source: '/products/banner', destination: '/products', permanent: true },
+      { source: '/products/facade', destination: '/products', permanent: true },
+      { source: '/products/sports', destination: '/products', permanent: true },
+      { source: '/products/traffic', destination: '/products', permanent: true },
     ]
   },
   images: {

@@ -53,7 +53,7 @@ export default function CertificationPage() {
         <PageHeader
           group="회사소개"
           title="인증 · 서류"
-          lead="발급기관에서 받은 원본을 그대로 올려 둡니다. 눌러서 크게 보고, PDF 로 받으실 수 있습니다."
+          lead="발급기관에서 받은 원본입니다."
           image={IMAGES.pageHeaders.certification}
         />
 

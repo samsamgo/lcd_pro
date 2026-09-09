@@ -12,7 +12,7 @@ import { JsonLd } from '@/components/seo/JsonLd'
 import { PRODUCTS } from '@/lib/products'
 import { INDUSTRIES } from '@/lib/industries'
 import Link from 'next/link'
-import { PRODUCT_CATEGORIES, categoryOf, skuToSegment } from '@/lib/productCategories'
+import { categoryOf, skuToSegment } from '@/lib/productCategories'
 import { breadcrumbLd } from '@/lib/seo/jsonld'
 import { absoluteUrl, buildMetadata } from '@/lib/seo/site'
 
@@ -69,23 +69,25 @@ export default function ProductPage({ params }: PageProps) {
         data={breadcrumbLd([
           { name: '홈', url: absoluteUrl('/') },
           { name: '제품', url: absoluteUrl('/products') },
-          ...(category ? [{ name: category.name, url: absoluteUrl(`/products/${category.slug}`) }] : []),
           { name: product.name, url: absoluteUrl(`/products/${params.sku}`) },
         ])}
       />
       <NavBar />
       <main id="main">
         <PageHeader
-          group={category?.name ?? '제품'}
+          group="제품"
           title={product.name}
           lead={product.tag}
           image={product.img}
           imageAlt={product.imgAlt}
         />
+        {/* 🔴 2026-09-09 — 카테고리 페이지가 사라져 돌아갈 곳은 제품 전체뿐이다.
+            이 라우트(견적 SKU 6종)는 견적엔진이 참조하므로 **주소는 살려 두되**
+            네비·카드 어디에서도 링크하지 않는다. */}
         <SubNav
-          back={{ label: category?.name ?? '제품 전체', href: category ? `/products/${category.slug}` : '/products' }}
-          items={productSubNavItems(PRODUCT_CATEGORIES)}
-          current={category ? `/products/${category.slug}` : ''}
+          back={{ label: '제품 전체', href: '/products' }}
+          items={productSubNavItems()}
+          current=""
         />
 
         <section className="wk-sec bg-white">

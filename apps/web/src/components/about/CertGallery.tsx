@@ -21,7 +21,10 @@ import {
  *    **스캔본 그 자체**를 건다. 담당자가 확인하는 것은 로고가 아니라 도장 찍힌 종이다.
  *
  * 동작 — 썸네일(600px)을 격자에 깔고, 누르면 원본(150dpi)을 라이트박스로 띄운다.
- *        PDF 는 라이트박스와 카드 양쪽에서 새 창으로 받는다.
+ *        PDF 게시는 하지 않는다(CEO 2026-09-09 "민감한 정보 올리지 마라").
+ *
+ * 🔴 2026-09-09 CEO "설명들 다 지우고 제목만 남겨 — '방송통신기자재등의 적합등록증' 여기까지만."
+ *    카드·라이트박스 모두 **스캔 이미지 + title 한 줄**이 전부다.
  *
  * ⚠️ 서류가 아닌 것을 이 격자에 섞지 마라. 여기 걸린 것은 전부 발급기관 직인이 있는 원본이다.
  * ⚠️ 개수를 세어 자랑하지 않는다("8종" 금지). 세는 순간 숫자가 작다는 사실만 남는다.
@@ -62,16 +65,11 @@ export function CertGallery() {
               </span>
             </button>
 
+            {/* 🔴 2026-09-09 CEO "설명들 다 지우고 제목만 남겨."
+                subject·번호·발급기관·날짜·유효기간은 화면에서 뺐다. 데이터(`lib/credentials.ts`)는
+                다른 곳에서 사실 근거로 쓰므로 유지한다. 여기 다시 붙이지 마라. */}
             <div className="flex flex-1 flex-col border-t border-wk-line px-5 py-5">
               <h3 className="text-body font-semibold leading-snug text-wk-ink">{c.title}</h3>
-              <p className="mt-1.5 text-label leading-relaxed text-wk-ink3">{c.subject}</p>
-              {c.no && (
-                <p className="wk-metric mt-3 text-label font-semibold text-wk-ink2">{c.no}</p>
-              )}
-              <p className="mt-1 text-caption text-wk-ink3">
-                {c.issuer} · {c.issued.replace(/-/g, '.')}
-                {c.valid ? ` · ${c.valid}` : ''}
-              </p>
             </div>
           </article>
         ))}
@@ -98,15 +96,10 @@ export function CertGallery() {
                 className="object-contain"
               />
             </div>
-            <div className="mx-auto mt-5 flex max-w-[820px] flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
-              <div>
-                <p className="text-body font-semibold text-wk-ink">{open.title}</p>
-                <p className="mt-1 text-label text-wk-ink3">
-                  {open.issuer} · {open.issued.replace(/-/g, '.')}
-                  {open.no ? ` · ${open.no}` : ''}
-                </p>
-              </div>
-            </div>
+            {/* 라이트박스 캡션도 제목 한 줄만 (CEO 2026-09-09) */}
+            <p className="mx-auto mt-5 max-w-[820px] text-body font-semibold text-wk-ink">
+              {open.title}
+            </p>
           </div>
         )}
       </Modal>

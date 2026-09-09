@@ -9,7 +9,6 @@ import { AboutGreeting } from '@/components/about/AboutGreeting'
 import { AboutWhy } from '@/components/about/AboutWhy'
 import { AboutHistory } from '@/components/about/AboutHistory'
 import { CertStrip } from '@/components/about/CertStrip'
-import { CompanyOverview } from '@/components/public/CompanyOverview'
 import { CompanyCredo } from '@/components/public/CompanyCredo'
 import { CompanyLocation } from '@/components/public/CompanyLocation'
 import { CtaSection } from '@/components/landing/CtaSection'
@@ -23,7 +22,7 @@ export const dynamic = 'force-static'
 export const metadata: Metadata = buildMetadata({
   title: '회사소개',
   description:
-    '공간에 빛을 더하고, 기술로 완성합니다. LED 모듈 선정부터 구조 설계, 제작, 설치, 유지보수까지 모든 과정을 직접 책임지는 우강테크의 인사말, 회사 개요, 연혁, 인증·서류, 오시는 길.',
+    '공간에 빛을 더하고, 기술로 완성합니다. LED 모듈 선정부터 구조 설계, 제작, 설치, 유지보수까지 모든 과정을 직접 책임지는 우강테크의 인사말, 연혁, 인증·서류, 오시는 길.',
   path: '/about',
 })
 
@@ -35,8 +34,11 @@ export const metadata: Metadata = buildMetadata({
  *      설치 과정 잡다한 설명·소요기간 없애라. 회사 개요를 케이시스·온빛전자처럼 멋있게.
  *      KC 인증서 PDF 있으니 다른 회사처럼 보여줘라."*
  *
- *    구성 = 인사말(온빛) → 선택 이유 6장(온빛 PERFECT SYSTEM) → 회사 개요 표(케이시스)
+ *    구성 = 인사말(온빛) → 선택 이유 6장(온빛 PERFECT SYSTEM)
  *          → 연혁 → 신조 → 인증·서류 → 오시는 길.
+ *
+ * 🔴 2026-09-09 2차 지시 — "회사 개요 없애고, '우강테크 인사말', 로고 하나 넣고,
+ *    '대표이사 이희원' 지우고 '우강테크 임직원 일동'." `CompanyOverview` 배선 해제.
  *
  * 🔴 **여기서 뺀 것 — 되돌리지 마라.**
  *    · `ProcessOverview`(여섯 공정·소요기간) — CEO "설치 과정 잡다한 설명·소요기간 없애라".
@@ -81,12 +83,10 @@ export default function AboutPage() {
           <AboutWhy />
         </div>
 
-        {/* ③ 회사 개요 표 */}
-        <div id="company" className={SEC}>
-          <CompanyOverview />
-        </div>
-
-        {/* ④ 연혁 */}
+        {/* ③ 연혁 — 🔴 2026-09-09 CEO "회사소개에서 회사 개요 없애고".
+            `CompanyOverview`(회사 개요 표) 배선을 풀었다. 파일은 남겼지만 참조 0건이다.
+            `lib/subnav.ts` ABOUT_SECTIONS 의 '회사 개요'(#company) 링크도 같이 뺐다 —
+            되살리려면 두 곳을 같이 되살려야 죽은 앵커가 안 생긴다. */}
         <div id="history" className={SEC}>
           <AboutHistory />
         </div>
@@ -95,12 +95,12 @@ export default function AboutPage() {
             '시작' 한 어절만 실제로 발광한다. 자리는 사실(개요·연혁) 다음, 서류(인증) 앞이다. */}
         <CompanyCredo />
 
-        {/* ⑤ 인증·서류 — 전체 갤러리는 /about/certification */}
+        {/* ④ 인증·서류 — 전체 갤러리는 /about/certification */}
         <div id="certification" className={SEC}>
           <CertStrip />
         </div>
 
-        {/* ⑥ 오시는 길 */}
+        {/* ⑤ 오시는 길 */}
         <section id="location" className={`${SEC} wk-sec bg-white`} aria-labelledby="loc-h">
           <div className="wk-wrap">
             <p className="wk-eyebrow">오시는 길</p>
