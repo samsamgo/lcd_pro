@@ -402,15 +402,26 @@ export function NavBar() {
                   {g.label}
                 </Link>
               ) : (
-                <button
-                  type="button"
-                  onClick={() => setMobileGroup(mobileGroup === g.label ? null : g.label)}
-                  aria-expanded={mobileGroup === g.label}
-                  className="flex w-full items-center justify-between py-3.5 text-left text-sm font-semibold text-wk-ink"
-                >
-                  {g.label}
-                  <ChevronDown size={16} aria-hidden="true" className={`text-wk-ink3 transition-transform duration-200 ${mobileGroup === g.label ? 'rotate-180' : ''}`} />
-                </button>
+                /* 2026-09-09 CEO "폰에서 메뉴 누르면 세부 항목을 안 누르면 안 들어가진다" —
+                   이름을 누르면 그 페이지로 바로 가고, 오른쪽 화살표만 누르면 하위 항목이 펼쳐진다. */
+                <div className="flex items-center">
+                  <Link
+                    href={g.href}
+                    onClick={() => setOpen(false)}
+                    className="flex-1 py-3.5 text-sm font-semibold text-wk-ink"
+                  >
+                    {g.label}
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => setMobileGroup(mobileGroup === g.label ? null : g.label)}
+                    aria-expanded={mobileGroup === g.label}
+                    aria-label={`${g.label} 하위 메뉴 ${mobileGroup === g.label ? '접기' : '펼치기'}`}
+                    className="flex h-11 w-11 items-center justify-center rounded-lg text-wk-ink3 active:bg-wk-bgFaint"
+                  >
+                    <ChevronDown size={16} aria-hidden="true" className={`transition-transform duration-200 ${mobileGroup === g.label ? 'rotate-180' : ''}`} />
+                  </button>
+                </div>
               )}
               {mobileGroup === g.label && g.children && (
                 <div className="pb-2">

@@ -2,8 +2,6 @@ import type { MetadataRoute } from 'next'
 import { SITE } from '@/lib/seo/site'
 import { INDUSTRIES } from '@/lib/industries'
 import { PRODUCT_MODELS } from '@/lib/productModels'
-import { PRODUCTS } from '@/lib/products'
-import { skuToSegment } from '@/lib/productCategories'
 
 export const dynamic = 'force-static'
 export const revalidate = 3600
@@ -54,12 +52,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }))
 
-  const productEntries: MetadataRoute.Sitemap = PRODUCTS.map((product) => ({
-    url: `${base}/products/${skuToSegment(product.sku)}`,
-    lastModified: now,
-    changeFrequency: 'monthly' as const,
-    priority: 0.7,
-  }))
+  // 2026-09-09 CEO "SKU 없애" — 견적 SKU 6종은 화면·사이트맵에서 뺀다(라우트는 견적엔진용으로만 유지, noindex)
 
-  return [...staticEntries, ...modelEntries, ...industryEntries, ...productEntries]
+  return [...staticEntries, ...modelEntries, ...industryEntries]
 }
