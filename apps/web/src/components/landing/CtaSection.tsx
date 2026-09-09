@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { ArrowRight, Phone } from 'lucide-react'
 import { SITE } from '@/lib/seo/site'
-import { Reveal, Magnetic, RiseMask, ScrollBridge } from '@/components/motion'
+import { Reveal, Magnetic, ScrollBridge } from '@/components/motion'
 
 /**
  * 전역 CTA 섹션 — 페이지 하단, 라이트→다크 전환의 종착지.
@@ -22,8 +22,11 @@ import { Reveal, Magnetic, RiseMask, ScrollBridge } from '@/components/motion'
  *    다시 두 줄로 쪼개지 마라 — 쪼개는 순간 같은 증상이 돌아온다.
  */
 export function CtaSection() {
-  const title = '설치 자리와 크기만 알려 주십시오'
-  const sub = '예산을 잡기 전이어도 됩니다. 현장 사진이 있으면 더 정확해집니다.'
+  // 🔴 2026-09-09 CEO "시공사례 페이지 문의가 더 이상하게 뜬다" — 마스크 리빌(RiseMask)은 글자가
+  //    아래에서 잘린 채 올라오는 순간이 보여 '잘린 것'처럼 읽힌다. 문의 칸은 마스크 없이 페이드업만.
+  //    문구는 온빛전자 CONTACT US("제품 문의를 남겨주시면 빠른 시일 내에 답변 드리겠습니다") 어투.
+  const title = '문의를 남겨 주시면 빠르게 답변드리겠습니다'
+  const sub = '설치 장소와 원하는 크기만 적어 주셔도 됩니다.'
   return (
     <section className="relative">
       {/* 사이트의 마지막 라이트→다크 전환. 이 다리에서 화소가 켜진다.
@@ -37,9 +40,9 @@ export function CtaSection() {
 
           {/* 🔴 제목은 Reveal 밖에 둔다. 움직이는 부모 안에서 마스크를 올리면
               두 움직임이 겹쳐 어느 쪽도 읽히지 않는다. 마스크는 한 번만 올린다. */}
-          <h2 className="wk-display mx-auto max-w-[20ch] text-wk-nightInk">
-            <RiseMask>{title}</RiseMask>
-          </h2>
+          <Reveal y={18} delay={0.08}>
+            <h2 className="wk-display mx-auto max-w-[22ch] text-wk-nightInk">{title}</h2>
+          </Reveal>
 
           <Reveal y={16} delay={0.24}>
             <p className="wk-lead mx-auto mt-5 text-wk-nightMuted">

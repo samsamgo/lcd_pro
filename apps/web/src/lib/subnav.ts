@@ -58,8 +58,9 @@ export const ABOUT_SECTIONS: SubNavItem[] = [
  *    A/S 신청(`/support`)이 고객지원의 기본 페이지인 것은 그대로다.
  */
 export const SUPPORT_SECTIONS: SubNavItem[] = [
-  { label: '공지사항', href: '/support/notice' },
+  // 2026-09-09 CEO 지시 순서: A/S → 자주 묻는 질문 → 공지사항 → 자료실
   { label: 'A/S 신청', href: '/support' },
   { label: '자주 묻는 질문', href: '/support/faq' },
+  { label: '공지사항', href: '/support/notice' },
   { label: '자료실', href: '/support/downloads' },
 ]

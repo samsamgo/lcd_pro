@@ -50,20 +50,20 @@ const REASONS: Reason[] = [
   {
     img: fromSpare('J3_floating-module-studio'),
     alt: '작업장 벽에 걸어 시험 점등한 LED 패널',
-    title: '직접 설계하고 만듭니다',
-    note: '전시·광고용 조명장치 제조업으로 공장등록을 마쳤습니다.',
+    title: '설계부터 직접',
+    note: '도면 한 장에서 시작해 우리가 만든 화면을 우리가 답니다.',
   },
   {
     img: fromSpare('H4_indoor-module-mount'),
     alt: '흡착 공구로 프레임에 LED 모듈을 붙이는 기술자',
-    title: '등록업체가 직접 시공합니다',
-    note: '정보통신공사업 등록업체입니다. 시공을 밖으로 넘기지 않습니다.',
+    title: '등록된 시공',
+    note: '정보통신공사업 등록업체가 직접 시공합니다.',
   },
   {
     img: fromSpare('G4_gloved-hands-pcb'),
     alt: '장갑 낀 손으로 살펴보는 LED 실장 기판',
-    title: 'KC 적합등록 부품만 씁니다',
-    note: '전원공급장치는 우리 이름으로 적합등록을 받은 것만 넣습니다.',
+    title: '검증된 부품',
+    note: '전원장치는 KC 적합등록을 받은 것만 씁니다.',
   },
   {
     img: fromSpare('I2_iot-controller-board'),
@@ -97,16 +97,21 @@ export function WhyWookang() {
           y={16}
           gap={0.08}
         >
+          {/* 호버 — 카드가 살짝 떠오르고 사진만 확대된다.
+              transform 만 건드린다(설계계약서 §0-6). 곡선은 ease-state 로 통일한다. */}
           {REASONS.map((r) => (
-            <article key={r.title}>
-              <div className="relative aspect-[4/3] overflow-hidden rounded-surface bg-wk-bgFaint">
+            <article
+              key={r.title}
+              className="group transition-transform duration-300 ease-state hover:-translate-y-1.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+            >
+              <div className="relative aspect-[4/3] overflow-hidden rounded-surface bg-wk-bgFaint shadow-none transition-shadow duration-300 ease-state group-hover:shadow-[0_18px_40px_-18px_rgba(15,23,42,0.35)]">
                 <Image
                   src={r.img}
                   alt={r.alt}
                   fill
                   sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
                   quality={78}
-                  className="object-cover"
+                  className="object-cover transition-transform duration-500 ease-state will-change-transform group-hover:scale-[1.06] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                 />
               </div>
               <p className="mt-5 text-h3 font-bold leading-tight tracking-[-0.01em] text-wk-ink">

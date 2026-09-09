@@ -4,14 +4,13 @@ import { ScrollProgress } from '@/components/public/ScrollProgress'
 import { WhyWookang } from '@/components/home/WhyWookang'
 import { CinematicScene } from '@/components/home/CinematicScene'
 import { ProductIntro } from '@/components/home/ProductIntro'
-import { ProcessStrip, HOME_STEPS } from '@/components/home/ProcessStrip'
 import { CaseHighlights } from '@/components/home/CaseHighlights'
 import { ScrollBridge } from '@/components/motion'
 import { NavBar } from '@/components/NavBar'
 import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
 import { JsonLd } from '@/components/seo/JsonLd'
-import { serviceLd, howToLd, breadcrumbLd } from '@/lib/seo/jsonld'
+import { serviceLd, breadcrumbLd } from '@/lib/seo/jsonld'
 import { SITE, absoluteUrl, buildMetadata } from '@/lib/seo/site'
 import { PRICE_RANGE_SCHEMA } from '@/lib/pricing'
 
@@ -36,17 +35,10 @@ export default function Home() {
           url: absoluteUrl('/'),
         })}
       />
-      <JsonLd
-        id="ld-home-howto"
-        data={howToLd({
-          name: 'LED 전광판 도입 절차',
-          description:
-            '문의와 현장 실측, 제작·시공, 설치 후 A/S까지의 절차.',
-          // 화면(ProcessStrip)과 같은 배열 — 구조화 데이터가 화면에 없는 말을 하지 않게 한다.
-          // 🔴 소요기간(totalTime)은 2026-09-09 CEO 지시로 뺐다. 다시 넣지 마라(jsonld.ts 주석 참조).
-          steps: HOME_STEPS,
-        })}
-      />
+      {/* 🔴 2026-09-09 CEO 지시로 홈에서 ProcessStrip(문의→실측→시공→A/S 띠)을 뺐다.
+          화면에서 사라졌으므로 HowTo 구조화 데이터도 함께 뺐다 — 구조화 데이터는
+          화면에 없는 말을 하면 안 된다(구글 구조화 데이터 정책). 띠를 되살리지 않는 한
+          여기에 howToLd 를 다시 넣지 마라. ProcessStrip.tsx · HOME_STEPS 는 파일로 남아 있다. */}
       <JsonLd id="ld-home-breadcrumb" data={breadcrumbLd([{ name: '홈', url: absoluteUrl('/') }])} />
 
       <ScrollProgress />
@@ -58,10 +50,10 @@ export default function Home() {
               Hero            무엇을 하는 회사인가
               WhyWookang      온빛 'PERFECT SYSTEM' — 왜 우리인가, 사진 4장
               (ProofCards 는 2026-09-09 CEO 지시로 뺐다 — 아래 주석 참조)
-              CinematicScene  제품 서사(화소 간격 → 화면 크기 → 유지보수)
+              CinematicScene  제품 서사 3막 (DETAIL → SCALE → CARE, 선언만 한다)
               ProductIntro    무엇을 파는가 (제품 렌더)
-              CaseHighlights  어디에 쓰이나 (WS-D 소유)
-              ProcessStrip    문의 → 실측 → 시공 → A/S 네 단어로 닫는다
+              CaseHighlights  어디에 쓰이나 (WS-D 소유) — 홈은 여기서 닫는다
+              (ProcessStrip 은 2026-09-09 CEO 지시로 뺐다 — 아래 주석 참조)
 
             ⚠️ 케이시스의 '캐비닛 분해도(3D)' 자리는 **만들지 않았다.** 실제 분해 렌더가
                없기 때문이다. 없는 그림을 그려 채우지 않는다. 카탈로그 렌더 정리가 끝나
@@ -118,9 +110,9 @@ export default function Home() {
             타사 6곳 전부 홈에 시공사례가 있다. 두 줄 마퀴로 흐르게 해 /industries 격자와 형식을 달리한다. */}
         <CaseHighlights />
 
-        {/* 2026-09-09 — 네 단어(문의 → 실측 → 시공 → A/S) 띠로 홈을 닫는다.
-            설명·소요기간은 CEO 지시로 전부 뺐다. 문의 칸이 아니다(ProcessStrip 주석 참조) */}
-        <ProcessStrip />
+        {/* 🔴 2026-09-09 CEO "ProcessStrip 아예 빼고 그 위 제목 라인도 빼라" — 배선을 풀었다.
+            ProcessStrip.tsx 는 파일로 남겼다(참조 0건 = 번들 제외). 홈은 시공사례로 닫는다.
+            같은 이유로 위쪽 HowTo JSON-LD 도 함께 뺐다. */}
 
         {/* 🔴 2026-09-08 CEO 지시로 홈 하단 문의 칸(CtaSection)을 뺐다.
             홈에는 히어로 CTA 와 우측 하단 플로팅 버튼이 이미 있어 같은 요청이 세 번이었다.

@@ -136,7 +136,13 @@ export function Reveal({
       style={style}
       initial={reduce ? { opacity: 0 } : { opacity: 0, y, x }}
       whileInView={{ opacity: 1, y: 0, x: 0 }}
-      viewport={{ once, margin: '-12% 0px -8% 0px' }}
+      /**
+       * 🔴 2026-09-09 — 진입 마진을 앞당겼다(전에는 '-12% 0px -8% 0px').
+       *    위쪽 -12% 는 요소가 화면에 **한참 들어온 뒤에야** 발화하게 만들어,
+       *    사용자가 "아직 안 뜬 문단"을 오래 보게 했다. 아래 -10% 만 남긴다 —
+       *    요소가 뷰포트 하단 10% 지점에 닿는 즉시 시작한다.
+       */
+      viewport={{ once, margin: '0px 0px -10% 0px' }}
       transition={{ duration: reduce ? 0.3 : duration, delay, ease: EASE.entrance }}
     >
       {children}
@@ -709,10 +715,19 @@ export function LedSwap({
       패딩으로 벌리고 같은 값을 음수 마진으로 회수한다. 레이아웃은 그대로다.
    ──────────────────────────────────────────────────────────── */
 
+/**
+ * 🔴 2026-09-09 CEO "뭔가 잘린 듯이 보이네" 의 원인이 여기였다.
+ *    마스크가 글자를 덮은 상태에서 안쪽이 112% → 0% 로 올라오는데,
+ *    ① 기본 지속시간이 0.9s 로 길고 ② 진입 마진이 위쪽 -8% 라 발화가 늦어서
+ *    **글자가 반쯤 잘린 프레임을 오래 보게 됐다.** 특히 스크롤을 멈춘 상태에서
+ *    발화하면 그 프레임이 정지 화면이 된다.
+ *    → 지속시간 0.6s, 진입은 뷰포트 하단 10% 에 닿는 즉시로 앞당긴다.
+ *    → 본문 문단·캡션에는 이 부품을 쓰지 마라(Reveal 이 맡는다). 큰 헤드라인 전용이다.
+ */
 export function RiseMask({
   children,
   delay = 0,
-  duration = 0.9,
+  duration = 0.6,
   className = '',
   once = true,
   immediate = false,
@@ -754,7 +769,7 @@ export function RiseMask({
         className="block will-change-transform"
         initial={{ y: '112%' }}
         whileInView={{ y: '0%' }}
-        viewport={{ once, margin: '-8% 0px -6% 0px' }}
+        viewport={{ once, margin: '0px 0px -10% 0px' }}
         transition={{ duration, delay, ease: EASE.entrance }}
       >
         {children}

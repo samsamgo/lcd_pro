@@ -1,28 +1,79 @@
-import { Reveal, RiseMask } from '@/components/motion'
+'use client'
+
+import { useRef } from 'react'
+import { motion, useScroll, useSpring, useTransform, type MotionValue } from 'framer-motion'
+
+import { BrandLockup } from '@/components/brand/BrandLogo'
+import { Reveal, ScrollScale, useReducedMotion } from '@/components/motion'
 
 /**
- * 인사말 — 여는 장(`AboutSlogan`) 바로 다음 장.
+ * 인사말 — 케이시스 CEO 블록 구조.
  *
- * 🔴 2026-09-09 CEO 지시로 케이시스 인사말 페이지 구조를 따라 다시 짰다.
- *    좌측에 큰 한글 헤드라인 두 줄, 우측에 세 문단. 문단은 **한 문단씩 순차로 떠오른다**
- *    (CEO "창 열리고 이런 문구들 너무 좋다" = 스크롤에 맞춰 열리는 리빌 연출).
+ * 🔴 2026-09-09 CEO 피드백("더 화려하게, 애니메이션 더 추가해서")으로 다시 짰다.
+ *    COO 가 관찰한 원본 구조 = 좌측 큰 세로 사진 / 우측 초대형 영문 4줄 → 굵은 한글 한 줄
+ *    → 회사 주어 문단 2개 → 서명.
  *
- * 🔴 **여기서 뺀 것 — 되돌리지 마라.**
- *    · 슬로건(BEYOND THE DISPLAY)·로고 띠 → `AboutSlogan` 으로 옮겼다. 두 장이 같은 말을 하면 안 된다.
- *    · 우측 dl(공장/시공/부품/연구 4행) → 삭제. CEO "'대전 대덕구 자체 공장에서 제작합니다
- *      (공장등록 2026.08)' 같은 설명 빼라." 자격 나열은 인증·서류 섹션(`CertStrip`)이 맡는다.
+ * 연출 — **애플식 읽히는 텍스트.** 영문 4줄이 스크롤 진행에 따라 한 줄씩 회색에서
+ * 주황으로 물들며 밝아진다. 마스크(RiseMask)를 쓰지 않는다 —
+ * 🔴 CEO 가 말한 "잘린 듯이 보인다" 가 바로 마스크 리빌의 중간 프레임이었다.
+ *    여기는 전부 스크롤 스크럽이라 글자가 잘리는 프레임 자체가 없다.
  *
- * 구성 규칙
- *  · 🔴 **개인(대표) 사진·이름·직함은 넣지 않는다.** 주어는 회사, 서명은 '우강테크 임직원 일동'.
- *  · 문단에 실적 수치를 넣지 않는다. 확인되는 사실만 말한다.
+ * 🔴 **개인(대표) 사진·이름·직함은 넣지 않는다.** 주어는 회사. 서명도 두지 않는다(CEO 2026-09-09 "임직원 일동도 빼자").
+ *    대표 실물 사진이 없으므로 좌측 사진 자리는 **로고 다크 카드**로 채운다.
+ *    없는 인물 사진을 연출컷으로 지어내지 마라.
+ * 🔴 문단에 실적 수치를 넣지 않는다. 확인되는 사실만 말한다.
  */
-const PARAGRAPHS = [
-  'LED 모듈 선정부터 구조 설계, 제작, 설치, 유지보수까지 모든 과정을 우강테크가 직접 책임집니다. 도면 한 장에서 시작한 일이 현장에서 켜지는 순간까지, 맡는 사람이 바뀌지 않습니다.',
-  '설치는 끝이 아니라 시작입니다. 오랫동안 안정적으로 작동하는 전광판을 만들고, 문제가 생겼을 때는 끝까지 책임지는 기술로 답합니다.',
-  '단순한 전광판을 넘어, 공간과 사람을 연결하는 디스플레이를 만들겠습니다. 화면 하나를 두고 고민하고 계시다면 연락 주십시오. 자리와 조건을 보고 가장 맞는 답을 드리겠습니다.',
+const EN_LINES = ['BEYOND', 'THE DISPLAY', 'DESIGN TO', 'SERVICE']
+
+/** 줄마다 밝아지는 구간. 0.15 씩 밀어 "한 줄씩 읽히는" 리듬을 만든다 */
+const EN_SEGMENTS: [number, number][] = [
+  [0.10, 0.30],
+  [0.25, 0.45],
+  [0.40, 0.60],
+  [0.55, 0.75],
 ]
 
+const KO_LEAD = '설계에서 시작해 현장에서 증명합니다.'
+
+const PARAGRAPHS = [
+  '우강테크는 LED 전광판을 설계하고, 만들고, 설치하고, 관리하는 회사입니다. 도면 한 장에서 시작한 일이 현장에서 켜지는 순간까지 맡는 사람이 바뀌지 않습니다. 정보통신공사업 등록업체로서 시공을 직접 하고, 전원장치는 KC 적합등록을 받은 것만 씁니다.',
+  '설치는 끝이 아니라 시작입니다. 오랫동안 안정적으로 작동하는 전광판을 만들고, 문제가 생겼을 때는 끝까지 책임지는 기술로 답합니다. 공간과 사람을 연결하는 디스플레이, 우강테크가 만들겠습니다.',
+]
+
+/** 한 줄 = 하나의 훅 묶음. 배열 안에서 훅을 돌리지 않으려고 컴포넌트로 뗀다 */
+function EnLine({
+  text,
+  progress,
+  from,
+  to,
+  reduce,
+}: {
+  text: string
+  progress: MotionValue<number>
+  from: number
+  to: number
+  reduce: boolean
+}) {
+  const opacity = useTransform(progress, [from, to], [0.28, 1])
+  const color = useTransform(progress, [from, to], ['#D1D6DB', '#B14E11'])
+
+  if (reduce) {
+    return <span className="block text-wk-cta">{text}</span>
+  }
+
+  return (
+    <motion.span className="block will-change-[opacity]" style={{ opacity, color }}>
+      {text}
+    </motion.span>
+  )
+}
+
 export function AboutGreeting() {
+  const ref = useRef<HTMLDivElement>(null)
+  const reduce = useReducedMotion()
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 85%', 'end 65%'] })
+  const p = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.4 })
+
   return (
     <section aria-labelledby="greeting-h" className="wk-sec-lg bg-white">
       <div className="wk-wrap">
@@ -31,32 +82,57 @@ export function AboutGreeting() {
           <p className="wk-eyebrow">우강테크 인사말</p>
         </Reveal>
 
-        <div className="grid gap-x-16 gap-y-10 lg:grid-cols-12">
-          {/* 좌 — 큰 한글 헤드라인 두 줄. 마스크 리빌로 아래에서 열린다 */}
+        <div className="mt-8 grid gap-10 lg:grid-cols-12 lg:gap-14">
+          {/* 좌 — 케이시스의 대표 사진 자리. 실물 사진이 없으므로 로고 다크 카드.
+              🔴 서명("우강테크 임직원 일동")은 CEO 2026-09-09 "이것도 빼자" 로 제거했다. 다시 넣지 마라. */}
           <div className="lg:col-span-5">
-            <h2 id="greeting-h" className="wk-h1 max-w-[12ch] leading-[1.18] text-wk-ink">
-              <RiseMask delay={0.06}>설계에서 시작해</RiseMask>
-              <RiseMask delay={0.16}>
-                <span className="text-wk-cta">현장에서 증명</span>합니다
-              </RiseMask>
-            </h2>
+            <ScrollScale from={0.94}>
+              <div className="wk-pixelgrid wk-pixelgrid-coarse relative flex aspect-[4/5] items-center justify-center overflow-hidden rounded-card bg-wk-night">
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0"
+                  style={{
+                    background:
+                      'radial-gradient(60% 50% at 50% 55%, rgba(222,103,29,.22) 0%, rgba(222,103,29,.06) 45%, transparent 75%)',
+                  }}
+                />
+                <BrandLockup dark height={160} className="relative h-32 w-auto md:h-40" />
+              </div>
+            </ScrollScale>
           </div>
 
-          {/* 우 — 세 문단. 딜레이 0.12 간격으로 한 문단씩 fade-up */}
-          <div className="lg:col-span-7">
-            {PARAGRAPHS.map((p, i) => (
-              <Reveal key={i} y={20} delay={0.12 * i}>
-                <p className="wk-body mt-7 max-w-[40em] leading-[1.95] first:mt-0">{p}</p>
+          {/* 우 — 초대형 영문 4줄 → 한글 한 줄 → 문단 2개 */}
+          <div ref={ref} className="lg:col-span-7">
+            <p
+              aria-label={EN_LINES.join(' ')}
+              className="wk-display leading-[1.02] tracking-[-0.04em]"
+            >
+              {EN_LINES.map((l, i) => (
+                <EnLine
+                  key={l}
+                  text={l}
+                  progress={p}
+                  from={EN_SEGMENTS[i][0]}
+                  to={EN_SEGMENTS[i][1]}
+                  reduce={reduce}
+                />
+              ))}
+            </p>
+
+            <Reveal y={16} delay={0.05}>
+              <h2
+                id="greeting-h"
+                className="mt-10 text-h3 font-bold leading-snug tracking-tight text-wk-ink"
+              >
+                {KO_LEAD}
+              </h2>
+            </Reveal>
+
+            {PARAGRAPHS.map((t, i) => (
+              <Reveal key={i} y={20} delay={0.1 + i * 0.15}>
+                <p className="wk-body mt-7 max-w-[40em] leading-[1.95]">{t}</p>
               </Reveal>
             ))}
-
-            {/* 서명 — 🔴 2026-09-09 CEO "'대표이사 이희원' 이라는 말도 지우고
-                '우강테크 임직원 일동' 이런 식으로." 개인 이름·직함을 다시 넣지 마라. */}
-            <Reveal y={14} delay={0.42}>
-              <p className="mt-12 border-t border-wk-line pt-7 text-body-lg font-bold text-wk-ink">
-                우강테크 임직원 일동
-              </p>
-            </Reveal>
           </div>
         </div>
       </div>

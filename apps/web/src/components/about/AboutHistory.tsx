@@ -1,7 +1,11 @@
+'use client'
+
 import Link from 'next/link'
+import { useRef } from 'react'
+import { motion, useScroll, useSpring } from 'framer-motion'
 
 import { HISTORY } from '@/lib/credentials'
-import { Reveal, RiseMask, Stagger } from '@/components/motion'
+import { EASE, Reveal, RiseMask, useReducedMotion } from '@/components/motion'
 
 /**
  * 연혁 — 세로 타임라인.
@@ -10,10 +14,18 @@ import { Reveal, RiseMask, Stagger } from '@/components/motion'
  *    2026년 6월 설립 이전 이력은 없다. 없는 것을 만들지 마라 — 관공서 담당자가
  *    확인서 원본과 나란히 놓고 본다. 한 줄이라도 안 맞으면 그때부터 전부 의심받는다.
  *
- * 연출 — 항목이 위에서부터 차례로 들어온다(Stagger). 왼쪽 세로선 위의 점이
- * 각 항목의 자리를 잡는다. transform/opacity 만 움직인다(설계계약서 §0-6).
+ * 연출(2026-09-09 CEO "애니메이션 더 추가해서") —
+ *  · 왼쪽 세로선이 **스크롤을 따라 위에서 아래로 자란다**(scaleY 스크럽).
+ *  · 항목은 각자 자기 자리에서 fade-up 하고, 그때 점이 회색 → 주황으로 켜진다.
+ *    선이 도착한 곳까지만 불이 들어와 있어, 스크롤이 곧 연도 진행이 된다.
+ * 🔴 선은 width/height 가 아니라 **scaleY** 로 자란다(레이아웃 재계산 회피, 설계계약서 §0-6).
  */
 export function AboutHistory() {
+  const ref = useRef<HTMLDivElement>(null)
+  const reduce = useReducedMotion()
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 78%', 'end 62%'] })
+  const grow = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.4 })
+
   return (
     <section aria-labelledby="history-h" className="wk-sec bg-white">
       <div className="wk-wrap">
@@ -36,18 +48,29 @@ export function AboutHistory() {
           </p>
         </Reveal>
 
-        <div className="relative mt-12 lg:mt-16">
-          {/* 세로선 — 점의 중심(왼쪽에서 5px)을 지난다 */}
+        <div ref={ref} className="relative mt-12 lg:mt-16">
+          {/* 바닥선 — 아직 지나지 않은 구간 */}
           <span
             aria-hidden="true"
-            className="absolute bottom-2 left-[5px] top-2 w-px bg-wk-line2"
+            className="absolute bottom-2 left-[5px] top-2 w-px bg-wk-line"
           />
-          <Stagger className="relative" y={16} gap={0.06}>
+          {/* 자라는 선 — 점의 중심(왼쪽에서 5px)을 지난다 */}
+          <motion.span
+            aria-hidden="true"
+            className="absolute bottom-2 left-[5px] top-2 w-px origin-top bg-wk-cta"
+            style={reduce ? { transform: 'scaleY(1)' } : { scaleY: grow }}
+          />
+
+          <div className="relative">
             {HISTORY.map((h) => (
-              <div key={`${h.date}-${h.title}`} className="relative pb-8 pl-8 last:pb-0">
-                <span
+              <Reveal key={`${h.date}-${h.title}`} y={16} className="relative pb-8 pl-8 last:pb-0">
+                <motion.span
                   aria-hidden="true"
-                  className="absolute left-0 top-[7px] h-[11px] w-[11px] rounded-full border-2 border-white bg-wk-cta shadow-[0_0_0_1px_#E5E8EB]"
+                  className="absolute left-0 top-[7px] h-[11px] w-[11px] rounded-full border-2 border-white shadow-[0_0_0_1px_#E5E8EB]"
+                  initial={reduce ? { backgroundColor: '#B14E11' } : { backgroundColor: '#D1D6DB', scale: 0.6 }}
+                  whileInView={{ backgroundColor: '#DE671D', scale: 1 }}
+                  viewport={{ once: true, margin: '0px 0px -10% 0px' }}
+                  transition={{ duration: reduce ? 0.2 : 0.5, ease: EASE.entrance }}
                 />
                 <div className="flex flex-col gap-x-8 gap-y-1 sm:flex-row sm:items-baseline">
                   <time className="wk-metric w-[7.5rem] shrink-0 text-label font-bold text-wk-cta">
@@ -55,14 +78,12 @@ export function AboutHistory() {
                   </time>
                   <div className="min-w-0">
                     <p className="text-body-lg font-semibold text-wk-ink">{h.title}</p>
-                    {h.detail && (
-                      <p className="mt-1 text-label text-wk-ink3">{h.detail}</p>
-                    )}
+                    {h.detail && <p className="mt-1 text-label text-wk-ink3">{h.detail}</p>}
                   </div>
                 </div>
-              </div>
+              </Reveal>
             ))}
-          </Stagger>
+          </div>
         </div>
       </div>
     </section>

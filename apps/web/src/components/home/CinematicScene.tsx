@@ -14,34 +14,27 @@ import { StickyScene, useReducedMotion } from '@/components/motion'
 /**
  * 다크 시네마틱 장면 — 이 페이지의 하이라이트. 3막.
  *
- * 규격표를 읽게 만드는 것이 목적이다. 표로 적으면 넘어가지만,
- * 화면이 고정된 채 사진과 숫자가 스크롤에 맞춰 바뀌면 끝까지 본다.
+ *   1막 픽셀 보케   → DETAIL  가까이 볼수록 선명하게
+ *   2막 픽셀 매크로 → SCALE   공간을 압도하는 크기
+ *   3막 모듈 부양   → CARE    설치는 끝이 아니라 시작
  *
- *   1막 픽셀 보케   → 화소 간격(피치). 스크롤에 따라 피치 수치가 실제로 좁아진다.
- *   2막 픽셀 매크로 → 보는 거리가 화면 크기를 정한다. 거리별 권장 규격.
- *   3막 모듈 부양   → 전면 유지보수, 모듈 단위 교체.
+ * 🔴 2026-09-09 CEO 지시 — **숫자 표와 각주를 전부 뺐다.** "이거 필요 없고."
+ *    화소 간격·권장 시청거리·거리별 규격표·교체 단위 같은 수치는 홈에서 말하지 않는다.
+ *    홈은 선언만 하고, 규격은 /products 규격표가 정본이다.
+ *    🔴 이 파일에 dl/dt/dd 수치표나 하단 각주 문단을 **다시 만들지 마라.**
+ *    막마다 남는 것은 번호 + 아이브로우(영문 소문자 대문자화 트래킹) + 제목 + 한 줄뿐이다.
  *
- * 🔴 2026-09-09 CEO 지시 — 2막을 휘도 서사에서 '크기' 서사로 바꿨다.
- *    "메인 페이지에서는 크기로만 말하라." 휘도는 담당자가 고르는 값이 아니라 설치 환경에서
- *    자동으로 정해지는 값이고, 정작 결재선에서 물어보는 건 '얼마짜리 몇 미터냐' 다.
- *    🔴 홈에서는 휘도 관련 단어를 쓰지 않는다(휘도 규격은 /products 규격표가 정본).
- *    이 파일에도 그 단어를 다시 적지 마라 — 홈 전체 검사(grep)를 깨뜨린다.
- *    2막 수치의 산출 근거는 아래 SIZE_RULE 주석에 적어 둔다 — 지어낸 숫자가 아니다.
+ * 🔴 문구는 국내 상위 업체 어투(케이시스·온빛·컴텔싸인)를 참고한 **선언체**다.
+ *    한글 소제목(밀도/크기/유지보수)은 뺐다 — 아이브로우는 영문 한 단어로 통일한다.
+ *    🔴 홈에서는 휘도 관련 단어를 쓰지 않는다(홈 전체 grep 검사를 깨뜨린다).
  *
  * ⚠️ StickyScene 은 페이지에 1개만 둔다(설계계약서 §4 모션 예산).
- * ⚠️ 숫자는 카운트업하지 않는다. 1막의 피치만 "스크롤 진행도 = 밀도" 라는
- *    의미가 있어 진행도에 연결했고, 나머지는 최종값을 HTML 에 둔다
- *    (벤치마크 §5 패턴 9 / §6 안티패턴 15).
- * ⚠️ 아래 수치는 제품 규격서 기준값(초안)이다. 확정 사양은 실측 후 규격서로 제공한다.
  */
-
-type Metric = { k: string; v: string; u?: string }
 
 type Act = {
   eyebrow: string
   title: string
   body: string
-  metrics: Metric[]
   img: string
   alt: string
   /**
@@ -54,63 +47,35 @@ type Act = {
   /**
    * 글자 층의 구간. 사진과 달리 **절대 겹치지 않는다.**
    * 겹치면 앞 막의 제목 위에 뒷 막의 제목이 반투명하게 포개져 둘 다 읽을 수 없다.
-   * (실제로 그 상태로 렌더링되던 것을 잡아 고친 자리다.)
+   * 🔴 2026-09-09 — ActPanel 이 이 값 대신 `range` 를 쓰고 있어 실제로 그 상태로
+   *    렌더링됐다(정의만 있고 미사용). 반드시 ActPanel 이 textRange 를 쓴다.
    */
   textRange: [number, number, number, number]
 }
 
-/**
- * SIZE_RULE — 2막 '거리별 권장 화면 크기' 의 산출 근거. 값을 고칠 때 이 계산을 함께 고친다.
- *
- *  ① 화면 높이 ≈ 보는 거리 ÷ 6 (디스플레이 시청 가이드의 통용값)
- *  ② 표준 캐비닛 640 × 480mm 단위로 올림·내림해 실제로 만들 수 있는 조합으로 맞춘다
- *  ③ 가로는 옥내외 안내판에서 가장 흔한 2 : 1 비율로 잡는다
- *
- *    3m  → 높이 0.50m → 480mm  1단 ·  3칸 =  1,920 ×   480
- *   10m  → 높이 1.67m → 480mm  3단 ·  5칸 =  3,200 × 1,440
- *   30m  → 높이 5.00m → 480mm 10단 · 15칸 =  9,600 × 4,800
- *
- * 거리 구간은 `lib/products.ts` 의 viewingDistance(창구 3m · 출입구 5m · 도로변 30m)와 같은 축이다.
- * 🔴 시작점일 뿐 확정 규격이 아니다. 붙일 면의 폭·높이, 전기 인입, 시야를 가리는 구조물은
- *    실측해야 나온다. 화면 아래 캡션이 그 사실을 반드시 함께 말한다.
- */
 const ACTS: Act[] = [
   {
-    eyebrow: '밀도',
-    title: '가까이 볼수록 촘촘하게',
-    body: '화소 간격은 보는 거리가 정합니다. 1m 앞에서 보면 1mm, 10m 밖에서 보면 10mm입니다.',
-    metrics: [
-      { k: '화소 간격', v: '1.8 – 10', u: 'mm' },
-      { k: '권장 최소 시청거리', v: '1.8 – 10', u: 'm' },
-    ],
+    eyebrow: 'DETAIL',
+    title: '가까이 볼수록 선명하게',
+    body: '한 걸음 앞에서도 흐트러지지 않는 화질. 자리에 맞는 화소 간격으로 설계합니다.',
     img: IMAGES.cinematic[0],
     alt: '초점이 풀린 LED 픽셀들이 색점으로 번지는 근접 촬영',
     range: [0.0, 0.0, 0.30, 0.36],
     textRange: [0.0, 0.0, 0.27, 0.31],
   },
   {
-    eyebrow: '크기',
-    title: '멀리서도 한눈에',
-    body: '보는 거리와 설치할 자리에 맞춰 화면 크기를 설계합니다. 표준 캐비닛 640 × 480mm 를 몇 장 잇느냐로 규격이 정해집니다.',
-    metrics: [
-      { k: '3m — 창구 · 로비', v: '1,920 × 480', u: 'mm' },
-      { k: '10m — 출입구 · 광장', v: '3,200 × 1,440', u: 'mm' },
-      { k: '30m — 도로변 · 외벽', v: '9,600 × 4,800', u: 'mm' },
-    ],
+    eyebrow: 'SCALE',
+    title: '공간을 압도하는 크기',
+    body: '로비 한 면에서 건물 외벽까지. 보는 거리에 맞춰 화면을 키웁니다.',
     img: IMAGES.cinematic[1],
     alt: 'LED 모듈 표면의 적·녹·청 발광 소자를 확대한 매크로 촬영',
     range: [0.30, 0.36, 0.63, 0.69],
     textRange: [0.31, 0.35, 0.60, 0.64],
   },
   {
-    eyebrow: '유지보수',
+    eyebrow: 'CARE',
     title: '설치는 끝이 아니라 시작',
-    body: '문제가 생기면 앞에서 모듈 한 장만 바꿉니다. 화면 뒤로 들어가는 통로가 필요 없습니다.',
-    metrics: [
-      { k: '교체 단위', v: '모듈 1장' },
-      { k: '정비 방향', v: '전면' },
-      { k: '후면 통로', v: '불필요' },
-    ],
+    body: '문제가 생기면 모듈 한 장만 바꿉니다. 오래 안정적으로 켜져 있는 것까지가 우리 일입니다.',
     img: IMAGES.cinematic[2],
     alt: '작업대 위에 놓인 LED 모듈 한 장과 교체용 공구, 설치 위치를 적은 손글씨 라벨',
     range: [0.63, 0.69, 1.0, 1.0],
@@ -140,7 +105,7 @@ export function CinematicScene() {
   return (
     <section aria-labelledby="cine-h" className="wk-night-glow relative">
       <h2 id="cine-h" className="sr-only">
-        화소 간격, 화면 크기, 그리고 고장
+        우강테크가 만드는 화면
       </h2>
 
       <StickyScene length={length}>
@@ -162,10 +127,11 @@ export function CinematicScene() {
               ))}
             </div>
 
-            {/* 텍스트 — 같은 자리에서 교차 페이드 */}
+            {/* 텍스트 — 같은 자리에서 교차 페이드.
+                수치표를 걷어낸 만큼 제목을 키우고 아래 여백을 넓혔다. */}
             <div className="absolute inset-x-0 bottom-0 z-10">
-              <div className="wk-wrap pb-14 md:pb-20">
-                <div className="relative min-h-[300px] md:min-h-[320px]">
+              <div className="wk-wrap pb-20 md:pb-28">
+                <div className="relative min-h-[260px] md:min-h-[300px]">
                   {ACTS.map((a, i) => (
                     <ActPanel key={a.title} act={a} progress={p} index={i} />
                   ))}
@@ -175,12 +141,6 @@ export function CinematicScene() {
           </div>
         )}
       </StickyScene>
-
-      <p className="wk-wrap wk-cap pb-14 !text-wk-nightMuted">
-        권장 최소 시청거리는 화소 간격 1mm를 1m로 보는 업계 통용 기준입니다. 거리별 화면 크기는
-        화면 높이를 보는 거리의 약 6분의 1로 잡고 표준 캐비닛 640 × 480mm 단위로 맞춘 예시 조합입니다.
-        확정 규격은 붙일 면과 전기 인입을 현장에서 실측한 뒤에 정해집니다.
-      </p>
     </section>
   )
 }
@@ -231,7 +191,9 @@ function ActPanel({
   progress: MotionValue<number>
   index: number
 }) {
-  const [a, b, c, d] = act.range
+  // 🔴 사진의 range 가 아니라 **글자 전용 textRange** 를 쓴다.
+  //    range 를 쓰면 막 전환 지점에서 앞뒤 제목이 겹쳐 둘 다 읽히지 않는다.
+  const [a, b, c, d] = act.textRange
   const opacity = useTransform(progress, [a, b, c, d], [0, 1, 1, 0])
   const y = useTransform(progress, [a, b, c, d], [26, 0, 0, -20])
 
@@ -241,43 +203,18 @@ function ActPanel({
         <span className="wk-metric text-caption font-semibold text-white/40">
           {String(index + 1).padStart(2, '0')}
         </span>
-        <span className="text-caption font-semibold uppercase tracking-[0.14em] text-wk-blue">
+        <span className="text-caption font-semibold uppercase tracking-[0.24em] text-wk-blue">
           {act.eyebrow}
         </span>
       </div>
 
       {/* 2026-09-07 — 다크 면 위 디스플레이 활자에는 .wk-emit-text 를 건다(§17-B).
-          색을 바꾸지 않는 미세 글로우라 대비비는 그대로다. 이 규칙이 ScreenGallery ·
-          /products ProductScenes · /industries IndustryScenes 에 다 들어갔는데
-          정작 홈에서 가장 큰 다크 활자인 여기만 빠져 있었다. */}
-      <h3 className="wk-display wk-emit-text mt-4 max-w-[13ch] text-wk-nightInk">{act.title}</h3>
-      <p className="wk-body mt-5 max-w-[34ch] !text-wk-nightMuted">{act.body}</p>
-
-      <MetricRow act={act} progress={progress} />
+          색을 바꾸지 않는 미세 글로우라 대비비는 그대로다. */}
+      <h3 className="wk-emit-text mt-6 max-w-[12ch] text-display-hero font-bold tracking-[-0.03em] text-wk-nightInk">
+        {act.title}
+      </h3>
+      <p className="wk-body mt-7 max-w-[36ch] !text-wk-nightMuted">{act.body}</p>
     </motion.div>
-  )
-}
-
-/* ── 규격 수치 ─────────────────────────────────────────────── */
-function MetricRow({ act, progress }: { act: Act; progress: MotionValue<number> }) {
-  const [a, , c] = act.range
-  // 1막만 진행도에 연결한다 — 스크롤이 곧 "밀도가 촘촘해진다" 는 의미이기 때문.
-  const pitch = useTransform(progress, [a, c], [10, 1.8])
-  const pitchText = useTransform(pitch, (v) => v.toFixed(1))
-  const isPitchAct = act.eyebrow === '밀도'
-
-  return (
-    <dl className="mt-8 flex flex-wrap gap-x-10 gap-y-5">
-      {act.metrics.map((m, i) => (
-        <div key={m.k}>
-          <dt className="text-caption text-white/50">{m.k}</dt>
-          <dd className="wk-metric mt-1 text-h3 font-semibold text-wk-nightInk">
-            {isPitchAct && i < 2 ? <motion.span>{pitchText}</motion.span> : m.v}
-            {m.u && <small className="ml-1 text-white/70">{m.u}</small>}
-          </dd>
-        </div>
-      ))}
-    </dl>
   )
 }
 
@@ -288,7 +225,7 @@ function StaticScene() {
   return (
     <section aria-labelledby="cine-h" className="wk-night-glow wk-sec-lg">
       <h2 id="cine-h" className="sr-only">
-        LED 화면을 결정하는 세 가지 규격
+        우강테크가 만드는 화면
       </h2>
       <div className="wk-wrap-wide space-y-16">
         {ACTS.map((a, i) => (
@@ -303,30 +240,14 @@ function StaticScene() {
               />
             </div>
             <div>
-              <span className="text-caption font-semibold uppercase tracking-[0.14em] text-wk-blue">
+              <span className="text-caption font-semibold uppercase tracking-[0.24em] text-wk-blue">
                 {String(i + 1).padStart(2, '0')} · {a.eyebrow}
               </span>
-              <h3 className="wk-display mt-4 max-w-[15ch] text-wk-nightInk">{a.title}</h3>
-              <p className="wk-body mt-5 !text-wk-nightMuted">{a.body}</p>
-              <dl className="mt-8 flex flex-wrap gap-x-10 gap-y-5">
-                {a.metrics.map((m) => (
-                  <div key={m.k}>
-                    <dt className="text-caption text-white/50">{m.k}</dt>
-                    <dd className="wk-metric mt-1 text-h3 font-semibold text-wk-nightInk">
-                      {m.v}
-                      {m.u && <small className="ml-1 text-white/70">{m.u}</small>}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
+              <h3 className="wk-display mt-5 max-w-[14ch] text-wk-nightInk">{a.title}</h3>
+              <p className="wk-body mt-6 !text-wk-nightMuted">{a.body}</p>
             </div>
           </article>
         ))}
-        <p className="wk-cap !text-wk-nightMuted">
-          권장 최소 시청거리는 화소 간격 1mm를 1m로 보는 업계 통용 기준입니다. 거리별 화면 크기는
-          화면 높이를 보는 거리의 약 6분의 1로 잡고 표준 캐비닛 640 × 480mm 단위로 맞춘 예시 조합입니다.
-          확정 규격은 붙일 면과 전기 인입을 현장에서 실측한 뒤에 정해집니다.
-        </p>
       </div>
     </section>
   )

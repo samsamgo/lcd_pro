@@ -4,8 +4,7 @@ import Link from 'next/link'
 import { NavBar } from '@/components/NavBar'
 import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
-import { PageHeader } from '@/components/PageHeader'
-import { AboutSlogan } from '@/components/about/AboutSlogan'
+import { AboutOpening } from '@/components/about/AboutOpening'
 import { AboutGreeting } from '@/components/about/AboutGreeting'
 import { AboutWhy } from '@/components/about/AboutWhy'
 import { AboutHistory } from '@/components/about/AboutHistory'
@@ -13,9 +12,9 @@ import { CertStrip } from '@/components/about/CertStrip'
 import { CompanyCredo } from '@/components/public/CompanyCredo'
 import { CompanyLocation } from '@/components/public/CompanyLocation'
 import { CtaSection } from '@/components/landing/CtaSection'
+import { ScrollBridge } from '@/components/motion'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { breadcrumbLd } from '@/lib/seo/jsonld'
-import { IMAGES } from '@/lib/imageAssets'
 import { SITE, absoluteUrl, buildMetadata } from '@/lib/seo/site'
 
 export const dynamic = 'force-static'
@@ -35,11 +34,16 @@ export const metadata: Metadata = buildMetadata({
  *      설치 과정 잡다한 설명·소요기간 없애라. 회사 개요를 케이시스·온빛전자처럼 멋있게.
  *      KC 인증서 PDF 있으니 다른 회사처럼 보여줘라."*
  *
- * 🔴 2026-09-09 3차 지시 — "회사소개를 ksys.co.kr 인사말 페이지처럼 멋있게. 슬로건 하나
- *    크게 띄워 줘야 멋있어 보인다." 여는 장을 **슬로건 한 장**(`AboutSlogan`, 다크 풀블리드)으로
- *    독립시키고, 인사말은 좌 헤드라인 / 우 3문단 순차 리빌로 다시 짰다.
+ * 🔴 2026-09-09 4차 지시 — "회사 소개 더 이상해졌어. 케이시스는 애니메이션 효과가 화려하게
+ *    들어가서 그랬는데, 너 정확히 페이지를 안 봤구나. 뭔가 잘린 듯이 보이네."
+ *    → 3차의 정적 슬로건 한 장(`AboutSlogan`)을 **스크롤로 열리는 창**(`AboutOpening`)으로 갈았다.
+ *      케이시스 오프닝의 실제 동작(좌우 영문이 밀려나고 중앙 사진 창이 풀블리드로 넓어진다)을
+ *      COO 가 직접 스크롤하며 관찰해 옮긴 것이다.
+ *    → "잘린 듯" 의 정체는 마스크 리빌(`RiseMask`)의 중간 프레임이었다. 본문·문단에서 마스크를
+ *      걷어내고 스크롤 스크럽·fade-up 으로 바꿨다. `components/motion` 의 RiseMask 기본값도
+ *      0.6s / 진입 즉시로 앞당겼다(전 페이지에 적용된다).
  *
- *    구성 = 슬로건 → 인사말 → 신뢰 선언 → 선택 이유 4장 → 연혁 → 인증·서류 → 오시는 길.
+ *    구성 = 여는 창 → 인사말 → (화소 다리) → 신뢰 선언 → 선택 이유 4장 → 연혁 → 인증·서류 → 오시는 길.
  *
  * 🔴 2026-09-09 2차 지시 — "회사 개요 없애고, '우강테크 인사말', 로고 하나 넣고,
  *    '대표이사 이희원' 지우고 '우강테크 임직원 일동'." `CompanyOverview` 배선 해제.
@@ -69,22 +73,22 @@ export default function AboutPage() {
       />
       <NavBar />
       <main id="main">
-        <PageHeader
-          group="회사소개"
-          title="회사소개"
-          lead="공간에 빛을 더하고, 기술로 완성합니다."
-          image={IMAGES.company.hero}
-        />
+        {/* ① 여는 장 — **스크롤로 열리는 창.** 🔴 2026-09-09 CEO "케이시스는 애니메이션이
+            화려하게 들어가서 그랬는데 … 뭔가 잘린 듯이 보이네."
+            COO 가 케이시스 인사말 페이지를 실제로 스크롤하며 관찰한 open-reveal 을 옮겼다.
+            🔴 이 장이 **PageHeader 를 대체한다.** 배너 사진 + '공간에 빛을…' 리드가 이 장과
+               같은 말이라 둘을 같이 두면 같은 문장을 두 번 하게 된다. 다시 넣지 마라.
+            🔴 옛 `AboutSlogan`(다크 슬로건 한 장)도 이 장에 흡수됐다. 파일은 남겼고 참조 0건이다.
+            🔴 페이지의 h1 은 이제 이 컴포넌트 안에 있다(창 안 헤드라인). */}
+        <AboutOpening />
 
-        {/* ① 여는 장 — 슬로건 한 장. 🔴 2026-09-09 CEO "우강테크 메시지 할 때 슬로건 하나
-            크게 띄워 줘야 멋있어 보인다." 다크 풀블리드 + 초대형 BEYOND THE DISPLAY.
-            옛 인사말 상단의 슬로건·로고 띠가 여기로 옮겨왔다 — 인사말에 다시 넣지 마라. */}
-        <AboutSlogan />
-
-        {/* ② 인사말 — 좌 헤드라인 / 우 3문단 순차 리빌 */}
+        {/* ② 인사말 — 좌 로고 카드 / 우 영문 4줄(스크롤로 물든다) + 문단 2개 */}
         <div id="greeting" className={SEC}>
           <AboutGreeting />
         </div>
+
+        {/* 라이트 → 다크 전환부. 화소가 켜지는 다리(코드로 그린다, 전송량 0) */}
+        <ScrollBridge direction="down" className="h-24 bg-white md:h-32" />
 
         {/* ③ 신뢰 선언 — 다크 한 장. 2026-09-09 CEO 문장 "설치는 끝이 아니라 시작입니다."
             '시작' 한 어절만 실제로 발광한다.

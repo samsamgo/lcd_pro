@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { motion, useScroll, useSpring, useTransform } from 'framer-motion'
 
 /**
  * 신조 한 문장 — "가장 강력한 메시지는 말 없이도 빛나는 법이다."
@@ -33,6 +34,15 @@ const SUB = ['오랫동안 안정적으로 작동하는 전광판,', '문제가 
 export function CompanyCredo() {
   const ref = useRef<HTMLElement>(null)
   const [lit, setLit] = useState(false)
+
+  /**
+   * 🔴 2026-09-09 추가 — 배경 방사광이 스크롤 진행에 맞춰 **커진다**(0.6 → 1.2).
+   *    문장이 켜지는 것만으로는 이 장이 정지 화면이었다. 빛이 차오르면서 커져야
+   *    "점등되는 중" 으로 읽힌다. scale 뿐이라 레이아웃 재계산이 없다.
+   */
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
+  const p = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.4 })
+  const glowScale = useTransform(p, [0, 1], [0.6, 1.2])
 
   useEffect(() => {
     const el = ref.current
@@ -67,11 +77,12 @@ export function CompanyCredo() {
       className="relative isolate overflow-hidden bg-wk-night py-32 md:py-44 lg:py-52"
     >
       {/* 뒤에서 번지는 빛 — 사진이 아니라 빛 자체다. 문장이 켜질 때 같이 차오른다 */}
-      <div
+      <motion.div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 transition-opacity duration-[2200ms] ease-out"
+        className="pointer-events-none absolute inset-0 transition-opacity duration-[2200ms] ease-out will-change-transform"
         style={{
           opacity: lit ? 1 : 0,
+          scale: glowScale,
           background:
             'radial-gradient(52% 44% at 50% 52%, rgba(222,103,29,.20) 0%, rgba(222,103,29,.07) 42%, transparent 72%)',
         }}

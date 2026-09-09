@@ -32,7 +32,7 @@ export function CompanyStatement() {
       {/* 배경 — 켜져 있는 화면 한 장. 캡션 없는 순수 배경 층이라 실적 주장이 아니다 */}
       <div aria-hidden="true" className="absolute inset-0">
         <Image
-          src={IMAGES.company.statement}
+          src={IMAGES.company.opening}
           alt=""
           fill
           sizes="100vw"

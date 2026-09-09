@@ -215,9 +215,23 @@ export const IMAGES = {
     chapter2: G('gen-8'),
     /** 흡착판으로 전면에서 모듈을 빼내는 국내 기술자 */
     chapter3: G('gen-9'),
-    /** 2026-09-08 — 회사소개 여는 장(CompanyStatement) 배경. 캡션 없는 순수 배경 층이라
-     *  실적 주장이 아니다. 야간 옥상 컷으로 문자·인물·지역성이 없다. 다른 자리에 쓰지 않는다. */
-    statement: W('A2_rooftop-rain-night'),
+    /**
+     * 회사소개 여는 장(`AboutOpening`) — 스크롤로 열리는 창 안의 사진.
+     *
+     * 🔴 2026-09-09 키 이름을 `statement` → `opening` 으로 바꿨다. 사진은 그대로다.
+     *    `CompanyStatement`(배선 해제 상태)가 쓰던 자리를 새 여는 장이 이어받았다.
+     *
+     * 후보 4장을 **원본을 열어 한 장씩 보고** 골랐다(파일명으로 고르지 말 것) —
+     *  · F5_ferry-terminal  탈락. 화면에 영문 'NEXT SAILINGS / Island One', 주간
+     *  · H6_handover-dusk   탈락. 미국식 목주 배전주·해외 작업자
+     *  · I4_rooftop-laptop  보류. 석양 옥상 LED 후면. 결격은 없지만 도심 야경이 아니다
+     *  · K25_local-theater  탈락. 실내 강당이고 흰 화면이 커서 흰 헤드라인과 싸운다
+     * → 채택 = A2_rooftop-rain-night. 케이시스 오프닝(부감 야경 교차로)과 성격이 같다 —
+     *   비 온 야간 도심, 옥상 대형 LED, 국내 간판·차량·전주. 얼굴 0 · 판독되는 영문 0.
+     *
+     * 🔴 **캡션 없는 배경 층으로만 쓴다.** 우리 시공 사진이 아니다. 실적 주장 금지.
+     */
+    opening: W('A2_rooftop-rain-night'),
   },
 
   /* ── 솔루션(공급 범위) 6공정 ───────────────────────── */
