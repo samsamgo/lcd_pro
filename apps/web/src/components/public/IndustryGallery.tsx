@@ -64,7 +64,7 @@ export function IndustryGallery({
                 n === active ? 'ring-2 ring-wk-cta' : 'opacity-70 ring-1 ring-black/10 hover:opacity-100'
               }`}
             >
-              <Image src={shot.src} alt="" fill sizes="200px" className="object-cover" />
+              <Image src={shot.src} alt="" aria-hidden="true" fill sizes="200px" className="object-cover" />
             </button>
           ))}
         </div>

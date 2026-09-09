@@ -63,8 +63,8 @@ export function CompanyAtAGlance() {
       q: '무슨 회사',
       a: 'LED 전광판·전자현수막을 만드는 사이니지 업체',
       sub: '설계 · 제작 · 시공 · 유지보수',
-      href: '#process',
-      cta: '설치 과정 보기',
+      href: '#why',
+      cta: '왜 우강테크인가',
     },
     {
       q: '설치 분야',

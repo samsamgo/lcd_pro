@@ -2,6 +2,8 @@ import type { MetadataRoute } from 'next'
 import { SITE } from '@/lib/seo/site'
 import { INDUSTRIES } from '@/lib/industries'
 import { PRODUCT_MODELS } from '@/lib/productModels'
+import { PRODUCTS } from '@/lib/products'
+import { skuToSegment } from '@/lib/productCategories'
 
 export const dynamic = 'force-static'
 export const revalidate = 3600
@@ -45,7 +47,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }))
 
-  // 2026-09-09 감사: /industries/[slug] 15개는 자리별 검색 유입용 정적 페이지 — 모달에서 링크하고 사이트맵에도 싣는다
   const industryEntries: MetadataRoute.Sitemap = INDUSTRIES.map((i) => ({
     url: `${base}/industries/${i.slug}`,
     lastModified: now,
@@ -53,5 +54,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }))
 
-  return [...staticEntries, ...modelEntries, ...industryEntries]
+  const productEntries: MetadataRoute.Sitemap = PRODUCTS.map((product) => ({
+    url: `${base}/products/${skuToSegment(product.sku)}`,
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
+  }))
+
+  return [...staticEntries, ...modelEntries, ...industryEntries, ...productEntries]
 }

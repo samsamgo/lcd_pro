@@ -194,6 +194,7 @@ export function HeroSlider() {
                 <Image
                   src={s.src}
                   alt=""
+                  aria-hidden="true"
                   fill
                   priority={n === 0}
                   fetchPriority={n === 0 ? 'high' : 'auto'}

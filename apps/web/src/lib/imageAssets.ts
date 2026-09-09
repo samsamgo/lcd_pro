@@ -142,7 +142,7 @@ export const IMAGES = {
     /** 3 · gen-55 는 2026-09-08 quoteHero 로 갔다(SceneSlider 는 배선 해제 상태). 자리는 gen-53 지주형 유도사인으로 메운다 */
     G('gen-53'),
     /** 4 · 도서관 로비 세로형 스탠드 '이용 안내' */
-    G('gen-25'),
+    W('K07_library-plaza-overcast'), // 2026-09-09 gen-25 는 industry.institution 으로
   ],
 
   /** 홈 — 설치 장면 갤러리 (격자라 축소본을 쓴다) */
@@ -156,19 +156,23 @@ export const IMAGES = {
     // 2026-09-06 증량 — 화면에 한국어 문구가 뜬 국내 현장 (CEO 기준)
     // 2026-09-08 gen-26 은 category.outdoor 로 갔다. 이 갤러리는 배선 해제 상태(ScreenGallery)라 gen-23 으로 메운다
     G('gen-23'),
-    G('gen-3'),
+    S('K10_highschool-entrance-winter'), // 2026-09-09 gen-3 은 industry.school 로. K10 '신입생 환영' spare 에서
     S('B3_bus-stop-arrival'),
   ],
 
   /* ── 업종 ──────────────────────────────────────────── */
   /** lib/industries.ts 의 heroImage 가 사용 */
   industry: {
-    'public-office': W('K01_district-office-canopy-overcast'),
-    school: W('K09_elementary-gate-cloudy'),
+    /* 2026-09-09 K01(단색 문자전광판) → K21. 이 페이지는 권장 P2.5 인데 사진이 P10급 문자보드였다 */
+    'public-office': W('K21_government-lobby-fluorescent'),
+    /* 2026-09-09 K09 는 화면 글자가 '등곳길'(깨진 한글)이라 퇴출. gen-3 = 학교 담장 풀컬러 '오늘의 급식 안내' */
+    school: G('gen-3'),
     banner: W('K08_office-rainy-evening'),
-    institution: W('K07_library-plaza-overcast'),
+    /* 2026-09-09 K07(소형 문자보드) → gen-25 도서관 이용안내 키오스크. 권장 P2.5 와 맞춘다. K07 은 homeScenes 로 */
+    institution: G('gen-25'),
     retail: W('D1_cafe-storefront-night'),
-    'outdoor-ad': W('A7_aerial-night-block'),
+    /* 2026-09-09 A7 은 배경이 일본풍 저층가 → 퇴출(CEO "배경은 한국"). gen-56 = 국내 상가 옥상 풀컬러 */
+    'outdoor-ad': G('gen-56'),
     // 2026-09-07 설치 사례 확충 9건.
     // 전부 화면에 한국어 안내 문구가 떠 있는 컷만 골랐다(§13 AI 티 판정 기준).
     // 앞의 5장은 `spare` 에서 옮겨왔다 — 같은 파일을 두 자리에 두면 중복검사가 경고한다.
@@ -184,7 +188,7 @@ export const IMAGES = {
   } as Record<string, string>,
 
   /** 업종 페이지 히어로 */
-  industriesHero: W('K21_government-lobby-fluorescent'),
+  industriesHero: W('K01_district-office-canopy-overcast'), // 2026-09-09 K21 과 자리 맞바꿈
 
   /** 업종 페이지 보조 장면 — 시설 유형별 */
   /** ⚠️ 현재 화면에 렌더링되지 않는다. 업종 페이지 확장 시 쓸 예비 컷. */
@@ -292,7 +296,8 @@ export const IMAGES = {
 
   /** /industries "걸면 뭐가 뜨나" 4장 — 전부 화면에 한국어 문구가 떠 있다 */
   /* gen-31 은 2026-09-08 category.sports 로 갔다 (IndustryScenes 는 배선 해제 상태) */
-  industryShowing: [G('gen-17'), G('gen-2'), G('gen-32'), G('gen-47')],
+  /* 2026-09-09 gen-17 은 화면 글자가 '등곳길'(깨진 한글) → K11 '학부모 공개수업' 으로 */
+  industryShowing: [W('K11_school-auditorium-fluorescent'), G('gen-2'), G('gen-32'), G('gen-47')],
   /**
    * 🔴 2026-09-07 `mountScene: G('gen-44')` 를 여기서 뺐다 (CEO 지시).
    *
@@ -309,12 +314,15 @@ export const IMAGES = {
   /** /support 사후관리 — 모듈을 앞에서 빼내는 장면 */
   afterService: G('gen-42'),
   productCards: {
+    /* 2026-09-09 키를 실제 SKU(lib/products.ts) 이름으로 정리했다. 전에는 키가 IN-L/OUT-L 인데
+       products.ts 가 한 칸씩 밀려 참조해(OUT-S 카드 → 'IN-L' 키) 파일명만 보면 실내외가 뒤바뀐 듯 읽혔다.
+       사진 자체는 각 카드의 환경·피치와 맞다 — 참조만 자기 SKU 로 맞춘다. */
     'IN-S': G('gen-16'),
     'IN-M': G('gen-14'),
-    'IN-L': G('gen-15'),
-    'OUT-S': G('gen-11'),
-    'OUT-M': G('gen-10'),
-    'OUT-L': G('gen-1'),
+    'OUT-S': G('gen-15'),
+    'OUT-M': G('gen-11'),
+    'OUT-L': G('gen-10'),
+    'P2.5': G('gen-1'),
   } as Record<string, string>,
   /** 제품 상세 쇼케이스 — 구조·배선·방열·마감 */
   showcase: [
@@ -385,7 +393,7 @@ export const IMAGES = {
   pageHeaders: {
     /** 2026-09-08 C4(미국 관제실, 영문 대시보드) → K28 '점검중' 모듈 검사 컷. 인증 = 검사다 */
     certification: W('K28_gloved-module-inspection'),
-    downloads: W('C6_office-reception'),
+    downloads: W('K25_local-theater-rehearsal-light'), // 2026-09-09 C6 은 화면이 영문 'Create Connect Inspire'
     /** 2026-09-08 D5(해외 자동차 쇼룸, 화면 그라데이션) → K27 캐비닛 후면 '주차장 이용 안내' 실물 컷 */
     specs: W('K27_cabinet-back-workshop'),
   } as Record<string, string>,
@@ -438,9 +446,6 @@ export const IMAGES = {
     S('J3_floating-module-studio'),
     /* K10 = 국내 고교 정문 실사('신입생 환영'). 히어로 후보였으나 전광판이 프레임의 24% 로
        작아 "더 크게 보이게" 라는 이번 지시와 맞지 않아 남겨 뒀다. 카드·썸네일 자리에는 적합 */
-    S('K10_highschool-entrance-winter'),
-    S('K11_school-auditorium-fluorescent'),
-    S('K25_local-theater-rehearsal-light'),
   ],
 } as const
 

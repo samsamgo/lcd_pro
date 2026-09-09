@@ -74,6 +74,7 @@ export function CompanyHero() {
         <Image
           src={IMAGES.company.hero}
           alt=""
+          aria-hidden="true"
           fill
           priority
           sizes="100vw"

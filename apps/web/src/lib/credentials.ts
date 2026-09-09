@@ -195,12 +195,6 @@ export const HISTORY: HistoryEntry[] = [
     ref: 'startup',
   },
   {
-    date: '2026.08.10',
-    title: 'KC 적합등록 — 전원장치(SMPS)',
-    detail: '국립전파연구원',
-    ref: 'kc-smps',
-  },
-  {
     date: '2026.08.19',
     title: '공장 등록',
     detail: '대전산업단지관리공단 · 전시 및 광고용 조명장치 제조업',

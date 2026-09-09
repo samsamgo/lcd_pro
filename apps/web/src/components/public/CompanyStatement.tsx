@@ -34,6 +34,7 @@ export function CompanyStatement() {
         <Image
           src={IMAGES.company.opening}
           alt=""
+          aria-hidden="true"
           fill
           sizes="100vw"
           quality={55}

@@ -64,7 +64,7 @@ export const PRODUCT_MODELS: ProductModel[] = [
     form: 'module',
     name: '초고해상도 실내 LED (COB)',
     tagline: '가장 촘촘한 간격이 0.9mm대. 바로 앞에서 봐도 선명한 회의실·상황실용 고해상도 모델입니다.',
-    images: [{ src: `${IMG}/cob-fine-1.png`, alt: '가상화소 COB 모듈의 앞면과 뒷면' }],
+    images: [{ src: `${IMG}/cob-fine-1.webp`, alt: '가상화소 COB 모듈의 앞면과 뒷면' }],
     pitches: ['P0.9', 'P1.25', 'P1.538'],
     features: ['가상화소 구현 방식', '전·후면 보호 구조', 'COB 플립칩', '동급 대비 낮은 단가'],
     specRows: [
@@ -89,7 +89,7 @@ export const PRODUCT_MODELS: ProductModel[] = [
     form: 'module',
     name: '고해상도 실내 LED (COB)',
     tagline: '표면이 매끈하게 코팅돼 긁힘과 습기에 강한 실내 고해상도 모델입니다. 로비·복도처럼 사람이 가까이 오는 자리에 맞습니다.',
-    images: [{ src: `${IMG}/cob-1.png`, alt: 'COB 모듈의 표시면과 뒷면 구조' }],
+    images: [{ src: `${IMG}/cob-1.webp`, alt: 'COB 모듈의 표시면과 뒷면 구조' }],
     pitches: ['P1.25', 'P1.53', 'P1.86'],
     features: ['군더더기 없는 표면 구조', '풀 플립칩 COB', '실내 근거리 표시', '상시 재고 구성 운용'],
     specRows: [
@@ -114,7 +114,7 @@ export const PRODUCT_MODELS: ProductModel[] = [
     form: 'module',
     name: '실내 표준형 LED',
     tagline: '민원실·로비·회의실에 가장 많이 쓰는 기본 실내 모델입니다. 화소 간격 8가지 중 고릅니다.',
-    images: [{ src: `${IMG}/core-i-1.png`, alt: '실내 표준 모듈의 표시면과 뒷면 기판' }],
+    images: [{ src: `${IMG}/core-i-1.webp`, alt: '실내 표준 모듈의 표시면과 뒷면 기판' }],
     pitches: ['P1.25', 'P1.538', 'P1.86', 'P2', 'P2.5', 'P3', 'P3.076', 'P4'],
     features: ['가벼운 구조', '안정된 동작', '실내 조명 아래에서의 표시 품질', '방열 설계'],
     specRows: [
@@ -148,7 +148,7 @@ export const PRODUCT_MODELS: ProductModel[] = [
     envLabel: '실내 · 실외',
     name: '방송·촬영용 고주사율 LED',
     tagline: '카메라로 찍어도 화면이 떨리거나 줄이 생기지 않는 모델입니다. 방송 스튜디오·행사 무대·중계가 있는 경기장용, 실내·실외 모두 가능합니다.',
-    images: [{ src: `${IMG}/prime-1.png`, alt: '고주사 모듈의 표시면과 뒷면 기판' }],
+    images: [{ src: `${IMG}/prime-1.webp`, alt: '고주사 모듈의 표시면과 뒷면 기판' }],
     // 2026-09-09 전수 대조: 열 머리 P1.53 은 아래 '화소 간격' 행의 1.538mm 와 어긋났다.
     // 카탈로그 규격표의 실제 값(1.538mm)에 맞춰 P1.538 로 고친다(다른 시리즈 표기와도 일치).
     pitches: ['P1.25', 'P1.538', 'P1.86', 'P2', 'P2.5', 'P2.5 실외', 'P3.076 실외', 'P4 실외', 'P5 실외'],
@@ -184,7 +184,7 @@ export const PRODUCT_MODELS: ProductModel[] = [
     form: 'module',
     name: '곡면형 LED (휘어지는 모듈)',
     tagline: '기둥·아치·곡면 벽처럼 평평하지 않은 자리에 붙이는 휘어지는 모델입니다.',
-    images: [{ src: `${IMG}/curve-f-1.png`, alt: 'S자로 휘어진 연성 LED 모듈' }],
+    images: [{ src: `${IMG}/curve-f-1.webp`, alt: 'S자로 휘어진 연성 LED 모듈' }],
     pitches: ['P1.25', 'P1.538', 'P1.86', 'P2', 'P2.5', 'P3.076'],
     features: ['자유로운 형상 구성', '작고 가벼움', '고무 바닥 구조', '설치가 간단함'],
     specRows: [
@@ -216,7 +216,7 @@ export const PRODUCT_MODELS: ProductModel[] = [
     form: 'cabinet',
     name: '초슬림 실내 LED',
     tagline: '두께 29.8mm. 벽에 액자처럼 얇게 붙여야 하는 실내 자리에 맞는 모델입니다.',
-    images: [{ src: `${IMG}/slim-m-1.png`, alt: '초박형 실내 LED 캐비닛의 앞면과 뒷면' }],
+    images: [{ src: `${IMG}/slim-m-1.webp`, alt: '초박형 실내 LED 캐비닛의 앞면과 뒷면' }],
     pitches: ['P0.9', 'P1.2', 'P1.5', 'P1.8'],
     features: ['일체형 3-in-1 구성', '설치 정밀도', '가장 얇은 패널 두께 29.8mm', '전면 유지보수'],
     specRows: [
@@ -242,7 +242,7 @@ export const PRODUCT_MODELS: ProductModel[] = [
     form: 'cabinet',
     name: '전면 정비형 실내 LED',
     tagline: '고장 시 앞에서 모듈을 빼서 고치는 모델입니다. 벽에 밀착 시공해 뒤 공간이 없는 자리에 맞습니다.',
-    images: [{ src: `${IMG}/front-x-1.png`, alt: '전면 유지보수 실내 LED 캐비닛의 뒷면 구조와 표시면' }],
+    images: [{ src: `${IMG}/front-x-1.webp`, alt: '전면 유지보수 실내 LED 캐비닛의 뒷면 구조와 표시면' }],
     pitches: ['P1.25', 'P1.538', 'P1.839', 'P1.86', 'P2', 'P2.5', 'P3.07', 'P4'],
     features: ['자체 설계 캐비닛', '높은 밝기·명암비·리프레시', '구성 자유도', '기존 시스템과의 호환'],
     specRows: [
@@ -271,7 +271,7 @@ export const PRODUCT_MODELS: ProductModel[] = [
     form: 'cabinet',
     name: '실내 보급형 LED',
     tagline: '가격 부담을 줄인 실내 기본 모델입니다. 앞뒤 어느 쪽에서도 정비할 수 있습니다.',
-    images: [{ src: `${IMG}/base-c-1.png`, alt: '실내 보급형 LED 캐비닛의 뒷면 구조와 표시면' }],
+    images: [{ src: `${IMG}/base-c-1.webp`, alt: '실내 보급형 LED 캐비닛의 뒷면 구조와 표시면' }],
     pitches: ['P1.86', 'P2', 'P2.5'],
     features: ['전용 시스템 카드', '가격 대비 성능', '운송 방식 선택 가능', '높은 강성과 평탄도'],
     specRows: [
@@ -299,7 +299,7 @@ export const PRODUCT_MODELS: ProductModel[] = [
     form: 'module',
     name: '실외 표준형 LED',
     tagline: '정문·도로변·전자현수막 게시대에 가장 많이 쓰는 기본 실외 모델입니다. 햇빛 아래에서도 잘 보입니다.',
-    images: [{ src: `${IMG}/core-o-1.png`, alt: '실외 표준 모듈의 표시면과 뒷면 기판' }],
+    images: [{ src: `${IMG}/core-o-1.webp`, alt: '실외 표준 모듈의 표시면과 뒷면 기판' }],
     pitches: ['P2.5', 'P3.076', 'P4', 'P5', 'P6', 'P8', 'P10'],
     features: ['가벼운 구조', '안정된 동작', '실외 표시 품질', '방열 설계', '고휘도 사양 선택 가능(5,500~6,000nit)'],
     specRows: [
@@ -332,7 +332,7 @@ export const PRODUCT_MODELS: ProductModel[] = [
     form: 'cabinet',
     name: '실외 방수형 LED (IP65)',
     tagline: '비·눈을 직접 맞는 건물 외벽·옥외 구조물용 방수 모델입니다. 960×960mm 캐비닛을 이어 붙여 대형 화면을 만듭니다.',
-    images: [{ src: `${IMG}/shield-o-1.png`, alt: '실외 IP65 LED 캐비닛의 뒷면 구조와 표시면' }],
+    images: [{ src: `${IMG}/shield-o-1.webp`, alt: '실외 IP65 LED 캐비닛의 뒷면 구조와 표시면' }],
     pitches: ['P2.5', 'P3.076', 'P4', 'P5', 'P6.67', 'P8', 'P10'],
     features: ['표준 호환 캐비닛', '더 얇고 가벼운 구조', 'IP65 방수 구조', '높은 밝기와 명암비'],
     specRows: [
@@ -363,7 +363,7 @@ export const PRODUCT_MODELS: ProductModel[] = [
     envLabel: '렌탈 (실내 · 실외)',
     name: '행사·렌탈용 LED 모듈',
     tagline: '공연·행사장에서 설치했다 철거하는 임시 화면용 모델입니다. 실내·실외 모두 가능합니다.',
-    images: [{ src: `${IMG}/stage-r-1.png`, alt: '렌탈용 250mm 정사각 LED 모듈의 뒷면과 표시면' }],
+    images: [{ src: `${IMG}/stage-r-1.webp`, alt: '렌탈용 250mm 정사각 LED 모듈의 뒷면과 표시면' }],
     pitches: ['P2.6 실내', 'P2.9 실내', 'P3.91 실내', 'P3.91 실외', 'P4.81 실외'],
     features: ['250mm × 250mm 정사각', '안정된 동작', '단순한 외형', '500×500 / 500×1000 렌탈 캐비닛에 적용'],
     specRows: [
@@ -398,7 +398,7 @@ export const PRODUCT_MODELS: ProductModel[] = [
     envLabel: '렌탈 (실내 · 실외)',
     name: '행사·렌탈용 LED 캐비닛',
     tagline: '손잡이와 잠금장치가 있어 빠르게 조립·철거하는 행사용 모델입니다. 곡면으로도 이어 붙습니다.',
-    images: [{ src: `${IMG}/stage-c-1.png`, alt: '렌탈용 LED 캐비닛의 표시면과 잠금장치가 보이는 뒷면' }],
+    images: [{ src: `${IMG}/stage-c-1.webp`, alt: '렌탈용 LED 캐비닛의 표시면과 잠금장치가 보이는 뒷면' }],
     pitches: ['P2.6 실내', 'P3.9 실외'],
     features: ['가벼움', '곡면 잠금 구조', '다중 연결', '방열 설계'],
     specRows: [

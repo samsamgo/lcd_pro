@@ -30,8 +30,9 @@ export function generateMetadata({ params }: PageProps): Metadata {
 
   return buildMetadata({
     title: `${industry.keyword}`,
-    description: industry.description,
-    path: `/industries/${params.slug}`,
+    description: `${industry.description} ${industry.solutions.map((solution) => solution.desc).join(' ')}`,
+    path: `/industries/${industry.slug}`,
+    ogImage: industry.heroImage,
   })
 }
 
@@ -42,6 +43,11 @@ export default function IndustryPage({ params }: PageProps) {
   const products = industry.recommendedSkus
     .map((sku) => PRODUCTS.find((product) => product.sku === sku))
     .filter((product): product is (typeof PRODUCTS)[number] => Boolean(product))
+  const industryIndex = INDUSTRIES.findIndex((item) => item.slug === industry.slug)
+  const relatedIndustries = Array.from(
+    { length: Math.min(3, INDUSTRIES.length - 1) },
+    (_, offset) => INDUSTRIES[(industryIndex + offset + 1) % INDUSTRIES.length],
+  )
 
   return (
     <>
@@ -139,6 +145,24 @@ export default function IndustryPage({ params }: PageProps) {
             </div>
           </section>
         )}
+
+        <section className="wk-sec bg-wk-bg" aria-labelledby="related-industries-h">
+          <div className="wk-wrap">
+            <h2 id="related-industries-h" className="wk-h2 text-wk-ink">다른 설치 자리</h2>
+            <ul className="mt-6 grid gap-3 md:grid-cols-3">
+              {relatedIndustries.map((related) => (
+                <li key={related.slug}>
+                  <Link href={`/industries/${related.slug}`} className="block rounded-card-m border border-wk-line bg-white p-5 text-label font-semibold text-wk-ink transition-colors hover:border-wk-ink">
+                    {related.nameKo} 자세히 보기 →
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <Link href="/industries" className="mt-7 inline-block text-label font-semibold text-wk-cta underline-offset-4 hover:underline">
+              시공사례 목록으로 돌아가기
+            </Link>
+          </div>
+        </section>
 
         <CtaSection />
       </main>

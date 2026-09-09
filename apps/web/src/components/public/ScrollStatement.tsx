@@ -54,6 +54,7 @@ export function ScrollStatement({
           <Image
             src={bg}
             alt=""
+            aria-hidden="true"
             fill
             sizes="100vw"
             quality={45}

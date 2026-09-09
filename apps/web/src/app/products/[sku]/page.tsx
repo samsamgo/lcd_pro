@@ -15,6 +15,7 @@ import { breadcrumbLd } from '@/lib/seo/jsonld'
 import { absoluteUrl, buildMetadata } from '@/lib/seo/site'
 
 export const dynamic = 'force-static'
+export const dynamicParams = false
 
 type PageProps = { params: { sku: string } }
 
@@ -35,11 +36,10 @@ export function generateMetadata({ params }: PageProps): Metadata {
   //    정규화된 세그먼트 하나만 정본으로 가리킨다.
   const segment = skuToSegment(product.sku)
   return buildMetadata({
-    // 2026-09-09 감사: 견적엔진용 SKU 페이지는 어디서도 링크하지 않는 고아 라우트 → 색인 제외
-    noindex: true,
     title: product.name,
-    description: product.summary,
+    description: `${product.summary} 주요 특징은 ${product.highlights.join(', ')}이며, 추천 공간은 ${product.bestFor.join(', ')}입니다.`,
     path: `/products/${segment}`,
+    ogImage: product.img,
   })
 }
 
@@ -61,6 +61,7 @@ export default function ProductPage({ params }: PageProps) {
   const siblings = category
     ? category.skus.filter((s) => s !== product.sku).map((s) => PRODUCTS.find((p) => p.sku === s)).filter((p): p is (typeof PRODUCTS)[number] => !!p)
     : []
+  const relatedProducts = PRODUCTS.filter((item) => item.sku !== product.sku).slice(0, 3)
   const specs: [string, string][] = [
     ['화소 간격', product.pitch],
     ['밝기', product.brightness],
@@ -77,7 +78,7 @@ export default function ProductPage({ params }: PageProps) {
         data={breadcrumbLd([
           { name: '홈', url: absoluteUrl('/') },
           { name: '제품', url: absoluteUrl('/products') },
-          { name: product.name, url: absoluteUrl(`/products/${params.sku}`) },
+          { name: product.name, url: absoluteUrl(`/products/${skuToSegment(product.sku)}`) },
         ])}
       />
       <NavBar />
@@ -89,10 +90,6 @@ export default function ProductPage({ params }: PageProps) {
           image={product.img}
           imageAlt={product.imgAlt}
         />
-        {/* 🔴 2026-09-09 — 카테고리 페이지가 사라져 돌아갈 곳은 제품 전체뿐이다.
-            이 라우트(견적 SKU 6종)는 견적엔진이 참조하므로 **주소는 살려 두되**
-            네비·카드 어디에서도 링크하지 않는다. */}
-
         <section className="wk-sec bg-white">
           <div className="wk-wrap grid gap-10 lg:grid-cols-[7fr_5fr] lg:gap-16">
             {/* 표 */}
@@ -155,6 +152,21 @@ export default function ProductPage({ params }: PageProps) {
                   </ul>
                 </div>
               )}
+              <div className="mt-6 border-t border-wk-line pt-6">
+                <p className="text-caption font-semibold text-wk-ink3">다른 SKU</p>
+                <ul className="mt-3 space-y-2">
+                  {relatedProducts.map((related) => (
+                    <li key={related.sku}>
+                      <Link href={`/products/${skuToSegment(related.sku)}`} className="text-label font-semibold text-wk-ink2 underline-offset-4 hover:text-wk-ink hover:underline">
+                        {related.name} 자세히 보기
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+                <Link href="/products" className="mt-5 inline-block text-label font-semibold text-wk-cta underline-offset-4 hover:underline">
+                  제품 목록으로 돌아가기
+                </Link>
+              </div>
             </div>
           </div>
         </section>

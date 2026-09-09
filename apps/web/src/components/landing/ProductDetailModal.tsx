@@ -6,6 +6,7 @@ import { ArrowRight, Building2, Sun, Check } from 'lucide-react'
 import { Modal } from '@/components/ui/Modal'
 import { SKU_PRICE_FROM, PRICE_DISCLAIMER } from '@/lib/pricing'
 import { MAX_W_PER_M2_BY_PITCH, type ProductInfo } from '@/lib/products'
+import { skuToSegment } from '@/lib/productCategories'
 import { useSiteModals } from '@/components/modals/SiteModals'
 
 export function ProductDetailModal({
@@ -115,6 +116,12 @@ export function ProductDetailModal({
               빠른 상담
             </button>
           </div>
+
+          <p className="mt-4 text-center text-sm">
+            <Link href={`/products/${skuToSegment(product.sku)}`} onClick={onClose} className="font-semibold text-wk-cta underline-offset-4 hover:underline">
+              제품 상세 페이지에서 자세히 보기
+            </Link>
+          </p>
 
           <p className="mt-3 text-xs text-wk-ink3">* {PRICE_DISCLAIMER}</p>
         </div>

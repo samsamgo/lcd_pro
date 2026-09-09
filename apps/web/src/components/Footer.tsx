@@ -25,7 +25,7 @@ export function Footer() {
           {/* 회사소개 — 네비 순서와 같게 */}
           <div className="space-y-3 text-sm">
             <p className="font-semibold text-wk-ink2">회사소개</p>
-            {/* 2026-09-09 감사: #intro·#process 는 사라진 앵커였다 — 실제 id(greeting/history/location)로 */}
+            {/* 앵커는 /about 의 실제 섹션 id(greeting/history/certification/location)와 맞춘다 — lib/subnav.ts ABOUT_SECTIONS 가 정본 */}
             <Link href="/about#greeting" className={LINK_CLASS}>인사말</Link>
             <Link href="/about#history" className={LINK_CLASS}>연혁</Link>
             <Link href="/about/certification" className={LINK_CLASS}>인증 · 서류</Link>

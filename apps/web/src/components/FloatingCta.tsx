@@ -40,15 +40,15 @@ export function FloatingCta() {
         shown ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-3 opacity-0'
       }`}
     >
+      {/* 2026-09-09 CEO "전화번호 더 눈에 띄게" — 번호를 호버 없이 항상 펼쳐 둔다.
+          담당자는 마우스를 올려 보기 전에 번호부터 찾는다. 숨겨 두면 없는 것과 같다. */}
       <a
         href={`tel:${TEL}`}
-        className="group flex h-12 items-center gap-0 overflow-hidden rounded-full border border-wk-line bg-white pl-3.5 pr-3.5 shadow-wk-2 transition-all duration-200 hover:border-wk-blue hover:pr-4"
+        className="flex h-12 items-center gap-2 rounded-full border border-wk-blue/40 bg-white pl-3.5 pr-4 shadow-wk-2 transition-colors duration-200 hover:border-wk-blue hover:bg-wk-blue/5"
         aria-label={`전화 문의 ${SITE.phone}`}
       >
         <Phone size={19} strokeWidth={1.9} className="shrink-0 text-wk-blue" aria-hidden="true" />
-        <span className="max-w-0 whitespace-nowrap text-sm font-semibold text-wk-ink opacity-0 transition-all duration-200 group-hover:ml-2 group-hover:max-w-[9rem] group-hover:opacity-100">
-          {SITE.phone}
-        </span>
+        <span className="wk-metric whitespace-nowrap text-sm font-bold tracking-tight text-wk-ink">{SITE.phone}</span>
       </a>
 
       <a

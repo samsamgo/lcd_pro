@@ -91,6 +91,7 @@ export default async function OG() {
           <img
             src={photo}
             alt=""
+            aria-hidden="true"
             width={1200}
             height={630}
             style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: '62% 40%' }}
@@ -129,7 +130,7 @@ export default async function OG() {
           <div style={{ display: 'flex', alignItems: 'center' }}>
             {logo ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={logo} alt="" width={86} height={72} style={{ width: 86, height: 72 }} />
+              <img src={logo} alt="" aria-hidden="true" width={86} height={72} style={{ width: 86, height: 72 }} />
             ) : (
               <div style={{ fontSize: 30, fontWeight: 800, letterSpacing: '-0.02em' }}>{SITE.nameKo}</div>
             )}

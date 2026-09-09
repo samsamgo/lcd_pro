@@ -5,6 +5,7 @@ import { NavBar } from '@/components/NavBar'
 import { PageHeader } from '@/components/PageHeader'
 import Link from 'next/link'
 import { ProductCatalog } from '@/components/products/ProductCatalog'
+import { ProductGrid } from '@/components/landing/ProductGrid'
 import { IMAGES } from '@/lib/imageAssets'
 import type { EnvFilter } from '@/lib/productModels'
 
@@ -29,6 +30,13 @@ export function ProductsPageBody({
       <main id="main">
         <PageHeader group="제품" title={title} lead={lead} image={IMAGES.productsHero} />
         <ProductCatalog initialEnv={env} />
+        <section className="wk-sec bg-white" aria-labelledby="sku-products-h">
+          <div className="wk-wrap">
+            <p className="wk-eyebrow">설치 기준 SKU</p>
+            <h2 id="sku-products-h" className="wk-h2 text-wk-ink">용도별 제품 자세히 보기</h2>
+            <div className="mt-8"><ProductGrid /></div>
+          </div>
+        </section>
         {/* 규격 비교표 — CEO 2026-09-09 "아래에 둬라". 필터 옆·네비에 두지 않는다 */}
         <section className="bg-wk-night pb-20 md:pb-28" aria-label="규격 비교표">
           <div className="wk-wrap">

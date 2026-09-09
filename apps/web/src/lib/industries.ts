@@ -190,7 +190,7 @@ export const INDUSTRIES: Industry[] = [
     priceHint: '보는 거리와 화면 크기가 잡히면 금액이 나옵니다',
     environment: 'indoor',
     heroImage: IMAGES.industry['public-office'],
-    heroImageAlt: '한국 공공 민원실 대기 공간 벽면의 대기 순번 안내 화면',
+    heroImageAlt: '한국 관공서 민원실 로비 벽면에 설치된 민원 안내 대형 실내 LED 화면',
     heroImageGenerated: true,
     gallery: [
       { src: IMAGES.industry['public-office'], alt: '한국 공공 민원실 대기 공간 벽면의 대기 순번 안내 화면' },
@@ -221,7 +221,7 @@ export const INDUSTRIES: Industry[] = [
     priceHint: '교내인지 운동장인지에서 크게 갈립니다. 위치부터 알려주십시오',
     environment: 'indoor',
     heroImage: IMAGES.industry['school'],
-    heroImageAlt: '밝은 낮 한국 학교 정문 위에 설치된 등굣길 안전 안내 전자현수막',
+    heroImageAlt: '한국 학교 정문 옆 담장에 설치된 풀컬러 LED 전광판에 오늘의 급식과 체육행사 안내가 표시된 모습',
     heroImageGenerated: true,
     gallery: [
       { src: IMAGES.industry['school'], alt: '밝은 낮 한국 학교 정문 위에 설치된 등굣길 안전 안내 전자현수막' },
@@ -284,7 +284,7 @@ export const INDUSTRIES: Industry[] = [
     priceHint: '설치 위치와 안내 화면 구성을 협의한 뒤 산출',
     environment: 'indoor',
     heroImage: IMAGES.industry['institution'],
-    heroImageAlt: '한국 공공 도서관 출입구 앞에 세워진 휴관일 안내 LED 게시판',
+    heroImageAlt: '한국 공공 도서관 로비에 세워진 이용 안내 LED 키오스크',
     heroImageGenerated: true,
     gallery: [
       { src: IMAGES.industry['institution'], alt: '한국 공공 도서관 출입구 앞에 세워진 휴관일 안내 LED 게시판' },
@@ -345,7 +345,7 @@ export const INDUSTRIES: Industry[] = [
     priceHint: '외벽을 보강해야 하는지에서 금액이 갈립니다',
     environment: 'outdoor',
     heroImage: IMAGES.industry['outdoor-ad'],
-    heroImageAlt: '도로변에서 멀리 보이는 대형 옥외 LED 광고 화면',
+    heroImageAlt: '비 갠 저녁 한국 상가 건물 옥상에 설치된 풀컬러 옥외 LED 광고 전광판',
     gallery: [
       { src: IMAGES.industry['outdoor-ad'], alt: '도로변에서 멀리 보이는 대형 옥외 LED 광고 화면' },
     ],

@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import {
-  Menu, X, ChevronDown,
+  Menu, X, ChevronDown, Phone,
 } from 'lucide-react'
 import { SITE } from '@/lib/seo/site'
 import { ABOUT_SECTIONS, PRODUCT_SUBNAV, SUPPORT_SECTIONS } from '@/lib/subnav'
@@ -334,14 +334,37 @@ export function NavBar() {
           ))}
         </nav>
 
-        {/* 🔴 2026-09-08 CEO 지시 — 헤더 우측은 비운다.
-            '빠른 상담'·'견적 문의하기' 버튼을 뺐고, 그 자리에 잠시 뒀던 대표번호도 뺐다("헤더에 전화번호도 빼라").
-            문의 동선은 우측 하단 플로팅(FloatingCta) 하나가 전담한다. 헤더는 길찾기만 한다.
-            같은 요청이 화면에 두 번 있으면 둘 다 광고처럼 읽힌다. */}
-        <div className="hidden w-[7.5rem] md:block" aria-hidden="true" />
+        {/* 2026-09-08 에는 헤더 우측을 비웠다("헤더에 전화번호도 빼라").
+            🔴 2026-09-09 CEO 재지시 "전화번호하고 컨택하는 거 눈에 더 잘 띄게" — 대표번호와 견적 버튼을 다시 올린다.
+            국내 시공사 사이트에서 담당자가 번호를 찾는 첫 자리가 헤더 우측이다. 버튼은 하나(견적)만, 번호는 글자로. */}
+        <div className="hidden items-center gap-3 md:flex">
+          <a
+            href={`tel:${SITE.phone.replace(/[^+\d]/g, '')}`}
+            className={`wk-metric flex items-center gap-1.5 whitespace-nowrap text-[15px] font-bold tracking-tight transition-colors duration-200 ${
+              onDark ? 'text-white hover:text-white/80' : 'text-wk-ink hover:text-wk-blue'
+            }`}
+            aria-label={`전화 문의 ${SITE.phone}`}
+          >
+            <Phone size={16} strokeWidth={2} aria-hidden="true" className={onDark ? 'text-white' : 'text-wk-blue'} />
+            {SITE.phone}
+          </a>
+          <Link
+            href="/quote"
+            className="flex h-10 items-center rounded-full bg-wk-cta px-4 text-sm font-bold text-white shadow-wk-glow transition-colors duration-200 hover:bg-wk-ctaActive"
+          >
+            견적 문의
+          </Link>
+        </div>
 
-        {/* 모바일 */}
-        <div className="flex items-center gap-2 md:hidden">
+        {/* 모바일 — 전화 아이콘은 햄버거 왼쪽. 폰에서 사이트를 연 담당자의 첫 동작이 통화다 */}
+        <div className="flex items-center gap-1 md:hidden">
+          <a
+            href={`tel:${SITE.phone.replace(/[^+\d]/g, '')}`}
+            className={`rounded-lg p-2 ${onDark ? 'text-white' : 'text-wk-blue'}`}
+            aria-label={`전화 문의 ${SITE.phone}`}
+          >
+            <Phone size={20} aria-hidden="true" />
+          </a>
           <button
             ref={menuBtnRef}
             className={`rounded-lg p-2 ${onDark ? 'text-white' : 'text-wk-ink2'}`}
@@ -387,7 +410,7 @@ export function NavBar() {
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto px-4 pb-4 pt-2">
+        <div className="flex flex-1 flex-col overflow-y-auto px-4 pb-6 pt-2">
           {NAV.map((g) => (
             <div key={g.label} className="border-b border-wk-line">
               {!g.children ? (
@@ -426,7 +449,26 @@ export function NavBar() {
               )}
             </div>
           ))}
-          {/* 2026-09-08 — 여기 있던 '빠른 상담'·'견적 문의하기' 버튼을 뺐다. 모바일은 하단 바(MobileCtaBar)가 같은 일을 이미 한다. 두 번 두면 둘 다 광고처럼 보인다 */}
+          {/* 2026-09-09 CEO "컨택 눈에 띄게" — 메뉴 맨 아래에 대표번호·견적 한 줄. 하단 바는 메뉴가 열리면 가려진다 */}
+          <div className="mt-auto border-t border-wk-line pt-5">
+            <a
+              href={`tel:${SITE.phone.replace(/[^+\d]/g, '')}`}
+              onClick={() => setOpen(false)}
+              className="flex items-center gap-2 py-2 text-base font-bold text-wk-ink"
+              aria-label={`전화 문의 ${SITE.phone}`}
+            >
+              <Phone size={18} className="text-wk-blue" aria-hidden="true" />
+              <span className="wk-metric tracking-tight">{SITE.phone}</span>
+              <span className="text-sm font-medium text-wk-ink3">{SITE.openingHours}</span>
+            </a>
+            <Link
+              href="/quote"
+              onClick={() => setOpen(false)}
+              className="mt-3 flex h-12 items-center justify-center rounded-btn bg-wk-cta text-base font-bold text-white"
+            >
+              견적 문의
+            </Link>
+          </div>
         </div>
       </div>
     </header>
