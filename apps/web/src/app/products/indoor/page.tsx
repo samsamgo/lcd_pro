@@ -30,7 +30,6 @@ export default function Page() {
         env="indoor"
         title="실내용 LED 전광판"
         lead="민원실·로비·회의실처럼 가까이서 보는 자리. 가까울수록 화소 간격을 좁게 잡습니다."
-        current="/products/indoor"
       />
     </>
   )

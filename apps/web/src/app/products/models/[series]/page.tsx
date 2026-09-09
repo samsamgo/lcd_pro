@@ -7,11 +7,9 @@ import { Footer } from '@/components/Footer'
 import { CtaSection } from '@/components/landing/CtaSection'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
 import { NavBar } from '@/components/NavBar'
-import { SubNav } from '@/components/SubNav'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { ModelInquiryButtons } from '@/components/products/ModelInquiryButtons'
 import { ModelSpecTable } from '@/components/products/ModelSpecTable'
-import { PRODUCT_SUBNAV } from '@/lib/subnav'
 import {
   envText,
   FORM_LABEL,
@@ -94,7 +92,6 @@ export default function ModelPage({ params }: PageProps) {
           </div>
         </section>
 
-        <SubNav back={{ label: '제품 전체', href: '/products' }} items={PRODUCT_SUBNAV} current="" />
 
         {/* 좌 큰 렌더 · 우 요약 + 문의 */}
         <section className="wk-sec bg-white">

@@ -23,11 +23,11 @@ export interface SubNavItem {
  *    `/products/indoor` · `/products/outdoor` 는 같은 화면에 필터가 미리 걸린 주소다.
  *    banner/facade/sports/traffic 라우트는 삭제하고 next.config.mjs 에서 /products 로 301 한다.
  */
+// 🔴 2026-09-09 CEO "제품에 필터 있으니까 하위 네비바 필요 없다. 규격 비교표는 아래에 두고 전체와 같이 두지 마라."
+//    → 제품 페이지의 SubNav(하위 바)는 제거. 이 배열은 네비바 드롭다운·푸터 전용. 규격 비교표는 /products 하단 링크.
 export const PRODUCT_SUBNAV: SubNavItem[] = [
-  { label: '전체', href: '/products' },
   { label: '실내용', href: '/products/indoor' },
   { label: '실외용', href: '/products/outdoor' },
-  { label: '규격 비교표', href: '/products/specs' },
 ]
 
 /** 제품 하위 탭 (호출부가 함수 형태를 쓰고 있어 유지) */

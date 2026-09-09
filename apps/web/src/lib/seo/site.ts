@@ -30,7 +30,7 @@ export const SITE = {
   url: RAW_URL,
   locale: 'ko_KR',
   defaultLanguage: 'ko',
-  email: 'contact@wooktech.co.kr',
+  email: 'wk_cop@naver.com', // 2026-09-09 CEO 확정
   // 대표번호 = 회사 유선번호. 정본은 대표 명함이다.
   // 2026-09-07 CEO 지시: "우강테크 전화번호로 하라." 개인 휴대폰(010-7272-6903)을 걷어냈다.
   // 관공서 담당자는 홈페이지·명함·제안서를 나란히 놓고 본다. 세 곳의 번호가 다르면 그 자체가 감점이다.

@@ -6,8 +6,6 @@ import { CtaSection } from '@/components/landing/CtaSection'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
 import { NavBar } from '@/components/NavBar'
 import { PageHeader } from '@/components/PageHeader'
-import { SubNav } from '@/components/SubNav'
-import { productSubNavItems } from '@/lib/subnav'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { PRODUCTS } from '@/lib/products'
 import { INDUSTRIES } from '@/lib/industries'
@@ -84,11 +82,6 @@ export default function ProductPage({ params }: PageProps) {
         {/* 🔴 2026-09-09 — 카테고리 페이지가 사라져 돌아갈 곳은 제품 전체뿐이다.
             이 라우트(견적 SKU 6종)는 견적엔진이 참조하므로 **주소는 살려 두되**
             네비·카드 어디에서도 링크하지 않는다. */}
-        <SubNav
-          back={{ label: '제품 전체', href: '/products' }}
-          items={productSubNavItems()}
-          current=""
-        />
 
         <section className="wk-sec bg-white">
           <div className="wk-wrap grid gap-10 lg:grid-cols-[7fr_5fr] lg:gap-16">

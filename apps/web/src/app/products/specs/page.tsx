@@ -2,8 +2,6 @@ import type { Metadata } from 'next'
 
 import { NavBar } from '@/components/NavBar'
 import { PageHeader } from '@/components/PageHeader'
-import { SubNav } from '@/components/SubNav'
-import { PRODUCT_SUBNAV } from '@/lib/subnav'
 import { IMAGES } from '@/lib/imageAssets'
 import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
@@ -40,11 +38,6 @@ export default function SpecsPage() {
           title="규격 비교표"
           lead="시리즈 12종의 화소 간격·구성 단위·방수 등급·보는 거리. 결재 서류에 그대로 옮기셔도 됩니다."
           image={IMAGES.pageHeaders.specs}
-        />
-        <SubNav
-          back={{ label: '제품 전체', href: '/products' }}
-          items={PRODUCT_SUBNAV}
-          current="/products/specs"
         />
         {/* 🔴 2026-09-09 CEO 지시 "이상한 거 다 지우고" — 여기 있던 견적 SKU 구성표
             (SpecCompareTable)를 뺐다. 규격 비교표는 **시리즈 12종 한 표** 하나만 한다.

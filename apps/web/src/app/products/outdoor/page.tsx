@@ -30,7 +30,6 @@ export default function Page() {
         env="outdoor"
         title="실외용 LED 전광판"
         lead="정문·도로변·건물 외벽처럼 밖에서 보는 자리. 멀리서 읽을수록 화면을 키우고 간격을 넓힙니다."
-        current="/products/outdoor"
       />
     </>
   )

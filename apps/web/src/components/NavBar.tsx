@@ -50,7 +50,6 @@ const ABOUT_DESC: Record<string, string> = {
   '오시는 길': '대전 대덕구',
 }
 const PRODUCT_DESC: Record<string, string> = {
-  '전체': '시리즈 12종 한 페이지',
   '실내용': '민원실·로비·회의실',
   '실외용': '정문·도로변·건물 외벽',
   '규격 비교표': '전 시리즈 규격 한 표',

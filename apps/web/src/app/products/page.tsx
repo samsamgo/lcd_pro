@@ -37,7 +37,6 @@ export default function ProductsPage() {
         env="all"
         title="제품"
         lead="전 시리즈 12종입니다. 실내용·실외용으로 걸러 보시고, 시리즈를 누르면 화소 간격별 전체 규격이 나옵니다."
-        current="/products"
       />
     </>
   )
