@@ -11,7 +11,9 @@ const config = {
    */
   async redirects() {
     return [
-      { source: '/services', destination: '/about#process', permanent: true },
+      /* 2026-09-09 — 회사소개 재설계로 `#process`(여섯 공정)가 사라졌다.
+         가장 가까운 자리인 '선택해야 하는 이유'(#why)로 보낸다. */
+      { source: '/services', destination: '/about#why', permanent: true },
       { source: '/about/location', destination: '/about#location', permanent: true },
       { source: '/faq', destination: '/support#faq', permanent: true },
       { source: '/support/downloads', destination: '/support#downloads', permanent: true },

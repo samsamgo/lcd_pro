@@ -1,84 +1,102 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
+import { ChevronLeft, ChevronRight, Phone } from 'lucide-react'
+
 import { Modal } from '@/components/ui/Modal'
-import type { Industry } from '@/lib/industries'
+import { IndustryGallery } from '@/components/public/IndustryGallery'
+import { siblingIndustries, type Industry } from '@/lib/industries'
+import { SITE } from '@/lib/seo/site'
 
 /**
- * 업종 상세 모달.
+ * 설치사례 상세 모달.
  *
- * 기존에는 업종마다 별도 페이지(/industries/[slug])로 넘어갔다.
- * 페이지가 6개로 갈리면서 회사 설명이 페이지마다 반복됐고, 글이 많아
- * 담당자가 필요한 것만 빠르게 훑기 어려웠다.
+ * 🔴 2026-09-09 CEO 지시 — "시공사례는 케이시스처럼 누르면 사진 크게 하고 간단하게 이것저것 나오게."
+ *    케이시스(ksys.co.kr) 설치사례 상세를 그대로 옮겼다:
+ *      설치 자리(작은 소제목) → 이름 큰 제목 → 큰 사진 + 썸네일 → 구축정보 표
+ *      → 이전·다음 → 전화·견적 버튼.
  *
- * 그래서 목록에서 누르면 모달로 띄운다. 내용은 세 덩어리로만 자른다.
- *   ① 어떤 현장인가(사진 + 한 줄)
- *   ② 담당자가 겪는 일 → 우리가 하는 일
- *   ③ 문의
- * 긴 설명은 넣지 않는다. 판단에 필요한 것만 남긴다.
+ *    이전 버전(2026-09-08)은 모달을 없애고 전부 상세 페이지로 보냈다. 그때 문제는
+ *    "같은 내용이 두 경로로 갈렸다"는 것이었지, 모달 자체가 아니었다. 이번에는 본문을
+ *    `IndustryGallery` 한 곳에 두고 모달과 상세 페이지가 **같은 컴포넌트**를 쓴다.
+ *
+ * 🔴 주소 동기화는 부모(`IndustryGrid`)가 `?case=<slug>` 로 한다.
+ *    모달인데 주소가 안 바뀌면 뒤로가기로 못 닫고 공유도 안 된다.
+ *
+ * ⚠️ 긴 설명은 넣지 않는다. 케이시스 상세에도 설명 문단이 없다 — 사진과 표뿐이다.
+ *    담당자는 자기 현장과 닮은 사진을 확인하러 여는 것이지 글을 읽으러 열지 않는다.
  */
 export function IndustryModal({
   industry,
   onClose,
+  onNavigate,
 }: {
   industry: Industry | null
   onClose: () => void
+  /** 이전/다음 자리로 이동 (부모가 주소도 같이 바꾼다) */
+  onNavigate?: (slug: string) => void
 }) {
   const i = industry
+  const sib = i ? siblingIndustries(i.slug) : null
+  const tel = SITE.phone.replace(/[^+\d]/g, '')
 
   return (
-    <Modal open={Boolean(i)} onClose={onClose} title={i?.nameKo} size="lg">
+    <Modal
+      open={Boolean(i)}
+      onClose={onClose}
+      size="xl"
+      title={i ? <span className="sr-only">{i.nameKo}</span> : undefined}
+    >
       {i && (
         <div className="space-y-6">
-          <div className="wk-card-img relative aspect-[16/9]">
-            <Image
-              src={i.heroImage}
-              alt={i.heroImageAlt}
-              fill
-              sizes="(max-width: 768px) 100vw, 640px"
-              className="object-cover"
-            />
-          </div>
+          <header>
+            <p className="text-label font-semibold text-wk-cta">{i.eyebrow}</p>
+            <h2 className="mt-1 text-h3 font-bold tracking-[-0.025em] text-wk-ink">{i.nameKo}</h2>
+            <p className="mt-2 text-label text-wk-ink3">{i.title}</p>
+          </header>
 
-          <p className="text-body text-wk-ink2">{i.description}</p>
+          <IndustryGallery industry={i} />
 
-          {/* 담당자가 겪는 일 */}
-          {i.pains?.length > 0 && (
-            <div>
-              <p className="wk-cap mb-2">이런 상황에서 씁니다</p>
-              <ul className="m-0 list-none space-y-2 p-0">
-                {i.pains.map((p) => (
-                  <li key={p} className="flex gap-2.5 text-label text-wk-ink3">
-                    <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-wk-ink4" />
-                    {p}
-                  </li>
-                ))}
-              </ul>
+          {/* 이전·다음 — 케이시스 상세 하단과 같은 자리. 사진을 훑는 사람이
+              목록으로 돌아갔다가 다시 열지 않아도 된다. */}
+          {sib && onNavigate && (
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={() => onNavigate(sib.prev.slug)}
+                className="flex min-w-0 items-center gap-2 rounded-card-m border border-wk-line bg-white px-4 py-3 text-left transition-colors duration-state ease-state hover:bg-wk-bg"
+              >
+                <ChevronLeft size={18} className="shrink-0 text-wk-ink4" aria-hidden="true" />
+                <span className="min-w-0">
+                  <span className="block text-caption text-wk-ink4">이전</span>
+                  <span className="block truncate text-label font-semibold text-wk-ink">{sib.prev.nameKo}</span>
+                </span>
+              </button>
+              <button
+                type="button"
+                onClick={() => onNavigate(sib.next.slug)}
+                className="flex min-w-0 items-center justify-end gap-2 rounded-card-m border border-wk-line bg-white px-4 py-3 text-right transition-colors duration-state ease-state hover:bg-wk-bg"
+              >
+                <span className="min-w-0">
+                  <span className="block text-caption text-wk-ink4">다음</span>
+                  <span className="block truncate text-label font-semibold text-wk-ink">{sib.next.nameKo}</span>
+                </span>
+                <ChevronRight size={18} className="shrink-0 text-wk-ink4" aria-hidden="true" />
+              </button>
             </div>
           )}
 
-          {/* 우리가 하는 일 */}
-          {i.solutions?.length > 0 && (
-            <div className="rounded-card-m bg-wk-bg px-4">
-              {i.solutions.map((s) => (
-                <div key={s.title} className="wk-row">
-                  <span className="flex-1">
-                    <b className="block text-body font-semibold text-wk-ink">{s.title}</b>
-                    <span className="mt-0.5 block text-label text-wk-ink3">
-                      {s.desc}
-                    </span>
-                  </span>
-                </div>
-              ))}
-            </div>
-          )}
-
-          <div className="flex flex-col gap-2">
-            <Link href={`/quote?type=${i.quoteType}`} className="wk-btn-p" onClick={onClose}>
-              이 조건으로 견적 요청
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <Link href={`/quote?type=${i.quoteType}`} className="wk-btn-p flex-1 justify-center" onClick={onClose}>
+              이 자리로 견적 받기
             </Link>
-            <p className="wk-cap">{i.priceHint}</p>
+            <a
+              href={`tel:${tel}`}
+              className="flex flex-1 items-center justify-center gap-2 rounded-btn border border-wk-line bg-white px-5 py-3 text-label font-semibold text-wk-ink transition-colors duration-state ease-state hover:bg-wk-bg"
+            >
+              <Phone size={16} aria-hidden="true" />
+              <span className="wk-metric">{SITE.phone}</span>
+            </a>
           </div>
         </div>
       )}

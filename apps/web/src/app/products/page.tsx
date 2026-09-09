@@ -5,7 +5,8 @@ import { PageHeader } from '@/components/PageHeader'
 import { IMAGES } from '@/lib/imageAssets'
 import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
-import { ProductsAtAGlance } from '@/components/products/ProductsAtAGlance'
+import { ProductEntryTiles } from '@/components/products/ProductEntryTiles'
+import { ProductCategoryGrid } from '@/components/products/ProductCategoryGrid'
 import { StructureShowcase } from '@/components/products/StructureShowcase'
 import { SubNav } from '@/components/SubNav'
 import { productSubNavItems } from '@/lib/subnav'
@@ -20,14 +21,18 @@ export const dynamic = 'force-static'
 export const metadata: Metadata = buildMetadata({
   title: '제품',
   description:
-    '민원실 창구 안내판부터 옥외 대형 전광판까지. 모델명이 아니라 설치 환경과 보는 거리로 고르도록 정리했습니다. 화소 간격·밝기·방수 등급과 기준 가격을 그대로 공개합니다.',
+    '실내용·실외용 LED 전광판 시리즈. 화소 간격별 전체 규격을 표로 공개합니다. 설치할 자리와 보는 거리로 고르시면 됩니다.',
   path: '/products',
 })
 
 /**
- * 제품 페이지 — 카테고리 6종 × 소속 모델을 한 화면에 전부 펼친다(ProductsAtAGlance).
- * 카테고리 이름·모델 이름은 lib/productCategories.ts · lib/products.ts 에서만 온다.
- * 규격 비교표·규격서는 /products/specs 로 분리했다.
+ * /products 입구.
+ *
+ * 🔴 2026-09-09 CEO 지시 "제품은 온빛전자처럼 인도어/아웃도어로 멋있게".
+ *    첫 갈림길을 **실내 / 실외 두 장의 큰 다크 타일**로 두고, 여섯 카테고리는 그 아래 둔다.
+ *    모델 시리즈 목록은 각 카테고리 페이지 안에서 검정 배경 흰 카드로 펼친다.
+ *    (전에 여기 있던 ProductsAtAGlance 는 카테고리 × 모델을 한 페이지에 전부 펼치는 형태라
+ *     시리즈 12종이 들어오면서 한 화면에 담기지 않는다. 파일은 남겨 둔다.)
  */
 export default function ProductsPage() {
   return (
@@ -44,7 +49,7 @@ export default function ProductsPage() {
         <PageHeader
           group="제품"
           title="제품"
-          lead="보는 거리로 고릅니다. 화소 간격과 밝기는 설치 조건의 결과입니다."
+          lead="설치할 자리와 보는 거리로 고릅니다. 화면 크기가 먼저고, 화소 간격이 그다음입니다."
           image={IMAGES.productsHero}
         />
 
@@ -54,12 +59,11 @@ export default function ProductsPage() {
           current="/products"
         />
 
-        {/* 2026-09-08 CEO 지시 "제품 페이지는 한눈에". 카테고리 6종 × 소속 모델을 전부 펼친다.
-            SpecScale·StructureShowcase·ProductScenes·EnvironmentTracks 는 파일만 남겼다(참조 0건). */}
-        <ProductsAtAGlance />
+        <ProductEntryTiles />
 
-        {/* 2026-09-09 — 구조 섹션 재배선. 타사(KSYS) 실제 화면에서 캐비닛 분해 시각이 홈 한가운데 있었다.
-            "무엇을 파는지" 다음에 "어떻게 생겼는지" 를 보여줘야 규격 숫자가 실물로 읽힌다. */}
+        <ProductCategoryGrid eyebrow="용도별" heading="쓰이는 자리로도 고를 수 있습니다" showMore />
+
+        {/* "무엇을 파는지" 다음에 "어떻게 생겼는지". 규격 숫자가 실물로 읽히게 한다 */}
         <StructureShowcase />
 
         <CtaSection />

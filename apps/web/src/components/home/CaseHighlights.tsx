@@ -8,17 +8,21 @@ import { Marquee, Reveal, RiseMask } from '@/components/motion'
  * 홈 — 시공사례. 제품 격자 다음, 진행 순서 앞.
  *
  * 🔴 2026-09-09 CEO 지시 "시공사례는 넣어야 해. 우리가 한 게 아니더라도."
- *    2026-09-08 에 뺐던 자리를 되살린다. 타사 6곳 실제 화면을 봤더니(KSYS·아바비젼·WEDS·JDKAT·LKS·
- *    탑이앤씨) **홈에 시공사례 사진 격자가 없는 곳이 한 곳도 없었다.** 담당자는 제품 규격보다
- *    "우리 같은 자리에 달린 사진" 을 먼저 찾는다 — 자기 현장과 닮은 사진이 보이면 그때 규격을 읽는다.
+ *    타사 6곳(KSYS·아바비젼·WEDS·JDKAT·LKS·탑이앤씨) 모두 홈에 시공사례 사진 격자가 있었다.
+ *    담당자는 제품 규격보다 "우리 같은 자리에 달린 사진" 을 먼저 찾는다.
  *
- * 형식 — 두 줄 마퀴(자동 흐름, 위 줄 →, 아래 줄 ←). 15개 자리를 격자로 펼치면 홈이 /industries 를
- *    통째로 복사한 꼴이 된다. 흐르는 띠는 "이만큼 많다" 를 한 화면 높이로 보여주고, 누르면
- *    그 자리의 상세로 간다. 호버하면 멈춘다(읽을 시간). 동작 줄이기 사용자는 가로 스크롤로 넘긴다.
+ * 형식 — 케이시스 홈 "Reference" 캐러셀을 따랐다. 사진 카드 두 줄이 반대 방향으로 흐르고,
+ *    카드에는 **사진 위 라벨(설치 환경) + 흰 큰 제목(자리 이름)** 만 얹는다.
+ *    호버하면 멈춘다(읽을 시간). 동작 줄이기 사용자는 가로 스크롤로 넘긴다.
+ *
+ * 🔴 2026-09-09 링크 변경 — `/industries/<slug>` 페이지 이동에서 `/industries?case=<slug>` 로 바꿨다.
+ *    목록에서 모달이 뜨는 형식이 됐으므로 홈에서 눌러도 **같은 화면**이 나와야 한다.
+ *    페이지로 보내면 홈에서 온 사람만 다른 화면을 보게 된다.
+ *    (`/industries/<slug>` 정적 페이지는 검색 유입용으로 그대로 살아 있다)
  *
  * ⚠️ 기관명·건수·연도를 붙이지 않는다(허위 실적 기재 = 관공서 상대 제재 사유).
- *    🔴 2026-09-09 CEO 지시 "불리한 말은 전부 빼라" — "예시이며 납품 실적이 아닙니다" 각주를 뺐다.
- *    주장을 안 하는 것과 스스로 깎아내리는 것은 다르다. 이름·건수를 안 적으면 그걸로 충분하다.
+ *    "예시이며 납품 실적이 아닙니다" 각주도 달지 않는다 — 이름·건수를 안 적으면 그걸로 충분하고,
+ *    주장을 안 하는 것과 스스로 깎아내리는 것은 다르다(CEO 2026-09-09).
  * ⚠️ 이름·사진·설명은 lib/industries.ts 에서만 온다.
  */
 const HALF = Math.ceil(INDUSTRIES.length / 2)
@@ -28,7 +32,7 @@ const ROW_B = INDUSTRIES.slice(HALF)
 function CaseCard({ i, priority = false }: { i: Industry; priority?: boolean }) {
   return (
     <Link
-      href={`/industries/${i.slug}`}
+      href={`/industries?case=${i.slug}`}
       className="group relative mr-4 block h-[200px] w-[280px] shrink-0 overflow-hidden rounded-card-m bg-wk-ink ring-1 ring-black/5 transition-shadow duration-state ease-state hover:shadow-wk-3 sm:h-[240px] sm:w-[340px] sm:rounded-card"
     >
       <Image
@@ -40,12 +44,15 @@ function CaseCard({ i, priority = false }: { i: Industry; priority?: boolean }) 
         className="object-cover transition-transform duration-cine ease-entrance motion-safe:group-hover:scale-105"
       />
       <span className="wk-scrim-card absolute inset-0" />
-      <span className="absolute right-3 top-3 rounded-md bg-black/45 px-2 py-1 text-caption font-semibold text-white backdrop-blur">
+      {/* 사진 위 라벨 — 케이시스 Reference 카드의 좌상단 분류 표시 자리 */}
+      <span className="absolute left-4 top-4 rounded-md bg-white/15 px-2 py-1 text-caption font-semibold text-white backdrop-blur">
         {i.environment === 'indoor' ? '실내' : '옥외'}
       </span>
       <span className="absolute inset-x-0 bottom-0 p-5">
-        <span className="block text-caption font-medium text-white/80">{i.eyebrow}</span>
-        <span className="mt-0.5 block text-body-lg font-bold tracking-[-0.02em] text-white">{i.nameKo}</span>
+        <span className="block text-body-lg font-bold tracking-[-0.02em] text-white">{i.nameKo}</span>
+        <span className="wk-metric mt-1 block text-caption font-medium text-white/80">
+          {i.eyebrow} · P{i.buildInfo.pitchMm}
+        </span>
       </span>
     </Link>
   )
@@ -65,7 +72,7 @@ export function CaseHighlights() {
             </h2>
             <Reveal y={14} delay={0.16}>
               <p className="wk-lead mt-5">
-                내 현장과 닮은 자리를 누르시면 어떤 규격이 들어가는지 보여드립니다.
+                내 현장과 닮은 자리를 누르시면 사진을 크게 보고 어떤 규격이 들어가는지 확인하실 수 있습니다.
               </p>
             </Reveal>
           </div>
@@ -93,7 +100,6 @@ export function CaseHighlights() {
           ))}
         </Marquee>
       </Reveal>
-
     </section>
   )
 }

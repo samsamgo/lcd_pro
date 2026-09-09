@@ -1,102 +1,65 @@
-import Image from 'next/image'
-
-import { IMAGES } from '@/lib/imageAssets'
 import { SITE } from '@/lib/seo/site'
 import { PITCH_RANGE } from '@/lib/companyScope'
-import { Reveal, RiseMask, Stagger } from '@/components/motion'
+import { Reveal, RiseMask } from '@/components/motion'
 
 /**
- * 회사 소개 — 하는 일 4장(사진) + 회사 개요 표.
+ * 회사 개요 표.
  *
- * 🔴 2026-09-08 CEO 지시 "회사 소개 내용 더 추가, 더 멋있게. 지금 너무 멋이 없다".
- *    국내 업체 회사소개의 표준 구성 두 가지를 넣었다.
- *    ① 하는 일을 **사진 4장**으로 — 설계·제작·시공·유지보수. 글이 아니라 장면으로.
- *    ② **회사 개요 표** — 담당자가 결재 서류에 옮겨 적는 항목 그대로. 회사명·대표·소재지·
- *       사업 분야·취급 제품·인증·제어 시스템. 값은 전부 SITE(단일 정본)에서 온다.
- *    실적·고객사·설립연도는 넣지 않는다(첫 수주 전, [[company-vs-reference]]).
+ * 🔴 2026-09-09 회사소개 전면 재설계(CEO "회사 소개 페이지부터 다 마음에 안 든다").
+ *    이 컴포넌트가 갖고 있던 **'하는 일' 사진 4장은 여기서 뺐다** —
+ *    같은 얘기를 `components/about/AboutWhy.tsx`(선택해야 하는 이유 6장)가 더 크게 한다.
+ *    이 파일은 이제 **개요 표 하나만** 맡는다. 케이시스 인사말 하단의 회사 기본정보처럼,
+ *    담당자가 결재 서류에 그대로 옮겨 적는 항목만 정돈해서 둔다.
  *
- * 🔴 2026-09-08 QA — 표에서 다른 섹션이 정본인 행을 뺐다: 소재지·대표번호(→ #location),
- *    인증(→ #certification), 사업 분야(→ 바로 위 요약표 '무슨 회사'). 대신 법인등록번호를
- *    요약표에서 이리로 옮겨 **법인 정보는 이 표 한 곳**이다. 섹션 id `company` 는 요약표가 아니라
- *    NavBar 하위 설명("법인·대표자·사업자등록")이 가리키는 자리다.
+ * 🔴 **법인등록번호는 넣지 않는다** (CEO 지시 2026-09-08). 사업자등록번호까지만이다.
+ * 🔴 섹션 `id` 를 여기 달지 않는다. 앵커는 `app/about/page.tsx` 래퍼가 소유한다
+ *    (하위 컴포넌트가 같은 id 를 또 달면 앵커가 둘로 갈라진다 — 2026-09-08 QA 실측).
+ * ⚠️ 표는 **완결돼야 한다.** 소재지·전화가 '오시는 길' 에도 나오지만, 표에서 빼면
+ *    표가 반쪽이 된다(중복 제거 원칙의 의도적 예외 — 2026-09-08 COO 판정).
  */
-const WORKS = [
-  { k: '설계', t: '현장 실측 후 규격 확정', img: IMAGES.process[0], alt: '설치 예정 지점의 지주와 주변 조건을 확인하는 현장 실측 장면' },
-  { k: '제작', t: '출하 전 전수 점등 검사', img: IMAGES.process[2], alt: '창고에 적재된 LED 캐비닛과 포장된 모듈 상자' },
-  { k: '시공', t: '전기·통신 연결과 시운전', img: IMAGES.process[1], alt: '강당 벽면 프레임에 LED 모듈을 한 장씩 붙여 나가는 작업 장면' },
-  { k: '유지보수', t: '원격 확인 후 모듈 단위 교체', img: IMAGES.process[5], alt: '점등된 대형 전광판 앞에 선 엔지니어의 실루엣' },
-]
-
 export function CompanyOverview() {
   const rows: [string, string][] = [
     ['회사명', SITE.legalName],
-    ['대표', SITE.ceoName],
+    ['대표이사', SITE.ceoName],
+    ['설립', SITE.founded ? `${SITE.founded}년` : ''],
+    ['사업자등록번호', SITE.bizRegNo],
     ['소재지', SITE.addressFull],
+    ['대표전화', SITE.fax ? `${SITE.phone} (팩스 ${SITE.fax})` : SITE.phone],
+    ['이메일', SITE.email],
+    ['업무시간', SITE.openingHours],
     ['사업 분야', 'LED 전광판 · 전자현수막 설계 · 제작 · 시공 · 유지보수'],
     ['취급 제품', `실내·실외 LED 전광판, 전자현수막 (화소 간격 ${PITCH_RANGE})`],
-    ['인증', 'KC 인증 제품만 공급'],
+    ['등록 · 인정', '정보통신공사업 등록 · 공장등록 · 연구개발전담부서 · 소프트웨어사업자'],
     ['제어 시스템', SITE.controllerStandard],
-    ['대표번호', `${SITE.phone} · ${SITE.openingHours}`],
-  ]
-  // ⚠️ 회사 개요 표는 **완결된 표**여야 한다. 소재지·사업 분야·인증·대표번호가 페이지의 다른 섹션에도
-  //    나오지만, 담당자가 결재 서류에 옮길 때 보는 건 이 표 한 장이다. 표에서 빼면 표가 반쪽이 된다.
-  //    (2026-09-08 QA 가 중복 제거 원칙으로 뺐던 4행을 COO 가 되돌림 — 표는 중복 제거의 예외)
+  ].filter((r): r is [string, string] => Boolean(r[1]))
 
   return (
-    <>
-      {/* 하는 일 — 사진 4장 */}
-      <section aria-labelledby="works-h" className="wk-sec bg-white">
-        <div className="wk-wrap">
-          <Reveal y={10}>
-            <p className="wk-eyebrow">하는 일</p>
-          </Reveal>
-          <h2 id="works-h" className="wk-h2 text-wk-ink">
-            <RiseMask delay={0.06}>설계부터 유지보수까지 직접</RiseMask>
-          </h2>
-          {/* 2026-09-09 — 네 장이 왼쪽부터 차례로 올라온다(Stagger). 한꺼번에 뜨면 카탈로그처럼 읽힌다 */}
-          <Stagger className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4" y={18} gap={0.09}>
-            {WORKS.map((w, i) => (
-              <figure key={w.k} className="group relative aspect-[3/4] overflow-hidden rounded-card bg-wk-ink">
-                <Image
-                  src={w.img}
-                  alt={w.alt}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 300px"
-                  className="object-cover transition-transform duration-cine ease-entrance motion-safe:group-hover:scale-105"
-                />
-                <div className="wk-scrim-card absolute inset-0" />
-                <figcaption className="absolute inset-x-0 bottom-0 p-5">
-                  <span className="wk-metric block text-caption font-semibold text-white/70">0{i + 1}</span>
-                  <span className="mt-1 block text-h3 font-bold tracking-[-0.02em] text-white">{w.k}</span>
-                  <span className="mt-1 block text-label text-white/85">{w.t}</span>
-                </figcaption>
-              </figure>
-            ))}
-          </Stagger>
-        </div>
-      </section>
+    <section aria-labelledby="overview-h" className="wk-sec bg-white">
+      <div className="wk-wrap">
+        <Reveal y={10}>
+          <p className="wk-eyebrow">회사 개요</p>
+        </Reveal>
+        <h2 id="overview-h" className="wk-h2 text-wk-ink">
+          <RiseMask delay={0.06}>{SITE.legalName}</RiseMask>
+        </h2>
 
-      {/* 회사 개요 표 */}
-      <section id="company" aria-labelledby="overview-h" className="wk-sec-sm scroll-mt-32 bg-wk-bg">
-        <div className="wk-wrap">
-          <Reveal y={10}>
-            <p className="wk-eyebrow">회사 개요</p>
-          </Reveal>
-          <h2 id="overview-h" className="wk-h2 text-wk-ink">
-            <RiseMask delay={0.06}>{SITE.nameKo}</RiseMask>
-          </h2>
-          <Reveal y={16} delay={0.1}>
-          <dl className="mt-8 overflow-hidden rounded-card border border-wk-line bg-white">
+        <Reveal y={16} delay={0.12}>
+          {/* 얇은 격자 — 칸 사이 1px 은 배경색(wk-line)이 비쳐 만든다.
+              칸마다 border 를 주면 2열에서 선이 두 겹으로 겹친다. */}
+          <dl className="mt-10 grid gap-px overflow-hidden rounded-card border border-wk-line bg-wk-line md:grid-cols-2">
             {rows.map(([k, v]) => (
-              <div key={k} className="grid grid-cols-[minmax(120px,1fr)_3fr] border-b border-wk-line last:border-b-0">
-                <dt className="bg-wk-bgFaint px-5 py-4 text-label font-semibold text-wk-ink2">{k}</dt>
-                <dd className="px-5 py-4 text-body text-wk-ink">{v}</dd>
+              <div key={k} className="grid grid-cols-[minmax(104px,1fr)_2.4fr] bg-white">
+                <dt className="bg-wk-bgFaint px-5 py-4 text-label font-semibold text-wk-ink2">
+                  {k}
+                </dt>
+                <dd className="wk-metric px-5 py-4 text-body leading-relaxed text-wk-ink">
+                  {v}
+                </dd>
               </div>
             ))}
           </dl>
-          </Reveal>
-        </div>
-      </section>
-    </>
+        </Reveal>
+      </div>
+    </section>
   )
 }

@@ -40,11 +40,87 @@ export interface Resource {
 }
 
 /**
- * 지금은 비어 있다. **비어 있는 채로 두는 것이 맞다.**
- * 없는 파일을 목록에만 올려두면 담당자가 눌렀을 때 404 를 받는다.
- * 그 한 번이 견적 요청을 날린다. 파일이 실제로 들어온 뒤에 줄을 추가한다.
+ * 🔴 없는 파일을 목록에만 올려두지 마라. 담당자가 눌렀을 때 404 를 받는다.
+ *    그 한 번이 견적 요청을 날린다. **파일이 실제로 들어온 뒤에** 줄을 추가한다.
+ *
+ * 2026-09-09 — 인증·서류 8건을 등록했다. 파일은 `public/docs/wk-cert-*.pdf` 에 실재하고
+ * 크기는 실측값이다. 서류의 정본(제목·발급기관·번호)은 `lib/credentials.ts` 이고,
+ * 여기 title 은 그 이름을 자료실 표기로 옮긴 것이다 — 한쪽만 고치지 마라.
  */
-export const RESOURCES: Resource[] = []
+export const RESOURCES: Resource[] = [
+  {
+    id: 'wk-cert-kc-smps',
+    title: '방송통신기자재등의 적합등록증 (SMPS)',
+    category: 'cert',
+    file: '/docs/wk-cert-kc-smps.pdf',
+    size: '416KB',
+    updated: '2026-08-10',
+    desc: '국립전파연구원 · R-R-WKTC-LH-200-5P',
+  },
+  {
+    id: 'wk-cert-ict-license',
+    title: '정보통신공사업 등록증',
+    category: 'cert',
+    file: '/docs/wk-cert-ict-license.pdf',
+    size: '197KB',
+    updated: '2026-08-25',
+    desc: '대전광역시 · 제420573호',
+  },
+  {
+    id: 'wk-cert-factory',
+    title: '공장등록증명서',
+    category: 'cert',
+    file: '/docs/wk-cert-factory.pdf',
+    size: '129KB',
+    updated: '2026-08-19',
+    desc: '대전산업단지관리공단 · 전시 및 광고용 조명장치 제조업',
+  },
+  {
+    id: 'wk-cert-rnd-lab',
+    title: '연구개발전담부서 인정서',
+    category: 'cert',
+    file: '/docs/wk-cert-rnd-lab.pdf',
+    size: '293KB',
+    updated: '2026-08-21',
+    desc: '한국산업기술진흥협회 · 제2026155618호',
+  },
+  {
+    id: 'wk-cert-kica-member',
+    title: '한국정보통신공사협회 회원증',
+    category: 'cert',
+    file: '/docs/wk-cert-kica-member.pdf',
+    size: '236KB',
+    updated: '2026-08-28',
+    desc: '등록번호 420573',
+  },
+  {
+    id: 'wk-cert-sw-biz',
+    title: '소프트웨어사업자 일반 현황 관리확인서',
+    category: 'cert',
+    file: '/docs/wk-cert-sw-biz.pdf',
+    size: '361KB',
+    updated: '2026-08-21',
+    desc: '한국인공지능소프트웨어산업협회 · B26-338844-004',
+  },
+  {
+    id: 'wk-cert-sme',
+    title: '중소기업 확인서 [소기업(소상공인)]',
+    category: 'cert',
+    file: '/docs/wk-cert-sme.pdf',
+    size: '197KB',
+    updated: '2026-07-17',
+    desc: '중소벤처기업부 · 유효기간 2027-03-31',
+  },
+  {
+    id: 'wk-cert-startup',
+    title: '창업기업 확인서',
+    category: 'cert',
+    file: '/docs/wk-cert-startup.pdf',
+    size: '116KB',
+    updated: '2026-08-06',
+    desc: '대전·세종지방중소벤처기업청 · 유효기간 2029-08-06',
+  },
+]
 
 export function resourcesByCategory(c: ResourceCategory): Resource[] {
   return RESOURCES.filter((r) => r.category === c)

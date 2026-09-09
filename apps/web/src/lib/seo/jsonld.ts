@@ -180,11 +180,18 @@ export interface HowToStep {
   name: string
   text: string
 }
+/**
+ * 🔴 2026-09-09 CEO 지시로 `totalTime` 을 없앴다.
+ *    "설치 과정 잡다한 설명 없애고, 소요기간 없애라." — 홈 HowTo 에 P30D 가 박혀 있었다.
+ *    현장마다 다른 기간을 구조화 데이터로 내보내면 검색결과에 소요기간이 노출되고,
+ *    그건 화면에 없는 말을 검색엔진에만 하는 것이자 지연 시 분쟁 근거가 된다.
+ *    공정별 기간이 필요한 페이지(/about#process)는 자체 HowTo 를 쓰지 않는다.
+ *    ⚠️ 다시 넣지 마라. 넣으려면 화면에 같은 값이 먼저 있어야 한다.
+ */
 export interface HowToLdInput {
   name: string
   description: string
   steps: HowToStep[]
-  totalTime?: string // ISO 8601 duration e.g. "PT30M"
 }
 export function howToLd(input: HowToLdInput) {
   return {
@@ -192,7 +199,6 @@ export function howToLd(input: HowToLdInput) {
     '@type': 'HowTo',
     name: input.name,
     description: input.description,
-    ...(input.totalTime ? { totalTime: input.totalTime } : {}),
     step: input.steps.map((s, i) => ({
       '@type': 'HowToStep',
       position: i + 1,

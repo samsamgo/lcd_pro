@@ -1,81 +1,73 @@
 import Link from 'next/link'
 
-import { SITE } from '@/lib/seo/site'
 import { Reveal, RiseMask, Stagger } from '@/components/motion'
 
 /**
- * 홈 — 도입 절차 4단계. 제품 격자 다음, 푸터 앞.
+ * 홈 — 진행 순서 4단어 띠. 제품·시공사례 다음, 푸터 앞.
  *
- * 🔴 2026-09-08 2차 신설. 홈이 제품 격자에서 곧바로 푸터로 떨어져 끝이 없었다.
- *    국내 시공 업체 홈은 예외 없이 "문의 → 실측 → 제작·시공 → A/S" 절차 띠로 닫는다
- *    (벤치마크 2026-09-08 §B-1 "원스톱 프레이밍"). 그리고 이 4단계는 홈의 HowTo JSON-LD 에
- *    이미 실려 있었는데 **화면에는 없었다** — 검색엔진에만 말하고 사람에게는 안 보여준 셈이다.
- *    이 배열이 JSON-LD 와 화면 양쪽의 단일 원본이다(page.tsx 가 같은 배열을 읽는다).
+ * 🔴 2026-09-09 CEO 지시로 **전면 축소**했다.
+ *    "설치 과정 잡다한 설명 없애고, 소요기간 없애라."
+ *    전에는 단계마다 두 줄짜리 설명 + '공정별 기간' 링크 + 전화번호 한 줄이 붙어 있었다.
+ *    홈에서 공정을 읽는 사람은 없다 — 홈은 '이 회사가 처음부터 끝까지 한다' 만 보여주면 되고,
+ *    그건 네 단어로 충분하다. 설명이 필요한 사람은 /about#process 로 간다.
  *
- * ⚠️ 이것은 홈 하단 '문의 칸'(CtaSection)이 아니다 — CEO 가 2026-09-08 홈에서 뺀 것은
- *    큰 활자 + 버튼 두 개짜리 다크 배너였다. 여기는 절차를 설명하는 밝은 띠이고, 버튼 대신
- *    전화번호 한 줄과 '설치 과정 자세히' 링크만 둔다. 같은 요청을 세 번 하지 않는다.
- * ⚠️ 기간·건수 같은 실적 숫자는 넣지 않는다. 상세 공정(6단계·기간)은 /about#process 가 정본이다.
+ * 🔴 소요기간(기간·일수·주차)은 이 띠에 **다시 넣지 않는다.**
+ *    현장마다 다른 값을 홈에 박아 두면 그게 곧 약속이 되고, 지연 시 분쟁 사유가 된다.
+ *    page.tsx 의 HowTo JSON-LD 에서도 같은 이유로 totalTime 을 뺐다.
+ *
+ * ⚠️ 이 배열은 화면과 JSON-LD 양쪽의 단일 원본이다(page.tsx 가 같은 배열을 읽는다).
+ *    `text` 는 화면에 그리지 않는다 — 구조화 데이터의 HowToStep 이 설명을 요구하기 때문에
+ *    **한 줄만** 남겨 둔 것이다. 화면에 다시 꺼내지 마라.
  */
 export const HOME_STEPS: { name: string; text: string }[] = [
-  { name: '문의·상담', text: '설치 장소와 용도를 알려주시면 개략 견적 범위를 잡아 연락드립니다.' },
-  { name: '현장 실측', text: '보는 거리, 전기 인입, 붙일 면의 구조를 직접 재고 확정 견적을 냅니다.' },
-  { name: '제작·시공', text: '조립해서 전부 켜 본 뒤 현장에 올립니다. 기관 일정에 맞춰 설치합니다.' },
-  { name: '교육·A/S', text: '화면 바꾸는 법을 담당자분께 알려드리고, 고장은 모듈 한 장 단위로 고칩니다.' },
+  { name: '문의', text: '설치 장소와 용도를 알려주시면 개략 견적 범위를 잡아 연락드립니다.' },
+  { name: '실측', text: '보는 거리와 붙일 면을 현장에서 직접 재고 규격을 확정합니다.' },
+  { name: '시공', text: '제작해서 전부 켜 본 뒤 현장에 설치합니다.' },
+  { name: 'A/S', text: '고장은 모듈 한 장 단위로 교체합니다.' },
 ]
 
 export function ProcessStrip() {
-  const tel = SITE.phone.replace(/[^+\d]/g, '')
   return (
-    <section aria-labelledby="steps-h" className="wk-sec border-t border-wk-line bg-wk-bgFaint">
+    <section aria-labelledby="steps-h" className="wk-sec-sm border-t border-wk-line bg-wk-bgFaint">
       <div className="wk-wrap">
-        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div>
-            <Reveal y={10}>
-              <p className="wk-eyebrow">진행 순서</p>
-            </Reveal>
-            <h2 id="steps-h" className="wk-h2 text-wk-ink">
-              <RiseMask delay={0.06}>문의부터 A/S까지 네 단계</RiseMask>
-            </h2>
-          </div>
+        <div className="flex flex-col gap-5 md:flex-row md:items-baseline md:justify-between">
+          <h2 id="steps-h" className="wk-h2 text-wk-ink">
+            <RiseMask>문의부터 A/S까지 우강테크가 합니다</RiseMask>
+          </h2>
           <Reveal y={10} delay={0.12}>
             <Link
               href="/about#process"
-              className="text-label font-semibold text-wk-cta underline-offset-4 hover:underline"
+              className="shrink-0 text-label font-semibold text-wk-cta underline-offset-4 hover:underline"
             >
-              공정별 기간·담당 자세히 →
+              진행 절차 자세히 →
             </Link>
           </Reveal>
         </div>
 
+        {/* 네 단어 띠. 단어와 단어 사이는 화살표 하나로만 잇는다 — 부연을 붙이지 않는다. */}
         <Stagger
-          className="mt-10 grid grid-cols-1 border-t-2 border-wk-ink sm:grid-cols-2 lg:grid-cols-4"
+          className="mt-10 flex flex-wrap items-center gap-x-5 gap-y-4 border-t-2 border-wk-ink pt-8 md:gap-x-8"
           y={12}
-          gap={0.06}
+          gap={0.07}
         >
           {HOME_STEPS.map((s, i) => (
-            <div
-              key={s.name}
-              className={`flex flex-col py-7 lg:pr-6 ${i > 0 ? 'border-t border-wk-line lg:border-t-0 lg:border-l lg:pl-6' : ''} ${
-                i % 2 === 1 ? 'sm:border-l sm:pl-6' : ''
-              } ${i >= 2 ? 'sm:border-t' : 'sm:border-t-0'}`}
-            >
-              <span className="wk-metric text-caption font-semibold text-wk-cta">0{i + 1}</span>
-              <p className="mt-2 text-h3 font-bold leading-tight tracking-[-0.01em] text-wk-ink">{s.name}</p>
-              <p className="mt-3 text-label leading-relaxed text-wk-ink3">{s.text}</p>
+            <div key={s.name} className="flex items-center gap-5 md:gap-8">
+              {i > 0 && (
+                <span aria-hidden="true" className="text-h3 font-light text-wk-line">
+                  →
+                </span>
+              )}
+              <span className="flex items-baseline gap-2.5">
+                <span className="wk-metric text-caption font-semibold text-wk-cta">
+                  0{i + 1}
+                </span>
+                <span className="text-h2 font-bold leading-none tracking-[-0.02em] text-wk-ink">
+                  {s.name}
+                </span>
+              </span>
             </div>
           ))}
         </Stagger>
-
-        <Reveal y={10} delay={0.1}>
-          <p className="mt-8 border-t border-wk-line pt-5 text-label text-wk-ink3">
-            전화로 물어보셔도 됩니다.{' '}
-            <a href={`tel:${tel}`} className="wk-metric font-semibold text-wk-ink underline-offset-4 hover:underline">
-              {SITE.phone}
-            </a>
-            <span className="ml-2 text-caption">({SITE.openingHours})</span>
-          </p>
-        </Reveal>
       </div>
     </section>
   )

@@ -8,6 +8,7 @@ import { CtaSection } from '@/components/landing/CtaSection'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
 import { NavBar } from '@/components/NavBar'
 import { PageHeader } from '@/components/PageHeader'
+import { IndustryGallery } from '@/components/public/IndustryGallery'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { INDUSTRIES, getIndustry } from '@/lib/industries'
 import { PRODUCTS } from '@/lib/products'
@@ -64,37 +65,43 @@ export default function IndustryPage({ params }: PageProps) {
 
         {/* 같은 시설군의 형제 페이지로 바로 넘어간다 — 목록으로 돌아가지 않아도 된다 */}
 
+        {/* 케이시스 설치사례 상세와 같은 구성 — 큰 사진 + 썸네일 + 구축정보 표.
+            모달(`IndustryModal`)과 같은 컴포넌트를 쓴다. 두 경로로 보여주면서
+            내용이 갈리는 사고를 2026-09-08 에 한 번 냈다. */}
+        <section className="wk-sec bg-white">
+          <div className="wk-wrap max-w-[900px]">
+            <IndustryGallery industry={industry} />
+          </div>
+        </section>
+
+        {/* 이런 상황에서 씁니다 / 우리가 하는 일 — 표 아래로 내렸다.
+            사진과 규격이 먼저고 글은 그 다음이다. */}
         <section className="wk-sec bg-wk-bg">
           <div className="wk-wrap">
-            <p className="wk-eyebrow">이런 점이 불편합니다</p>
-            <ul className="mt-8 grid gap-4 md:grid-cols-2">
+            <p className="wk-eyebrow">이런 상황에서 씁니다</p>
+            <ul className="m-0 mt-6 grid list-none gap-3 p-0 md:grid-cols-2">
               {industry.pains.map((pain) => (
-                <li key={pain} className="rounded-card border border-wk-line bg-white p-6 text-wk-ink">
+                <li key={pain} className="rounded-card-m border border-wk-line bg-white p-5 text-label text-wk-ink2">
                   {pain}
                 </li>
               ))}
             </ul>
-          </div>
-        </section>
 
-        <section className="wk-sec bg-white">
-          <div className="wk-wrap">
-            <p className="wk-eyebrow">해결 방법</p>
-            <div className="mt-8 grid gap-4 md:grid-cols-3">
+            <p className="wk-eyebrow mt-12">이 자리에서 하는 일</p>
+            <div className="mt-6 grid gap-3 md:grid-cols-3">
               {industry.solutions.map((solution) => (
-                <article key={solution.title} className="rounded-card border border-wk-line bg-wk-bg p-6">
+                <article key={solution.title} className="rounded-card-m border border-wk-line bg-white p-5">
                   <h3 className="text-body-lg font-semibold text-wk-ink">{solution.title}</h3>
-                  <p className="mt-3 text-label leading-relaxed text-wk-ink3">{solution.desc}</p>
+                  <p className="mt-2 text-label leading-relaxed text-wk-ink3">{solution.desc}</p>
                 </article>
               ))}
             </div>
           </div>
         </section>
 
-        {/* 권장 제품 — 사진 카드. 2026-09-08 2차: CEO "제품 소개는 최소한 이미지는 보여주면서".
-            글자 행만 있던 것을 사진 카드로. 이 페이지에서 모델 사진은 각각 한 번씩만 나온다. */}
+        {/* 권장 제품 — 사진 카드. 2026-09-08 CEO "제품 소개는 최소한 이미지는 보여주면서". */}
         {products.length > 0 && (
-          <section className="wk-sec bg-wk-bg" aria-labelledby="rec-h">
+          <section className="wk-sec bg-white" aria-labelledby="rec-h">
             <div className="wk-wrap">
               <p className="wk-eyebrow">권장 제품</p>
               <h2 id="rec-h" className="wk-h2 text-wk-ink">

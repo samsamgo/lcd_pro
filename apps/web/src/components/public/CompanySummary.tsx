@@ -1,5 +1,6 @@
 import { Reveal, RiseMask, Stagger } from '@/components/motion'
 import { SITE } from '@/lib/seo/site'
+import { HELD_CREDENTIALS } from '@/lib/credentials'
 
 /**
  * 법인 정보 + 검증 자료.
@@ -29,48 +30,13 @@ import { SITE } from '@/lib/seo/site'
  *       뺐기 때문이다 — 숨긴 것이 아니라 **외치는 자리에서 기록하는 자리로 옮긴 것**이다.
  *       🔴 이 행을 지우지 마라. 지우면 설립 연도가 사이트에서 사라져 은폐가 된다.
  */
-const RRA_SEARCH = 'https://www.rra.go.kr/ko/license/S_c_search.do'
-
-type Credential = {
-  title: string
-  detail: string
-  no: string
-  issuer: string
-  valid: string
-  verify?: { label: string; href: string }
-}
-
 /**
- * 취득 완료 — 번호로 공식 조회가 가능한 것만 올린다.
- * CompanyHero 의 사실 띠가 이 배열에서 KC 건수(TA- 로 시작하는 항목)를 세어 쓴다.
- * 그래서 여기에 인증이 추가되면 히어로 숫자도 자동으로 따라 오른다. 손으로 세지 말 것.
+ * 🔴 2026-09-09 — 인증 데이터가 이 파일을 떠났다. 정본은 `lib/credentials.ts` 다.
+ *    여기 손으로 적혀 있던 'TA-2607130' 등 3건은 등록증 실물 판독 결과 **등록증에 없는
+ *    번호**여서 폐기했다(상세 = credentials.ts 머리 주석).
+ *
+ * ⚠️ 이 컴포넌트 자체는 현재 화면에 배선돼 있지 않다(참조 0건). 파일은 선례대로 남긴다.
  */
-export const HELD_CREDENTIALS: Credential[] = [
-  {
-    title: 'KC 적합등록 · 전원공급장치',
-    detail: '모델 LH-200-5P',
-    no: 'TA-2607130',
-    issuer: '국립전파연구원',
-    valid: '만료일 없음 · 사양 변경 시 재등록',
-    verify: { label: '적합성평가 현황에서 조회', href: RRA_SEARCH },
-  },
-  {
-    title: 'KC 적합등록 · 전원공급장치',
-    detail: '모델 LPH300S5U8F',
-    no: 'TA-2607131',
-    issuer: '국립전파연구원',
-    valid: '만료일 없음 · 사양 변경 시 재등록',
-    verify: { label: '적합성평가 현황에서 조회', href: RRA_SEARCH },
-  },
-  {
-    title: '업체식별부호',
-    detail: '적합성평가 신청인 부호',
-    no: 'WKTC',
-    issuer: '국립전파연구원',
-    valid: '유효',
-  },
-]
-
 
 export function CompanySummary() {
   const rows: { k: string; v: string }[] = [

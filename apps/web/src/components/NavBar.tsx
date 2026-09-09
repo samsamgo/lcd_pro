@@ -44,9 +44,10 @@ interface NavGroup {
  */
 /* 하위 메뉴 설명 한 줄 — 라벨·href 는 SubNav 의 섹션 정의와 같은 것을 쓴다(한 곳) */
 const ABOUT_DESC: Record<string, string> = {
-  '회사 소개': '법인·대표자·사업자등록',
-  '설치 과정': '실측부터 A/S까지 여섯 공정',
-  '인증 현황': 'KC 인증 제품만 공급합니다',
+  '인사말': '대표이사 이희원',
+  '회사 개요': '법인·대표자·사업자등록',
+  '연혁': '2026년 설립 이후',
+  '인증 · 서류': '발급 원본과 PDF',
   '오시는 길': '대전 대덕구',
 }
 const SUPPORT_DESC: Record<string, string> = {

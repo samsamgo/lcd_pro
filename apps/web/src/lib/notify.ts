@@ -331,23 +331,44 @@ export async function notifyKakaoWork(data: LeadWebhookData): Promise<{ success:
               }]
             : []),
           { type: 'divider' },
+          // 🔴 2026-09-09 실측 — `action` 블록(전화 걸기 버튼)을 넣으면 카카오워크 API 가
+          //    "요청한 블록 정보가 올바르지 않습니다"(invalid_parameter) 로 메시지 전체를 거부한다.
+          //    그래서 견적·상담·A/S 리드가 단 한 건도 사장에게 도착하지 않았다 (CEO 확인 2026-09-09).
+          //    버튼 대신 연락처를 본문 텍스트로 싣는다. 휴대폰 카카오워크는 번호를 길게 누르면 바로 걸린다.
           {
-            type: 'action',
-            elements: [
-              {
-                type: 'button',
-                text: '전화 걸기',
-                style: 'default',
-                action_type: 'call',
-                value: data.phone.replace(/-/g, ''),
-              },
-            ],
+            type: 'text',
+            text: `연락처: ${data.phone}`,
+            markdown: false,
           },
         ],
       }),
     })
-    const json = (await res.json()) as { success?: boolean; error?: { message?: string } }
-    return json.success ? { success: true } : { success: false, reason: json.error?.message ?? '전송 실패' }
+    const json = (await res.json()) as { success?: boolean; error?: { code?: string; message?: string } }
+    if (json.success) return { success: true }
+    // 블록 형식이 또 거부되더라도 리드는 죽지 않게 — 텍스트만으로 한 번 더 보낸다.
+    if (json.error?.code === 'invalid_parameter') {
+      const plain =
+        `${leadTitle(data.kind)} · ${data.businessName}
+` +
+        `담당자: ${data.contactName} · ${data.phone}
+` +
+        `지역: ${data.region} · ${data.environment === 'indoor' ? '실내' : '옥외'}
+` +
+        `긴급도: ${urgencyLabel[data.urgency] ?? data.urgency}
+` +
+        `예상 범위: ${price}` +
+        (data.purpose ? `
+용도: ${data.purpose}` : '')
+      const res2 = await fetch('https://api.kakaowork.com/v1/messages.send_by_email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${key}` },
+        body: JSON.stringify({ email, text: plain }),
+      })
+      const json2 = (await res2.json()) as { success?: boolean; error?: { message?: string } }
+      if (json2.success) return { success: true }
+      return { success: false, reason: json2.error?.message ?? '전송 실패' }
+    }
+    return { success: false, reason: json.error?.message ?? '전송 실패' }
   } catch (e) {
     return { success: false, reason: e instanceof Error ? e.message : '네트워크 오류' }
   }

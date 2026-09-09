@@ -1,6 +1,5 @@
 import { IMAGES } from '@/lib/imageAssets'
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import { NavBar } from '@/components/NavBar'
 import { PageHeader } from '@/components/PageHeader'
 import { Footer } from '@/components/Footer'
@@ -24,9 +23,12 @@ export const metadata: Metadata = buildMetadata({
 /**
  * 시공사례.
  *
- * 어두운 히어로로 시작해 카드 그리드로 이어진다.
- * 카드·비교표에서 자리를 고르면 상세 페이지(`/industries/<slug>`)로 간다.
- * 옛 `?type=<slug>` 주소는 IndustryGrid 가 상세 페이지로 바꿔 보낸다.
+ * 🔴 2026-09-09 CEO 지시로 케이시스(ksys.co.kr) 설치사례 형식으로 다시 짰다.
+ *    좌측 필터 사이드바 + 우측 3열 사진 카드, 카드를 누르면 **모달**로 큰 사진과 구축정보가 뜬다.
+ *    모달은 주소를 `?case=<slug>` 로 바꾸므로 뒤로가기로 닫히고 링크로 공유된다.
+ *    옛 `?type=<slug>` 주소는 IndustryGrid 가 `?case=` 로 바꿔 준다.
+ *    `/industries/<slug>` 정적 페이지는 검색 유입용으로 살아 있고, 본문은 모달과 같은
+ *    컴포넌트(`IndustryGallery`)를 쓴다 — 두 경로로 보여주며 내용이 갈리지 않게.
  */
 export default function IndustriesPage() {
   return (

@@ -18,11 +18,18 @@ export function productSubNavItems(categories: { name: string; slug: string }[])
   ]
 }
 
-/** 회사소개 — 한 페이지 안 섹션. **네비바 하위 메뉴 전용**(본문 탭은 2026-09-08 제거) */
+/**
+ * 회사소개 — 한 페이지 안 섹션. **네비바 하위 메뉴 전용**(본문 탭은 2026-09-08 제거)
+ *
+ * 🔴 2026-09-09 회사소개 재설계에 맞춰 갈아 끼웠다. 항목은 `app/about/page.tsx` 의
+ *    래퍼 id 와 1:1 이고 순서도 같다. '설치 과정'(#process)은 페이지에서 사라졌다
+ *    (CEO "설치 과정 잡다한 설명·소요기간 없애라"). 링크를 되살리지 마라 — 죽은 앵커가 된다.
+ */
 export const ABOUT_SECTIONS: SubNavItem[] = [
-  { label: '회사 소개', href: '/about#intro' },
-  { label: '설치 과정', href: '/about#process' },
-  { label: '인증 현황', href: '/about/certification' },
+  { label: '인사말', href: '/about#greeting' },
+  { label: '회사 개요', href: '/about#company' },
+  { label: '연혁', href: '/about#history' },
+  { label: '인증 · 서류', href: '/about/certification' },
   { label: '오시는 길', href: '/about#location' },
 ]
 

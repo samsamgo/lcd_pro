@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import { PublicHero } from '@/components/public/PublicHero'
-import { ProofRow } from '@/components/public/ProofRow'
 import { ScrollProgress } from '@/components/public/ScrollProgress'
+import { WhyWookang } from '@/components/home/WhyWookang'
+import { ProofCards } from '@/components/home/ProofCards'
 import { CinematicScene } from '@/components/home/CinematicScene'
 import { ProductCategoryGrid } from '@/components/products/ProductCategoryGrid'
 import { ProcessStrip, HOME_STEPS } from '@/components/home/ProcessStrip'
@@ -41,9 +42,9 @@ export default function Home() {
         data={howToLd({
           name: 'LED 전광판 도입 절차',
           description:
-            '설치 장소와 규모 확인부터 현장 실측, 제작·시공, 담당자 교육과 A/S까지의 절차.',
-          totalTime: 'P30D',
-          // 화면(ProcessStrip)과 같은 배열 — 구조화 데이터가 화면에 없는 말을 하지 않게 한다
+            '문의와 현장 실측, 제작·시공, 설치 후 A/S까지의 절차.',
+          // 화면(ProcessStrip)과 같은 배열 — 구조화 데이터가 화면에 없는 말을 하지 않게 한다.
+          // 🔴 소요기간(totalTime)은 2026-09-09 CEO 지시로 뺐다. 다시 넣지 마라(jsonld.ts 주석 참조).
           steps: HOME_STEPS,
         })}
       />
@@ -52,16 +53,32 @@ export default function Home() {
       <ScrollProgress />
       <NavBar />
       <main id="main">
-        {/* 관공서 담당자가 확인하는 순서대로 배치한다.
-            ① 무엇을 하는 회사인가 → ② 믿을 만한가 → ③ 우리 같은 데 쓰나
-            → ④ 설치 후는 어떻게 되나 → ⑤ 서류는 있나 → ⑥ 어떻게 연락하나 */}
+        {/* 🔴 2026-09-09 CEO 지시로 홈 구조를 온빛전자·케이시스 순서로 재정비했다
+            (재설계 브리프 `teams/web/reports/redesign-brief-20260909.md`).
+
+              Hero            무엇을 하는 회사인가
+              WhyWookang      온빛 'PERFECT SYSTEM' — 왜 우리인가, 사진 4장
+              ProofCards      케이시스 '숫자로 증명' 자리 — 숫자가 없으니 서류 3장
+              CinematicScene  제품 서사(화소 간격 → 화면 크기 → 유지보수)
+              ProductCategoryGrid  무엇을 파는가
+              CaseHighlights  어디에 쓰이나 (WS-D 소유)
+              ProcessStrip    문의 → 실측 → 시공 → A/S 네 단어로 닫는다
+
+            ⚠️ 케이시스의 '캐비닛 분해도(3D)' 자리는 **만들지 않았다.** 실제 분해 렌더가
+               없기 때문이다. 없는 그림을 그려 채우지 않는다. 카탈로그 렌더 정리가 끝나
+               분해도가 확보되면 그때 COO 가 배선한다. */}
         <PublicHero />
         {/* 이 자리는 비워 둔다. 히어로가 이미 사진을 돌리는데 바로 아래에서 슬라이더를
             또 쓰면 같은 말을 두 번 하는 것이다(CEO 반려 2026-09-07).
             SceneSlider.tsx · LedBoard.tsx 는 되돌릴 수 있게 남겨뒀다(참조 0건 = 번들 제외). */}
 
-        {/* ── 라이트: 믿을 만한가 ── */}
-        <ProofRow />
+        {/* ── 라이트: 왜 우리인가 (사진 4장) ── */}
+        <WhyWookang />
+
+        {/* ── 라이트: 믿을 만한가 (서류 3장) ──
+            2026-09-09 ProofRow(주장 4칸)를 ProofCards(서류 3장)로 교체했다.
+            ProofRow.tsx 는 되돌릴 수 있게 남겼다 — 참조 0건이라 번들에는 들어가지 않는다. */}
+        <ProofCards />
 
         {/* 라이트 → 다크는 선이 아니라 그라디언트 다리로 잇는다 (벤치마크 §4.2)
             2026-09-07 — 이 다리는 페이지에서 가장 눈에 띄는 전환부인데 그냥 색면이었다.
@@ -99,7 +116,8 @@ export default function Home() {
             타사 6곳 전부 홈에 시공사례가 있다. 두 줄 마퀴로 흐르게 해 /industries 격자와 형식을 달리한다. */}
         <CaseHighlights />
 
-        {/* 2026-09-08 2차 — 진행 순서 4단계로 홈을 닫는다. 문의 칸이 아니다(ProcessStrip 주석 참조) */}
+        {/* 2026-09-09 — 네 단어(문의 → 실측 → 시공 → A/S) 띠로 홈을 닫는다.
+            설명·소요기간은 CEO 지시로 전부 뺐다. 문의 칸이 아니다(ProcessStrip 주석 참조) */}
         <ProcessStrip />
 
         {/* 🔴 2026-09-08 CEO 지시로 홈 하단 문의 칸(CtaSection)을 뺐다.
