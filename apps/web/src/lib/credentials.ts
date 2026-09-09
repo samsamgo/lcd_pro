@@ -22,7 +22,7 @@
  * ── 서류 한 건 추가하는 법 ──────────────────────────────────────
  *  1. 스캔 원본 `public/images/certs/{key}.jpg` (150dpi 급)
  *  2. 썸네일    `public/images/certs/{key}-thumb.jpg` (가로 600px)
- *  3. PDF       `public/docs/wk-cert-{key}.pdf`
+ *  (PDF 는 올리지 않는다 — CEO 2026-09-09 "민감한 정보 올리지 마라". 스캔 이미지만 게시)
  *  4. 아래 CREDENTIALS 에 한 줄. `lib/resources.ts` 자료실 등록도 같이 한다.
  */
 
@@ -57,7 +57,6 @@ export const certImage = (k: CredentialKey) => `/images/certs/${k}.jpg`
 /** 썸네일(격자용) */
 export const certThumb = (k: CredentialKey) => `/images/certs/${k}-thumb.jpg`
 /** 내려받기 PDF */
-export const certPdf = (k: CredentialKey) => `/docs/wk-cert-${k}.pdf`
 
 /**
  * 순서 = 화면에 보이는 순서. 관공서 담당자가 먼저 확인하는 것부터 둔다

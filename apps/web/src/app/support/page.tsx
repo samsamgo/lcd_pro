@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 
 import { NavBar } from '@/components/NavBar'
 import { Footer } from '@/components/Footer'
@@ -15,7 +14,7 @@ import { JsonLd } from '@/components/seo/JsonLd'
 import { RESOURCES } from '@/lib/resources'
 import { breadcrumbLd } from '@/lib/seo/jsonld'
 import { IMAGES } from '@/lib/imageAssets'
-import { SITE, absoluteUrl, buildMetadata } from '@/lib/seo/site'
+import { absoluteUrl, buildMetadata } from '@/lib/seo/site'
 
 export const metadata: Metadata = buildMetadata({
   title: '고객지원',
@@ -37,8 +36,6 @@ export const metadata: Metadata = buildMetadata({
  */
 
 export default function SupportPage() {
-  const empty = RESOURCES.length === 0
-
   return (
     <>
       <JsonLd
@@ -71,36 +68,12 @@ export default function SupportPage() {
           <div className="wk-wrap">
             <p className="wk-eyebrow">자료실</p>
             <h2 id="dl-h" className="wk-h2 text-wk-ink">
-              규격서 · 시공사례집
+              자료실
             </h2>
-            <p className="wk-lead mt-4">결재 서류에 첨부하실 자료를 내려받으십시오.</p>
+            <p className="wk-lead mt-4">규격서·시공사례집·안내서를 올립니다.</p>
+            {/* 🔴 2026-09-09 CEO 지시 — 게시판 형식. 비어 있어도 표를 그린다. 자료는 CEO 가 직접 올린다 */}
             <div className="mt-8">
-              {empty ? (
-                <div className="rounded-card border border-wk-line bg-white p-10 text-center md:p-14">
-                  <p className="text-body-lg font-semibold text-wk-ink">규격서와 사양 비교표는 요청하시면 보내드립니다</p>
-                  <p className="mx-auto mt-3 max-w-[28em] text-label leading-relaxed text-wk-ink3">
-                    설치 자리와 필요한 서류를 알려주시면 그 형식에 맞춰 보내드립니다. 전 모델 규격은{' '}
-                    <Link href="/products/specs" className="font-semibold text-wk-cta underline-offset-4 hover:underline">규격 비교표</Link>
-                    에서 바로 보실 수 있습니다.
-                  </p>
-                  <div className="mt-7 flex flex-wrap items-center justify-center gap-2.5">
-                    <Link
-                      href="/quote"
-                      className="rounded-btn bg-wk-cta px-5 py-3 text-sm font-bold text-white transition-colors duration-150 hover:bg-wk-ctaHover"
-                    >
-                      자료 요청하기
-                    </Link>
-                    <a
-                      href={`tel:${SITE.phone.replace(/[^+\d]/g, '')}`}
-                      className="rounded-btn border border-wk-line2 px-5 py-3 text-sm font-semibold text-wk-ink2 transition-colors duration-150 hover:bg-wk-bgFaint"
-                    >
-                      {SITE.phone}
-                    </a>
-                  </div>
-                </div>
-              ) : (
-                <DownloadList resources={RESOURCES} />
-              )}
+              <DownloadList resources={RESOURCES} />
             </div>
           </div>
         </section>

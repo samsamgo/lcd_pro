@@ -2,14 +2,13 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { Download, ZoomIn } from 'lucide-react'
+import { ZoomIn } from 'lucide-react'
 
 import { Modal } from '@/components/ui/Modal'
 import { Stagger } from '@/components/motion'
 import {
   CREDENTIALS,
   certImage,
-  certPdf,
   certThumb,
   type Credential,
 } from '@/lib/credentials'
@@ -73,16 +72,6 @@ export function CertGallery() {
                 {c.issuer} · {c.issued.replace(/-/g, '.')}
                 {c.valid ? ` · ${c.valid}` : ''}
               </p>
-              <a
-                href={certPdf(c.key)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-auto inline-flex items-center gap-1.5 pt-5 text-label font-semibold text-wk-cta hover:underline"
-              >
-                <Download size={15} aria-hidden="true" />
-                PDF 내려받기
-                <span className="sr-only"> (새 창)</span>
-              </a>
             </div>
           </article>
         ))}
@@ -117,15 +106,6 @@ export function CertGallery() {
                   {open.no ? ` · ${open.no}` : ''}
                 </p>
               </div>
-              <a
-                href={certPdf(open.key)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-btn bg-wk-cta px-4 py-2.5 text-label font-bold text-white transition-colors duration-150 hover:bg-wk-ctaHover"
-              >
-                <Download size={15} aria-hidden="true" />
-                PDF 내려받기
-              </a>
             </div>
           </div>
         )}

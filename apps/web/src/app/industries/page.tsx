@@ -4,7 +4,6 @@ import { NavBar } from '@/components/NavBar'
 import { PageHeader } from '@/components/PageHeader'
 import { Footer } from '@/components/Footer'
 import { MobileCtaBar } from '@/components/MobileCtaBar'
-import { IndustryCompare } from '@/components/public/IndustryCompare'
 import { IndustryGrid } from '@/components/public/IndustryGrid'
 import { CtaSection } from '@/components/landing/CtaSection'
 import { JsonLd } from '@/components/seo/JsonLd'
@@ -57,8 +56,7 @@ export default function IndustriesPage() {
           </div>
         </section>
 
-        {/* 카드 뒤 모달에 숨어 있던 판단 근거를 표로 꺼낸다 */}
-        <IndustryCompare />
+        {/* 🔴 2026-09-09 CEO 지시 "시공사례에 한눈에 비교 아예 빼라" — IndustryCompare 배선 해제(파일 보존, 참조 0건) */}
 
         {/* 🔴 2026-09-08 CEO 지시 "화면 예시도 필요 없고, 시설과 무관하게 있는 불필요한 설명 다 빼".
             IndustryScenes(화면 예시 4장) · IndustryChecks(시설과 무관한 확인 4가지)를 걷어냈다.
