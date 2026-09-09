@@ -31,6 +31,12 @@ import { useReducedMotion } from '@/components/motion'
  *      그래서 창이 아무리 좁아도 글자가 창 밖으로 나가는 순간이 없다.
  *    · 사진만 100vw 고정 층에 둔다 — 창이 넓어질 때 사진이 늘어나는 게 아니라 **드러난다.**
  *
+ * 🔴 **폰(md 미만) 분기** — 2026-09-09 390px 실측. 좌우 배치를 그대로 쓰면 창(--w0)이
+ *    화면 대부분을 먹어 영문 두 덩어리가 각각 15vw 안에 못 들어가고 창 뒤에 숨는다
+ *    ("B…" 와 "…AY" 만 삐져나온다 = CEO 가 말한 "잘린 듯"). 그래서 폰에서는
+ *    영문을 **위·아래 세로 배치**로 바꾸고 y 로 밀어낸다. x 이동은 md 이상 전용.
+ *    컨테이너도 180svh 로 줄여 다 열린 뒤 빈 스크롤이 남지 않게 한다.
+ *
  * 🔴 이 컴포넌트가 `PageHeader` 를 대체한다. about 페이지에 배너를 다시 넣지 마라 —
  *    같은 자리에서 같은 말("공간에 빛을 더하고…")을 두 번 하게 된다.
  *    옛 `AboutSlogan` 도 이 장에 흡수됐다(파일은 남겼고 참조 0건).
@@ -45,11 +51,17 @@ const HEAD_ACCENT = '공간에 빛을'
 const HEAD_REST = ' 더하고,'
 const HEAD_LINE2 = '기술로 완성합니다'
 
-/** 창 안 작은 문단 — 우측 정렬 3줄. 주어는 회사다 */
+/** 창 안 작은 문단 — 우측 정렬 3줄(md 이상). 주어는 회사다 */
 const SUB_LINES = [
   '우강테크는 LED 모듈 선정부터 구조 설계, 제작, 설치, 유지보수까지',
   '모든 과정을 직접 책임집니다.',
   '단순한 전광판을 넘어, 공간과 사람을 연결하는 디스플레이를 만듭니다.',
+]
+
+/** 폰(md 미만) — 같은 말을 2줄로 줄이고 좌측 정렬한다 */
+const SUB_LINES_SM = [
+  '우강테크는 LED 모듈 선정부터 설계·제작·설치·유지보수까지 직접 책임집니다.',
+  '전광판을 넘어, 공간과 사람을 연결하는 디스플레이를 만듭니다.',
 ]
 
 /** 0~1 로 자른다 */
@@ -65,18 +77,29 @@ export function AboutOpening() {
   /** 미세 떨림 제거. 스크럽 값은 원시 스크롤이 그대로 들어와 손떨림이 그림에 보인다 */
   const p = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.4 })
 
-  /* ── 창 ── 폭 42vw(모바일 70vw) → 100vw. 시작 폭은 CSS 변수 --w0 로 받는다
+  /* ── 창 ── 폭 42vw(폰 84vw) → 100vw, 높이 70svh(폰 54svh) → 100svh.
+     시작값은 CSS 변수 --w0/--h0/--r0 로 받는다
      (JS 로 화면폭을 재면 서버 렌더와 어긋나 하이드레이션이 깨진다) */
   const width = useTransform(
     p,
     (v) => `calc((var(--w0) + (100 - var(--w0)) * ${seg(v, 0, 0.6).toFixed(4)}) * 1vw)`,
   )
-  const height = useTransform(p, (v) => `${(70 + 30 * seg(v, 0, 0.6)).toFixed(2)}svh`)
-  const radius = useTransform(p, (v) => `${(24 * (1 - seg(v, 0, 0.6))).toFixed(1)}px`)
+  const height = useTransform(
+    p,
+    (v) => `calc((var(--h0) + (100 - var(--h0)) * ${seg(v, 0, 0.6).toFixed(4)}) * 1svh)`,
+  )
+  const radius = useTransform(
+    p,
+    (v) => `calc(var(--r0) * ${(1 - seg(v, 0, 0.6)).toFixed(4)} * 1px)`,
+  )
 
-  /* ── 좌우 영문 ── 창에 밀려 화면 밖으로 */
+  /* ── 영문 슬로건 ── 창에 밀려 화면 밖으로.
+     md 이상 = 좌우로(x), 폰 = 위아래로(y). 폰에서 15vw 안에 두 덩어리를 욱여넣으면
+     창(84vw) 뒤에 숨어 "B…" "…AY" 만 삐져나온다 — 실측 2026-09-09 */
   const leftX = useTransform(p, (v) => `${(-72 * seg(v, 0, 0.55)).toFixed(2)}vw`)
   const rightX = useTransform(p, (v) => `${(72 * seg(v, 0, 0.55)).toFixed(2)}vw`)
+  const topY = useTransform(p, (v) => `${(-40 * seg(v, 0, 0.55)).toFixed(2)}svh`)
+  const bottomY = useTransform(p, (v) => `${(40 * seg(v, 0, 0.55)).toFixed(2)}svh`)
   const sideOpacity = useTransform(p, (v) => 1 - seg(v, 0.42, 0.58))
 
   /* ── 창 안 헤드라인 ── */
@@ -93,22 +116,50 @@ export function AboutOpening() {
   const done = reduce
 
   return (
-    <div ref={ref} className="relative h-[260svh] [--w0:70] md:[--w0:42]">
+    <div
+      ref={ref}
+      className="relative h-[180svh] [--h0:54] [--r0:20] [--w0:84] md:h-[260svh] md:[--h0:70] md:[--r0:24] md:[--w0:42]"
+    >
       <div className="sticky top-0 flex h-svh items-center justify-center overflow-hidden bg-white">
-        {/* 좌우 영문 — progress 0 에서 완전히 보이는 자리에 둔다(잘리지 않게 화면 안쪽 6%) */}
+        {/* 영문 슬로건 — progress 0 에서 완전히 보이는 자리에 둔다(잘리지 않게) */}
         {!done && (
           <>
+            {/* 폰: 창 위/아래 중앙에 세로 배치. 창이 열리면 위아래로 밀려난다 */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-x-0 top-[9svh] flex justify-center px-5 md:hidden"
+            >
+              <motion.span
+                style={{ y: topY, opacity: sideOpacity }}
+                className="whitespace-nowrap text-[clamp(2rem,12vw,3.25rem)] font-extrabold leading-none tracking-[-0.04em] text-wk-ink"
+              >
+                {LEFT_WORD}
+              </motion.span>
+            </div>
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-x-0 bottom-[9svh] flex justify-center px-5 md:hidden"
+            >
+              <motion.span
+                style={{ y: bottomY, opacity: sideOpacity }}
+                className="whitespace-nowrap text-[clamp(2rem,12vw,3.25rem)] font-extrabold leading-none tracking-[-0.04em] text-wk-ink"
+              >
+                {RIGHT_WORD}
+              </motion.span>
+            </div>
+
+            {/* md 이상: 기존 좌우 배치 그대로 */}
             <motion.span
               aria-hidden="true"
               style={{ x: leftX, opacity: sideOpacity }}
-              className="pointer-events-none absolute left-[6vw] top-1/2 -translate-y-1/2 whitespace-nowrap text-h1 font-extrabold leading-none tracking-[-0.04em] text-wk-ink md:text-display-xl"
+              className="pointer-events-none absolute left-[6vw] top-1/2 hidden -translate-y-1/2 whitespace-nowrap text-h1 font-extrabold leading-none tracking-[-0.04em] text-wk-ink md:block md:text-display-xl"
             >
               {LEFT_WORD}
             </motion.span>
             <motion.span
               aria-hidden="true"
               style={{ x: rightX, opacity: sideOpacity }}
-              className="pointer-events-none absolute right-[6vw] top-1/2 -translate-y-1/2 whitespace-nowrap text-h1 font-extrabold leading-none tracking-[-0.04em] text-wk-ink md:text-display-xl"
+              className="pointer-events-none absolute right-[6vw] top-1/2 hidden -translate-y-1/2 whitespace-nowrap text-h1 font-extrabold leading-none tracking-[-0.04em] text-wk-ink md:block md:text-display-xl"
             >
               {RIGHT_WORD}
             </motion.span>
@@ -136,7 +187,8 @@ export function AboutOpening() {
               fill
               priority
               sizes="100vw"
-              className="object-cover"
+              /* 폰은 프레임이 좁아 중앙을 잡으면 대형 LED 월이 잘려 나간다 */
+              className="object-cover object-[62%_40%] md:object-[50%_50%]"
             />
             {/* 흰 글자를 얹으려면 이 정도는 눌러야 읽힌다 */}
             <div className="absolute inset-0 bg-black/45" />
@@ -144,10 +196,10 @@ export function AboutOpening() {
           </div>
 
           {/* 글 층 — 창 폭에 맞춘다. 창이 좁아도 글자가 밖으로 나가지 않는다 */}
-          <div className="absolute inset-0 flex flex-col justify-end px-[7%] pb-[9%]">
+          <div className="absolute inset-0 flex flex-col justify-end px-5 pb-[9%] md:px-[7%]">
             <motion.h1
               style={done ? undefined : { opacity: headOpacity, y: headY }}
-              className="text-display-xl font-extrabold leading-[1.1] tracking-[-0.035em] text-white"
+              className="text-h2 font-extrabold leading-[1.1] tracking-[-0.035em] text-white md:text-display-xl"
             >
               <span className="block">
                 <motion.span style={done ? { color: '#DE671D' } : { color: accentColor }}>
@@ -160,10 +212,15 @@ export function AboutOpening() {
 
             <motion.p
               style={done ? undefined : { opacity: subOpacity, y: subY }}
-              className="mt-6 max-w-[34em] self-end text-right text-body leading-relaxed text-white/85 md:mt-8"
+              className="mt-4 max-w-[34em] self-start text-left text-body leading-relaxed text-white/85 md:mt-8 md:self-end md:text-right"
             >
+              {SUB_LINES_SM.map((l, i) => (
+                <span key={`sm-${i}`} className="block md:hidden">
+                  {l}
+                </span>
+              ))}
               {SUB_LINES.map((l, i) => (
-                <span key={i} className="block">
+                <span key={`md-${i}`} className="hidden md:block">
                   {l}
                 </span>
               ))}

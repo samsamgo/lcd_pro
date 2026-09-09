@@ -39,7 +39,7 @@ const PROOFS = [
     Icon: BadgeCheck,
     keyword: 'KC 적합등록',
     body: '화면에 전원을 넣는 직류전원장치를 우리 이름으로 적합등록했습니다.',
-    meta: '국립전파연구원 · R-R-WKTC-LH-200-5P',
+    meta: '국립전파연구원',
   },
   {
     Icon: FlaskConical,

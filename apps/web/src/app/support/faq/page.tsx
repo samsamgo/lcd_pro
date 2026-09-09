@@ -12,8 +12,9 @@ import { FaqSection } from '@/components/landing/FaqSection'
 import { InquiryBoard } from '@/components/support/InquiryBoard'
 
 export const metadata: Metadata = buildMetadata({
-  title: '자주 묻는 질문',
-  description: '예산·계약·전기·보증·A/S 등 LED 전광판 도입 전에 가장 많이 받는 질문과 답.',
+  title: 'LED 전광판 자주 묻는 질문 — 예산·계약·전기·보증',
+  description:
+    '예산 과목 계상, 계약 방법, 전기 인입, 옥외광고물 신고, 담당자 직접 조작, 보증과 A/S까지. LED 전광판 도입 전에 가장 많이 받는 질문을 모아 답을 적었습니다.',
   path: '/support/faq',
 })
 

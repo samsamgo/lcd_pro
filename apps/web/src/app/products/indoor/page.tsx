@@ -8,9 +8,9 @@ import { absoluteUrl, buildMetadata } from '@/lib/seo/site'
 export const dynamic = 'force-static'
 
 export const metadata: Metadata = buildMetadata({
-  title: '실내용 LED 전광판',
+  title: '실내용 LED 전광판 — 민원실·로비·회의실 설치',
   description:
-    '민원실·로비·회의실처럼 가까이서 보는 자리에 들어가는 실내용 LED 전광판 시리즈. 화소 간격별 전체 규격을 공개합니다.',
+    '민원실·로비·회의실·강당처럼 가까이서 보는 자리에 들어가는 실내용 LED 전광판 시리즈입니다. 화소 간격별 전체 규격과 구성 단위를 표로 공개하고, 자리에 맞는 규격을 잡아 드립니다.',
   path: '/products/indoor',
 })
 

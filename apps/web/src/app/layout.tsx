@@ -17,7 +17,9 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: `${SITE.nameKo} | ${SITE.nameEn} — LED 사이니지 B2B 플랫폼`,
+    // 🔴 2026-09-09 — 'LED 사이니지 B2B 플랫폼' 이었다. 우리는 플랫폼이 아니라 직접 만들고 시공하는 업체다.
+    //    정체성 문구(SITE.sloganKo)와 어긋난 표현이 검색결과 제목으로 나가고 있었다.
+    default: `${SITE.nameKo} | ${SITE.nameEn} — ${SITE.sloganKo}`,
     template: `%s | ${SITE.nameKo}`,
   },
   description:
@@ -39,7 +41,10 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: `${SITE.nameKo} — ${SITE.sloganKo}`,
-    description: SITE.sloganEn,
+    // 🔴 2026-09-09 — 여기에 sloganEn('We build with light.') 이 들어가 있었다.
+    //    OG description 은 카카오톡·네이버 공유 카드에 그대로 뜬다. 한국 관공서 담당자가
+    //    링크를 주고받는 자리에 영어 한 줄이 뜨면 무슨 회사인지 알 수 없다. 한국어 설명으로 바꾼다.
+    description: SITE.taglineKo,
     url: SITE.url,
     siteName: SITE.nameKo,
     locale: 'ko_KR',
@@ -51,7 +56,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: `${SITE.nameKo} — ${SITE.nameEn}`,
-    description: SITE.sloganEn,
+    description: SITE.taglineKo,
     images: ['/opengraph-image'],
   },
   robots: {

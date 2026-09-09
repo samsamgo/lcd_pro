@@ -31,7 +31,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     { url: `${base}/quote`,    lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
 
-    { url: `${base}/privacy`,  lastModified: now, changeFrequency: 'yearly',  priority: 0.3 },
+    /* 🔴 2026-09-09 — `/privacy` 를 뺐다. 그 페이지는 `robots: noindex` 다.
+       noindex 페이지를 사이트맵에 올리면 서치콘솔이 "제출된 URL이 noindex 로 표시됨" 오류를 낸다.
+       색인시키려면 privacy/page.tsx 의 noindex 부터 풀고 여기 다시 넣어라. 한쪽만 바꾸지 마라. */
   ]
 
   // 시리즈 상세 12종 — 규격표가 실린 실제 콘텐츠 페이지다

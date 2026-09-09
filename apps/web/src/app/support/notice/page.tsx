@@ -12,8 +12,9 @@ import { NOTICES } from '@/lib/notices'
 import { NoticeBoard } from './NoticeBoard'
 
 export const metadata: Metadata = buildMetadata({
-  title: '공지사항',
-  description: '우강테크 공지사항 — 운영·A/S·자료 관련 안내를 올립니다.',
+  title: '공지사항 — 운영·A/S·자료 안내',
+  description:
+    '우강테크 공지사항입니다. 운영 안내, A/S 접수 관련 변경, 자료실 갱신처럼 고객이 알아야 할 내용을 이곳에 올립니다.',
   path: '/support/notice',
 })
 

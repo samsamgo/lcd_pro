@@ -8,9 +8,9 @@ import { SITE, buildMetadata } from '@/lib/seo/site'
 export const dynamic = 'force-static'
 
 export const metadata: Metadata = buildMetadata({
-  title: '제품',
+  title: 'LED 전광판 제품 12종 — 실내용·실외용 전 시리즈',
   description:
-    'LED 전광판 시리즈 12종 전체. 실내용·실외용으로 걸러 보실 수 있고, 화소 간격별 전체 규격을 표로 공개합니다.',
+    'LED 전광판 시리즈 12종 전체를 한 페이지에 펼쳤습니다. 실내용·실외용으로 걸러 보실 수 있고, 화소 간격·구성 단위·방수 등급까지 전체 규격을 표로 공개합니다.',
   path: '/products',
 })
 

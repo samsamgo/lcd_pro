@@ -30,7 +30,15 @@ export function generateMetadata({ params }: PageProps): Metadata {
   const sku = segmentToSku(params.sku)
   const product = PRODUCTS.find((item) => item.sku === sku)
   if (!product) notFound()
-  return buildMetadata({ title: product.name, description: product.summary, path: `/products/${params.sku}` })
+  // 🔴 2026-09-09 — canonical 에 params.sku 를 그대로 쓰면 대소문자 변형이 각자 자기를 정본이라고 말한다.
+  //    `/products/in-s` 와 `/products/IN-S` 가 둘 다 200 이고 둘 다 self-canonical 이면 중복 색인이다.
+  //    정규화된 세그먼트 하나만 정본으로 가리킨다.
+  const segment = skuToSegment(product.sku)
+  return buildMetadata({
+    title: product.name,
+    description: product.summary,
+    path: `/products/${segment}`,
+  })
 }
 
 /**

@@ -19,7 +19,7 @@ import { SITE, buildMetadata } from '@/lib/seo/site'
  * (헤더 버튼·플로팅 버튼)이 됐다. '고객지원' 으로 두면 메뉴에 없는 자리를 가리킨다.
  */
 export const metadata: Metadata = buildMetadata({
-  title: '견적 문의',
+  title: 'LED 전광판 견적 문의 — 설치 견적 범위 안내',
   description:
     '설치 장소와 화면 크기, 현장 사진만 남겨주시면 개략 견적 범위를 잡아 연락드립니다. 예산을 잡기 전 단계에서도 요청하실 수 있습니다.',
   path: '/quote',

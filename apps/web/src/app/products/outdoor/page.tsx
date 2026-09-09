@@ -8,9 +8,9 @@ import { absoluteUrl, buildMetadata } from '@/lib/seo/site'
 export const dynamic = 'force-static'
 
 export const metadata: Metadata = buildMetadata({
-  title: '실외용 LED 전광판',
+  title: '실외용 LED 전광판 — 정문·도로변·외벽 설치',
   description:
-    '정문·도로변·건물 외벽처럼 밖에서 보는 자리에 들어가는 실외용 LED 전광판 시리즈. 화소 간격별 전체 규격을 공개합니다.',
+    '정문·도로변·건물 외벽처럼 밖에서 보는 자리에 들어가는 실외용 LED 전광판 시리즈입니다. 화소 간격별 전체 규격과 방수·방진 등급을 표로 공개하고, 현장 조건에 맞춰 규격을 잡아 드립니다.',
   path: '/products/outdoor',
 })
 

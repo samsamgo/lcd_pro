@@ -20,7 +20,7 @@ import { SITE, absoluteUrl, buildMetadata } from '@/lib/seo/site'
 export const dynamic = 'force-static'
 
 export const metadata: Metadata = buildMetadata({
-  title: '회사소개',
+  title: '회사소개 — LED 전광판 설계·제작·시공',
   description:
     '공간에 빛을 더하고, 기술로 완성합니다. LED 모듈 선정부터 구조 설계, 제작, 설치, 유지보수까지 모든 과정을 직접 책임지는 우강테크의 인사말, 연혁, 인증·서류, 오시는 길.',
   path: '/about',

@@ -13,7 +13,7 @@ import { absoluteUrl, buildMetadata } from '@/lib/seo/site'
 export const dynamic = 'force-static'
 
 export const metadata: Metadata = buildMetadata({
-  title: 'LED 전광판 시공사례',
+  title: 'LED 전광판 시공사례 — 관공서·학교·아파트 설치 자리별',
   description:
     '관공서·민원실, 학교·강당, 보건소, 도로·교차로, 주차장, 아파트까지. 자리마다 보는 거리와 운영 내용이 다릅니다. 설치 자리별로 어떤 구성이 들어가는지 정리했습니다.',
   path: '/industries',

@@ -13,9 +13,9 @@ import { AfterService } from '@/components/public/AfterService'
 import { SymptomGuide } from '@/components/public/SymptomGuide'
 
 export const metadata: Metadata = buildMetadata({
-  title: 'A/S 신청',
+  title: 'LED 전광판 A/S 신청 — 고장 접수·원격 확인',
   description:
-    '화면이 안 나오면 접수해 주십시오. 상태를 원격으로 확인하고, 고장이 나면 빠르게 조치합니다.',
+    'LED 전광판 화면이 안 나오거나 색이 이상할 때 접수해 주십시오. 상태를 원격으로 먼저 확인하고, 현장 방문이 필요한지 판정한 뒤 모듈 교체까지 직접 진행합니다.',
   path: '/support',
 })
 

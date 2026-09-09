@@ -40,6 +40,12 @@ export const SITE = {
 
   // 실제 확정 시 env로 주입 (가짜 값 노출 금지). 빈 값이면 UI에서 해당 항목 omit.
   addressFull: (process.env.NEXT_PUBLIC_ADDRESS || '대전광역시 대덕구 대화로106번길 66, 2층 202호(대화동, 펜타플렉스)') as string,
+  // 🔴 2026-09-09 신설 — schema.org PostalAddress 는 지역·시군구·도로명을 나눠 받는다.
+  // addressFull 한 덩어리를 streetAddress 에 통째로 넣으면 구글이 지역을 못 뽑는다.
+  // 값은 addressFull 을 쪼갠 것이지 새로 지어낸 것이 아니다. 우편번호는 미확인이라 넣지 않는다.
+  addressRegion: (process.env.NEXT_PUBLIC_ADDRESS_REGION || '대전광역시') as string,
+  addressLocality: (process.env.NEXT_PUBLIC_ADDRESS_LOCALITY || '대덕구') as string,
+  streetAddress: (process.env.NEXT_PUBLIC_ADDRESS_STREET || '대화로106번길 66, 2층 202호') as string,
   ceoName: (process.env.NEXT_PUBLIC_CEO || '이희원') as string,
   bizRegNo: (process.env.NEXT_PUBLIC_BIZ_REG_NO || '897-86-03889') as string,
   corpRegNo: (process.env.NEXT_PUBLIC_CORP_REG_NO || '160111-0074810') as string,

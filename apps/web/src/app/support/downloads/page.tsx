@@ -12,8 +12,9 @@ import { DownloadList } from '@/components/support/DownloadList'
 import { RESOURCES } from '@/lib/resources'
 
 export const metadata: Metadata = buildMetadata({
-  title: '자료실',
-  description: '규격서 · 시공사례집 · 운영 안내서 자료실.',
+  title: '자료실 — 규격서·시공사례집 내려받기',
+  description:
+    'LED 전광판 규격서, 시공사례집, 운영 안내서를 내려받는 자료실입니다. 예산 편성과 사양서 작성에 바로 쓰실 수 있도록 정리해 올립니다.',
   path: '/support/downloads',
 })
 

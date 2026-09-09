@@ -9,8 +9,48 @@
 import { SITE, absoluteUrl, socialLinks } from './site'
 import { PRICE_RANGE_SCHEMA } from '../pricing'
 
+/**
+ * PostalAddress 공통 — Organization·LocalBusiness 가 같은 주소를 써야 한다.
+ * 🔴 addressFull 통짜를 streetAddress 에 넣지 마라. 구글이 지역(대전)을 못 뽑는다.
+ */
+function postalAddressLd() {
+  return {
+    '@type': 'PostalAddress',
+    addressCountry: SITE.countryCode,
+    ...(SITE.addressRegion ? { addressRegion: SITE.addressRegion } : {}),
+    ...(SITE.addressLocality ? { addressLocality: SITE.addressLocality } : {}),
+    ...(SITE.streetAddress ? { streetAddress: SITE.streetAddress } : {}),
+  }
+}
+
+/**
+ * `평일 09:00~18:00` 같은 사람이 읽는 문자열을 schema.org 규격으로 바꾼다.
+ * 규격은 `Mo-Fr 09:00-18:00` 형태만 인정한다 — 한글 문자열을 그대로 내보내면 무효 값이다.
+ * 파싱이 안 되면 아무것도 내보내지 않는다(틀린 값보다 없는 값이 낫다).
+ */
+function openingHoursSpecLd() {
+  const m = SITE.openingHours?.match(/평일\s*(\d{1,2}:\d{2})\s*[~-]\s*(\d{1,2}:\d{2})/)
+  if (!m) return null
+  return {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: [
+      'https://schema.org/Monday',
+      'https://schema.org/Tuesday',
+      'https://schema.org/Wednesday',
+      'https://schema.org/Thursday',
+      'https://schema.org/Friday',
+    ],
+    opens: m[1].padStart(5, '0'),
+    closes: m[2].padStart(5, '0'),
+  }
+}
+
+const AREA_SERVED_KR = { '@type': 'Country', name: '대한민국' } as const
+
 /* ───────────────────────── Organization ────────────────────────── */
 export function organizationLd() {
+  const sameAs = socialLinks()
+  const hours = openingHoursSpecLd()
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
@@ -19,11 +59,19 @@ export function organizationLd() {
     alternateName: SITE.nameEn,
     legalName: SITE.legalName,
     url: SITE.url,
-    logo: absoluteUrl('/opengraph-image'),
+    // 구글 로고 가이드라인은 래스터(png/jpg) 정사각 로고를 요구한다. OG 이미지(1200x630)는 로고가 아니다.
+    logo: absoluteUrl('/icon-512.png'),
     image: absoluteUrl('/opengraph-image'),
     description: SITE.taglineKo,
     slogan: SITE.sloganKo,
     foundingDate: SITE.founded,
+    // 🔴 최상위 연락처 — contactPoint 안에만 있으면 지식패널·AI 답변이 못 집는 경우가 많다.
+    ...(SITE.phone ? { telephone: SITE.phone } : {}),
+    ...(SITE.fax ? { faxNumber: SITE.fax } : {}),
+    email: SITE.email,
+    address: postalAddressLd(),
+    areaServed: AREA_SERVED_KR,
+    ...(hours ? { openingHoursSpecification: [hours] } : {}),
     knowsAbout: [
       'LED 사이니지', '디지털 사이니지', '전광판', 'LED 디스플레이',
       'NovaStar', 'VNNOX', 'LED 시공', 'AS·유지보수',
@@ -38,33 +86,36 @@ export function organizationLd() {
         availableLanguage: ['Korean'],
       },
     ],
-    sameAs: socialLinks(),
+    // 빈 배열은 내보내지 않는다 — 값 없는 속성은 구조화 데이터 경고를 만든다.
+    ...(sameAs.length ? { sameAs } : {}),
   }
 }
 
 /* ───────────────────────── LocalBusiness ───────────────────────── */
 export function localBusinessLd() {
+  const sameAs = socialLinks()
+  const hours = openingHoursSpecLd()
   return {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     '@id': `${SITE.url}/#localbusiness`,
     name: SITE.nameKo,
     alternateName: SITE.nameEn,
+    legalName: SITE.legalName,
+    logo: absoluteUrl('/icon-512.png'),
     image: absoluteUrl('/opengraph-image'),
     url: SITE.url,
     ...(SITE.phone ? { telephone: SITE.phone } : {}),
+    ...(SITE.fax ? { faxNumber: SITE.fax } : {}),
     email: SITE.email,
     description: SITE.taglineKo,
     priceRange: PRICE_RANGE_SCHEMA,
-    address: {
-      '@type': 'PostalAddress',
-      addressCountry: SITE.countryCode,
-      addressLocality: SITE.cityKo,
-      ...(SITE.addressFull ? { streetAddress: SITE.addressFull } : {}),
-    },
-    ...(SITE.openingHours ? { openingHours: SITE.openingHours } : {}),
-    areaServed: { '@type': 'Country', name: 'South Korea' },
-    sameAs: socialLinks(),
+    address: postalAddressLd(),
+    // 🔴 `평일 09:00~18:00` 을 openingHours 에 그대로 넣으면 무효 값이다. 규격 객체로 내보낸다.
+    ...(hours ? { openingHoursSpecification: [hours] } : {}),
+    areaServed: AREA_SERVED_KR,
+    parentOrganization: { '@id': `${SITE.url}/#organization` },
+    ...(sameAs.length ? { sameAs } : {}),
   }
 }
 
@@ -152,7 +203,7 @@ export function serviceLd(input: ServiceLdInput) {
     description: input.description,
     serviceType: input.serviceType ?? 'LED 사이니지 표준 시공 및 AS',
     provider: { '@id': `${SITE.url}/#organization` },
-    areaServed: { '@type': 'Country', name: 'South Korea' },
+    areaServed: AREA_SERVED_KR,
     ...(input.url ? { url: input.url } : {}),
     ...(input.priceRange ? { offers: { '@type': 'Offer', priceCurrency: 'KRW', priceRange: input.priceRange } } : {}),
   }

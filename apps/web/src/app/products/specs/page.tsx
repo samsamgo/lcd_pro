@@ -14,8 +14,9 @@ import { absoluteUrl, buildMetadata } from '@/lib/seo/site'
 export const dynamic = 'force-static'
 
 export const metadata: Metadata = buildMetadata({
-  title: '규격 비교표',
-  description: '제품 시리즈 12종의 화소 간격·구성 단위·방수 등급·보는 거리를 한 표에서 비교합니다.',
+  title: 'LED 전광판 규격 비교표 — 12종 한눈에',
+  description:
+    'LED 전광판 시리즈 12종의 화소 간격·구성 단위·설치 환경·방수 등급·보는 거리를 한 표에서 비교합니다. 자리를 고르는 데 필요한 값만 세워 두었습니다.',
   path: '/products/specs',
 })
 

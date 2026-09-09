@@ -2,13 +2,23 @@ import { NavBar } from '@/components/NavBar'
 import { breadcrumbLd } from '@/lib/seo/jsonld'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { Footer } from '@/components/Footer'
-import { SITE } from '@/lib/seo/site'
+import { SITE, buildMetadata } from '@/lib/seo/site'
 import type { Metadata } from 'next'
 
-export const metadata: Metadata = {
+/**
+ * 🔴 2026-09-09 정정 — 여기서 raw metadata 를 쓰는 바람에 canonical 이 없었고,
+ *    루트 layout 의 `alternates.canonical: '/'` 를 물려받아 **홈을 정본으로 가리키고 있었다**
+ *    (`<link rel="canonical" href="https://wooktech.co.kr">`). og:url 도 마찬가지였다.
+ *    buildMetadata 로 바꿔 자기 주소를 가리키게 하고, noindex 는 그대로 유지한다.
+ *    noindex 이므로 sitemap 에서도 뺐다 — noindex + sitemap 동시 등재는 서치콘솔 오류다.
+ */
+export const metadata: Metadata = buildMetadata({
   title: '개인정보처리방침',
-  robots: 'noindex',
-}
+  description:
+    '우강테크가 견적·A/S 문의 과정에서 수집하는 개인정보의 항목과 이용 목적, 보관 기간, 파기 절차, 정보주체의 권리와 행사 방법을 안내합니다.',
+  path: '/privacy',
+  noindex: true,
+})
 
 const SECTIONS = [
   {

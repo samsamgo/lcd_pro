@@ -73,10 +73,10 @@ export const CREDENTIALS: Credential[] = [
   {
     key: 'kc-smps',
     title: '방송통신기자재등의 적합등록증',
-    subject: '전광판 전원장치(SMPS) KC 적합등록 — 모델 LH-200-5P',
+    subject: '전광판 전원장치(SMPS) KC 적합등록',
     issuer: '국립전파연구원',
     issued: '2026-08-10',
-    no: 'R-R-WKTC-LH-200-5P',
+    // 🔴 등록번호(R-R-WKTC-…)는 CEO 2026-09-09 지시로 사이트 어디에도 노출하지 않는다. 데이터에도 두지 않는다.
     valid: '만료일 없음 · 사양 변경 시 재등록',
   },
   {
@@ -197,7 +197,7 @@ export const HISTORY: HistoryEntry[] = [
   {
     date: '2026.08.10',
     title: 'KC 적합등록 — 전원장치(SMPS)',
-    detail: '국립전파연구원 · R-R-WKTC-LH-200-5P',
+    detail: '국립전파연구원',
     ref: 'kc-smps',
   },
   {

@@ -17,7 +17,7 @@ import { absoluteUrl, buildMetadata } from '@/lib/seo/site'
 export const dynamic = 'force-static'
 
 export const metadata: Metadata = buildMetadata({
-  title: '인증 · 서류',
+  title: '인증 · 서류 — KC 적합등록·등록증 원본',
   description:
     '우강테크가 발급받은 인증·등록 서류 원본입니다. KC 적합등록, 정보통신공사업 등록증, 공장등록증명서, 연구개발전담부서 인정서 등을 PDF 로 내려받으실 수 있습니다.',
   path: '/about/certification',
