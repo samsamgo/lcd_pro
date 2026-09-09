@@ -79,6 +79,16 @@ export const IMAGES = {
      *    `시공 사례`·`납품처` 로 읽힐 자리(§16-B Ⓑ)에 옮기면 그 순간 날조가 된다.
      */
     statementScene: C('svc-replacement'),
+    /**
+     * 2026-09-09 CEO "3번(픽셀 근접)이 가장 먼저, 더 멋있는 이미지 추가".
+     * spare 에서 확대 검사 통과분 3장을 히어로로 올렸다(같은 파일을 두 자리에 두지 않으려고 spare 에서 뺐다).
+     *  · C2 호텔 로비 곡면 월 — 인물·문자·국적 단서 0
+     *  · J2 폭풍 하늘 아래 지주형 — 화면 문자 0, 배경 원경만
+     *  · D5 자동차 전시장 벽면 월 — 번호판 없음, 문자 0
+     */
+    heroCurved: S('C2_hotel-curved-wall'),
+    heroStormy: S('J2_lowangle-stormy'),
+    heroShowroom: S('D5_car-showroom-wall'),
   },
 
   /** 홈 다크 시네마틱 장면 — sticky scroll 3막 */
@@ -364,7 +374,6 @@ export const IMAGES = {
     S('B1_village-community-center'),
     S('B5_senior-center'),
     S('B7_fire-station-emergency'),
-    S('C2_hotel-curved-wall'),
     S('C3_conference-hall-stage'),
     S('D3_restaurant-menu-board'),
     S('D4_shop-window-ticker'),
@@ -372,7 +381,6 @@ export const IMAGES = {
     S('E3_gym-scoreboard'),
     S('F4_parking-availability'),
     S('C4_control-room-wall'),
-    S('D5_car-showroom-wall'),
     S('F1_highway-vms'),
     S('F5_ferry-terminal'),
     S('G4_gloved-hands-pcb'),
@@ -383,7 +391,6 @@ export const IMAGES = {
     S('H6_handover-dusk'),
     S('I2_iot-controller-board'),
     S('I4_rooftop-laptop'),
-    S('J2_lowangle-stormy'),
     S('J3_floating-module-studio'),
     S('K10_highschool-entrance-winter'),
     S('K11_school-auditorium-fluorescent'),

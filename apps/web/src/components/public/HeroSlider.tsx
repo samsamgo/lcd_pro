@@ -50,13 +50,20 @@ type Slide = {
   objectClass: string
 }
 
+/** 2026-09-09 CEO "3번이 가장 먼저 나오게, 더 멋있는 이미지 추가" — 6장. 첫 장이 LCP 를 진다 */
 const SLIDES: Slide[] = [
-  // 야간 청사 외벽 — 첫 장이 LCP 를 진다
+  // 픽셀 광파 근접 — 첫 장
+  { src: IMAGES.home.statement, objectClass: 'object-[50%_50%]' },
+  // 호텔 로비 곡면 월
+  { src: IMAGES.home.heroCurved, objectClass: 'object-[50%_50%]' },
+  // 야간 청사 외벽
   { src: IMAGES.home.hero, objectClass: 'object-[50%_38%] lg:object-[50%_42%]' },
+  // 폭풍 하늘 지주형 — 세로컷이라 화면 중앙 상단을 잡는다
+  { src: IMAGES.home.heroStormy, objectClass: 'object-[50%_40%]' },
   // 주간 학교 정문 시공 — 인물·사다리가 화면 아래 3분의 1에 몰려 있어 위쪽을 잡는다
   { src: IMAGES.home.heroReveal, objectClass: 'object-[50%_35%] lg:object-[50%_40%]' },
-  // 픽셀 근접
-  { src: IMAGES.home.statement, objectClass: 'object-[50%_50%]' },
+  // 자동차 전시장 벽면 월
+  { src: IMAGES.home.heroShowroom, objectClass: 'object-[50%_50%]' },
 ]
 
 export function HeroSlider() {
