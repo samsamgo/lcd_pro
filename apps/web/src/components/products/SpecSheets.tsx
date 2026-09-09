@@ -85,7 +85,7 @@ export function SpecSheets() {
         </Reveal>
 
         {/* 탭 — 색 + 밑줄 + 굵기 */}
-        <div className="mt-10 -mx-5 overflow-x-auto px-5 md:-mx-8 md:px-8 lg:-mx-12 lg:px-12">
+        <div className="wk-scroll-x mt-10 -mx-5 overflow-x-auto px-5 md:-mx-8 md:px-8 lg:-mx-12 lg:px-12">
           <div role="tablist" aria-label="제품 선택" className="flex min-w-max gap-1 border-b border-wk-line">
             {PRODUCTS.map((item) => {
               const on = item.sku === active

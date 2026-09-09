@@ -27,6 +27,8 @@ export function generateStaticParams() {
   return PRODUCTS.map((product) => ({ sku: skuToSegment(product.sku) }))
 }
 
+const clip155 = (t: string) => (t.length <= 155 ? t : `${t.slice(0, 152).replace(/[,\s·]+\S*$/, '')}…`)
+
 export function generateMetadata({ params }: PageProps): Metadata {
   const sku = segmentToSku(params.sku)
   const product = PRODUCTS.find((item) => item.sku === sku)
@@ -37,7 +39,7 @@ export function generateMetadata({ params }: PageProps): Metadata {
   const segment = skuToSegment(product.sku)
   return buildMetadata({
     title: product.name,
-    description: `${product.summary} 주요 특징은 ${product.highlights.join(', ')}이며, 추천 공간은 ${product.bestFor.join(', ')}입니다.`,
+    description: clip155(`${product.summary} 추천 공간: ${product.bestFor.join(', ')}.`),
     path: `/products/${segment}`,
     ogImage: product.img,
   })

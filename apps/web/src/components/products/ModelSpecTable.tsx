@@ -13,7 +13,7 @@ import type { ProductModel } from '@/lib/productModels'
 export function ModelSpecTable({ model }: { model: ProductModel }) {
   return (
     <div className="overflow-hidden rounded-card border border-wk-line">
-      <div className="overflow-x-auto">
+      <div className="wk-scroll-x overflow-x-auto">
         <table className="w-full min-w-[640px] border-collapse text-left">
           <caption className="sr-only">{model.series} 화소 간격별 규격</caption>
           <thead>

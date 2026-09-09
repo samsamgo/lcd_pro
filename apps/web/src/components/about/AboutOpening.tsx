@@ -127,7 +127,7 @@ export function AboutOpening() {
             {/* 폰: 창 위/아래 중앙에 세로 배치. 창이 열리면 위아래로 밀려난다 */}
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute inset-x-0 top-[9svh] flex justify-center px-5 md:hidden"
+              className="pointer-events-none absolute inset-x-0 top-[max(9svh,5.25rem)] flex justify-center px-5 md:hidden" /* 2026-09-09 폰 실측: 9svh(58px)가 헤더(64px) 밑으로 들어갔다 → 최소 84px */
             >
               <motion.span
                 style={{ y: topY, opacity: sideOpacity }}

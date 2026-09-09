@@ -24,13 +24,16 @@ export function generateStaticParams() {
   return INDUSTRIES.map((industry) => ({ slug: industry.slug }))
 }
 
+const clip155 = (t: string) => (t.length <= 155 ? t : `${t.slice(0, 152).replace(/[,\s·]+\S*$/, '')}…`)
+
 export function generateMetadata({ params }: PageProps): Metadata {
   const industry = getIndustry(params.slug)
   if (!industry) notFound()
 
   return buildMetadata({
     title: `${industry.keyword}`,
-    description: `${industry.description} ${industry.solutions.map((solution) => solution.desc).join(' ')}`,
+    // 2026-09-09 점검: solutions 를 전부 이어붙이면 300자를 넘어 검색 결과에서 잘린다 → 155자에서 끊는다
+    description: clip155(`${industry.description} ${industry.solutions.map((solution) => solution.desc).join(' ')}`),
     path: `/industries/${industry.slug}`,
     ogImage: industry.heroImage,
   })
@@ -76,7 +79,8 @@ export default function IndustryPage({ params }: PageProps) {
             내용이 갈리는 사고를 2026-09-08 에 한 번 냈다. */}
         <section className="wk-sec bg-white">
           <div className="wk-wrap max-w-[900px]">
-            <IndustryGallery industry={industry} />
+            {/* 상세 페이지에선 대표 사진이 첫 화면이다 — 지연 로딩이면 폰에서 검은 상자로 먼저 보인다(2026-09-09 실측) */}
+            <IndustryGallery industry={industry} priority />
           </div>
         </section>
 

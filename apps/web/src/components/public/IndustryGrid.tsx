@@ -159,12 +159,12 @@ function Grid() {
     <div className="lg:grid lg:grid-cols-[208px_minmax(0,1fr)] lg:gap-10">
       {/* ── 모바일: 가로 스크롤 칩 두 줄 ─────────────────────────── */}
       <div className="mb-6 space-y-2 lg:hidden">
-        <div className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex flex-wrap gap-2 pb-1 md:-mx-5 md:flex-nowrap md:overflow-x-auto md:px-5 md:[scrollbar-width:none] md:[&::-webkit-scrollbar]:hidden" /* 2026-09-09 폰: 가로 스크롤 줄은 오른쪽이 잘려 보인다(스크롤바도 숨김) → 폰에선 줄바꿈 */>
           {GROUP_FILTERS.map((f) => (
             <Chip key={f.key} label={f.label} on={group === f.key} onClick={() => setGroup(f.key)} />
           ))}
         </div>
-        <div className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex flex-wrap gap-2 pb-1 md:-mx-5 md:flex-nowrap md:overflow-x-auto md:px-5 md:[scrollbar-width:none] md:[&::-webkit-scrollbar]:hidden" /* 2026-09-09 폰: 가로 스크롤 줄은 오른쪽이 잘려 보인다(스크롤바도 숨김) → 폰에선 줄바꿈 */>
           {ENV_FILTERS.map((f) => (
             <Chip key={f.key} label={f.label} on={env === f.key} onClick={() => setEnv(f.key)} />
           ))}

@@ -79,7 +79,7 @@ export function SpecCompareTable() {
 
         <Reveal delay={0.08} y={16}>
           <div className="mt-12 overflow-hidden rounded-card border border-wk-line bg-white shadow-wk-1 lg:mt-16">
-            <div className="overflow-x-auto">
+            <div className="wk-scroll-x overflow-x-auto">
               <table className="w-full min-w-[56rem] border-collapse text-left">
                 <caption className="sr-only">
                   우강테크 LED 화면 6종의 설치 환경·화소 간격·밝기·권장 시청 거리·방수

@@ -36,7 +36,7 @@ export function ModelCompareTable() {
         </p>
 
         <div className="mt-8 overflow-hidden rounded-card border border-wk-line">
-          <div className="overflow-x-auto">
+          <div className="wk-scroll-x overflow-x-auto">
             <table className="w-full min-w-[720px] border-collapse text-left">
               <caption className="sr-only">제품 시리즈 규격 비교</caption>
               <thead>

@@ -158,7 +158,7 @@ export function SpecScale() {
               </p>
             </div>
 
-            <div className="overflow-x-auto">
+            <div className="wk-scroll-x overflow-x-auto">
               <div className="min-w-[36rem] px-5 py-6 sm:px-7">
                 {/* 눈금 */}
                 <div className={`${ROW} mb-4`}>
