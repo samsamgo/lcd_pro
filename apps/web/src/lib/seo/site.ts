@@ -106,7 +106,7 @@ export interface BuildMetaInput {
 export function buildMetadata(input: BuildMetaInput) {
   const path = input.path ?? '/'
   const url = absoluteUrl(path)
-  const ogImage = input.ogImage ?? '/opengraph-image'
+  const ogImage = input.ogImage ?? '/opengraph-image?v=20260910' // 2026-09-10 카카오·슬랙 OG 캐시 우회용 버전 쿼리
   return {
     title: input.title,
     description: input.description,

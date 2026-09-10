@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { ArrowRight, Phone } from 'lucide-react'
 import { SITE } from '@/lib/seo/site'
-import { Reveal, Magnetic, ScrollBridge } from '@/components/motion'
+import { Reveal, ScrollBridge } from '@/components/motion'
 
 /**
  * 전역 CTA 섹션 — 페이지 하단, 라이트→다크 전환의 종착지.
@@ -50,20 +50,20 @@ export function CtaSection() {
             </p>
 
             <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-              <Magnetic>
-                <Link href="/quote" className="wk-btn-p group">
-                  견적 문의하기
-                  <ArrowRight
-                    size={18}
-                    aria-hidden="true"
-                    className="transition-transform duration-150 group-hover:translate-x-1"
-                  />
-                </Link>
-              </Magnetic>
+              {/* 🔴 2026-09-10 CEO "견적 문의하기와 전화 문의 두 개가 안 맞는다" — Magnetic(inline-block) 이
+                  폰에서 견적 버튼을 내용 폭으로 줄여 옆 전화 버튼(w-full)과 크기가 달랐다. 두 버튼을 같은 wk-btn 치수로. */}
+              <Link href="/quote" className="wk-btn-p group">
+                견적 문의하기
+                <ArrowRight
+                  size={18}
+                  aria-hidden="true"
+                  className="transition-transform duration-150 group-hover:translate-x-1"
+                />
+              </Link>
               {SITE.phone && (
                 <a
                   href={`tel:${SITE.phone.replace(/[^+\d]/g, '')}`}
-                  className="inline-flex h-[56px] w-full items-center justify-center gap-1.5 rounded-btn-m border border-white/15 px-6 text-body font-semibold text-wk-nightInk transition-colors duration-150 hover:bg-white/5 sm:h-[52px] sm:w-auto sm:rounded-btn"
+                  className="wk-btn border border-white/20 text-wk-nightInk hover:bg-white/5"
                 >
                   <Phone size={16} aria-hidden="true" />
                   전화 문의
