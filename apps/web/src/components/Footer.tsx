@@ -3,7 +3,8 @@ import { SITE } from '@/lib/seo/site'
 import { BrandLogo } from '@/components/brand/BrandLogo'
 import { PRODUCT_SUBNAV } from '@/lib/subnav'
 
-const LINK_CLASS = 'block text-wk-ink3 transition-colors duration-150 hover:text-wk-ink'
+// 폰: 탭 타깃 36px(min-h-9) + 줄 간격 4px = 피치 40px. 44px 로 하면 링크 13개가 푸터를 다시 1,200px 로 키운다(Codex 검토 2026-09-10 조정 채택)
+const LINK_CLASS = 'flex min-h-9 items-center text-wk-ink3 transition-colors duration-150 hover:text-wk-ink sm:block sm:min-h-0'
 
 export function Footer() {
   const year = new Date().getFullYear()
@@ -26,12 +27,12 @@ export function Footer() {
           </div>
 
           {/* 문의 — 폰에선 회사 바로 아래, 데스크톱에선 맨 오른쪽 열 */}
-          <div className="col-span-2 space-y-3 text-sm sm:order-last sm:col-span-1">
+          <div className="col-span-2 space-y-1 text-sm sm:order-last sm:col-span-1 sm:space-y-3">
             <p className="font-semibold text-wk-ink2">문의</p>
             {SITE.phone && (
               <a
                 href={`tel:${SITE.phone.replace(/[^+\d]/g, '')}`}
-                className="block text-xl font-semibold tracking-tight text-wk-ink sm:text-sm sm:font-normal sm:tracking-normal sm:text-wk-ink3 sm:hover:text-wk-ink"
+                className="flex min-h-9 items-center text-xl font-semibold tracking-tight text-wk-ink sm:block sm:min-h-0 sm:text-sm sm:font-normal sm:tracking-normal sm:text-wk-ink3 sm:hover:text-wk-ink"
               >
                 {SITE.phone}
               </a>
@@ -51,7 +52,7 @@ export function Footer() {
           </div>
 
           {/* 회사소개 + 시공사례 — 네비 순서와 같게 */}
-          <div className="space-y-3 text-sm">
+          <div className="space-y-1 text-sm sm:space-y-3">
             <p className="font-semibold text-wk-ink2">회사소개</p>
             {/* 앵커는 /about 의 실제 섹션 id(greeting/history/certification/location)와 맞춘다 — lib/subnav.ts ABOUT_SECTIONS 가 정본 */}
             <Link href="/about#greeting" className={LINK_CLASS}>인사말</Link>
@@ -63,15 +64,15 @@ export function Footer() {
           </div>
 
           {/* 제품 + 고객지원 — 폰에선 한 칸에 세로로, sm 이상은 각각 한 열(contents) */}
-          <div className="space-y-3 text-sm sm:contents sm:space-y-0">
-            <div className="space-y-3">
+          <div className="space-y-1 text-sm sm:contents sm:space-y-0">
+            <div className="space-y-1 sm:space-y-3">
               <p className="font-semibold text-wk-ink2">제품</p>
               {/* 2026-09-09 CEO "이상한 거 다 지우고" — 카테고리 6종 대신 네비와 같은 4개 */}
               {PRODUCT_SUBNAV.map((c) => (
                 <Link key={c.href} href={c.href} className={LINK_CLASS}>{c.label}</Link>
               ))}
             </div>
-            <div className="space-y-3 pt-3 sm:pt-0">
+            <div className="space-y-1 pt-3 sm:space-y-3 sm:pt-0">
               <p className="font-semibold text-wk-ink2">고객지원</p>
               <Link href="/support" className={LINK_CLASS}>A/S 신청</Link>
               <Link href="/support/faq" className={LINK_CLASS}>자주 묻는 질문</Link>
