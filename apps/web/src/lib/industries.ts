@@ -194,7 +194,7 @@ export const INDUSTRIES: Industry[] = [
     heroImageAlt: '한국 관공서 민원실 로비 벽면에 설치된 민원 안내 대형 실내 LED 화면',
     heroImageGenerated: true,
     gallery: [
-      { src: IMAGES.industry['public-office'], alt: '한국 공공 민원실 대기 공간 벽면의 대기 순번 안내 화면', title: '민원실 대기 순번 안내 화면' },
+      { src: IMAGES.industry['public-office'], alt: '한국 공공 민원실 대기 공간 벽면의 대기 순번 안내 화면', title: '민원실 민원 안내 화면' },
       { src: IMAGES.industryGallery.civilOfficeGuide, alt: '민원실 종합 안내 화면', title: '민원실 종합 안내 화면' },
     ],
     buildInfo: { pitchMm: 2.5, cols: 4, rows: 2 },
@@ -226,7 +226,7 @@ export const INDUSTRIES: Industry[] = [
     heroImageAlt: '한국 학교 정문 옆 담장에 설치된 풀컬러 LED 전광판에 오늘의 급식과 체육행사 안내가 표시된 모습',
     heroImageGenerated: true,
     gallery: [
-      { src: IMAGES.industry['school'], alt: '밝은 낮 한국 학교 정문 위에 설치된 등굣길 안전 안내 전자현수막', title: '학교 정문 안전 안내 전자현수막' },
+      { src: IMAGES.industry['school'], alt: '밝은 낮 한국 학교 정문 위에 설치된 등굣길 안전 안내 전자현수막', title: '학교 정문 급식·행사 안내 전광판' },
       { src: IMAGES.industryGallery.stageCampus, alt: '강당 무대 뒤 대형 화면에 캠퍼스 조감도가 펼쳐진 장면', title: '강당 무대 캠퍼스 조감 화면' },
       { src: IMAGES.industryGallery.bgLobbyPaintings, alt: '로비 벽면 대형 화면에 한국화 영상이 펼쳐진 장면', title: '로비 한국화 미디어월' },
       { src: GALLERY.schoolWinterGate, alt: '겨울 학교 본관 현관 상단 가로형 전광판에 신입생 환영 문구', title: '고등학교 정문 신입생 환영 전광판' },
@@ -294,7 +294,7 @@ export const INDUSTRIES: Industry[] = [
     heroImageGenerated: true,
     gallery: [
       { src: IMAGES.industryGallery.lobbyNebula, alt: '로비 벽면 대형 화면에 성운 영상이 펼쳐진 장면', title: '로비 성운 미디어월' },
-      { src: IMAGES.industry['institution'], alt: '한국 공공 도서관 출입구 앞에 세워진 휴관일 안내 LED 게시판', title: '도서관 휴관일 안내 게시판' },
+      { src: IMAGES.industry['institution'], alt: '한국 공공 도서관 출입구 앞에 세워진 휴관일 안내 LED 게시판', title: '도서관 이용 안내 키오스크' },
       { src: IMAGES.industryGallery.lobbyForest, alt: '밝은 로비 벽면 대형 화면에 울창한 숲 영상이 펼쳐진 장면', title: '로비 숲 영상 벽면' },
       { src: IMAGES.industryGallery.lobbyForestBlossom, alt: '로비의 두 벽면 화면에 숲과 벚꽃 영상이 이어진 장면', title: '로비 숲·벚꽃 두 벽면' },
     ],
@@ -326,7 +326,7 @@ export const INDUSTRIES: Industry[] = [
     heroImage: IMAGES.industry['retail'],
     heroImageAlt: '한국 전통시장 아케이드 천장에 매달아 설치한 LED 전광판',
     gallery: [
-      { src: IMAGES.industry['retail'], alt: '음식점 카운터 위에 설치된 디지털 메뉴 화면', title: '카페 매장 메뉴 화면' },
+      { src: IMAGES.industry['retail'], alt: '음식점 카운터 위에 설치된 디지털 메뉴 화면', title: '카페 매장 간판 전광판' },
     ],
     buildInfo: { pitchMm: 3, cols: 4, rows: 2 },
   },
@@ -596,7 +596,7 @@ export const INDUSTRIES: Industry[] = [
     heroImageAlt: '한국 주차장 진입로 기둥에 설치된 주차 가능 대수 표시 LED 화면',
     heroImageGenerated: true,
     gallery: [
-      { src: IMAGES.industry['parking'], alt: '한국 주차장 진입로 기둥에 설치된 주차 가능 대수 표시 LED 화면', title: '주차장 진입로 만차 표시' },
+      { src: IMAGES.industry['parking'], alt: '한국 주차장 진입로 기둥에 설치된 주차 가능 대수 표시 LED 화면', title: '주차장 진입로 주차 가능 대수 표시' },
     ],
     buildInfo: { pitchMm: 4, cols: 3, rows: 1 },
   },
@@ -659,7 +659,7 @@ export const INDUSTRIES: Industry[] = [
     heroImageAlt: '한국 아파트 단지 보행로에 세워진 세로형 LED 지주가 보행 안전 문구를 표시하고 있다',
     heroImageGenerated: true,
     gallery: [
-      { src: IMAGES.industry['apartment'], alt: '한국 아파트 단지 보행로에 세워진 세로형 LED 지주가 보행 안전 문구를 표시하고 있다', title: '아파트 단지 입구 게시 전광판' },
+      { src: IMAGES.industry['apartment'], alt: '한국 아파트 단지 보행로에 세워진 세로형 LED 지주가 보행 안전 문구를 표시하고 있다', title: '아파트 단지 보행 안전 안내 전광판' },
       { src: GALLERY.apartmentLounge, alt: '공동주택 커뮤니티 라운지 벽면 화면에 생활 안내와 공용시설 이용 시간', title: '아파트 커뮤니티 라운지 안내 화면' },
     ],
     buildInfo: { pitchMm: 5, cols: 2, rows: 5 },
