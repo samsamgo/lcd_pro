@@ -228,7 +228,6 @@ export const INDUSTRIES: Industry[] = [
     gallery: [
       { src: IMAGES.industry['school'], alt: '밝은 낮 한국 학교 정문 위에 설치된 등굣길 안전 안내 전자현수막', title: '학교 정문 급식·행사 안내 전광판' },
       { src: IMAGES.industryGallery.stageCampus, alt: '강당 무대 뒤 대형 화면에 캠퍼스 조감도가 펼쳐진 장면', title: '강당 무대 캠퍼스 조감 화면' },
-      { src: IMAGES.industryGallery.bgLobbyPaintings, alt: '로비 벽면 대형 화면에 한국화 영상이 펼쳐진 장면', title: '로비 한국화 미디어월' },
       { src: GALLERY.schoolWinterGate, alt: '겨울 학교 본관 현관 상단 가로형 전광판에 신입생 환영 문구', title: '고등학교 정문 신입생 환영 전광판' },
       { src: GALLERY.schoolRuralGate, alt: '안개 낀 시골 학교 정문 위 가로형 전광판에 등교 시간 안내', title: '학교 정문 등교 시간 안내 전광판' },
     ],
@@ -398,7 +397,6 @@ export const INDUSTRIES: Industry[] = [
     gallery: [
       { src: IMAGES.industry['health-center'], alt: '비 내리는 날 한국 보건소 현관 상단에 설치된 예방접종 안내 LED 화면', title: '보건소 현관 예방접종 안내' },
       { src: IMAGES.industryGallery.lobbyForestBlossom, alt: '안내 공간의 두 벽면 화면에 숲과 벚꽃 영상이 이어진 장면', title: '로비 숲·벚꽃 두 벽면' },
-      { src: IMAGES.industryGallery.bgLobbyNebulaRed, alt: '안내 로비 벽면 대형 화면에 붉은 성운 영상이 펼쳐진 장면', title: '안내 로비 붉은 성운 벽면' },
     ],
     buildInfo: { pitchMm: 4, cols: 5, rows: 2 },
   },
@@ -465,7 +463,6 @@ export const INDUSTRIES: Industry[] = [
       { src: IMAGES.industry['meeting-room'], alt: '라운지 벽면 대형 화면에 세계 연결 지도가 표시된 장면', title: '라운지 세계지도 미디어월' },
       { src: IMAGES.industryGallery.stageGalaxy, alt: '무대와 연단 뒤 대형 화면에 은하 영상이 펼쳐진 장면', title: '무대 은하 영상 화면' },
       { src: IMAGES.industryGallery.lobbyNebula, alt: '회의 공간 벽면 대형 화면에 성운 영상이 펼쳐진 장면', title: '로비 성운 미디어월' },
-      { src: IMAGES.industryGallery.bgStageFields, alt: '강당 무대 뒤 대형 화면에 농경지 항공 영상이 펼쳐진 장면', title: '강당 무대 항공 영상 화면' },
       { src: GALLERY.meetingRoomInstall, alt: '회의실 벽면 프레임에 캐비닛을 절반쯤 채워 넣은 시공 중 장면', title: '회의실 캐비닛 설치 장면' },
     ],
     buildInfo: { pitchMm: 2.5, cols: 6, rows: 3 },

@@ -207,9 +207,8 @@ export const IMAGES = {
     galleryExhibit: G('gen-gallery-exhibit'), // 2026-09-10 CEO 제공 AI 생성, 배치 보류
     /* 2026-09-10 TRL 배경 교체본(Codex 역방향 합성: CEO AI 공간 + TRL 실제 화면 콘텐츠). 7장 중 COO 합격 3장.
        같은 공간(무대 A·강당 B·로비 C)이 한 페이지에 두 번 뜨지 않게 배치한다. */
-    bgStageFields: G('gen-bg-stage-fields'), // 강당 B + 농경지 항공 → meeting-room 갤러리
-    bgLobbyNebulaRed: G('gen-bg-lobby-nebula-red'), // 로비 D(444a) + 붉은 성운 → health-center 갤러리 (v2 좌표 재작업 합격)
-    bgLobbyPaintings: G('gen-bg-lobby-paintings'), // 로비 E(e47a) 왼벽 + 한국화 → school 갤러리 (v2 합격)
+    /* 🔴 2026-09-10 CEO "같은 전광판 사진인데 내용만 다른 건 하나 빼라" — 시공사례 목록에서 뺐다(같은 배경이 두 사례로 보이면 안 된다).
+       파일은 남아 있고(제품 페이지의 stage-fluid·lobby-peacock 은 사례 목록 밖이라 유지) 필요하면 다시 쓴다. */
   },
 
   /** 업종 페이지 히어로 */
