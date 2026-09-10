@@ -9,7 +9,7 @@ const LINK_CLASS = 'flex min-h-9 items-center text-wk-ink3 transition-colors dur
 export function Footer() {
   const year = new Date().getFullYear()
   return (
-    <footer className="border-t border-wk-line bg-wk-bgFaint pb-28 pt-12 sm:pt-16 md:pb-16">
+    <footer className="border-t border-wk-line bg-wk-bgFaint pb-20 pt-12 sm:pt-16 md:pb-16">
       <div className="wk-wrap">
         {/* 폰(<sm): 회사 → 문의(전화 크게) → 링크 2열(회사소개+시공사례 | 제품+고객지원) 로 균형을 맞춘다.
             2026-09-10 CEO "푸터를 핸드폰에 맞게" — 이전엔 5열 그리드가 2열로 접히며 열 높이가 4·2·5·(빈칸) 으로
