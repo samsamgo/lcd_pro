@@ -50,14 +50,14 @@ export const metadata: Metadata = {
     locale: 'ko_KR',
     type: 'website',
     images: [
-      { url: '/opengraph-image?v=20260910b', width: 1200, height: 630, alt: `${SITE.nameKo} ${SITE.nameEn}` },
+      { url: '/opengraph-image?v=20260910c', width: 1200, height: 630, alt: `${SITE.nameKo} ${SITE.nameEn}` },
     ],
   },
   twitter: {
     card: 'summary_large_image',
     title: `${SITE.nameKo} — ${SITE.nameEn}`,
     description: SITE.taglineKo,
-    images: ['/opengraph-image?v=20260910b'],
+    images: ['/opengraph-image?v=20260910c'],
   },
   robots: {
     index: true,

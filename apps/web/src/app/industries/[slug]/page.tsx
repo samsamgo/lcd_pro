@@ -32,7 +32,7 @@ export function generateMetadata({ params }: PageProps): Metadata {
     // 2026-09-09 점검: solutions 를 전부 이어붙이면 300자를 넘어 검색 결과에서 잘린다 → 155자에서 끊는다
     description: clip155(`${industry.description} ${industry.solutions.map((solution) => solution.desc).join(' ')}`),
     path: `/industries/${industry.slug}`,
-    ogImage: industry.heroImage,
+    // 🔴 2026-09-10 CEO "어느 페이지로 가더라도 공유 카드는 동일하게" — 업종별 히어로 사진을 OG 로 쓰던 것을 뺀다. 전 페이지 = 로고 카드
   })
 }
 

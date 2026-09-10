@@ -1,7 +1,7 @@
 /**
  * 동적 OG 이미지 (홈 · 모든 페이지 기본값) — **로고만.**
  *
- * 🔴 2026-09-10 CEO "지금 미리보기 이미지는 너무 촌스러워. 그냥 로고만 넣어라." — 3차.
+ * 🔴 2026-09-10 CEO "지금 미리보기 이미지는 너무 촌스러워. 그냥 로고만 넣어라." — 3차. 4차 "더 심플하게": 도메인 글자도 뺀다.
  *    사진·헤드라인·슬로건 전부 뺀다. 흰 바탕 가운데 정식 로고(심볼 + WOOKANG TECH + 우강테크)만 두고
  *    맨 아래 도메인 한 줄. 카카오톡·네이버 카드에서 회사 이름이 곧 그림이 된다.
  *
@@ -78,7 +78,7 @@ export default async function OG() {
       >
         {logo ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={logo} alt="" aria-hidden="true" width={640} height={533} style={{ width: 640, height: 533 }} />
+          <img src={logo} alt="" aria-hidden="true" width={600} height={500} style={{ width: 600, height: 500 }} />
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div style={{ fontSize: 96, fontWeight: 700, letterSpacing: '-0.03em' }}>{SITE.nameKo}</div>
@@ -87,19 +87,6 @@ export default async function OG() {
             </div>
           </div>
         )}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: 44,
-            display: 'flex',
-            fontSize: 24,
-            fontWeight: 700,
-            color: '#8A9096',
-            letterSpacing: '0.04em',
-          }}
-        >
-          wooktech.co.kr
-        </div>
       </div>
     ),
     {
