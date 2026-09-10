@@ -462,6 +462,7 @@ export const INDUSTRIES: Industry[] = [
       { src: IMAGES.industry['meeting-room'], alt: '라운지 벽면 대형 화면에 세계 연결 지도가 표시된 장면' },
       { src: IMAGES.industryGallery.stageGalaxy, alt: '무대와 연단 뒤 대형 화면에 은하 영상이 펼쳐진 장면' },
       { src: IMAGES.industryGallery.lobbyNebula, alt: '회의 공간 벽면 대형 화면에 성운 영상이 펼쳐진 장면' },
+      { src: IMAGES.industryGallery.bgStageFields, alt: '강당 무대 뒤 대형 화면에 농경지 항공 영상이 펼쳐진 장면' },
       { src: GALLERY.meetingRoomInstall, alt: '회의실 벽면 프레임에 캐비닛을 절반쯤 채워 넣은 시공 중 장면' },
     ],
     buildInfo: { pitchMm: 2.5, cols: 6, rows: 3 },

@@ -205,6 +205,9 @@ export const IMAGES = {
     lobbyForestBlossom: G('gen-lobby-forest-blossom'), // 2026-09-10 CEO 제공 AI 생성
     loungeNetwork: G('gen-lounge-network'), // 2026-09-10 CEO 제공 AI 생성
     galleryExhibit: G('gen-gallery-exhibit'), // 2026-09-10 CEO 제공 AI 생성, 배치 보류
+    /* 2026-09-10 TRL 배경 교체본(Codex 역방향 합성: CEO AI 공간 + TRL 실제 화면 콘텐츠). 7장 중 COO 합격 3장.
+       같은 공간(무대 A·강당 B·로비 C)이 한 페이지에 두 번 뜨지 않게 배치한다. */
+    bgStageFields: G('gen-bg-stage-fields'), // 강당 B + 농경지 항공 → meeting-room 갤러리
   },
 
   /** 업종 페이지 히어로 */
@@ -291,7 +294,7 @@ export const IMAGES = {
    *  중복 검사도 우회하고 있었다. 2026-09-06 레지스트리로 끌어왔다. */
   /** /products 환경 묶음 3개의 좌측 칼럼 사진 (2026-09-06 증량) */
   productTracks: {
-    'indoor-near': G('gen-lobby-forest'), // 2026-09-10 CEO 제공 AI 컷(로비 숲 벽)
+    'indoor-near': G('gen-bg-stage-fluid'), // 2026-09-10 TRL 배경 교체본(무대 A + 유체 아트)
     'outdoor-near': G('gen-29'),
     'outdoor-far': G('gen-5'),
   } as Record<string, string>,
@@ -390,7 +393,7 @@ export const IMAGES = {
    */
   category: {
     /** 민원실 창구 위 가로형 — 화면에 '민원 안내' */
-    indoor: G('gen-lobby-forest-blossom'), // 2026-09-10 CEO 제공 AI 컷(숲·벚꽃 두 벽)
+    indoor: G('gen-bg-lobby-peacock'), // 2026-09-10 TRL 배경 교체본(로비 C + 공작새)
     /** 청사 앞 2주식 옥외 전광판 — '행정 안내 / 민원 서류 발급 시간'.
      *  2026-09-08 gen-10 에서 교체 — gen-10 은 모델 '건물 외벽 대형 화면'(OUT-L) 카드 사진이라
      *  /products/outdoor 한 페이지에서 머리와 모델 카드에 같은 사진이 두 번 떴다. */
