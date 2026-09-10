@@ -194,6 +194,19 @@ export const IMAGES = {
     daycare: G('gen-33'),
   } as Record<string, string>,
 
+  industryGallery: {
+    stageGalaxy: G('gen-stage-galaxy'), // 2026-09-10 CEO 제공 AI 생성
+    stageCampus: G('gen-stage-campus'), // 2026-09-10 CEO 제공 AI 생성
+    lobbyForest: G('gen-lobby-forest'), // 2026-09-10 CEO 제공 AI 생성
+    entranceWelcomeBanner: G('gen-entrance-welcome-banner'), // 2026-09-10 CEO 제공 AI 생성
+    lobbyNebula: G('gen-lobby-nebula'), // 2026-09-10 CEO 제공 AI 생성
+    civilOfficeGuide: G('gen-civil-office-guide'), // 2026-09-10 CEO 제공 AI 생성
+    buildingNightBanner: G('gen-building-night-banner'), // 2026-09-10 CEO 제공 AI 생성
+    lobbyForestBlossom: G('gen-lobby-forest-blossom'), // 2026-09-10 CEO 제공 AI 생성
+    loungeNetwork: G('gen-lounge-network'), // 2026-09-10 CEO 제공 AI 생성
+    galleryExhibit: G('gen-gallery-exhibit'), // 2026-09-10 CEO 제공 AI 생성, 배치 보류
+  },
+
   /** 업종 페이지 히어로 */
   industriesHero: W('K01_district-office-canopy-overcast'), // 2026-09-09 K21 과 자리 맞바꿈
 
@@ -468,6 +481,7 @@ if (process.env.NODE_ENV !== 'production') {
     ...IMAGES.homeScenes,
     ...IMAGES.homeGallery,
     ...Object.values(IMAGES.industry),
+    ...Object.values(IMAGES.industryGallery),
     IMAGES.industriesHero,
     ...IMAGES.industryScenes,
     ...Object.values(IMAGES.company),
