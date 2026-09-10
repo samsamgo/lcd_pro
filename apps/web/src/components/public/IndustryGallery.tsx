@@ -21,15 +21,18 @@ export function IndustryGallery({
   industry,
   /** 큰 사진에 priority 를 준다(정적 상세 페이지처럼 첫 화면에 오는 경우) */
   priority = false,
+  /** 2026-09-10 사례 단위 모달 — 처음 보여줄 사진 번호 */
+  initialIndex = 0,
 }: {
   industry: Industry
   priority?: boolean
+  initialIndex?: number
 }) {
-  const [active, setActive] = useState(0)
+  const [active, setActive] = useState(initialIndex)
   const shots = industry.gallery.length > 0 ? industry.gallery : [{ src: industry.heroImage, alt: industry.heroImageAlt }]
 
   // 자리를 옮기면(모달에서 이전/다음) 첫 사진부터 다시 본다
-  useEffect(() => setActive(0), [industry.slug])
+  useEffect(() => setActive(initialIndex), [industry.slug, initialIndex])
 
   const shown = shots[Math.min(active, shots.length - 1)]
   const rows = buildSpecRows(industry)

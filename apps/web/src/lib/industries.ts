@@ -159,7 +159,8 @@ export interface Industry {
    *    부품·공정 근접컷이나 자리 성격이 다른 컷은 붙이지 않는다 — 넣을 바에는 대표 1장으로 둔다.
    * 사진마다 alt 를 같이 둔다 — alt 가 없으면 썸네일 여럿이 똑같이 읽힌다.
    */
-  gallery: { src: string; alt: string }[]
+  /** 2026-09-10 CEO "시공사례는 각각 따로 나와야" — 사진 한 장 = 사례 한 건. title 은 카드·모달 제목(짧게) */
+  gallery: { src: string; alt: string; title?: string }[]
   /** 구축정보 표의 입력값. 화면 크기·해상도는 여기서 계산한다(`buildSpecRows`) */
   buildInfo: BuildInfo
 }
@@ -193,8 +194,8 @@ export const INDUSTRIES: Industry[] = [
     heroImageAlt: '한국 관공서 민원실 로비 벽면에 설치된 민원 안내 대형 실내 LED 화면',
     heroImageGenerated: true,
     gallery: [
-      { src: IMAGES.industry['public-office'], alt: '한국 공공 민원실 대기 공간 벽면의 대기 순번 안내 화면' },
-      { src: IMAGES.industryGallery.civilOfficeGuide, alt: '민원실 종합 안내 화면' },
+      { src: IMAGES.industry['public-office'], alt: '한국 공공 민원실 대기 공간 벽면의 대기 순번 안내 화면', title: '민원실 대기 순번 안내 화면' },
+      { src: IMAGES.industryGallery.civilOfficeGuide, alt: '민원실 종합 안내 화면', title: '민원실 종합 안내 화면' },
     ],
     buildInfo: { pitchMm: 2.5, cols: 4, rows: 2 },
   },
@@ -225,11 +226,11 @@ export const INDUSTRIES: Industry[] = [
     heroImageAlt: '한국 학교 정문 옆 담장에 설치된 풀컬러 LED 전광판에 오늘의 급식과 체육행사 안내가 표시된 모습',
     heroImageGenerated: true,
     gallery: [
-      { src: IMAGES.industry['school'], alt: '밝은 낮 한국 학교 정문 위에 설치된 등굣길 안전 안내 전자현수막' },
-      { src: IMAGES.industryGallery.stageCampus, alt: '강당 무대 뒤 대형 화면에 캠퍼스 조감도가 펼쳐진 장면' },
-      { src: IMAGES.industryGallery.bgLobbyPaintings, alt: '로비 벽면 대형 화면에 한국화 영상이 펼쳐진 장면' },
-      { src: GALLERY.schoolWinterGate, alt: '겨울 학교 본관 현관 상단 가로형 전광판에 신입생 환영 문구' },
-      { src: GALLERY.schoolRuralGate, alt: '안개 낀 시골 학교 정문 위 가로형 전광판에 등교 시간 안내' },
+      { src: IMAGES.industry['school'], alt: '밝은 낮 한국 학교 정문 위에 설치된 등굣길 안전 안내 전자현수막', title: '학교 정문 안전 안내 전자현수막' },
+      { src: IMAGES.industryGallery.stageCampus, alt: '강당 무대 뒤 대형 화면에 캠퍼스 조감도가 펼쳐진 장면', title: '강당 무대 캠퍼스 조감 화면' },
+      { src: IMAGES.industryGallery.bgLobbyPaintings, alt: '로비 벽면 대형 화면에 한국화 영상이 펼쳐진 장면', title: '로비 한국화 미디어월' },
+      { src: GALLERY.schoolWinterGate, alt: '겨울 학교 본관 현관 상단 가로형 전광판에 신입생 환영 문구', title: '고등학교 정문 신입생 환영 전광판' },
+      { src: GALLERY.schoolRuralGate, alt: '안개 낀 시골 학교 정문 위 가로형 전광판에 등교 시간 안내', title: '학교 정문 등교 시간 안내 전광판' },
     ],
     buildInfo: { pitchMm: 3, cols: 5, rows: 2 },
   },
@@ -259,9 +260,9 @@ export const INDUSTRIES: Industry[] = [
     heroImageAlt: '건물 현관 위 전자현수막에 환영 문구가 표시된 장면',
     heroImageGenerated: true,
     gallery: [
-      { src: IMAGES.industryGallery.entranceWelcomeBanner, alt: '건물 현관 위 전자현수막에 환영 문구가 표시된 장면' },
-      { src: IMAGES.industry['banner'], alt: '비 오는 저녁 건물 현관 상단 전자현수막에 안전 안내가 표시된 장면' },
-      { src: IMAGES.industryGallery.buildingNightBanner, alt: '비 내리는 밤 건물 외벽 전자현수막에 폭우 대비 안전수칙이 표시된 장면' },
+      { src: IMAGES.industryGallery.entranceWelcomeBanner, alt: '건물 현관 위 전자현수막에 환영 문구가 표시된 장면', title: '현관 상단 환영 전자현수막' },
+      { src: IMAGES.industry['banner'], alt: '비 오는 저녁 건물 현관 상단 전자현수막에 안전 안내가 표시된 장면', title: '청사 현관 안전 안내 전자현수막' },
+      { src: IMAGES.industryGallery.buildingNightBanner, alt: '비 내리는 밤 건물 외벽 전자현수막에 폭우 대비 안전수칙이 표시된 장면', title: '야간 외벽 안전수칙 전자현수막' },
     ],
     buildInfo: { pitchMm: 5, cols: 8, rows: 3 },
   },
@@ -292,10 +293,10 @@ export const INDUSTRIES: Industry[] = [
     heroImageAlt: '로비 벽면 대형 화면에 성운 영상이 펼쳐진 장면',
     heroImageGenerated: true,
     gallery: [
-      { src: IMAGES.industryGallery.lobbyNebula, alt: '로비 벽면 대형 화면에 성운 영상이 펼쳐진 장면' },
-      { src: IMAGES.industry['institution'], alt: '한국 공공 도서관 출입구 앞에 세워진 휴관일 안내 LED 게시판' },
-      { src: IMAGES.industryGallery.lobbyForest, alt: '밝은 로비 벽면 대형 화면에 울창한 숲 영상이 펼쳐진 장면' },
-      { src: IMAGES.industryGallery.lobbyForestBlossom, alt: '로비의 두 벽면 화면에 숲과 벚꽃 영상이 이어진 장면' },
+      { src: IMAGES.industryGallery.lobbyNebula, alt: '로비 벽면 대형 화면에 성운 영상이 펼쳐진 장면', title: '로비 성운 미디어월' },
+      { src: IMAGES.industry['institution'], alt: '한국 공공 도서관 출입구 앞에 세워진 휴관일 안내 LED 게시판', title: '도서관 휴관일 안내 게시판' },
+      { src: IMAGES.industryGallery.lobbyForest, alt: '밝은 로비 벽면 대형 화면에 울창한 숲 영상이 펼쳐진 장면', title: '로비 숲 영상 벽면' },
+      { src: IMAGES.industryGallery.lobbyForestBlossom, alt: '로비의 두 벽면 화면에 숲과 벚꽃 영상이 이어진 장면', title: '로비 숲·벚꽃 두 벽면' },
     ],
     buildInfo: { pitchMm: 2.5, cols: 4, rows: 3 },
   },
@@ -325,7 +326,7 @@ export const INDUSTRIES: Industry[] = [
     heroImage: IMAGES.industry['retail'],
     heroImageAlt: '한국 전통시장 아케이드 천장에 매달아 설치한 LED 전광판',
     gallery: [
-      { src: IMAGES.industry['retail'], alt: '음식점 카운터 위에 설치된 디지털 메뉴 화면' },
+      { src: IMAGES.industry['retail'], alt: '음식점 카운터 위에 설치된 디지털 메뉴 화면', title: '카페 매장 메뉴 화면' },
     ],
     buildInfo: { pitchMm: 3, cols: 4, rows: 2 },
   },
@@ -355,7 +356,7 @@ export const INDUSTRIES: Industry[] = [
     heroImage: IMAGES.industry['outdoor-ad'],
     heroImageAlt: '한국 건물 외벽에 설치된 3면 구성 대형 옥외 LED 전광판',
     gallery: [
-      { src: IMAGES.industry['outdoor-ad'], alt: '도로변에서 멀리 보이는 대형 옥외 LED 광고 화면' },
+      { src: IMAGES.industry['outdoor-ad'], alt: '도로변에서 멀리 보이는 대형 옥외 LED 광고 화면', title: '상가 옥상 옥외 광고 전광판' },
     ],
     buildInfo: { pitchMm: 6, cols: 12, rows: 6 },
   },
@@ -395,9 +396,9 @@ export const INDUSTRIES: Industry[] = [
     heroImageAlt: '비 내리는 날 한국 보건소 현관 상단에 설치된 예방접종 안내 LED 화면',
     heroImageGenerated: true,
     gallery: [
-      { src: IMAGES.industry['health-center'], alt: '비 내리는 날 한국 보건소 현관 상단에 설치된 예방접종 안내 LED 화면' },
-      { src: IMAGES.industryGallery.lobbyForestBlossom, alt: '안내 공간의 두 벽면 화면에 숲과 벚꽃 영상이 이어진 장면' },
-      { src: IMAGES.industryGallery.bgLobbyNebulaRed, alt: '안내 로비 벽면 대형 화면에 붉은 성운 영상이 펼쳐진 장면' },
+      { src: IMAGES.industry['health-center'], alt: '비 내리는 날 한국 보건소 현관 상단에 설치된 예방접종 안내 LED 화면', title: '보건소 현관 예방접종 안내' },
+      { src: IMAGES.industryGallery.lobbyForestBlossom, alt: '안내 공간의 두 벽면 화면에 숲과 벚꽃 영상이 이어진 장면', title: '로비 숲·벚꽃 두 벽면' },
+      { src: IMAGES.industryGallery.bgLobbyNebulaRed, alt: '안내 로비 벽면 대형 화면에 붉은 성운 영상이 펼쳐진 장면', title: '안내 로비 붉은 성운 벽면' },
     ],
     buildInfo: { pitchMm: 4, cols: 5, rows: 2 },
   },
@@ -428,8 +429,8 @@ export const INDUSTRIES: Industry[] = [
     heroImageAlt: '한국 소방 관련 시설 차고 출입구 상단에 설치된 화재 예방 점검 안내 LED 화면',
     heroImageGenerated: true,
     gallery: [
-      { src: IMAGES.industry['fire-safety'], alt: '한국 소방 관련 시설 차고 출입구 상단에 설치된 화재 예방 점검 안내 LED 화면' },
-      { src: IMAGES.industryGallery.buildingNightBanner, alt: '비 내리는 밤 건물 외벽 전자현수막에 폭우 대비 안전수칙이 표시된 장면' },
+      { src: IMAGES.industry['fire-safety'], alt: '한국 소방 관련 시설 차고 출입구 상단에 설치된 화재 예방 점검 안내 LED 화면', title: '소방시설 차고 화재예방 안내' },
+      { src: IMAGES.industryGallery.buildingNightBanner, alt: '비 내리는 밤 건물 외벽 전자현수막에 폭우 대비 안전수칙이 표시된 장면', title: '야간 외벽 안전수칙 전자현수막' },
     ],
     buildInfo: { pitchMm: 5, cols: 6, rows: 2 },
   },
@@ -461,11 +462,11 @@ export const INDUSTRIES: Industry[] = [
     heroImageAlt: '라운지 벽면 대형 화면에 세계 연결 지도가 표시된 장면',
     heroImageGenerated: true,
     gallery: [
-      { src: IMAGES.industry['meeting-room'], alt: '라운지 벽면 대형 화면에 세계 연결 지도가 표시된 장면' },
-      { src: IMAGES.industryGallery.stageGalaxy, alt: '무대와 연단 뒤 대형 화면에 은하 영상이 펼쳐진 장면' },
-      { src: IMAGES.industryGallery.lobbyNebula, alt: '회의 공간 벽면 대형 화면에 성운 영상이 펼쳐진 장면' },
-      { src: IMAGES.industryGallery.bgStageFields, alt: '강당 무대 뒤 대형 화면에 농경지 항공 영상이 펼쳐진 장면' },
-      { src: GALLERY.meetingRoomInstall, alt: '회의실 벽면 프레임에 캐비닛을 절반쯤 채워 넣은 시공 중 장면' },
+      { src: IMAGES.industry['meeting-room'], alt: '라운지 벽면 대형 화면에 세계 연결 지도가 표시된 장면', title: '라운지 세계지도 미디어월' },
+      { src: IMAGES.industryGallery.stageGalaxy, alt: '무대와 연단 뒤 대형 화면에 은하 영상이 펼쳐진 장면', title: '무대 은하 영상 화면' },
+      { src: IMAGES.industryGallery.lobbyNebula, alt: '회의 공간 벽면 대형 화면에 성운 영상이 펼쳐진 장면', title: '로비 성운 미디어월' },
+      { src: IMAGES.industryGallery.bgStageFields, alt: '강당 무대 뒤 대형 화면에 농경지 항공 영상이 펼쳐진 장면', title: '강당 무대 항공 영상 화면' },
+      { src: GALLERY.meetingRoomInstall, alt: '회의실 벽면 프레임에 캐비닛을 절반쯤 채워 넣은 시공 중 장면', title: '회의실 캐비닛 설치 장면' },
     ],
     buildInfo: { pitchMm: 2.5, cols: 6, rows: 3 },
   },
@@ -497,10 +498,10 @@ export const INDUSTRIES: Industry[] = [
     heroImageAlt: '무대와 연단 뒤 대형 화면에 은하 영상이 펼쳐진 장면',
     heroImageGenerated: true,
     gallery: [
-      { src: IMAGES.industry['auditorium'], alt: '무대와 연단 뒤 대형 화면에 은하 영상이 펼쳐진 장면' },
-      { src: IMAGES.industryGallery.stageCampus, alt: '강당 무대 뒤 대형 화면에 캠퍼스 조감도가 펼쳐진 장면' },
-      { src: GALLERY.auditoriumSchoolStage, alt: '학교 강당 무대 앞 가로형 화면에 학부모 공개수업 안내' },
-      { src: GALLERY.auditoriumTheater, alt: '소극장 무대 대형 화면에 문화 강좌 발표회 제목' },
+      { src: IMAGES.industry['auditorium'], alt: '무대와 연단 뒤 대형 화면에 은하 영상이 펼쳐진 장면', title: '무대 은하 영상 화면' },
+      { src: IMAGES.industryGallery.stageCampus, alt: '강당 무대 뒤 대형 화면에 캠퍼스 조감도가 펼쳐진 장면', title: '강당 무대 캠퍼스 조감 화면' },
+      { src: GALLERY.auditoriumSchoolStage, alt: '학교 강당 무대 앞 가로형 화면에 학부모 공개수업 안내', title: '학교 강당 학부모 공개수업 안내' },
+      { src: GALLERY.auditoriumTheater, alt: '소극장 무대 대형 화면에 문화 강좌 발표회 제목', title: '소극장 무대 발표회 화면' },
     ],
     buildInfo: { pitchMm: 3, cols: 8, rows: 4 },
   },
@@ -530,7 +531,7 @@ export const INDUSTRIES: Industry[] = [
     heroImageAlt: '한국 어린이집 복도 벽면에 설치된 오늘의 식단과 알림장 안내 화면',
     heroImageGenerated: true,
     gallery: [
-      { src: IMAGES.industry['daycare'], alt: '한국 어린이집 복도 벽면에 설치된 오늘의 식단과 알림장 안내 화면' },
+      { src: IMAGES.industry['daycare'], alt: '한국 어린이집 복도 벽면에 설치된 오늘의 식단과 알림장 안내 화면', title: '어린이집 복도 식단·알림 화면' },
     ],
     buildInfo: { pitchMm: 2.5, cols: 3, rows: 2 },
   },
@@ -562,9 +563,9 @@ export const INDUSTRIES: Industry[] = [
     heroImageAlt: '한국 교차로 인도 옆에 세워진 지주형 옥외 LED 표지가 재난대피 훈련 안내를 표시하고 있다',
     heroImageGenerated: true,
     gallery: [
-      { src: IMAGES.industry['traffic'], alt: '한국 교차로 인도 옆에 세워진 지주형 옥외 LED 표지가 재난대피 훈련 안내를 표시하고 있다' },
-      { src: GALLERY.roadIceWarning, alt: '야간 지방도 갓길 지주형 전광표지에 결빙주의 서행 문구' },
-      { src: GALLERY.roadsidePylonDusk, alt: '저녁 도심 도로변에 세워진 단독 기둥형 옥외 화면' },
+      { src: IMAGES.industry['traffic'], alt: '한국 교차로 인도 옆에 세워진 지주형 옥외 LED 표지가 재난대피 훈련 안내를 표시하고 있다', title: '교차로 재난 안전 안내 전광판' },
+      { src: GALLERY.roadIceWarning, alt: '야간 지방도 갓길 지주형 전광표지에 결빙주의 서행 문구', title: '고속도로 결빙 경고 전광판' },
+      { src: GALLERY.roadsidePylonDusk, alt: '저녁 도심 도로변에 세워진 단독 기둥형 옥외 화면', title: '도로변 지주형 전광판' },
     ],
     buildInfo: { pitchMm: 5, cols: 6, rows: 2 },
   },
@@ -595,7 +596,7 @@ export const INDUSTRIES: Industry[] = [
     heroImageAlt: '한국 주차장 진입로 기둥에 설치된 주차 가능 대수 표시 LED 화면',
     heroImageGenerated: true,
     gallery: [
-      { src: IMAGES.industry['parking'], alt: '한국 주차장 진입로 기둥에 설치된 주차 가능 대수 표시 LED 화면' },
+      { src: IMAGES.industry['parking'], alt: '한국 주차장 진입로 기둥에 설치된 주차 가능 대수 표시 LED 화면', title: '주차장 진입로 만차 표시' },
     ],
     buildInfo: { pitchMm: 4, cols: 3, rows: 1 },
   },
@@ -625,7 +626,7 @@ export const INDUSTRIES: Industry[] = [
     heroImageAlt: '해질 무렵 한국 버스터미널 승강장에 설치된 막차 출발 시각 안내 LED 화면',
     heroImageGenerated: true,
     gallery: [
-      { src: IMAGES.industry['transit'], alt: '해질 무렵 한국 버스터미널 승강장에 설치된 막차 출발 시각 안내 LED 화면' },
+      { src: IMAGES.industry['transit'], alt: '해질 무렵 한국 버스터미널 승강장에 설치된 막차 출발 시각 안내 LED 화면', title: '버스터미널 승강장 출발시간 안내' },
     ],
     buildInfo: { pitchMm: 4, cols: 4, rows: 2 },
   },
@@ -658,8 +659,8 @@ export const INDUSTRIES: Industry[] = [
     heroImageAlt: '한국 아파트 단지 보행로에 세워진 세로형 LED 지주가 보행 안전 문구를 표시하고 있다',
     heroImageGenerated: true,
     gallery: [
-      { src: IMAGES.industry['apartment'], alt: '한국 아파트 단지 보행로에 세워진 세로형 LED 지주가 보행 안전 문구를 표시하고 있다' },
-      { src: GALLERY.apartmentLounge, alt: '공동주택 커뮤니티 라운지 벽면 화면에 생활 안내와 공용시설 이용 시간' },
+      { src: IMAGES.industry['apartment'], alt: '한국 아파트 단지 보행로에 세워진 세로형 LED 지주가 보행 안전 문구를 표시하고 있다', title: '아파트 단지 입구 게시 전광판' },
+      { src: GALLERY.apartmentLounge, alt: '공동주택 커뮤니티 라운지 벽면 화면에 생활 안내와 공용시설 이용 시간', title: '아파트 커뮤니티 라운지 안내 화면' },
     ],
     buildInfo: { pitchMm: 5, cols: 2, rows: 5 },
   },
