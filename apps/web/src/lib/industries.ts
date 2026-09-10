@@ -227,6 +227,7 @@ export const INDUSTRIES: Industry[] = [
     gallery: [
       { src: IMAGES.industry['school'], alt: '밝은 낮 한국 학교 정문 위에 설치된 등굣길 안전 안내 전자현수막' },
       { src: IMAGES.industryGallery.stageCampus, alt: '강당 무대 뒤 대형 화면에 캠퍼스 조감도가 펼쳐진 장면' },
+      { src: IMAGES.industryGallery.bgLobbyPaintings, alt: '로비 벽면 대형 화면에 한국화 영상이 펼쳐진 장면' },
       { src: GALLERY.schoolWinterGate, alt: '겨울 학교 본관 현관 상단 가로형 전광판에 신입생 환영 문구' },
       { src: GALLERY.schoolRuralGate, alt: '안개 낀 시골 학교 정문 위 가로형 전광판에 등교 시간 안내' },
     ],
@@ -396,6 +397,7 @@ export const INDUSTRIES: Industry[] = [
     gallery: [
       { src: IMAGES.industry['health-center'], alt: '비 내리는 날 한국 보건소 현관 상단에 설치된 예방접종 안내 LED 화면' },
       { src: IMAGES.industryGallery.lobbyForestBlossom, alt: '안내 공간의 두 벽면 화면에 숲과 벚꽃 영상이 이어진 장면' },
+      { src: IMAGES.industryGallery.bgLobbyNebulaRed, alt: '안내 로비 벽면 대형 화면에 붉은 성운 영상이 펼쳐진 장면' },
     ],
     buildInfo: { pitchMm: 4, cols: 5, rows: 2 },
   },

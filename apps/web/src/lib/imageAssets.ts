@@ -208,6 +208,8 @@ export const IMAGES = {
     /* 2026-09-10 TRL 배경 교체본(Codex 역방향 합성: CEO AI 공간 + TRL 실제 화면 콘텐츠). 7장 중 COO 합격 3장.
        같은 공간(무대 A·강당 B·로비 C)이 한 페이지에 두 번 뜨지 않게 배치한다. */
     bgStageFields: G('gen-bg-stage-fields'), // 강당 B + 농경지 항공 → meeting-room 갤러리
+    bgLobbyNebulaRed: G('gen-bg-lobby-nebula-red'), // 로비 D(444a) + 붉은 성운 → health-center 갤러리 (v2 좌표 재작업 합격)
+    bgLobbyPaintings: G('gen-bg-lobby-paintings'), // 로비 E(e47a) 왼벽 + 한국화 → school 갤러리 (v2 합격)
   },
 
   /** 업종 페이지 히어로 */
