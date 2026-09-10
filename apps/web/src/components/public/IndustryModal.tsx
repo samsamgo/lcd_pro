@@ -1,23 +1,23 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { ChevronLeft, ChevronRight, Phone } from 'lucide-react'
 
 import { Modal } from '@/components/ui/Modal'
-import { IndustryGallery } from '@/components/public/IndustryGallery'
 import type { CaseItem } from '@/lib/cases'
 import { SITE } from '@/lib/seo/site'
 
 /**
- * 시공사례 상세 모달 — **사례 한 건(사진 한 장) 단위.**
+ * 시공사례 상세 모달 — **사례 한 건만.**
  *
- * 🔴 2026-09-10 CEO "시공사례는 각각 다 따로 나와야." 모달의 주어가 업종에서 사례로 바뀌었다:
- *      사례 제목(큰 제목) → 설치 자리(작은 줄) → 큰 사진(이 사례) + 같은 자리의 다른 사진 썸네일
- *      → 구축정보 표(자리 기준) → 이전·다음 **사례** → 전화·견적 버튼.
- *    본문은 여전히 `IndustryGallery` 한 곳이다(정적 상세 페이지와 공유). `initialIndex` 로 이 사례 사진부터 연다.
+ * 🔴 2026-09-10 CEO "시공사례 각각이 다 다른 시공사례다. 묶으면 안 된다. 다 개별의 사례들이기 때문에."
+ *    1차(같은 날 오전)엔 모달 안에 같은 자리의 다른 사진 썸네일과 자리 공용 구축정보 표를 두었다 —
+ *    그게 곧 '묶음'이었다. 걷어낸다. 이 모달은 **이 사례의 사진 한 장 + 제목 + 한 줄 + 자리·환경 태그**
+ *    그리고 전화·견적 버튼뿐이다. 다른 사례로 가는 길은 이전·다음 버튼 하나.
+ *    `IndustryGallery`(썸네일 + 표)는 업종 상세 페이지(`/industries/[slug]`)에서만 쓴다.
  *
  * 🔴 주소 동기화는 부모(`IndustryGrid`)가 `?case=<업종>.<번호>` 로 한다.
- * ⚠️ 긴 설명은 넣지 않는다. 케이시스 상세에도 설명 문단이 없다 — 사진과 표뿐이다.
  */
 export function IndustryModal({
   item,
@@ -28,7 +28,6 @@ export function IndustryModal({
   item: CaseItem | null
   siblings?: { prev: CaseItem; next: CaseItem } | null
   onClose: () => void
-  /** 이전/다음 사례로 이동 (부모가 주소도 같이 바꾼다) */
   onNavigate?: (id: string) => void
 }) {
   const i = item?.industry
@@ -51,7 +50,16 @@ export function IndustryModal({
             <p className="mt-2 text-label text-wk-ink3">{item.alt}</p>
           </header>
 
-          <IndustryGallery industry={i} initialIndex={item.index} />
+          <div className="wk-card-img relative aspect-[16/10] bg-wk-ink">
+            <Image
+              key={item.src}
+              src={item.src}
+              alt={item.alt}
+              fill
+              sizes="(max-width: 768px) 100vw, 860px"
+              className="object-cover"
+            />
+          </div>
 
           {siblings && onNavigate && (
             <div className="grid grid-cols-2 gap-2">
@@ -82,7 +90,7 @@ export function IndustryModal({
 
           <div className="flex flex-col gap-2 sm:flex-row">
             <Link href={`/quote?type=${i.quoteType}`} className="wk-btn-p flex-1 justify-center" onClick={onClose}>
-              이 자리로 견적 받기
+              비슷한 자리로 견적 받기
             </Link>
             <a
               href={`tel:${tel}`}
@@ -92,11 +100,6 @@ export function IndustryModal({
               <span className="wk-metric">{SITE.phone}</span>
             </a>
           </div>
-          <p className="text-center text-caption text-wk-ink3">
-            <Link href={`/industries/${i.slug}`} className="underline-offset-4 hover:underline">
-              {i.nameKo} 자리 자세히 보기
-            </Link>
-          </p>
         </div>
       )}
     </Modal>
