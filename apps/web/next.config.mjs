@@ -11,6 +11,14 @@ const config = {
    */
   async redirects() {
     return [
+      /* 🔴 2026-09-10 CEO "www 붙이면 공유 이미지가 다르게 뜬다" — www 와 apex 가 둘 다 200 으로 같은 페이지를 내주니
+         카카오톡이 URL 별로 따로 캐시해 카드가 달랐다. www 는 apex 로 308. 검색엔진 중복 URL 도 같이 정리된다. */
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.wooktech.co.kr' }],
+        destination: 'https://wooktech.co.kr/:path*',
+        permanent: true,
+      },
       /* 2026-09-09 — 회사소개 재설계로 `#process`(여섯 공정)가 사라졌다.
          가장 가까운 자리인 '선택해야 하는 이유'(#why)로 보낸다. */
       { source: '/services', destination: '/about#why', permanent: true },
